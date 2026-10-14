@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Gemini 프라이버시 컨트롤 프로토타입 — UT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<button class="panel-toggle mod-only" id="panelToggleBtn" onclick="togglePanel()">진행자 패널 숨기기</button>
+
+<div class="phone-wrap">
+  <!-- 참가자 모드 전용 과제 바 (휴대폰 화면 바깥, 기록 대상 아님) -->
+  <div class="taskbar" id="taskbar">
+    <div class="taskbar-text" id="taskText"></div>
+    <button class="taskbar-btn" id="taskDoneBtn" onclick="App.taskDone()">과제 완료</button>
+  </div>
+  <div class="phone" id="phone">
+    <!-- START: 시작/고지 화면 -->
+    <div class="screen active intro-screen" data-step="START">
+      <div class="intro-body">
+        <div class="intro-badge">UX 리서치 · 사용성 테스트</div>
+        <h1>Gemini 프라이버시 컨트롤<br>리디자인 컨셉 테스트</h1>
+        <div class="intro-notice">
+          <p>이 화면은 <b>UX 리서치용으로 만든 재디자인 컨셉 프로토타입</b>이며, Google의 실제 제품이나 공식 화면이 아닙니다.</p>
+          <p>화면 속 이름·예약·일정은 모두 <b>가상의 데이터</b>예요. 실제 계정이나 개인정보와 연결되지 않습니다.</p>
+          <p>테스트 중 화면에서 누른 위치·순서·시간이 연구 목적으로 기록됩니다. 정답은 없으니 평소처럼 편하게 사용해 주세요.</p>
+        </div>
+        <label class="intro-label" for="pidInput">참가자 코드</label>
+        <input class="intro-input" id="pidInput" placeholder="예: P03" autocomplete="off" autocapitalize="characters">
+        <div class="intro-error" id="pidError">참가자 코드를 입력해 주세요</div>
+        <button class="primary-btn" id="startBtn" onclick="App.start()">시작하기</button>
+      </div>
+    </div>
+
+    <!-- 시나리오 안내 카드 (참가자 모드에서만 사용) -->
+    <div class="screen intro-screen" data-step="SA">
+      <div class="intro-body">
+        <div class="intro-badge">상황 1</div>
+        <h1>저녁 약속 장소 찾기</h1>
+        <div class="intro-notice">
+          <p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
+          <p>질문을 보내고 답변을 살펴본 뒤, 답변에 대해 궁금하거나 해 보고 싶은 게 있으면 자유롭게 해 보세요.</p>
+          <p>생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
+        </div>
+        <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
+      </div>
+    </div>
+    <div class="screen intro-screen" data-step="SB">
+      <div class="intro-body">
+        <div class="intro-badge">상황 2</div>
+        <h1>채팅으로 정보 지우기</h1>
+        <div class="intro-notice">
+          <p>앞의 상황과는 별개인 새로운 상황이에요.</p>
+          <p>Gemini가 '정민'이라는 사람과 관련된 정보를 기억하고 있어요. 이번에는 <b>채팅으로 직접 요청해서</b> 정민 관련 정보를 정리해 보세요.</p>
+          <p>요청 문구는 미리 입력돼 있으니 보내기만 하면 돼요.</p>
+        </div>
+        <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
+      </div>
+    </div>
+    <div class="screen intro-screen" data-step="END">
+      <div class="intro-body">
+        <div class="intro-badge">완료</div>
+        <h1>테스트가 끝났어요</h1>
+        <div class="intro-notice">
+          <p>참여해 주셔서 감사합니다. 진행자의 안내에 따라 마무리 질문에 답해 주세요.</p>
+        </div>
+        <div class="end-actions" id="endActions">
+          <button class="ghost-btn" onclick="Logger.download('json')">기록 파일 받기 (JSON)</button>
+          <button class="ghost-btn" onclick="Logger.copy()">기록 복사하기</button>
+        </div>
+        <div class="end-status" id="endStatus"></div>
+      </div>
+    </div>
+    <div class="statusbar">
+      <span>7:31</span>
+      <div class="icons">
+        <svg width="17" height="11" viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="0.6" fill="#000"/><rect x="4.5" y="5" width="3" height="7" rx="0.6" fill="#000"/><rect x="9" y="3" width="3" height="9" rx="0.6" fill="#000"/><rect x="13.5" y="0" width="3" height="12" rx="0.6" fill="#000"/></svg>
+        <svg width="15" height="11" viewBox="0 0 16 12"><circle cx="8" cy="10" r="1.3" fill="#000"/><path d="M4.5 7.2a5 5 0 0 1 7 0" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1.8 4.4a9 9 0 0 1 12.4 0" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <div class="battery-pill">90</div>
+      </div>
+    </div>
+
+    <!-- A1 -->
+    <div class="screen grad" data-step="A1">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="iconbtn dashed">
+          <svg width="24" height="24" viewBox="0 0 34 34">
+            <circle cx="17" cy="17" r="15" fill="none" stroke="#c4c7c9" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="0.1 7.2"/>
+            <path d="M19 13a1.7 1.7 0 0 1 0 2.4l-5.8 5.8-2.8.5.5-2.8 5.8-5.8a1.7 1.7 0 0 1 2.3-.1z" fill="#fff" stroke="#3c4043" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="empty-hero">
+        <img src="assets/gemini-logo.png" width="34" height="34" alt="" style="display:block;">
+        <div class="headline">What should we focus on?</div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input hot" data-tag="A1 입력창" onclick="App.go('A1B')">
+          <span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="placeholder">Ask Gemini</span>
+          <span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
+          <div class="round-btn voice"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="4" y="8" width="3" height="8" rx="1.5" fill="currentColor"/><rect x="10.5" y="4" width="3" height="16" rx="1.5" fill="currentColor"/><rect x="17" y="8" width="3" height="8" rx="1.5" fill="currentColor"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A1B: 타이핑 중 -->
+    <div class="screen grad" data-step="A1B">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="iconbtn dashed">
+          <svg width="24" height="24" viewBox="0 0 34 34">
+            <circle cx="17" cy="17" r="15" fill="none" stroke="#c4c7c9" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="0.1 7.2"/>
+            <path d="M19 13a1.7 1.7 0 0 1 0 2.4l-5.8 5.8-2.8.5.5-2.8 5.8-5.8a1.7 1.7 0 0 1 2.3-.1z" fill="#fff" stroke="#3c4043" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="empty-hero" style="flex:1;"></div>
+      <div class="chat-input-bar">
+        <div class="chat-input">
+          <span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="typed">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</span>
+          <span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
+          <div class="round-btn send hot" data-tag="A1B 전송" onclick="App.go('A1C')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
+        </div>
+      </div>
+      <div class="keyboard">
+        <div class="kb-row"><div class="kb-key">ㅂ</div><div class="kb-key">ㅈ</div><div class="kb-key">ㄷ</div><div class="kb-key">ㄱ</div><div class="kb-key">ㅅ</div><div class="kb-key">ㅛ</div><div class="kb-key">ㅕ</div><div class="kb-key">ㅑ</div><div class="kb-key">ㅐ</div><div class="kb-key">ㅔ</div></div>
+        <div class="kb-row"><div class="kb-key">ㅁ</div><div class="kb-key">ㄴ</div><div class="kb-key">ㅇ</div><div class="kb-key">ㄹ</div><div class="kb-key">ㅎ</div><div class="kb-key">ㅗ</div><div class="kb-key">ㅓ</div><div class="kb-key">ㅏ</div><div class="kb-key">ㅣ</div></div>
+        <div class="kb-row"><div class="kb-key wide">⇧</div><div class="kb-key">ㅋ</div><div class="kb-key">ㅌ</div><div class="kb-key">ㅊ</div><div class="kb-key">ㅍ</div><div class="kb-key">ㅠ</div><div class="kb-key">ㅜ</div><div class="kb-key">ㅡ</div><div class="kb-key wide">⌫</div></div>
+        <div class="kb-row"><div class="kb-key wide">123</div><div class="kb-key wide">😀</div><div class="kb-key space">한</div><div class="kb-key wide">⏎</div></div>
+        <div class="kb-row bottom">
+          <div class="kb-key"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#3c4043" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3c2.8 2.6 4.2 5.7 4.2 9s-1.4 6.4-4.2 9c-2.8-2.6-4.2-5.7-4.2-9s1.4-6.4 4.2-9z"/></svg></div>
+          <div class="kb-key" style="max-width:400px;flex:1;"></div>
+          <div class="kb-key"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#3c4043" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A1C: 로딩 중 -->
+    <div class="screen grad chat-screen" data-step="A1C">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
+        <div class="typing-dots"><i></i><i></i><i></i></div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="placeholder">Ask Gemini</span><div class="round-btn stop"><div class="sq"></div></div></div>
+      </div>
+    </div>
+
+    <!-- A2 -->
+    <div class="screen chat-screen" data-step="A2">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
+        <div class="msg-ai">
+          <div class="map-embed">
+            <span class="expand">⤢</span>
+            <div class="pin">🍽️</div>
+            <span class="brand">Google Maps</span>
+          </div>
+          <p>분위기 좋은 이탈리안 레스토랑을 찾고 계신다면 송도 센트럴파크 인근에 위치한 신상 맛집을 추천해 드립니다.</p>
+          <div class="restaurant-card">
+            <div class="r-photo"><span class="save">＋</span></div>
+            <div class="r-info">
+              <div class="r-name">톨로 비스트로</div>
+              <div class="r-line">4.5 ★ · ₩20,000-₩30,000</div>
+              <div class="r-line">🍝 이탈리아 음식점</div>
+              <div class="r-line r-open">Open · Closes 10:00 PM</div>
+            </div>
+          </div>
+          <p><b>톨로 비스트로</b> — 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.</p>
+          <ul>
+            <li>시그니처 메뉴: 쫄깃한 도우와 향긋한 바질, 탱글한 새우가 어우러진 '바질 새우 피자'</li>
+            <li>인기 메뉴: 꾸덕한 크림소스에 진한 풍미가 더해진 '트러플 뇨끼'</li>
+          </ul>
+          <p>작년 봄에 <b>정민</b> 씨와 가셨을 때 트러플 리조또 좋아하셨었죠 — 이번에도 비슷한 메뉴 어떠세요?</p>
+          <div class="msg-icons">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2.5"/><path d="M8 15v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-3"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M7 9l5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9v6h4l5 4V5L9 9H5z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0 4-7a2 2 0 0 1 2 2v3h5.5a1.5 1.5 0 0 1 1.45 1.87l-1.5 6A2 2 0 0 1 16.5 20H10a3 3 0 0 1-3-3"/></svg>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleY(-1)"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0 4-7a2 2 0 0 1 2 2v3h5.5a1.5 1.5 0 0 1 1.45 1.87l-1.5 6A2 2 0 0 1 16.5 20H10a3 3 0 0 1-3-3"/></svg>
+            <span class="src-badge hot" data-tag="출처 확인" onclick="App.go('A3')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>
+              <span>출처 확인</span>
+            </span>
+            <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer"><u>Gemini is AI and can make mistakes, including about people.</u><br><u>Your privacy &amp; Gemini</u></div>
+      <div class="chat-input-bar">
+        <div class="chat-input"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="placeholder">Ask Gemini</span><span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span><div class="round-btn voice"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="4" y="8" width="3" height="8" rx="1.5" fill="currentColor"/><rect x="10.5" y="4" width="3" height="16" rx="1.5" fill="currentColor"/><rect x="17" y="8" width="3" height="8" rx="1.5" fill="currentColor"/></svg></div></div>
+      </div>
+    </div>
+
+    <!-- A4 -->
+    <div class="screen" data-step="A4">
+      <div class="back-row">
+        <span class="backbtn hot" data-tag="A4 뒤로가기" onclick="App.go('A3')">←</span>
+        <span class="label">Personal Intelligence</span>
+      </div>
+      <div class="settings-head">
+        <p>Get more helpful responses based on info about you</p>
+      </div>
+      <div class="settings-body">
+        <div class="s-card">
+          <div class="conn-wrap">
+            <div class="conn-item">
+              <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
+              <div class="meta hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.conn-wrap')">
+                <div class="name">Memory <span class="used-dot" id="a4MemCount">· 11건</span><span class="deleted-badge">· 삭제됨</span></div>
+              </div>
+              <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
+            </div>
+            <div class="conn-detail">
+              <div class="data-chip" data-mem="used"><span>2025.3.14 대화 — "정민과 트러플 리조또" 언급</span></div>
+              <div class="data-chip"><span>2025.2.8 대화 — "주말 등산 코스" 언급</span></div>
+              <div class="chip-more" id="a4MemMore">+ 9건 더보기</div>
+              <div class="mem-delete-trigger hot" data-tag="A4 Memory 전체 삭제" onclick="App.deleteMemory('all', event)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span>메모리 전체 삭제</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-card">
+          <p class="title" style="margin-bottom:2px;">Connected Apps</p>
+          <p class="desc" style="margin-bottom:10px;">토글을 끄면 이 데이터를 답변에서 참조하지 않아요</p>
+
+          <div class="conn-wrap">
+            <div class="conn-item">
+              <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL1" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR1" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL1)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR1)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
+              <div class="meta hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.conn-wrap')">
+                <div class="name">Gmail <span class="used-dot">· 130건</span></div>
+              </div>
+              <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
+            </div>
+            <div class="conn-detail">
+              <div class="data-chip"><span>[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15 19:00, 2명</span></div>
+              <div class="data-chip"><span>[대한항공] 예약이 확정되었습니다 · 2025.2.20 인천→제주</span></div>
+              <div class="chip-more">+ 128건 더보기</div>
+            </div>
+          </div>
+
+          <div class="conn-wrap">
+            <div class="conn-item">
+              <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG1)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
+              <div class="meta hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.conn-wrap')">
+                <div class="name">Calendar <span class="used-dot">· 36건</span></div>
+              </div>
+              <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
+            </div>
+            <div class="conn-detail">
+              <div class="data-chip"><span>2025.3 일정 제목 "정민과 저녁"</span></div>
+              <div class="data-chip"><span>2025.3.20 일정 제목 "치과 예약"</span></div>
+              <div class="chip-more">+ 34건 더보기</div>
+            </div>
+          </div>
+
+          <div class="conn-wrap">
+            <div class="conn-item">
+              <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0 10 10A10 10 0 0 0 12 2z" fill="#4285F4"/><path d="M2 12A10 10 0 0 0 12 22 10 10 0 0 0 2 12z" fill="#EA4335"/><path d="M12 2A10 10 0 0 0 2 12 10 10 0 0 0 12 2z" fill="#34A853"/><path d="M22 12A10 10 0 0 0 12 22 10 10 0 0 0 22 12z" fill="#FBBC05"/></svg></div>
+              <div class="meta hot" data-tag="Photos 펼치기" onclick="App.expand(this,'.conn-wrap')">
+                <div class="name">Photos</div>
+              </div>
+              <div class="toggle on hot" data-ref="photos" data-tag="Photos 차단" onclick="event.stopPropagation(); App.toggleRef('photos')"><div class="knob"></div></div>
+            </div>
+            <div class="conn-detail">
+              <div class="data-chip">이 답변엔 사용되지 않았어요</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B1 -->
+    <div class="screen chat-screen" data-step="B1">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
+        <div class="msg-ai" style="opacity:.5; font-size:13px;">톨로 비스트로 어떠세요? 작년 봄에 정민 씨와…</div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input">
+          <span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          <span class="typed">정민이랑 관련된 정보 다 지워줘</span>
+          <span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
+          <div class="round-btn send hot" data-tag="B1 전송" onclick="App.go('B2')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B2 -->
+    <div class="screen chat-screen" data-step="B2">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="ai-card">
+          <div class="card-head-row">
+            <h3>'정민' 관련 정보 6건을 찾았어요</h3>
+            <div class="select-all-row">
+              <div class="checkbox checked sm hot" data-tag="전체 선택" onclick="App.toggleSelectAll(this)">✓</div>
+              <span>전체 선택</span>
+            </div>
+          </div>
+
+          <div class="check-group">
+            <div class="check-group-head"><span class="check-group-title">Memory</span><span class="check-group-desc">삭제돼요</span></div>
+            <div class="check-item">
+              <div class="check-item-head hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.check-item')">
+                <div class="icon-chip sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
+                <div class="ctext-app">Memory <span class="item-count">· 2건</span></div>
+                <div class="checkbox checked hot" data-tag="Memory 체크" data-src="memory" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
+              </div>
+              <div class="check-item-expand">
+                <div class="ctext-detail">2025.3.14 대화 "정민과 트러플 리조또" 언급</div>
+                <div class="ctext-detail">2025.1.20 대화 "정민이 좋아하던 재즈바" 언급</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="check-group">
+            <div class="check-group-head"><span class="check-group-title">Connected Apps</span><span class="check-group-desc">참조만 차단돼요</span></div>
+            <div class="check-item">
+              <div class="check-item-head hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.check-item')">
+                <div class="icon-chip sm" style="background:#fff;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL2" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR2" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL2)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR2)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
+                <div class="ctext-app">Gmail <span class="item-count">· 2건</span></div>
+                <div class="checkbox checked hot" data-tag="Gmail 체크" data-src="gmail" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
+              </div>
+              <div class="check-item-expand">
+                <div class="ctext-detail">[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15</div>
+                <div class="ctext-detail">[스시타로] 오마카세 예약 확인 · 2024.11.2</div>
+              </div>
+            </div>
+            <div class="check-item">
+              <div class="check-item-head hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.check-item')">
+                <div class="icon-chip sm" style="background:#fff;"><svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="calG2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG2)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
+                <div class="ctext-app">Calendar <span class="item-count">· 2건</span></div>
+                <div class="checkbox checked hot" data-tag="Calendar 체크" data-src="calendar" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
+              </div>
+              <div class="check-item-expand">
+                <div class="ctext-detail">2025.3 일정 "정민과 저녁"</div>
+                <div class="ctext-detail">2024.11 일정 "정민 생일"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-btn-row">
+            <button class="btn-cancel hot" data-tag="B2 취소" onclick="App.go('B1')">취소</button>
+            <button class="btn-del hot" id="b2ProcessBtn" data-tag="선택 항목 처리" onclick="App.processB2()">선택 항목 처리</button>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="placeholder">Ask Gemini</span><span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span><div class="round-btn voice"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="4" y="8" width="3" height="8" rx="1.5" fill="currentColor"/><rect x="10.5" y="4" width="3" height="16" rx="1.5" fill="currentColor"/><rect x="17" y="8" width="3" height="8" rx="1.5" fill="currentColor"/></svg></div></div>
+      </div>
+    </div>
+
+    <!-- B3 -->
+    <div class="screen chat-screen" data-step="B3">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="complete-card">
+          <div class="check-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
+            <h3 id="b3Title">요청을 처리했어요</h3>
+          </div>
+          <div class="b3-lines" id="b3Lines">
+          </div>
+          <div class="btn-row-h">
+            <div class="ghost-btn hot" data-tag="B3 취소" onclick="App.undoB2()">취소</div>
+            <div class="primary-btn hot" data-tag="지금 확인하기" onclick="App.go('B4')">지금 확인하기</div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="placeholder">Ask Gemini</span><span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span><div class="round-btn voice"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="4" y="8" width="3" height="8" rx="1.5" fill="currentColor"/><rect x="10.5" y="4" width="3" height="16" rx="1.5" fill="currentColor"/><rect x="17" y="8" width="3" height="8" rx="1.5" fill="currentColor"/></svg></div></div>
+      </div>
+    </div>
+
+    <!-- B4 -->
+    <div class="screen" data-step="B4">
+      <div class="back-row">
+        <span class="backbtn hot" data-tag="B4 뒤로가기" onclick="App.go('B3')">←</span>
+        <span class="label">이 답변에 사용된 정보</span>
+      </div>
+      <div class="settings-body" style="margin-top:6px;">
+        <p style="font-size:11.5px; color:var(--text-2); margin:0 4px 2px;">'정민' 관련 정보 처리 후 다시 확인</p>
+
+        <div class="source-item" data-b4="memory">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
+            <div style="flex:1;">
+              <div class="name">Memory</div>
+              <div class="detail" data-b4d="memory"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="source-item" data-b4="gmail">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL3" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR3" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL3)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR3)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
+            <div style="flex:1;">
+              <div class="name">Gmail</div>
+              <div class="detail" data-b4d="gmail"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="source-item" data-b4="calendar">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG3)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
+            <div style="flex:1;">
+              <div class="name">Calendar</div>
+              <div class="detail" data-b4d="calendar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="primary-btn hot" data-tag="채팅으로 돌아가기" onclick="App.finishPhase('B')">채팅으로 돌아가기</div>
+      </div>
+    </div>
+
+    <!-- 바텀시트 -->
+    <div class="sheet-overlay" id="sheetOverlay" onclick="if(event.target===this) App.closeSheet('바깥 영역')">
+      <div class="sheet">
+        <div class="handle"></div>
+        <div class="sheet-topbar">
+          <h2>이 답변에 사용된 정보</h2>
+          <div class="sheet-close hot" data-tag="시트 닫기" onclick="App.closeSheet('X 버튼')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div>
+        </div>
+        <p style="font-size:12px; color:var(--text-2); margin:-4px 0 2px;">이 답변이 참고한 소스만 표시돼요 · 토글을 끄면 참조하지 않고, 펼치면 상세 데이터를 볼 수 있어요</p>
+
+        <div class="source-item">
+          <div class="source-head">
+            <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL4" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR4" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL4)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR4)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
+            <div class="meta hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.source-item')">
+              <div class="name">Gmail <span class="item-count">· 2건</span></div>
+            </div>
+            <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
+          </div>
+          <div class="source-expand">
+            <div class="data-chip"><span>[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15 19:00, 2명</span></div>
+            <div class="data-chip"><span>[스시타로] 오마카세 예약 확인 · 2024.11.2 20:00, 2명</span></div>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-head">
+            <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG4)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
+            <div class="meta hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.source-item')">
+              <div class="name">Calendar <span class="item-count">· 2건</span></div>
+            </div>
+            <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
+          </div>
+          <div class="source-expand">
+            <div class="data-chip"><span>2025.3 일정 "정민과 저녁"</span></div>
+            <div class="data-chip"><span>2024.11 일정 "정민 생일"</span></div>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-head">
+            <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
+            <div class="meta hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.source-item')">
+              <div class="name">Memory <span class="item-count">· 2건</span><span class="deleted-badge">· 삭제됨</span></div>
+            </div>
+            <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
+          </div>
+          <div class="source-expand">
+            <div class="data-chip"><span>2025.3.14 대화 — "정민과 트러플 리조또" 언급</span></div>
+            <div class="data-chip"><span>2025.1.20 대화 — "정민이 좋아하던 재즈바" 언급</span></div>
+            <div class="mem-delete-trigger hot" data-tag="A3 Memory 삭제" onclick="App.deleteMemory('used', event)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span>이 답변에 쓰인 메모리 2건 삭제</span></div>
+          </div>
+        </div>
+
+        <div style="text-align:center; padding:6px 0 2px;">
+          <span class="text-link hot" data-tag="전체 관리 링크" onclick="App.go('A4')">Personal Intelligence에서 전체 관리 →</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="snackbar" id="snackbar">
+      <span class="snackbar-msg">삭제됨</span>
+      <button class="snackbar-undo hot" data-tag="실행취소" onclick="App.undoDelete()">실행취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------- 진행자 패널 ---------------- -->
+<div class="panel mod-only" id="panel">
+  <h2>관찰형 워크스루 · 진행자 패널</h2>
+  <p class="subtitle">A(A1~A4, 인라인 데이터 관리)와 B(B1~B4, 채팅 자연어 삭제)는 하나로 이어진 이야기가 아니라 별개의 두 메커니즘 — 각각 독립적으로 시연·관찰합니다.</p>
+
+  <div class="session-row" id="sessionRow">세션 시작 전</div>
+
+  <button class="advance-btn" onclick="App.advance()">다음 단계 진행 →</button>
+
+  <div id="stepTitle" class="step-title">START</div>
+  <div class="script" id="scriptBox"></div>
+  <div class="indicators" id="indicatorRow"></div>
+  <div class="interact-note" id="interactNote"></div>
+
+  <div class="panel-divider"></div>
+
+  <div class="panel-section-title">단계 바로가기 (진행자 전용)</div>
+  <div class="jumpnav" id="jumpnav"></div>
+
+  <div class="togglerow">
+    <span>주석(빨간 점선) 표시</span>
+    <div class="miniswitch" id="devSwitch" onclick="App.toggleDev()"><div class="k"></div></div>
+  </div>
+  <button class="resetbtn" onclick="App.resetScenario()">시나리오 상태 초기화 (A1로)</button>
+
+  <div class="panel-divider"></div>
+
+  <div class="panel-section-title">실시간 기록</div>
+  <div class="metrics" id="metricsBox"></div>
+  <div class="log-feed" id="logFeed"></div>
+  <div class="log-actions">
+    <button onclick="Logger.download('json')">JSON 받기</button>
+    <button onclick="Logger.download('csv')">CSV 받기</button>
+    <button onclick="Logger.copy()">복사</button>
+  </div>
+  <button class="resetbtn danger" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
+
+  <div class="legend">
+    <b>검증 지표</b> — ①통제 난이도 ②응답 예측 부합도 ③삭제 성공 여부 ④신뢰·불안 변화(그레이존 인지) ⑤정보량 적절성<br><br>
+    참가자에게는 휴대폰 화면만 공유하세요(패널은 우측 상단 버튼으로 숨김 가능). 참가자 본인 기기로 진행할 땐 주소 끝에 <b>?mode=participant</b>를 붙인 링크를 보내세요.
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/logger.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
