@@ -360,3 +360,77 @@ body.watching .no-watch{ display:none !important; }
 .live-touch{ position:absolute; z-index:95; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:rgba(251,188,4,.55); border:2px solid #fbbc04; pointer-events:none; animation:liveTouch .9s ease-out forwards; }
 .live-touch.miss{ background:rgba(234,67,53,.45); border-color:#ea4335; }
 @keyframes liveTouch{ from{ transform:scale(.6); opacity:1; } to{ transform:scale(1.6); opacity:0; } }
+
+/* =========================================================
+   v3 — 인터랙션 연출 (js/app.js의 enterEffects)
+   ========================================================= */
+/* 화면 전환: 살짝 페이드 */
+.screen.active{ animation:screenIn .18s ease-out; }
+@keyframes screenIn{ from{ opacity:0; } to{ opacity:1; } }
+
+/* 누르는 느낌 */
+.hot{ transition:transform .08s, opacity .08s; }
+.hot:active{ transform:scale(.97); opacity:.85; }
+.toggle.hot:active, .meta.hot:active, .check-item-head.hot:active{ transform:none; }
+
+/* 응답 대기 점: 순서대로 튀어 오름 */
+.typing-dots i{ animation:dotBounce 1s infinite ease-in-out; }
+.typing-dots i:nth-child(2){ animation-delay:.15s; }
+.typing-dots i:nth-child(3){ animation-delay:.3s; }
+@keyframes dotBounce{ 0%,60%,100%{ transform:translateY(0); opacity:.5; } 30%{ transform:translateY(-4px); opacity:1; } }
+
+/* A1B: 질문 입력 연출 */
+.chat-input .typed.caret::after{ content:''; display:inline-block; width:1.5px; height:1.05em; background:var(--blue); margin-left:1px; vertical-align:-2px; animation:caretBlink .8s steps(1) infinite; }
+@keyframes caretBlink{ 50%{ opacity:0; } }
+.round-btn.send.wait{ opacity:.35; pointer-events:none; }
+
+/* A2: 답변이 위에서부터 순서대로 나타남 */
+.msg-ai.stream > *{ animation:streamIn .35s ease-out both; }
+.msg-ai.stream > :nth-child(1){ animation-delay:.05s; }
+.msg-ai.stream > :nth-child(2){ animation-delay:.25s; }
+.msg-ai.stream > :nth-child(3){ animation-delay:.45s; }
+.msg-ai.stream > :nth-child(4){ animation-delay:.65s; }
+.msg-ai.stream > :nth-child(5){ animation-delay:.85s; }
+.msg-ai.stream > :nth-child(6){ animation-delay:1.05s; }
+.msg-ai.stream > :nth-child(7){ animation-delay:1.25s; }
+@keyframes streamIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+/* A2: 출처 패널에서 바꾼 내용 안내 */
+.a2-notice{ display:none; align-self:flex-start; font-size:12px; line-height:1.55; color:var(--blue-dark); background:#e8f0fe; border-radius:14px; padding:9px 13px; }
+.a2-notice.show{ display:block; animation:streamIn .3s ease-out; }
+
+/* A3: 바텀시트 열기/닫기 */
+.sheet-overlay.active{ animation:overlayIn .2s ease-out; }
+.sheet-overlay.active .sheet{ animation:sheetUp .26s cubic-bezier(.2,.8,.2,1); }
+.sheet-overlay.closing{ animation:overlayOut .2s ease-in forwards; }
+.sheet-overlay.closing .sheet{ animation:sheetDown .2s ease-in forwards; }
+@keyframes overlayIn{ from{ background:rgba(0,0,0,0); } }
+@keyframes overlayOut{ to{ background:rgba(0,0,0,0); } }
+@keyframes sheetUp{ from{ transform:translateY(100%); } }
+@keyframes sheetDown{ to{ transform:translateY(100%); } }
+/* 닫기 버튼 터치 영역 넓히기 (기록상 X 근처 오클릭이 있었음) */
+.sheet-close{ position:relative; }
+.sheet-close::before{ content:''; position:absolute; inset:-10px; }
+
+/* 펼칠 수 있는 항목 표시 */
+.source-head .meta, .conn-item .meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.check-item-head .chevron{ margin-left:auto; }
+.check-item.open .chevron{ transform:rotate(180deg); }
+.chevron{ line-height:1; }
+
+/* 참조를 끈 항목 */
+.ref-off-badge{ display:none; color:var(--text-3); font-weight:600; font-size:11px; }
+.ref-off > .source-head .ref-off-badge, .ref-off > .conn-item .ref-off-badge{ display:inline; }
+.source-item.ref-off .icon-chip, .conn-wrap.ref-off .icon-chip{ opacity:.45; filter:grayscale(1); transition:opacity .15s, filter .15s; }
+.source-item.deleted .ref-off-badge, .conn-wrap.deleted .ref-off-badge{ display:none !important; }
+
+/* B2: 응답 대기 후 카드 등장 */
+.b2-dots{ display:none; }
+.screen.loading .b2-dots{ display:flex; }
+.screen.loading .ai-card{ display:none; }
+.screen[data-step="B2"]:not(.loading) .ai-card{ animation:streamIn .3s ease-out; }
+.btn-del.busy{ opacity:.7; pointer-events:none; }
+
+/* B5: 확인 후 채팅으로 돌아온 상태 */
+.verified-row{ font-size:12px; font-weight:600; color:var(--good-fg); }
+.b5-reply{ font-size:14px; }

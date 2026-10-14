@@ -9,23 +9,24 @@
     START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고, 참가자 코드(P01 등)를 입력한 뒤 '시작하기'를 누르세요. 이때부터 기록이 시작됩니다.", indicators:[], interact:"클릭 가능 — <b>참가자 코드 입력</b>, <b>시작하기</b>."},
     SA:{phase:'a', script:"(참가자 모드 전용) 상황 1 안내 카드입니다.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     A1:{phase:'a', script:"퇴근 후 소파에서 저녁 약속 장소를 물어보는 장면입니다. 상황을 읽어준 뒤 참가자가 입력창을 누르게 하세요.", indicators:[2], interact:"클릭 가능 — <b>입력창</b>을 누르면 질문이 채워진 화면으로 넘어갑니다."},
-    A1B:{phase:'a', script:"이미 정해진 질문이 입력창에 채워지는 장면입니다(실시간 타이핑 아님, 고정 시나리오). 전송 버튼을 누르게 하세요.", indicators:[2], interact:"클릭 가능 — <b>전송 버튼</b>만."},
+    A1B:{phase:'a', script:"정해진 질문이 입력창에 한 글자씩 입력되는 장면입니다(약 1초, 고정 시나리오). 입력이 끝나면 전송 버튼을 누르게 하세요.", indicators:[2], interact:"클릭 가능 — <b>전송 버튼</b>만(입력 연출이 끝난 뒤 활성화)."},
     A1C:{phase:'a', script:"응답을 기다리는 짧은 로딩 장면입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[2], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
-    A2:{phase:'a', script:"실제 검색 기반 답변 형식(지도·맛집 카드)에 참가자가 언급한 적 없는 전 남자친구 이름이 자연스럽게 섞여 나옵니다. '예상하신 답변이었나요?'라고 물은 뒤, 참가자가 스스로 확인할 방법을 찾는지 관찰하세요.", indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆의 <b>파란색 '출처 확인' 배지</b>를 참가자가 스스로 찾아 누르는지가 핵심입니다. (발견까지 걸린 시간이 자동 기록돼요)"},
+    A2:{phase:'a', script:"실제 검색 기반 답변 형식(지도·맛집 카드)에 참가자가 언급한 적 없는 전 남자친구 이름이 자연스럽게 섞여 나옵니다. '예상하신 답변이었나요?'라고 물은 뒤, 참가자가 스스로 확인할 방법을 찾는지 관찰하세요.", indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆의 <b>파란색 '출처 확인' 배지</b>를 참가자가 스스로 찾아 누르는지가 핵심입니다. 답변은 약 1.6초에 걸쳐 순서대로 나타나고, <b>발견 시간은 답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
     A3:{phase:'a', script:"출처 패널이 열렸습니다. 이 답변이 참고한 소스만 표시되어, 펼치면 나오는 데이터도 전부 정민 관련(과거 예약·일정·대화)입니다. '이 정보를 앞으로 어떻게 하고 싶으신가요? 참조만 막고 싶으신가요, 아예 지우고 싶으신가요?'라고 열린 질문을 던지세요.", indicators:[1], interact:"클릭 가능 — 항목 이름을 누르면 <b>구체적 데이터가 펼쳐짐(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>. <b>Memory는 펼쳤을 때만</b> 하단에 '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초간 실행취소 토스트). Gmail·Calendar는 연동 데이터라 참조 차단만 가능. 우측 상단 <b>X</b>나 바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크."},
     A4:{phase:'a', script:"이곳은 이 답변 하나가 아니라 Gemini가 갖고 있는 전체 데이터를 보여주는 화면이라, 항목을 펼치면 정민 관련 데이터 옆에 무관한 데이터(배송 알림·치과 예약 등)도 같이 보입니다. '정민 관련 정보를 어떻게 처리하고 싶으신가요?'라고 물어보세요.", indicators:[1,5], interact:"클릭 가능 — 이름을 누르면 <b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>Memory는 펼쳤을 때만</b> '메모리 전체 삭제' 링크가 나타남(A3에서 2건을 지웠다면 11→9건으로 반영). ← 로 출처 패널 복귀."},
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"여기부터는 별개의 상황입니다 — 방금 A에서 본 인라인 관리와는 독립된, '채팅에 말로 요청해서 지우기'라는 다른 방식을 시연합니다. '이번엔 정민 관련 정보를 채팅에 직접 말해서 지워보고 싶다면 어떻게 하시겠어요?' 문구는 이미 입력돼 있으니 전송만 누르면 됩니다(고정 플로우).", indicators:[1], interact:"클릭 가능 — <b>전송 버튼</b>만."},
-    B2:{phase:'b', script:"'이 목록이 기대하신 범위와 같나요, 빠지거나 더 있는 게 있나요?' Memory 그룹과 Connected Apps 그룹으로 나뉘어 있고, 각 그룹 라벨이 '삭제돼요'/'참조만 차단돼요'로 다른 걸 참가자가 알아차리는지 확인하세요.", indicators:[2,3], interact:"클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 항목별 <b>체크박스</b>, <b>선택 항목 처리/취소</b>. 아무것도 선택하지 않으면 처리 버튼이 비활성화됩니다."},
+    B2:{phase:'b', script:"'이 목록이 기대하신 범위와 같나요, 빠지거나 더 있는 게 있나요?' Memory 그룹과 Connected Apps 그룹으로 나뉘어 있고, 각 그룹 라벨이 '삭제돼요'/'참조만 차단돼요'로 다른 걸 참가자가 알아차리는지 확인하세요.", indicators:[2,3], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 항목별 <b>체크박스</b>, <b>선택 항목 처리/취소</b>. 아무것도 선택하지 않으면 처리 버튼이 비활성화되고, 누르면 약 0.9초 '처리 중' 후 B3로 넘어갑니다."},
     B3:{phase:'b', script:"처리 결과를 참가자가 그대로 믿는지, 확인하고 싶어 하는지 관찰하세요. 먼저 묻지 말고 스스로 버튼을 누르는지 지켜보세요.", indicators:[3,4], interact:"클릭 가능 — <b>'지금 확인하기'</b>(관찰 핵심, 누르기까지 시간 자동 기록), <b>'취소'</b>(처리 이전으로 되돌리고 B2로 복귀). 결과 문구는 B2에서 고른 항목에 맞춰 바뀝니다."},
-    B4:{phase:'b', script:"출처 패널과 같은 형식으로, 실제로 항목이 처리됐는지 다시 확인합니다. '신뢰가 어떻게 달라졌나요? 이런 방식의 데이터 활용을 원래 알고 계셨나요?'로 마무리하세요.", indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(세션 종료), ← 로 B3 복귀."},
+    B4:{phase:'b', script:"출처 패널과 같은 형식으로, 실제로 항목이 처리됐는지 다시 확인합니다. '신뢰가 어떻게 달라졌나요? 이런 방식의 데이터 활용을 원래 알고 계셨나요?'로 마무리하세요.", indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
+    B5:{phase:'b', script:"확인을 마치고 채팅으로 돌아온 장면입니다. 마무리 질문을 하고, 참가자 모드에서는 참가자가 '과제 완료'를 누르면 끝납니다(진행자 모드는 '다음 단계 진행'으로 END).", indicators:[4,5], interact:"클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다."},
     END:{phase:'-', script:"세션 종료 화면입니다. 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
   const ORDER = MODE === 'participant'
-    ? ['START','SA','A1','A1B','A1C','A2','A3','A4','SB','B1','B2','B3','B4','END']
-    : ['START','A1','A1B','A1C','A2','A3','A4','B1','B2','B3','B4','END'];
+    ? ['START','SA','A1','A1B','A1C','A2','A3','A4','SB','B1','B2','B3','B4','B5','END']
+    : ['START','A1','A1B','A1C','A2','A3','A4','B1','B2','B3','B4','B5','END'];
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
-  const PHASE_B = ['B1','B2','B3','B4'];
+  const PHASE_B = ['B1','B2','B3','B4','B5'];
   const TASK_TEXT = {
     A: "Gemini에게 저녁 장소를 물어보고 답변을 살펴보세요. 할 만큼 했다고 느껴지면 '과제 완료'를 눌러 주세요.",
     B: "채팅으로 '정민' 관련 정보를 정리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.",
@@ -74,13 +75,14 @@
     const prev = current;
     const dwell = Math.round(performance.now() - stepEnteredAt);
 
-    if((step === 'B3' || step === 'B4') && !b2Result) renderB3B4();   // 바로가기로 들어온 경우 현재 체크 상태로 표시
+    if(['B3','B4','B5'].includes(step) && !b2Result) renderB3B4();   // 바로가기로 들어온 경우 현재 체크 상태로 표시
 
     showStep(step);
     hideSnackbar();
 
     current = step;
     stepEnteredAt = performance.now();
+    enterEffects(step, prev);
     if(prev !== step) Logger.log('step', { step, from: prev, prevDwellMs: dwell, via: why || '' });
     markMilestones(step);
 
@@ -90,6 +92,42 @@
     const d = STEPS[step];
     if(d.autoNext) setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END') onEnd();
+  }
+
+  /* ---------------- 화면 진입 연출 ---------------- */
+  // 연출은 이 기기에서만 재생돼요. 실시간 보기(진행자 쪽)는 연출 없이 최종 화면을 바로 보여줍니다.
+  const REVEAL_MS = 1600;
+  let fxTimers = [];
+  function clearFx(){
+    fxTimers.forEach(clearTimeout); fxTimers = [];
+    const typed = $('#a1bTyped');
+    typed.textContent = typed.dataset.full || typed.textContent;
+    typed.classList.remove('caret');
+    $('#a1bSend').classList.remove('wait');
+    $$('.stream').forEach(el => el.classList.remove('stream'));
+    $$('.screen.loading').forEach(el => el.classList.remove('loading'));
+  }
+  const later = (fn, ms) => fxTimers.push(setTimeout(fn, ms));
+
+  function enterEffects(step, prev){
+    clearFx();
+    if(step === 'A1B' && prev !== 'A1B'){          // 질문이 한 글자씩 입력됨
+      const typed = $('#a1bTyped'), send = $('#a1bSend');
+      const full = typed.dataset.full = typed.dataset.full || typed.textContent;
+      typed.textContent = ''; typed.classList.add('caret'); send.classList.add('wait');
+      [...full].forEach((ch, i) => later(() => { typed.textContent = full.slice(0, i + 1); }, 120 + i * 45));
+      later(() => { typed.classList.remove('caret'); send.classList.remove('wait'); }, 160 + full.length * 45);
+    }
+    if(step === 'A2' && prev === 'A1C'){           // 답변이 위에서부터 순서대로 나타남
+      $('.screen[data-step="A2"] .msg-ai').classList.add('stream');
+      M.a2Enter = performance.now() + REVEAL_MS;    // 배지 발견 시간은 답변이 다 보인 뒤부터
+      later(() => $$('.stream').forEach(el => el.classList.remove('stream')), REVEAL_MS + 400);
+    }
+    if(step === 'B2' && prev === 'B1'){            // 응답 대기 후 카드 등장
+      const scr = $('.screen[data-step="B2"]');
+      scr.classList.add('loading');
+      later(() => scr.classList.remove('loading'), 1200);
+    }
   }
 
   function markMilestones(step){
@@ -107,8 +145,14 @@
   }
 
   function closeSheet(how){
-    if(current === 'A3'){ Logger.log('sheet_close', { step:'A3', how }); go('A2', 'sheet-close'); }
-    else $('#sheetOverlay').classList.remove('active');
+    const ov = $('#sheetOverlay');
+    if(current === 'A3'){
+      if(ov.classList.contains('closing')) return;
+      Logger.log('sheet_close', { step:'A3', how });
+      ov.classList.add('closing');
+      setTimeout(() => { ov.classList.remove('closing'); if(current === 'A3') go('A2', 'sheet-close'); }, 200);
+    }
+    else ov.classList.remove('active');
   }
 
   /* ---------------- 세션 ---------------- */
@@ -190,7 +234,26 @@
   }
 
   function applyRefs(){
-    Object.keys(refState).forEach(k => $$(`.toggle[data-ref="${k}"]`).forEach(el => el.classList.toggle('on', refState[k])));
+    Object.keys(refState).forEach(k => $$(`.toggle[data-ref="${k}"]`).forEach(el => {
+      el.classList.toggle('on', refState[k]);
+      const box = el.closest('.source-item, .conn-wrap');
+      if(box) box.classList.toggle('ref-off', !refState[k]);
+    }));
+    renderA2Notice();
+  }
+
+  // A3에서 바꾼 내용을 A2 답변 아래에 알려줘요 (출처 시트를 닫고 돌아왔을 때 변화가 보이도록).
+  const REF_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };
+  function renderA2Notice(){
+    const el = $('#a2Notice');
+    if(!el || !refState || !memState) return;
+    const off = Object.keys(refState).filter(k => !refState[k]).map(k => REF_NAME[k]);
+    const parts = [];
+    if(memState.all) parts.push('메모리 전체 삭제됨');
+    else if(memState.used) parts.push('이 답변에 쓰인 메모리 2건 삭제됨');
+    if(off.length) parts.push(off.join('·') + ' 참조 끔');
+    el.innerHTML = parts.length ? `<b>설정이 바뀌었어요</b> · ${esc(parts.join(' · '))}<br>다음 답변부터 반영돼요` : '';
+    el.classList.toggle('show', parts.length > 0);
   }
 
   /* ---------------- 메모리 삭제 (A3: 이 답변에 쓰인 2건 / A4: 전체) ---------------- */
@@ -225,6 +288,7 @@
     $('#a4MemCount').textContent = memState.all ? '' : (memState.used ? '· 9건' : '· 11건');
     $('#a4MemMore').textContent = memState.used ? '+ 8건 더보기' : '+ 9건 더보기';
     $$('[data-mem="used"]').forEach(el => el.classList.toggle('gone', memState.used));
+    renderA2Notice();
   }
 
   function showSnackbar(msg){
@@ -262,12 +326,18 @@
   }
 
   function processB2(){
+    const btn = $('#b2ProcessBtn');
     const sel = currentSelection();
-    if(!Object.values(sel).some(Boolean)) return;
-    b2Result = sel;
-    renderB3B4();
+    if(!Object.values(sel).some(Boolean) || btn.classList.contains('busy')) return;
+    btn.classList.add('busy'); btn.textContent = '처리 중…';
     Logger.log('b2_process', { step: current, selected: sel });
-    go('B3', 'b2-process');
+    setTimeout(() => {
+      btn.classList.remove('busy'); btn.textContent = '선택 항목 처리';
+      if(current !== 'B2') return;
+      b2Result = sel;
+      renderB3B4();
+      go('B3', 'b2-process');
+    }, 900);
   }
 
   function undoB2(){
@@ -296,10 +366,10 @@
         ? `<div class="b3-line"><span class="tag del">삭제</span><span>${s.name} ${s.count}건을 삭제했어요</span></div>`
         : `<div class="b3-line"><span class="tag block">참조 차단</span><span>${s.name} ${s.count}건 — 원본은 ${s.name}에 그대로 있고, 앞으로 답변에 사용하지 않아요</span></div>`;
     });
-    $('#b3Lines').innerHTML = lines.join('');
+    $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines.join('');
     const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
     const nBlock = Object.keys(SRC).filter(k => sel[k] && !SRC[k].del).length;
-    $('#b3Title').textContent = nDel && nBlock ? '요청을 처리했어요' : nDel ? '선택한 정보를 삭제했어요' : '선택한 정보의 참조를 차단했어요';
+    $('#b3Title').textContent = $('#b5Title').textContent = nDel && nBlock ? '요청을 처리했어요' : nDel ? '선택한 정보를 삭제했어요' : '선택한 정보의 참조를 차단했어요';
 
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
@@ -311,6 +381,7 @@
   }
 
   function applyAll(){
+    clearFx();
     applyRefs(); applyMemory();
     b2Boxes().forEach(cb => cb.classList.add('checked'));
     syncSelectAll();
@@ -328,7 +399,7 @@
     if(hit){
       const tag = hit.dataset.tag || (hit.textContent || '').trim().slice(0, 24) || hit.id || hit.tagName.toLowerCase();
       Logger.log('click', { step: current, tag, x, y });
-      if(tag === '출처 확인' && M.a2Enter && !M.sourceFoundMs) M.sourceFoundMs = Math.round(performance.now() - M.a2Enter);
+      if(tag === '출처 확인' && M.a2Enter && !M.sourceFoundMs) M.sourceFoundMs = Math.max(0, Math.round(performance.now() - M.a2Enter));
       if(tag === '지금 확인하기' && M.b3Enter && !M.verifyMs) M.verifyMs = Math.round(performance.now() - M.b3Enter);
     }else{
       const desc = (e.target.className && typeof e.target.className === 'string' ? '.' + e.target.className.split(' ')[0] : e.target.tagName.toLowerCase())
@@ -357,6 +428,7 @@
 
   function applySnapshot(s){
     if(!s) return;
+    clearFx();
     refState = Object.assign({ memory:true, gmail:true, calendar:true, photos:true }, s.ref);
     memState = Object.assign({ used:false, all:false }, s.mem);
     b2Result = s.b2 || null;
@@ -414,6 +486,7 @@
       B_verifyClicked: !!M.verifyMs,
       B_verifySec: M.verifyMs ? +(M.verifyMs / 1000).toFixed(1) : null,
       B_cancelCount: count('b3_cancel'),
+      B_returnedToChat: ev.some(e => e.type === 'step' && e.step === 'B5'),
       taskDone: { A: !!M.doneA, B: !!M.doneB },
       misclicksByStep: miss,
       misclicksTotal: count('misclick'),
