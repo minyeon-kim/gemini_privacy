@@ -130,9 +130,9 @@
       <div class="chat-input-bar">
         <div class="chat-input">
           <span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-          <span class="typed">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</span>
+          <span class="typed" id="a1bTyped">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</span>
           <span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
-          <div class="round-btn send hot" data-tag="A1B 전송" onclick="App.go('A1C')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
+          <div class="round-btn send hot" id="a1bSend" data-tag="A1B 전송" onclick="App.go('A1C')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
         </div>
       </div>
       <div class="keyboard">
@@ -210,6 +210,7 @@
             <svg width="19" height="19" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
           </div>
         </div>
+        <div class="a2-notice" id="a2Notice"></div>
       </div>
       <div class="disclaimer"><u>Gemini is AI and can make mistakes, including about people.</u><br><u>Your privacy &amp; Gemini</u></div>
       <div class="chat-input-bar">
@@ -232,7 +233,8 @@
             <div class="conn-item">
               <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
               <div class="meta hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Memory <span class="used-dot" id="a4MemCount">· 11건</span><span class="deleted-badge">· 삭제됨</span></div>
+                <div class="name">Memory <span class="used-dot" id="a4MemCount">· 11건</span><span class="deleted-badge">· 삭제됨</span><span class="ref-off-badge">· 참조 안 함</span></div>
+                <span class="chevron">⌄</span>
               </div>
               <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
             </div>
@@ -253,7 +255,8 @@
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL1" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR1" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL1)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR1)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
               <div class="meta hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Gmail <span class="used-dot">· 130건</span></div>
+                <div class="name">Gmail <span class="used-dot">· 130건</span><span class="ref-off-badge">· 참조 안 함</span></div>
+                <span class="chevron">⌄</span>
               </div>
               <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
             </div>
@@ -268,7 +271,8 @@
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG1)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
               <div class="meta hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Calendar <span class="used-dot">· 36건</span></div>
+                <div class="name">Calendar <span class="used-dot">· 36건</span><span class="ref-off-badge">· 참조 안 함</span></div>
+                <span class="chevron">⌄</span>
               </div>
               <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
             </div>
@@ -283,7 +287,8 @@
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0 10 10A10 10 0 0 0 12 2z" fill="#4285F4"/><path d="M2 12A10 10 0 0 0 12 22 10 10 0 0 0 2 12z" fill="#EA4335"/><path d="M12 2A10 10 0 0 0 2 12 10 10 0 0 0 12 2z" fill="#34A853"/><path d="M22 12A10 10 0 0 0 12 22 10 10 0 0 0 22 12z" fill="#FBBC05"/></svg></div>
               <div class="meta hot" data-tag="Photos 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Photos</div>
+                <div class="name">Photos<span class="ref-off-badge">· 참조 안 함</span></div>
+                <span class="chevron">⌄</span>
               </div>
               <div class="toggle on hot" data-ref="photos" data-tag="Photos 차단" onclick="event.stopPropagation(); App.toggleRef('photos')"><div class="knob"></div></div>
             </div>
@@ -327,6 +332,7 @@
       </div>
       <div class="chat-body">
         <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="typing-dots b2-dots"><i></i><i></i><i></i></div>
         <div class="ai-card">
           <div class="card-head-row">
             <h3>'정민' 관련 정보 6건을 찾았어요</h3>
@@ -342,6 +348,7 @@
               <div class="check-item-head hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.check-item')">
                 <div class="icon-chip sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
                 <div class="ctext-app">Memory <span class="item-count">· 2건</span></div>
+                <span class="chevron">⌄</span>
                 <div class="checkbox checked hot" data-tag="Memory 체크" data-src="memory" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
               </div>
               <div class="check-item-expand">
@@ -357,6 +364,7 @@
               <div class="check-item-head hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.check-item')">
                 <div class="icon-chip sm" style="background:#fff;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL2" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR2" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL2)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR2)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
                 <div class="ctext-app">Gmail <span class="item-count">· 2건</span></div>
+                <span class="chevron">⌄</span>
                 <div class="checkbox checked hot" data-tag="Gmail 체크" data-src="gmail" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
               </div>
               <div class="check-item-expand">
@@ -368,6 +376,7 @@
               <div class="check-item-head hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.check-item')">
                 <div class="icon-chip sm" style="background:#fff;"><svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="calG2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG2)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
                 <div class="ctext-app">Calendar <span class="item-count">· 2건</span></div>
+                <span class="chevron">⌄</span>
                 <div class="checkbox checked hot" data-tag="Calendar 체크" data-src="calendar" onclick="event.stopPropagation(); App.toggleCheckItem(this)">✓</div>
               </div>
               <div class="check-item-expand">
@@ -416,14 +425,40 @@
       </div>
     </div>
 
+    <!-- B5: 확인 후 채팅으로 돌아온 상태 -->
+    <div class="screen chat-screen" data-step="B5">
+      <div class="topbar">
+        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
+        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="spacer"></div>
+        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="complete-card">
+          <div class="check-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
+            <h3 id="b5Title">요청을 처리했어요</h3>
+          </div>
+          <div class="b3-lines" id="b5Lines">
+          </div>
+          <div class="verified-row">✓ 처리 결과를 확인했어요</div>
+        </div>
+        <div class="msg-ai b5-reply">다른 도움이 필요하시면 언제든 말씀해 주세요.</div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input"><span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="placeholder">Ask Gemini</span><span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span><div class="round-btn voice"><svg width="15" height="15" viewBox="0 0 24 24"><rect x="4" y="8" width="3" height="8" rx="1.5" fill="currentColor"/><rect x="10.5" y="4" width="3" height="16" rx="1.5" fill="currentColor"/><rect x="17" y="8" width="3" height="8" rx="1.5" fill="currentColor"/></svg></div></div>
+      </div>
+    </div>
+
     <!-- B4 -->
     <div class="screen" data-step="B4">
       <div class="back-row">
         <span class="backbtn hot" data-tag="B4 뒤로가기" onclick="App.go('B3')">←</span>
-        <span class="label">이 답변에 사용된 정보</span>
+        <span class="label">'정민' 관련 정보 처리 결과</span>
       </div>
       <div class="settings-body" style="margin-top:6px;">
-        <p style="font-size:11.5px; color:var(--text-2); margin:0 4px 2px;">'정민' 관련 정보 처리 후 다시 확인</p>
+        <p style="font-size:11.5px; color:var(--text-2); margin:0 4px 2px;">채팅에서 요청한 처리가 실제로 반영됐는지 확인해요</p>
 
         <div class="source-item" data-b4="memory">
           <div style="display:flex; align-items:center; gap:10px;">
@@ -455,7 +490,7 @@
           </div>
         </div>
 
-        <div class="primary-btn hot" data-tag="채팅으로 돌아가기" onclick="App.finishPhase('B')">채팅으로 돌아가기</div>
+        <div class="primary-btn hot" data-tag="채팅으로 돌아가기" onclick="App.go('B5')">채팅으로 돌아가기</div>
       </div>
     </div>
 
@@ -473,7 +508,8 @@
           <div class="source-head">
             <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL4" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR4" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL4)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR4)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
             <div class="meta hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.source-item')">
-              <div class="name">Gmail <span class="item-count">· 2건</span></div>
+              <div class="name">Gmail <span class="item-count">· 2건</span><span class="ref-off-badge">· 참조 안 함</span></div>
+              <span class="chevron">⌄</span>
             </div>
             <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
           </div>
@@ -487,7 +523,8 @@
           <div class="source-head">
             <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG4)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
             <div class="meta hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.source-item')">
-              <div class="name">Calendar <span class="item-count">· 2건</span></div>
+              <div class="name">Calendar <span class="item-count">· 2건</span><span class="ref-off-badge">· 참조 안 함</span></div>
+              <span class="chevron">⌄</span>
             </div>
             <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
           </div>
@@ -501,7 +538,8 @@
           <div class="source-head">
             <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
             <div class="meta hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.source-item')">
-              <div class="name">Memory <span class="item-count">· 2건</span><span class="deleted-badge">· 삭제됨</span></div>
+              <div class="name">Memory <span class="item-count">· 2건</span><span class="deleted-badge">· 삭제됨</span><span class="ref-off-badge">· 참조 안 함</span></div>
+              <span class="chevron">⌄</span>
             </div>
             <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
           </div>
