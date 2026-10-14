@@ -46,6 +46,7 @@
   }
   resetState();
 
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
   const $ = (sel, root=document) => root.querySelector(sel);
   const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
   const phone = $('#phone');
@@ -57,13 +58,7 @@
     if(el){ el.classList.add('active'); el.scrollTop = 0; }
   }
 
-  function go(step, why){
-    if(!STEPS[step]) return;
-    const prev = current;
-    const dwell = Math.round(performance.now() - stepEnteredAt);
-
-    if((step === 'B3' || step === 'B4') && !b2Result) renderB3B4();   // 바로가기로 들어온 경우 현재 체크 상태로 표시
-
+  function showStep(step){
     if(step === 'A3'){                // A3 = A2 화면 위에 출처 시트가 열린 상태
       showScreen('A2');
       $('#sheetOverlay').classList.add('active');
@@ -72,6 +67,16 @@
       showScreen(step);
       $('#sheetOverlay').classList.remove('active');
     }
+  }
+
+  function go(step, why){
+    if(!STEPS[step]) return;
+    const prev = current;
+    const dwell = Math.round(performance.now() - stepEnteredAt);
+
+    if((step === 'B3' || step === 'B4') && !b2Result) renderB3B4();   // 바로가기로 들어온 경우 현재 체크 상태로 표시
+
+    showStep(step);
     hideSnackbar();
 
     current = step;
@@ -332,6 +337,55 @@
     }
   }, true);
 
+  /* ---------------- 실시간 보기용 화면 상태 (js/live.js에서 사용) ---------------- */
+  // 화면은 정해진 HTML이라, 상태만 주고받으면 진행자 쪽에서 똑같이 다시 그릴 수 있어요.
+  const openables = () => $$('.source-item, .conn-wrap, .check-item', phone);
+  const scrollers = () => $$('.screen, .sheet, .chat-body', phone);
+
+  function snapshot(){
+    const bar = $('#snackbar');
+    return {
+      step: current,
+      ref: refState, mem: memState,
+      checks: currentSelection(),
+      b2: b2Result,
+      open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
+      snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
+      scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
+    };
+  }
+
+  function applySnapshot(s){
+    if(!s) return;
+    refState = Object.assign({ memory:true, gmail:true, calendar:true, photos:true }, s.ref);
+    memState = Object.assign({ used:false, all:false }, s.mem);
+    b2Result = s.b2 || null;
+    const checks = s.checks || {};
+    b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
+    syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
+    if(s.step && s.step !== current && STEPS[s.step]){
+      current = s.step;
+      showStep(current);
+      renderPanel();
+    }
+    const open = s.open || [];
+    openables().forEach((el, i) => el.classList.toggle('open', open.includes(i)));
+    const bar = $('#snackbar');
+    if(s.snack) bar.querySelector('.snackbar-msg').textContent = s.snack;
+    bar.classList.toggle('show', !!s.snack);
+    const scroll = s.scroll || [];
+    scrollers().forEach((el, i) => { el.scrollTop = (scroll[i] || 0) * (el.scrollHeight - el.clientHeight); });
+  }
+
+  let remote = null;   // 참가자 화면을 보는 중일 때: { meta, events, summary }
+  function setRemote(r){
+    remote = r;
+    renderSession(); renderMetrics(); renderFeed();
+  }
+
+  // 보는 중이면 참가자 기록을, 아니면 이 브라우저의 기록을 내려받아요.
+  function download(fmt){ remote ? Logger.download(fmt, remote) : Logger.download(fmt); }
+
   /* ---------------- 요약 지표 ---------------- */
   function summary(){
     const ev = Logger.active ? Logger.session.events : [];
@@ -382,6 +436,11 @@
 
   function renderSession(){
     const row = $('#sessionRow');
+    if(remote){
+      const m = remote.meta || {};
+      row.innerHTML = `참가자 <b>${esc(m.participant || '?')}</b> 화면을 실시간으로 보는 중${m.ended ? ' · <b>세션 종료됨</b>' : ''}`;
+      return;
+    }
     if(!Logger.active){ row.innerHTML = '세션 시작 전 — 참가자 코드를 입력하고 시작하세요'; return; }
     const m = Logger.session.meta;
     row.innerHTML = `참가자 <b>${m.participant}</b> · ${MODE === 'participant' ? '참가자 모드' : '진행자 모드'} · 시작 ${new Date(m.startedAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;
@@ -389,35 +448,37 @@
 
   function renderMetrics(){
     const box = $('#metricsBox');
-    if(!Logger.active){ box.innerHTML = '<span class="k">기록 없음</span><span class="v"></span>'; return; }
-    const s = summary();
+    const src = remote || (Logger.active ? { summary: summary(), events: Logger.session.events } : null);
+    if(!src || !src.summary){ box.innerHTML = '<span class="k">기록 없음</span><span class="v"></span>'; return; }
+    const s = src.summary;
     const rows = [
       ['A · 출처 확인 배지 발견', s.A_sourceBadgeFound ? `${s.A_sourceBadgeFoundSec}초` : '아직'],
       ['A · 메모리 삭제', s.A_memoryDeleted],
-      ['A · 참조 끈 앱', Object.keys(s.A_refsFinal).filter(k => !s.A_refsFinal[k]).join(', ') || '없음'],
+      ['A · 참조 끈 앱', Object.keys(s.A_refsFinal || {}).filter(k => !s.A_refsFinal[k]).join(', ') || '없음'],
       ['B · 처리한 항목', s.B_selected ? Object.keys(s.B_selected).filter(k => s.B_selected[k]).join(', ') : '아직'],
       ['B · 지금 확인하기', s.B_verifyClicked ? `${s.B_verifySec}초` : '아직'],
       ['오클릭 (전체)', s.misclicksTotal],
-      ['기록된 이벤트', Logger.session.events.length],
+      ['기록된 이벤트', src.events.length],
     ];
-    box.innerHTML = rows.map(([k,v]) => `<span class="k">${k}</span><span class="v">${v}</span>`).join('');
+    box.innerHTML = rows.map(([k,v]) => `<span class="k">${k}</span><span class="v">${esc(v)}</span>`).join('');
   }
 
   function renderFeed(){
     const feed = $('#logFeed');
-    if(!Logger.active){ feed.innerHTML = '시작하면 이벤트가 여기에 쌓여요'; return; }
-    const evs = Logger.session.events.slice(-40);
+    const all = remote ? remote.events : Logger.active ? Logger.session.events : null;
+    if(!all){ feed.innerHTML = '시작하면 이벤트가 여기에 쌓여요'; return; }
+    const evs = all.slice(-40);
     feed.innerHTML = evs.map(e => {
       const sec = (e.ms / 1000).toFixed(1).padStart(6, ' ');
       const what = e.type === 'step' ? `→ ${e.step}`
                  : e.type === 'click' || e.type === 'misclick' ? `${e.tag}`
                  : e.type === 'toggle' ? `${e.ref} ${e.on ? 'ON' : 'OFF'}`
                  : e.type === 'check' ? `${e.src} ${e.checked ? '✓' : '✗'}`
-                 : e.type === 'b2_process' ? Object.keys(e.selected).filter(k => e.selected[k]).join('+')
+                 : e.type === 'b2_process' ? Object.keys(e.selected || {}).filter(k => e.selected[k]).join('+')
                  : e.type === 'delete' ? `memory (${e.scope})`
                  : e.type === 'expand' ? `${e.tag} ${e.open ? '열림' : '닫힘'}`
                  : '';
-      return `<div class="${e.type === 'misclick' ? 'miss' : ''}">${sec}s ${e.type} ${what}</div>`;
+      return `<div class="${e.type === 'misclick' ? 'miss' : ''}">${sec}s ${esc(e.type)} ${esc(what)}</div>`;
     }).join('');
     feed.scrollTop = feed.scrollHeight;
   }
@@ -460,8 +521,10 @@
     closeSheet, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2,
     toggleDev, summary, notice,
+    snapshot, applySnapshot, setRemote, download,
     downloadArchived(i, fmt){ Logger.download(fmt, Logger.archived()[i]); },
     get current(){ return current; },
+    get mode(){ return MODE; },
   };
   // 기존 HTML의 패널 토글 버튼용
   window.togglePanel = function(){

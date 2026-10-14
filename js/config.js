@@ -7,4 +7,9 @@ window.UT_CONFIG = {
   // Google Sheets(Apps Script 웹 앱) 등 POST를 받는 주소를 넣으면, 세션 종료 시 기록 전체(JSON)가 자동 전송돼요.
   // 설정 방법은 README.md의 "기록 자동 수집" 참고.
   LOG_ENDPOINT: '',
+
+  // (선택) 참가자 화면 실시간 보기 — Firebase Realtime Database 설정값.
+  // 비워 두면(null) 꺼져 있어요. 설정 방법은 README.md의 "참가자 화면 실시간 보기" 참고.
+  // 예) FIREBASE: { apiKey: '...', authDomain: '...', databaseURL: 'https://...firebasedatabase.app', projectId: '...', appId: '...' },
+  FIREBASE: null,
 };
