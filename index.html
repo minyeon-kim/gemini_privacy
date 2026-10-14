@@ -532,7 +532,7 @@
 
   <div class="session-row" id="sessionRow">세션 시작 전</div>
 
-  <button class="advance-btn" onclick="App.advance()">다음 단계 진행 →</button>
+  <button class="advance-btn no-watch" onclick="App.advance()">다음 단계 진행 →</button>
 
   <div id="stepTitle" class="step-title">START</div>
   <div class="script" id="scriptBox"></div>
@@ -541,14 +541,16 @@
 
   <div class="panel-divider"></div>
 
+  <div class="no-watch">
   <div class="panel-section-title">단계 바로가기 (진행자 전용)</div>
   <div class="jumpnav" id="jumpnav"></div>
+  </div>
 
   <div class="togglerow">
     <span>주석(빨간 점선) 표시</span>
     <div class="miniswitch" id="devSwitch" onclick="App.toggleDev()"><div class="k"></div></div>
   </div>
-  <button class="resetbtn" onclick="App.resetScenario()">시나리오 상태 초기화 (A1로)</button>
+  <button class="resetbtn no-watch" onclick="App.resetScenario()">시나리오 상태 초기화 (A1로)</button>
 
   <div class="panel-divider"></div>
 
@@ -556,11 +558,11 @@
   <div class="metrics" id="metricsBox"></div>
   <div class="log-feed" id="logFeed"></div>
   <div class="log-actions">
-    <button onclick="Logger.download('json')">JSON 받기</button>
-    <button onclick="Logger.download('csv')">CSV 받기</button>
-    <button onclick="Logger.copy()">복사</button>
+    <button onclick="App.download('json')">JSON 받기</button>
+    <button onclick="App.download('csv')">CSV 받기</button>
+    <button class="no-watch" onclick="Logger.copy()">복사</button>
   </div>
-  <button class="resetbtn danger" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
+  <button class="resetbtn danger no-watch" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
 
   <div class="legend">
     <b>검증 지표</b> — ①통제 난이도 ②응답 예측 부합도 ③삭제 성공 여부 ④신뢰·불안 변화(그레이존 인지) ⑤정보량 적절성<br><br>
@@ -571,5 +573,6 @@
 <script src="js/config.js"></script>
 <script src="js/logger.js"></script>
 <script src="js/app.js"></script>
+<script src="js/live.js"></script>
 </body>
 </html>

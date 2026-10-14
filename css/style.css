@@ -336,3 +336,27 @@ body.participant{ justify-content:center; }
   body.participant .screen, body.participant .sheet-overlay{ top:0; }
   body.participant .chat-input-bar{ padding-bottom:calc(16px + env(safe-area-inset-bottom,0px)); }
 }
+
+/* 참가자 화면 실시간 보기 (js/live.js) */
+.live-box{ margin-bottom:2px; }
+.live-hint{ font-size:11.5px; color:var(--text-3); line-height:1.6; margin-bottom:8px; }
+.live-list{ display:flex; flex-direction:column; gap:6px; font-size:12px; color:var(--text-2); }
+.live-empty{ font-size:11.5px; color:var(--text-3); }
+.live-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:7px 10px; border:1px solid var(--border); border-radius:10px; }
+.live-row.cur{ border-color:var(--blue); background:#e8f0fe; }
+.live-row b{ color:var(--text-1); }
+.live-row button{ flex:0 0 auto; font-size:11.5px; padding:4px 10px; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; }
+.live-row.cur button{ background:var(--blue); border-color:var(--blue); color:#fff; }
+.live-dot-on, .live-dot-ended{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:4px; vertical-align:1px; }
+.live-dot-on{ background:#1e8e3e; }
+.live-dot-ended{ background:#c4c7c9; }
+
+/* 보는 중: 휴대폰 화면은 조작 막고, 진행 조작 버튼은 숨김 */
+.live-shield{ display:none; }
+body.watching .live-shield{ display:block; position:absolute; inset:0; z-index:90; cursor:not-allowed; }
+.live-badge{ position:absolute; top:10px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:11px; font-weight:700; color:#fff; background:rgba(26,115,232,.92); padding:4px 11px; border-radius:999px; }
+body.watching .no-watch{ display:none !important; }
+.live-flash{ outline:3px solid #fbbc04 !important; outline-offset:2px; border-radius:10px; transition:outline-color .2s; }
+.live-touch{ position:absolute; z-index:95; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:rgba(251,188,4,.55); border:2px solid #fbbc04; pointer-events:none; animation:liveTouch .9s ease-out forwards; }
+.live-touch.miss{ background:rgba(234,67,53,.45); border-color:#ea4335; }
+@keyframes liveTouch{ from{ transform:scale(.6); opacity:1; } to{ transform:scale(1.6); opacity:0; } }
