@@ -45,6 +45,7 @@
         <h1>저녁 약속 장소 찾기</h1>
         <div class="intro-notice">
           <p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
+          <p class="order-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요.</p>
           <p>질문을 보내고 답변을 살펴본 뒤, 답변에 대해 궁금하거나 해 보고 싶은 게 있으면 자유롭게 해 보세요.</p>
           <p>생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
         </div>
@@ -56,9 +57,9 @@
         <div class="intro-badge">상황 2</div>
         <h1>채팅으로 정보 지우기</h1>
         <div class="intro-notice">
-          <p>앞의 상황과는 별개인 새로운 상황이에요.</p>
-          <p>Gemini가 '정민'이라는 사람과 관련된 정보를 기억하고 있어요. 이번에는 <b>채팅으로 직접 요청해서</b> 정민 관련 정보를 정리해 보세요.</p>
-          <p>요청 문구는 미리 입력돼 있으니 보내기만 하면 돼요.</p>
+          <p class="order-note">앞의 상황과는 별개인 새로운 상황이에요.</p>
+          <p>Gemini가 '정민'이라는 사람과 관련된 정보를 기억하고 있어요. 이번에는 <b>채팅으로 Gemini에게 직접 요청해서</b> 정민 관련 정보를 정리해 보세요.</p>
+          <p>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요. 생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
         </div>
         <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
       </div>
@@ -315,9 +316,9 @@
       <div class="chat-input-bar">
         <div class="chat-input">
           <span class="plus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
-          <span class="typed">정민이랑 관련된 정보 다 지워줘</span>
+          <input class="chat-text" id="b1Input" data-tag="B1 입력창" placeholder="Ask Gemini" autocomplete="off" enterkeyhint="send" maxlength="200">
           <span class="mic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></span>
-          <div class="round-btn send hot" data-tag="B1 전송" onclick="App.go('B2')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
+          <div class="round-btn send hot wait" id="b1Send" data-tag="B1 전송" onclick="App.sendB1()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></div>
         </div>
       </div>
     </div>
@@ -331,7 +332,7 @@
         <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
       </div>
       <div class="chat-body">
-        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
         <div class="typing-dots b2-dots"><i></i><i></i><i></i></div>
         <div class="ai-card">
           <div class="card-head-row">
@@ -406,7 +407,7 @@
         <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
       </div>
       <div class="chat-body">
-        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
         <div class="complete-card">
           <div class="check-row">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
@@ -434,7 +435,7 @@
         <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
       </div>
       <div class="chat-body">
-        <div class="msg-user">정민이랑 관련된 정보 다 지워줘</div>
+        <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
         <div class="complete-card">
           <div class="check-row">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
@@ -565,8 +566,8 @@
 
 <!-- ---------------- 진행자 패널 ---------------- -->
 <div class="panel mod-only" id="panel">
-  <h2>관찰형 워크스루 · 진행자 패널</h2>
-  <p class="subtitle">A(A1~A4, 인라인 데이터 관리)와 B(B1~B4, 채팅 자연어 삭제)는 하나로 이어진 이야기가 아니라 별개의 두 메커니즘 — 각각 독립적으로 시연·관찰합니다.</p>
+  <h2>진행자 패널 · 과제 기반 UT</h2>
+  <p class="subtitle">A(인라인 데이터 관리)와 B(채팅 자연어 삭제)는 별개의 두 메커니즘이에요. 참가자가 직접 조작하고, 진행자는 목표만 제시한 뒤 관찰 → 이해 확인 순서로 진행합니다. 조작 방법·선택지를 먼저 알려주지 마세요.</p>
 
   <div class="session-row" id="sessionRow">세션 시작 전</div>
 

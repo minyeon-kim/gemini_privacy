@@ -97,6 +97,8 @@
   .chat-input .plus{color:var(--text-2); display:flex; align-items:center;}
   .chat-input .placeholder{flex:1; color:var(--text-3);}
   .chat-input .typed{flex:1; color:var(--text-1);}
+  .chat-input .chat-text{flex:1; min-width:0; border:none; outline:none; background:transparent; font:inherit; font-size:16px; color:var(--text-1); padding:0;}
+  .chat-input .chat-text::placeholder{color:var(--text-3);}
   .chat-input .mic{color:#444746; display:flex;}
   .chat-input.hot{cursor:pointer;}
   .round-btn{ width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 36px; }
