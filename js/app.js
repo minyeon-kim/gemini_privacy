@@ -62,17 +62,25 @@
   function showStep(step){
     if(step === 'A3'){                // A3 = A2 화면 위에 출처 시트가 열린 상태
       showScreen('A2');
+      sheetReturnFocus = document.activeElement;
+      $('#sheetOverlay .sheet').style.removeProperty('--sheet-dismiss-from');
       $('#sheetOverlay').classList.add('active');
+      $('.screen[data-step="A2"]').inert = true;
+      $('#sheetOverlay .sheet-close').focus({preventScroll:true});
       $('#sheetOverlay .sheet').scrollTop = 0;
     }else{
       showScreen(step);
       $('#sheetOverlay').classList.remove('active');
+      $('.screen[data-step="A2"]').inert = false;
     }
   }
 
   function go(step, why){
     if(!STEPS[step]) return;
     const prev = current;
+    clearTimeout(transitionTimer);
+    $('#sheetOverlay').classList.remove('closing');
+    phone.classList.toggle('nav-back', ORDER.indexOf(step) < ORDER.indexOf(prev));
     const dwell = Math.round(performance.now() - stepEnteredAt);
 
     if(['B3','B4','B5'].includes(step) && !b2Result) renderB3B4();   // 바로가기로 들어온 경우 현재 체크 상태로 표시
@@ -87,23 +95,41 @@
     markMilestones(step);
 
     renderPanel();
+    window.Interactions?.sync();
     renderTaskbar();
 
     const d = STEPS[step];
-    if(d.autoNext) setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
+    if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END') onEnd();
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
   // 연출은 이 기기에서만 재생돼요. 실시간 보기(진행자 쪽)는 연출 없이 최종 화면을 바로 보여줍니다.
   const REVEAL_MS = 1600;
+  let responseTimer = null, responseVisible = null, responsePaused = false;
+  let processTimer = null, transitionTimer = null, autoTimer = null;
+  let sheetReturnFocus = null;
+  const responseParts = () => $$('.screen[data-step="A2"] .msg-ai > *');
   let fxTimers = [];
   function clearFx(){
     fxTimers.forEach(clearTimeout); fxTimers = [];
+    clearTimeout(autoTimer); autoTimer = null;
+    clearTimeout(responseTimer); responseTimer = null;
+    clearTimeout(processTimer); processTimer = null;
+    const process = $('#b2ProcessBtn');
+    process.classList.remove('busy'); process.textContent = '선택 항목 처리';
+    process.setAttribute('aria-busy', 'false');
+    b2Boxes().forEach(box => box.removeAttribute('aria-disabled'));
+    const card = $('.screen[data-step="B2"] .ai-card');
+    card.classList.remove('processing');
+    syncSelectAll();
+    responseVisible = null; responsePaused = false;
+    renderResponse();
     const typed = $('#a1bTyped');
     typed.textContent = typed.dataset.full || typed.textContent;
     typed.classList.remove('caret');
     $('#a1bSend').classList.remove('wait');
+    $('#a1bSend').setAttribute('aria-disabled', 'false');
     $$('.stream').forEach(el => el.classList.remove('stream'));
     $$('.screen.loading').forEach(el => el.classList.remove('loading'));
   }
@@ -113,15 +139,15 @@
     clearFx();
     if(step === 'A1B' && prev !== 'A1B'){          // 질문이 한 글자씩 입력됨
       const typed = $('#a1bTyped'), send = $('#a1bSend');
-      const full = typed.dataset.full = typed.dataset.full || typed.textContent;
-      typed.textContent = ''; typed.classList.add('caret'); send.classList.add('wait');
+      const full = typed.dataset.full = I18n.t('요즘 새로 생긴 이탈리안 레스토랑 추천해줘');
+      typed.textContent = ''; typed.classList.add('caret'); send.classList.add('wait'); send.setAttribute('aria-disabled','true');
       [...full].forEach((ch, i) => later(() => { typed.textContent = full.slice(0, i + 1); }, 120 + i * 45));
-      later(() => { typed.classList.remove('caret'); send.classList.remove('wait'); }, 160 + full.length * 45);
+      later(() => { typed.classList.remove('caret'); send.classList.remove('wait'); send.setAttribute('aria-disabled','false'); }, 160 + full.length * 45);
     }
     if(step === 'A2' && prev === 'A1C'){           // 답변이 위에서부터 순서대로 나타남
-      $('.screen[data-step="A2"] .msg-ai').classList.add('stream');
-      M.a2Enter = performance.now() + REVEAL_MS;    // 배지 발견 시간은 답변이 다 보인 뒤부터
-      later(() => $$('.stream').forEach(el => el.classList.remove('stream')), REVEAL_MS + 400);
+      responseVisible = 0; responsePaused = false;
+      M.a2Enter = null;
+      renderResponse(); advanceResponse();
     }
     if(step === 'B2' && prev === 'B1'){            // 응답 대기 후 카드 등장
       const scr = $('.screen[data-step="B2"]');
@@ -130,10 +156,53 @@
     }
   }
 
+  function renderResponse(){
+    const parts = responseParts();
+    const generating = responseVisible !== null && responseVisible < parts.length;
+    parts.forEach((part, i) => part.classList.toggle('response-pending', generating && i >= responseVisible));
+    const controls = $('#responseControl');
+    controls.hidden = !generating;
+    controls.classList.toggle('paused', responsePaused);
+    controls.querySelector('span').textContent = responsePaused ? '계속 생성' : '생성 중지';
+    controls.setAttribute('aria-label', I18n.t(responsePaused ? '계속 생성' : '생성 중지'));
+    $('.screen[data-step="A2"] .msg-ai').setAttribute('aria-busy', String(generating && !responsePaused));
+  }
+
+  function advanceResponse(){
+    if(current !== 'A2' || responsePaused || responseVisible === null) return;
+    const parts = responseParts();
+    if(responseVisible >= parts.length) return;
+    const body = $('.screen[data-step="A2"] .chat-body');
+    const follow = body.scrollHeight - body.scrollTop - body.clientHeight < 72;
+    const part = parts[responseVisible++];
+    renderResponse();
+    part.classList.remove('response-arrive');
+    void part.offsetWidth;
+    part.classList.add('response-arrive');
+    if(follow) body.scrollTo({top: body.scrollHeight, behavior: 'smooth'});
+    if(responseVisible < parts.length) responseTimer = setTimeout(advanceResponse, REVEAL_MS / Math.max(1, parts.length - 1));
+    else { M.a2Enter = performance.now(); Logger.log('response_complete', {step:current}); }
+  }
+
+  function toggleResponse(){
+    if(current !== 'A2' || responseVisible === null || responseVisible >= responseParts().length) return;
+    responsePaused = !responsePaused;
+    clearTimeout(responseTimer);
+    renderResponse();
+    Logger.log(responsePaused ? 'response_pause' : 'response_resume', {step:current, visible:responseVisible});
+    if(!responsePaused) advanceResponse();
+  }
+
+  function stopLoading(){
+    if(current !== 'A1C') return;
+    Logger.log('response_cancel', {step:current});
+    go('A1B', 'response-cancel');
+  }
+
   function markMilestones(step){
     const p = performance.now();
     if(step === 'A1' && !M.aStart) M.aStart = p;
-    if(step === 'A2' && !M.a2Enter) M.a2Enter = p;
+    if(step === 'A2' && responseVisible === null && !M.a2Enter) M.a2Enter = p;
     if(step === 'B1' && !M.bStart) M.bStart = p;
     if(step === 'B3') M.b3Enter = p;
   }
@@ -150,7 +219,13 @@
       if(ov.classList.contains('closing')) return;
       Logger.log('sheet_close', { step:'A3', how });
       ov.classList.add('closing');
-      setTimeout(() => { ov.classList.remove('closing'); if(current === 'A3') go('A2', 'sheet-close'); }, 200);
+      transitionTimer = setTimeout(() => {
+        ov.classList.remove('closing');
+        if(current === 'A3') {
+          go('A2', 'sheet-close');
+          if(sheetReturnFocus && sheetReturnFocus.isConnected) sheetReturnFocus.focus({preventScroll:true});
+        }
+      }, 200);
     }
     else ov.classList.remove('active');
   }
@@ -163,17 +238,19 @@
     $('#pidError').classList.remove('show');
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
-    Logger.start({ participant: pid, mode: MODE });
+    window.Interactions?.reset();
+    Logger.start({ participant: pid, mode: MODE, language: I18n.language });
     stepEnteredAt = performance.now();
     renderSession();
     go(MODE === 'participant' ? 'SA' : 'A1', 'start');
   }
 
   function newSession(){
-    if(Logger.active && !confirm('현재 세션 기록을 보관함에 저장하고 새 참가자로 시작할까요?')) return;
+    if(Logger.active && !confirm(I18n.t('현재 세션 기록을 보관함에 저장하고 새 참가자로 시작할까요?'))) return;
     if(Logger.active) Logger.archive(summary());
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
+    window.Interactions?.reset();
     $('#pidInput').value = '';
     $$('.screen').forEach(el => el.classList.remove('active'));
     current = 'START';
@@ -185,6 +262,7 @@
 
   function resetScenario(){
     resetState(); applyAll();
+    window.Interactions?.reset();
     Logger.log('scenario_reset', { step: current });
     go('A1', 'reset');
   }
@@ -224,6 +302,8 @@
     const wrap = el.closest(sel);
     if(!wrap) return;
     wrap.classList.toggle('open');
+    el.setAttribute('aria-expanded', String(wrap.classList.contains('open')));
+    window.Interactions?.sync();
     Logger.log('expand', { step: current, tag: el.dataset.tag || '', open: wrap.classList.contains('open') });
   }
 
@@ -236,6 +316,7 @@
   function applyRefs(){
     Object.keys(refState).forEach(k => $$(`.toggle[data-ref="${k}"]`).forEach(el => {
       el.classList.toggle('on', refState[k]);
+      el.setAttribute('aria-checked', String(refState[k]));
       const box = el.closest('.source-item, .conn-wrap');
       if(box) box.classList.toggle('ref-off', !refState[k]);
     }));
@@ -289,6 +370,7 @@
     $('#a4MemMore').textContent = memState.used ? '+ 8건 더보기' : '+ 9건 더보기';
     $$('[data-mem="used"]').forEach(el => el.classList.toggle('gone', memState.used));
     renderA2Notice();
+    window.Interactions?.sync();
   }
 
   function showSnackbar(msg){
@@ -304,11 +386,13 @@
   const b2Boxes = () => $$('.screen[data-step="B2"] .check-item .checkbox[data-src]');
 
   function toggleCheckItem(el){
+    if($('#b2ProcessBtn').classList.contains('busy')) return;
     el.classList.toggle('checked');
     syncSelectAll();
     Logger.log('check', { step: current, src: el.dataset.src, checked: el.classList.contains('checked') });
   }
   function toggleSelectAll(el){
+    if($('#b2ProcessBtn').classList.contains('busy')) return;
     const next = !el.classList.contains('checked');
     b2Boxes().forEach(cb => cb.classList.toggle('checked', next));
     syncSelectAll();
@@ -321,7 +405,13 @@
     const selAll = $('.screen[data-step="B2"] .select-all-row .checkbox');
     selAll.classList.toggle('checked', all);
     selAll.textContent = all ? '✓' : '';
-    boxes.forEach(b => b.textContent = b.classList.contains('checked') ? '✓' : '');
+    selAll.classList.toggle('mixed', any && !all);
+    selAll.setAttribute('aria-checked', all ? 'true' : any ? 'mixed' : 'false');
+    boxes.forEach(b => {
+      b.textContent = b.classList.contains('checked') ? '✓' : '';
+      b.setAttribute('aria-checked', String(b.classList.contains('checked')));
+    });
+    $('#selectionCount').textContent = I18n.t('선택한 정보') + ' · ' + boxes.filter(b => b.classList.contains('checked')).length * 2 + '/6';
     $('#b2ProcessBtn').disabled = !any;
   }
 
@@ -329,9 +419,12 @@
     const btn = $('#b2ProcessBtn');
     const sel = currentSelection();
     if(!Object.values(sel).some(Boolean) || btn.classList.contains('busy')) return;
-    btn.classList.add('busy'); btn.textContent = '처리 중…';
+    btn.classList.add('busy'); btn.textContent = '처리 중…'; btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    $('.screen[data-step="B2"] .ai-card').classList.add('processing');
+    b2Boxes().forEach(box => box.setAttribute('aria-disabled', 'true'));
     Logger.log('b2_process', { step: current, selected: sel });
-    setTimeout(() => {
+    processTimer = setTimeout(() => {
       btn.classList.remove('busy'); btn.textContent = '선택 항목 처리';
       if(current !== 'B2') return;
       b2Result = sel;
@@ -417,6 +510,7 @@
     const bar = $('#snackbar');
     return {
       step: current,
+      response: {visible:responseVisible, paused:responsePaused},
       ref: refState, mem: memState,
       checks: currentSelection(),
       b2: b2Result,
@@ -440,8 +534,12 @@
       showStep(current);
       renderPanel();
     }
+    if(s.response){
+      responseVisible = s.response.visible; responsePaused = !!s.response.paused; renderResponse();
+    }
     const open = s.open || [];
     openables().forEach((el, i) => el.classList.toggle('open', open.includes(i)));
+    window.Interactions?.sync();
     const bar = $('#snackbar');
     if(s.snack) bar.querySelector('.snackbar-msg').textContent = s.snack;
     bar.classList.toggle('show', !!s.snack);
@@ -500,8 +598,10 @@
     const tag = d.phase === 'a' ? '<span class="phase-tag a">Phase A · 인라인 데이터 관리</span>'
               : d.phase === 'b' ? '<span class="phase-tag b">Phase B · 채팅 자연어 삭제</span>' : '';
     $('#stepTitle').innerHTML = current + ' ' + tag;
-    $('#scriptBox').textContent = d.script;
-    $('#interactNote').innerHTML = d.interact;
+    $('#scriptBox').textContent = I18n.t(d.script);
+    $('#interactNote').innerHTML = I18n.t(d.interact);
+    if(current === 'A2') $('#interactNote').append(document.createTextNode(' ' + I18n.t('생성 중지·계속, 복사·공유·듣기·평가 버튼도 사용할 수 있어요.')));
+    if(current === 'A3') $('#interactNote').append(document.createTextNode(' ' + I18n.t('시트 상단을 아래로 드래그하거나 Esc를 눌러 닫을 수 있어요.')));
     $('#indicatorRow').innerHTML = [1,2,3,4,5].map(i => `<span class="ind-chip ${d.indicators.includes(i)?'active':''}">지표${i}</span>`).join('');
     $('#jumpnav').innerHTML = ORDER.map(s => `<button class="${s===current?'cur':''}" ${s==='START'?'disabled':''} onclick="App.go('${s}','jump')">${s}</button>`).join('');
     renderMetrics();
@@ -591,9 +691,16 @@
 
   window.App = {
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
-    closeSheet, expand, toggleRef, deleteMemory, undoDelete,
+    closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2,
     toggleDev, summary, notice,
+    refreshLanguage(){
+      clearFx();
+      const typed = $('#a1bTyped');
+      typed.dataset.full = I18n.t('요즘 새로 생긴 이탈리안 레스토랑 추천해줘');
+      typed.textContent = typed.dataset.full;
+      syncSelectAll(); renderPanel(); renderSession(); window.Interactions?.sync();
+    },
     snapshot, applySnapshot, setRemote, download,
     downloadArchived(i, fmt){ Logger.download(fmt, Logger.archived()[i]); },
     get current(){ return current; },

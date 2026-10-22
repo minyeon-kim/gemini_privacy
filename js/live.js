@@ -138,7 +138,7 @@
   function watch(sid){
     if(watching) stop(true);
     if(Logger.active){
-      if(!confirm('진행 중인 이 브라우저의 세션은 보관함에 저장하고, 참가자 화면 보기로 전환할까요?')) return;
+      if(!confirm(I18n.t('진행 중인 이 브라우저의 세션은 보관함에 저장하고, 참가자 화면 보기로 전환할까요?'))) return;
       Logger.archive(App.summary());
     }
     App.newSession();   // 이 브라우저 화면을 깨끗하게 비운 뒤 참가자 상태를 덮어씁니다

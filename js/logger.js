@@ -109,7 +109,7 @@
 
     download(fmt, s){
       s = s || session;
-      if(!s){ alert('아직 기록된 세션이 없어요.'); return; }
+      if(!s){ alert(I18n.t('아직 기록된 세션이 없어요.')); return; }
       if(s === session && window.App) s.summary = App.summary();
       const text = fmt === 'csv' ? this.toCSV(s) : JSON.stringify(s, null, 2);
       const blob = new Blob([text], { type: fmt === 'csv' ? 'text/csv;charset=utf-8' : 'application/json' });
@@ -121,7 +121,7 @@
     },
 
     async copy(){
-      if(!session){ alert('아직 기록된 세션이 없어요.'); return; }
+      if(!session){ alert(I18n.t('아직 기록된 세션이 없어요.')); return; }
       if(window.App) session.summary = App.summary();
       const text = JSON.stringify(session);
       try{
