@@ -3,40 +3,62 @@
   const params = new URLSearchParams(location.search);
   const MODE = params.get('mode') === 'participant' ? 'participant' : 'moderator';
   if(MODE === 'participant') document.body.classList.add('participant');
+  // 과제 순서: 기본 A→B, 주소에 ?order=ba 를 붙이면 B→A (순서 효과를 줄이려고 참가자마다 교차)
+  const SEQ = (params.get('order') || '').toLowerCase() === 'ba' ? 'BA' : 'AB';
 
-  /* ---------------- 단계 정의 (진행자 스크립트) ---------------- */
+  /* ---------------- 단계 정의 (진행자 스크립트) ----------------
+     진행 원칙: ① 목표만 제시 → ② 참가자가 직접 시도(진행자는 설명·힌트 없이 관찰) → ③ 설명 없이 이해 확인 → ④ 과제 직후 설문 → ⑤ 그다음 심층 질문.
+     조작 방법이나 선택지(차단/삭제)를 진행자가 먼저 말하지 않아요. 도움을 줬다면 그 시점을 기록지에 남겨요. */
   const STEPS = {
-    START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고, 참가자 코드(P01 등)를 입력한 뒤 '시작하기'를 누르세요. 이때부터 기록이 시작됩니다.", indicators:[], interact:"클릭 가능 — <b>참가자 코드 입력</b>, <b>시작하기</b>."},
-    SA:{phase:'a', script:"(참가자 모드 전용) 상황 1 안내 카드입니다.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
-    A1:{phase:'a', script:"퇴근 후 소파에서 저녁 약속 장소를 물어보는 장면입니다. 상황을 읽어준 뒤 참가자가 입력창을 누르게 하세요.", indicators:[2], interact:"클릭 가능 — <b>입력창</b>을 누르면 질문이 채워진 화면으로 넘어갑니다."},
-    A1B:{phase:'a', script:"정해진 질문이 입력창에 한 글자씩 입력되는 장면입니다(약 1초, 고정 시나리오). 입력이 끝나면 전송 버튼을 누르게 하세요.", indicators:[2], interact:"클릭 가능 — <b>전송 버튼</b>만(입력 연출이 끝난 뒤 활성화)."},
-    A1C:{phase:'a', script:"응답을 기다리는 짧은 로딩 장면입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[2], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
-    A2:{phase:'a', script:"실제 검색 기반 답변 형식(지도·맛집 카드)에 참가자가 언급한 적 없는 전 남자친구 이름이 자연스럽게 섞여 나옵니다. '예상하신 답변이었나요?'라고 물은 뒤, 참가자가 스스로 확인할 방법을 찾는지 관찰하세요.", indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆의 <b>파란색 '출처 확인' 배지</b>를 참가자가 스스로 찾아 누르는지가 핵심입니다. 답변은 약 1.6초에 걸쳐 순서대로 나타나고, <b>발견 시간은 답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
-    A3:{phase:'a', script:"출처 패널이 열렸습니다. 이 답변이 참고한 소스만 표시되어, 펼치면 나오는 데이터도 전부 정민 관련(과거 예약·일정·대화)입니다. '이 정보를 앞으로 어떻게 하고 싶으신가요? 참조만 막고 싶으신가요, 아예 지우고 싶으신가요?'라고 열린 질문을 던지세요.", indicators:[1], interact:"클릭 가능 — 항목 이름을 누르면 <b>구체적 데이터가 펼쳐짐(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>. <b>Memory는 펼쳤을 때만</b> 하단에 '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초간 실행취소 토스트). Gmail·Calendar는 연동 데이터라 참조 차단만 가능. 우측 상단 <b>X</b>나 바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크."},
-    A4:{phase:'a', script:"이곳은 이 답변 하나가 아니라 Gemini가 갖고 있는 전체 데이터를 보여주는 화면이라, 항목을 펼치면 정민 관련 데이터 옆에 무관한 데이터(배송 알림·치과 예약 등)도 같이 보입니다. '정민 관련 정보를 어떻게 처리하고 싶으신가요?'라고 물어보세요.", indicators:[1,5], interact:"클릭 가능 — 이름을 누르면 <b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>Memory는 펼쳤을 때만</b> '메모리 전체 삭제' 링크가 나타남(A3에서 2건을 지웠다면 11→9건으로 반영). ← 로 출처 패널 복귀."},
-    SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
-    B1:{phase:'b', script:"여기부터는 별개의 상황입니다 — 방금 A에서 본 인라인 관리와는 독립된, '채팅에 말로 요청해서 지우기'라는 다른 방식을 시연합니다. '이번엔 정민 관련 정보를 채팅에 직접 말해서 지워보고 싶다면 어떻게 하시겠어요?' 문구는 이미 입력돼 있으니 전송만 누르면 됩니다(고정 플로우).", indicators:[1], interact:"클릭 가능 — <b>전송 버튼</b>만."},
-    B2:{phase:'b', script:"'이 목록이 기대하신 범위와 같나요, 빠지거나 더 있는 게 있나요?' Memory 그룹과 Connected Apps 그룹으로 나뉘어 있고, 각 그룹 라벨이 '삭제돼요'/'참조만 차단돼요'로 다른 걸 참가자가 알아차리는지 확인하세요.", indicators:[2,3], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 항목별 <b>체크박스</b>, <b>선택 항목 처리/취소</b>. 아무것도 선택하지 않으면 처리 버튼이 비활성화되고, 누르면 약 0.9초 '처리 중' 후 B3로 넘어갑니다."},
-    B3:{phase:'b', script:"처리 결과를 참가자가 그대로 믿는지, 확인하고 싶어 하는지 관찰하세요. 먼저 묻지 말고 스스로 버튼을 누르는지 지켜보세요.", indicators:[3,4], interact:"클릭 가능 — <b>'지금 확인하기'</b>(관찰 핵심, 누르기까지 시간 자동 기록), <b>'취소'</b>(처리 이전으로 되돌리고 B2로 복귀). 결과 문구는 B2에서 고른 항목에 맞춰 바뀝니다."},
-    B4:{phase:'b', script:"출처 패널과 같은 형식으로, 실제로 항목이 처리됐는지 다시 확인합니다. '신뢰가 어떻게 달라졌나요? 이런 방식의 데이터 활용을 원래 알고 계셨나요?'로 마무리하세요.", indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
-    B5:{phase:'b', script:"확인을 마치고 채팅으로 돌아온 장면입니다. 마무리 질문을 하고, 참가자 모드에서는 참가자가 '과제 완료'를 누르면 끝납니다(진행자 모드는 '다음 단계 진행'으로 END).", indicators:[4,5], interact:"클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다."},
-    END:{phase:'-', script:"세션 종료 화면입니다. 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
+    START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고 참가자 코드(P01 등)를 입력한 뒤 '시작하기'를 누르세요. 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'",
+      indicators:[], interact:"클릭 가능 — <b>참가자 코드 입력</b>, <b>시작하기</b>. 순서 교차는 주소 끝에 <b>?order=ba</b>(B→A)."},
+    SA:{phase:'a', script:"(참가자 모드 전용) 상황 1 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
+    A1:{phase:'a', script:"[목표 제시] 상황만 읽어 주세요: '퇴근 후 소파에 앉아 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요. 질문을 보내고 답변을 살펴본 뒤, 해 보고 싶은 게 있으면 자유롭게 해 보세요.' 이후 참가자가 직접 입력창을 누르게 두세요.",
+      indicators:[], interact:"클릭 가능 — <b>입력창</b>을 누르면 질문이 채워진 화면으로 넘어갑니다(질문은 고정)."},
+    A1B:{phase:'a', script:"정해진 질문이 한 글자씩 입력되는 연출입니다(약 1초). 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능 — <b>전송 버튼</b>만(입력 연출이 끝난 뒤 활성화)."},
+    A1C:{phase:'a', script:"응답 대기 연출입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
+    A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'만 물으세요. 이 답변을 어떻게 하고 싶은지는 참가자가 스스로 행동하게 두고, '출처 확인' 배지 위치는 알려주지 마세요. 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
+      indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
+    A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 참가자가 스스로 조작하지 않으면: '이 정보가 앞으로 어떻게 되길 원하세요? 원하는 상태로 만들어 보세요.' (차단·삭제 같은 선택지를 먼저 말하지 마세요.) [이해 확인 — 조작 후, 설명 없이] ① '방금 무엇이 바뀌었나요?' ② (토글을 껐다면) '이 토글을 끄면 어떤 정보가 영향을 받을까요?' ③ (삭제했다면) '지운 것과 꺼 둔 것은 어떻게 다를까요?' ④ '이제 왜 그 답변이 나왔는지 설명해 주실 수 있나요?'",
+      indicators:[1,2,4], interact:"클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>Memory는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·Calendar는 참조 차단만 가능. <b>X</b>·바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크."},
+    A4:{phase:'a', script:"참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 이 화면엔 정민 관련 메모리만 골라 지우는 기능이 없고 '메모리 전체 삭제'뿐이에요. 이때의 반응은 디자인 제약에서 나온 발견으로 기록하세요. [Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요.",
+      indicators:[1,5], interact:"클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>Memory는 펼쳤을 때만</b> '메모리 전체 삭제' 링크(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."},
+    SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
+    B1:{phase:'b', script:"[목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 이번엔 채팅으로 Gemini에게 직접 요청해서 정민 관련 정보를 정리해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 어떤 문장을 보내도 같은 결과 카드가 나오는 프로토타입이며, 입력한 문장은 자동 기록됩니다.",
+      indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, Enter로도 전송)."},
+    B2:{phase:'b', script:"[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 항목을 펼쳤는지, 체크를 바꿨는지를 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'",
+      indicators:[2], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 항목별 <b>체크박스</b>, <b>선택 항목 처리/취소</b>. 그룹 라벨 '삭제돼요'/'참조만 차단돼요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성."},
+    B3:{phase:'b', script:"[관찰만] 먼저 묻지 마세요. '지금 확인하기'를 누르는지, 그냥 끝내는지가 관찰값입니다(참가자 모드에서는 '과제 완료'로 바로 끝낼 수 있어요). 누르지 않았다고 실패가 아니에요 — 확인 행동은 따로 기록합니다. [이해 확인 — 참가자가 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar에 있던 정민 관련 정보는 지금 어떤 상태일까요?'",
+      indicators:[3,4], interact:"클릭 가능 — <b>'지금 확인하기'</b>(누르기까지 시간 자동 기록), <b>'취소'</b>(처리 이전으로 되돌리고 B2로 복귀). 결과 문구는 B2에서 고른 항목에 맞춰 바뀝니다."},
+    B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면에서 무엇을 알 수 있나요?' → '정민 관련 정보 중 아직 남아 있는 건 무엇일까요?' 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
+      indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
+    B5:{phase:'b', script:"[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 나았나요? 왜요?'",
+      indicators:[4,5], interact:"클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다."},
+    END:{phase:'-', script:"세션 종료 화면입니다. SUS(선택)를 진행한 뒤 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
-  const ORDER = MODE === 'participant'
-    ? ['START','SA','A1','A1B','A1C','A2','A3','A4','SB','B1','B2','B3','B4','B5','END']
-    : ['START','A1','A1B','A1C','A2','A3','A4','B1','B2','B3','B4','B5','END'];
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
   const PHASE_B = ['B1','B2','B3','B4','B5'];
+  const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : PHASE_B);
+  const FIRST = SEQ[0], SECOND = SEQ[1];
+  const ORDER = ['START'].concat(seg(FIRST), seg(SECOND), ['END']);
+  const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
     A: "Gemini에게 저녁 장소를 물어보고 답변을 살펴보세요. 할 만큼 했다고 느껴지면 '과제 완료'를 눌러 주세요.",
-    B: "채팅으로 '정민' 관련 정보를 정리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.",
+    B: "채팅으로 Gemini에게 직접 요청해서 '정민' 관련 정보를 정리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.",
   };
+  // 두 번째로 하는 상황 카드에만 '앞의 상황과는 별개' 문구를 보여요.
+  document.querySelectorAll('.screen[data-step="SA"] .order-note').forEach(el => el.style.display = SEQ === 'BA' ? '' : 'none');
+  document.querySelectorAll('.screen[data-step="SB"] .order-note').forEach(el => el.style.display = SEQ === 'AB' ? '' : 'none');
+  if(SEQ === 'BA'){
+    const badge = ph => document.querySelector(`.screen[data-step="S${ph}"] .intro-badge`);
+    badge('B').textContent = '상황 1'; badge('A').textContent = '상황 2';
+  }
 
   /* ---------------- 상태 ---------------- */
   let current = 'START';
   let stepEnteredAt = 0;
   let devMode = false;
-  let refState, memState, b2Result, lastUndo, undoTimer;
+  let refState, memState, b2Result, lastUndo, undoTimer, b1Text;
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
@@ -44,6 +66,7 @@
     memState = { used:false, all:false };
     b2Result = null;
     lastUndo = null;
+    b1Text = '';
   }
   resetState();
 
@@ -239,10 +262,10 @@
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
     window.Interactions?.reset();
-    Logger.start({ participant: pid, mode: MODE, language: I18n.language });
+    Logger.start({ participant: pid, mode: MODE, order: SEQ, language: I18n.language });
     stepEnteredAt = performance.now();
     renderSession();
-    go(MODE === 'participant' ? 'SA' : 'A1', 'start');
+    go(firstStep(FIRST), 'start');
   }
 
   function newSession(){
@@ -264,7 +287,7 @@
     resetState(); applyAll();
     window.Interactions?.reset();
     Logger.log('scenario_reset', { step: current });
-    go('A1', 'reset');
+    go(firstStep(FIRST), 'reset');
   }
 
   function taskDone(){
@@ -277,8 +300,7 @@
     const startT = phase === 'A' ? M.aStart : M.bStart;
     Logger.log('task_done', { step: current, phase, how: how || 'in-app', taskMs: startT ? Math.round(performance.now() - startT) : null });
     M['done' + phase] = true;
-    if(phase === 'A') go(MODE === 'participant' ? 'SB' : 'B1', 'task-done');
-    else go('END', 'task-done');
+    go(phase === FIRST ? firstStep(SECOND) : 'END', 'task-done');
   }
 
   async function onEnd(){
@@ -382,6 +404,26 @@
   }
   function hideSnackbar(){ $('#snackbar').classList.remove('show'); }
 
+  /* ---------------- B1 (자유 입력 요청) ---------------- */
+  const B1_DEFAULT = '정민이랑 관련된 정보 다 지워줘';   // 바로가기로 B2 이후에 들어온 경우에만 쓰는 대체 문구
+  const b1Input = $('#b1Input');
+  function syncB1(){
+    $('#b1Send').classList.toggle('wait', !b1Input.value.trim());
+    $('#b1Send').setAttribute('aria-disabled', String(!b1Input.value.trim()));
+    $$('.b1-echo').forEach(el => { el.textContent = b1Text || I18n.t(B1_DEFAULT); el.setAttribute('data-no-translate',''); });
+  }
+  function sendB1(){
+    const text = b1Input.value.trim();
+    if(!text || current !== 'B1') return;
+    b1Text = text;
+    Logger.log('b1_request', { step: current, text });
+    syncB1();
+    b1Input.blur();
+    go('B2', 'b1-send');
+  }
+  b1Input.addEventListener('input', syncB1);
+  b1Input.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.isComposing){ e.preventDefault(); sendB1(); } });
+
   /* ---------------- B2 ~ B4 (채팅 자연어 삭제) ---------------- */
   const b2Boxes = () => $$('.screen[data-step="B2"] .check-item .checkbox[data-src]');
 
@@ -475,6 +517,7 @@
 
   function applyAll(){
     clearFx();
+    b1Input.value = ''; syncB1();
     applyRefs(); applyMemory();
     b2Boxes().forEach(cb => cb.classList.add('checked'));
     syncSelectAll();
@@ -514,6 +557,7 @@
       ref: refState, mem: memState,
       checks: currentSelection(),
       b2: b2Result,
+      b1: { draft: b1Input.value, sent: b1Text },
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
@@ -526,6 +570,7 @@
     refState = Object.assign({ memory:true, gmail:true, calendar:true, photos:true }, s.ref);
     memState = Object.assign({ used:false, all:false }, s.mem);
     b2Result = s.b2 || null;
+    if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; syncB1(); }
     const checks = s.checks || {};
     b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
     syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
@@ -579,6 +624,8 @@
       A_memoryDeleted: memState.all ? 'all' : memState.used ? 'used(2)' : 'none',
       A_refsFinal: Object.assign({}, refState),
       A_undoCount: count('undo'),
+      order: SEQ,
+      B_requestText: b1Text || null,
       B_processed: !!sel,
       B_selected: sel,
       B_verifyClicked: !!M.verifyMs,
@@ -692,14 +739,14 @@
   window.App = {
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
-    toggleCheckItem, toggleSelectAll, processB2, undoB2,
+    toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();
       const typed = $('#a1bTyped');
       typed.dataset.full = I18n.t('요즘 새로 생긴 이탈리안 레스토랑 추천해줘');
       typed.textContent = typed.dataset.full;
-      syncSelectAll(); renderPanel(); renderSession(); window.Interactions?.sync();
+      syncB1(); syncSelectAll(); renderPanel(); renderSession(); window.Interactions?.sync();
     },
     snapshot, applySnapshot, setRemote, download,
     downloadArchived(i, fmt){ Logger.download(fmt, Logger.archived()[i]); },
