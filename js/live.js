@@ -83,6 +83,12 @@
       schedule();
     });
 
+    // B1 입력 중인 글자도 진행자 화면에 보이도록 올려요.
+    phone.addEventListener('input', () => {
+      if(!sid || scrollTimer) return;
+      scrollTimer = setTimeout(() => { scrollTimer = null; publishState(); }, 200);
+    }, true);
+
     // 펼치기·삭제 등은 이벤트로 잡히지만, 스크롤은 따로 올려요.
     phone.addEventListener('scroll', () => {
       if(!sid || scrollTimer) return;
