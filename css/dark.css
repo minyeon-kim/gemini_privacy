@@ -1,0 +1,86 @@
+/* Opt-in dark theme: add ?theme=dark to the address. The default study
+   prototype stays light; nothing here applies without html.theme-dark. */
+html.theme-dark{
+  color-scheme:dark;
+  --blue:#a8c7fa;
+  --blue-dark:#a8c7fa;
+  --bg-page:#0e0e0f;
+  --bg-card:#1e1f20;
+  --text-1:#e3e3e3;
+  --text-2:#c4c7c5;
+  --text-3:#8e918f;
+  --border:#444746;
+  --good-bg:#0f5223; --good-fg:#6dd58c;
+  --risk-bg:#601410; --risk-fg:#f2b8b5;
+}
+html.theme-dark .phone,
+html.theme-dark .screen,
+html.theme-dark .intro-screen,
+html.theme-dark .sheet{background:#131314;}
+html.theme-dark .screen.grad{background:linear-gradient(180deg,#131314 0%,#131314 52%,#0b3b72 88%,#0b3b72 100%);}
+html.theme-dark .statusbar{color:#e3e3e3;}
+html.theme-dark .battery-pill{background:#e3e3e3;color:#131314;}
+html.theme-dark .iconbtn,
+html.theme-dark .sheet-close{background:#282a2c;color:#c4c7c5;}
+html.theme-dark .iconbtn.dashed{background:#131314;border-color:#5e5e5e;}
+html.theme-dark .topbar-pill{background:#1e1f20;box-shadow:none;}
+html.theme-dark .empty-hero .headline{color:#e3e3e3;}
+html.theme-dark .msg-user{background:#282a2c;}
+html.theme-dark .map-embed{background:linear-gradient(135deg,#1f2a1d 0%,#18283a 55%,#1d2433 100%);}
+html.theme-dark .map-embed .pin,
+html.theme-dark .map-embed .expand,
+html.theme-dark .r-photo .save{background:#282a2c;color:#c4c7c5;}
+html.theme-dark .map-embed .brand{color:#c4c7c5;}
+html.theme-dark .r-info .r-open{color:#6dd58c;}
+html.theme-dark .msg-icons,
+html.theme-dark .chat-input .mic{color:#c4c7c5;}
+html.theme-dark .src-badge,
+html.theme-dark .round-btn.voice,
+html.theme-dark .round-btn.send,
+html.theme-dark .icon-chip{background:#004a77;color:#c2e7ff;}
+html.theme-dark .src-badge:hover{background:#005a8f;}
+html.theme-dark .chat-input{background:#1e1f20;border-color:#2e2f31;box-shadow:none;}
+html.theme-dark .round-btn.stop{background:#282a2c;}
+html.theme-dark .round-btn .sq{background:#e3e3e3;}
+html.theme-dark .keyboard{background:linear-gradient(180deg,#202124,#1a1b1d);}
+html.theme-dark .kb-key{background:#3c4043;color:#e3e3e3;box-shadow:none;}
+html.theme-dark .kb-key.wide,
+html.theme-dark .kb-row.bottom .kb-key{color:#c4c7c5;}
+html.theme-dark .toggle{background:#444746;}
+html.theme-dark .toggle.on{background:#a8c7fa;}
+html.theme-dark .toggle .knob{background:#8e918f;}
+html.theme-dark .toggle.on .knob{background:#062e6f;}
+html.theme-dark .conn-wrap{border-color:#2e2f31;}
+html.theme-dark .data-chip,
+html.theme-dark .check-item,
+html.theme-dark .b3-line{background:#282a2c;box-shadow:none;}
+html.theme-dark .sheet .handle::after{background:#5e5e5e;}
+html.theme-dark .ghost-btn,
+html.theme-dark .btn-cancel{background:transparent;color:#a8c7fa;border-color:#444746 !important;}
+html.theme-dark .btn-cancel{color:#c4c7c5;}
+html.theme-dark .primary-btn,
+html.theme-dark .btn-del{color:#062e6f;}
+html.theme-dark .checkbox{border-color:#8e918f;color:#062e6f;}
+html.theme-dark .intro-badge,
+html.theme-dark .b3-line .tag.block,
+html.theme-dark .a2-notice,
+html.theme-dark .response-control{background:#0842a0;color:#d3e3fd;}
+html.theme-dark .response-action[aria-pressed="true"],
+html.theme-dark .r-photo .save[aria-pressed="true"]{background:#0842a0;color:#d3e3fd;}
+html.theme-dark .intro-input{background:#1e1f20;color:#e3e3e3;}
+html.theme-dark .phone{box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 10px #2a2a2c;}
+html.theme-dark .icon-chip[style*="background:#fff"]{background:#e3e3e3 !important;}
+@media(hover:hover){
+  html.theme-dark .response-action:hover,
+  html.theme-dark .sheet-close:hover{background:#333537;}
+  html.theme-dark .meta.hot:hover,
+  html.theme-dark .check-item-head:hover{background:#282a2c;}
+  html.theme-dark .primary-btn:hover,
+  html.theme-dark .btn-del:not(:disabled):hover{background:#c2d7fb;}
+}
+html.theme-dark .chat-input:focus-within,
+html.theme-dark .chat-input:has(.caret){border-color:#a8c7fa;box-shadow:0 0 0 3px #a8c7fa33;}
+html.theme-dark .language-control,
+html.theme-dark .language-control select,
+html.theme-dark .panel,
+html.theme-dark .panel-toggle{background:#1e1f20;color:#e3e3e3;}
