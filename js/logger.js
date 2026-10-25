@@ -43,6 +43,8 @@
           startedAt: new Date().toISOString(),
           userAgent: navigator.userAgent,
           viewport: window.innerWidth + 'x' + window.innerHeight,
+          screen: (screen.width || 0) + 'x' + (screen.height || 0),
+          dpr: window.devicePixelRatio || 1,
           url: location.href,
         }, meta),
         events: [],
@@ -149,6 +151,13 @@
       }catch(e){ return 'failed'; }
     },
   };
+
+  // 브라우저 창 크기가 바뀌면 기록해요(과제 패널은 창 너비 900px 이상일 때 휴대폰 옆에 보여요).
+  let rzTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(rzTimer);
+    rzTimer = setTimeout(() => { if(session) Logger.log('resize', { viewport: window.innerWidth + 'x' + window.innerHeight }); }, 400);
+  });
 
   window.Logger = Logger;
 })();

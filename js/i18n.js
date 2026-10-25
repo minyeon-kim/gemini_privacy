@@ -394,8 +394,21 @@
   "정해진 질문이 입력창에 미리 채워져 있어요(고정 시나리오). 참가자가 전송을 누르게 두세요.": "The scripted question is already filled in (fixed scenario). Let the participant select Send.",
   "클릭 가능 — <b>전송 버튼</b>.": "Available: Send.",
   "[목표 제시] 상황만 읽어 주세요: '퇴근 후 소파에 앉아 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요. 입력창을 누르면 질문이 미리 입력돼 있으니, 그대로 보내고 답변을 살펴봐 주세요.' 이후 참가자가 직접 입력창을 누르게 두세요. 질문을 고정하는 이유: 모든 참가자가 같은 답변(정민 기억이 섞인 답변)을 보게 하려고.": "[Goal] Read only the scenario: “After work, you’re on the sofa and open Gemini to find a place for dinner this week. When you tap the input, the question is already filled in — send it as is and review the response.” Then let the participant tap the input. Why the question is fixed: so every participant sees the same response (one that includes a memory about Jeongmin).",
-  "[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 카드가 화면에 떠요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.": "[Try] The response includes a past memory involving Jeongmin that the participant never mentioned. When it has fully appeared, first ask “What do you think of that response?” After hearing the first reaction, give the goal: “For context, Jeongmin is someone you’re no longer in touch with. Find out why Jeongmin came up in this response, and make sure information about Jeongmin isn’t used in responses from now on.” (Let the participant choose whether to delete or only block it.) Do not reveal where or how to do it, or where the source badge is (in participant mode a task card appears once the response finishes). Surprise is an intended reaction, not a failure. [Help] If stuck for over 60 seconds, ask: “Is there a way to find out why this response appeared?” If still stuck, open A3 with the moderator controls and record it as “after help”."
+  "[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 왼쪽 과제 패널이 '새 과제'로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.": "[Try] The response includes a past memory involving Jeongmin that the participant never mentioned. When it has fully appeared, first ask “What do you think of that response?” After hearing the first reaction, give the goal: “For context, Jeongmin is someone you’re no longer in touch with. Find out why Jeongmin came up in this response, and make sure information about Jeongmin isn’t used in responses from now on.” (Let the participant choose whether to delete or only block it.) Do not reveal where or how to do it, or where the source badge is (in participant mode a task card appears once the response finishes). Surprise is an intended reaction, not a failure. [Help] If stuck for over 60 seconds, ask: “Is there a way to find out why this response appeared?” If still stuck, open A3 with the moderator controls and record it as “after help”."
 });
+  Object.assign(messages, {
+    "연구용 컨셉 화면이에요. 실제 Google 서비스가 아니에요.": "This is a research concept, not a real Google product.",
+    "이름·일정은 모두 가상이에요.": "All names and events are fictional.",
+    "정답은 없어요. 평소처럼 써 주세요.": "There are no right answers. Use it as you normally would.",
+    "화면·음성 녹화와 생각 말하며 하기에 동의해요": "I agree to screen/audio recording and thinking aloud",
+    "누른 위치·시간, 입력한 문장, 설문 응답 기록에 동의해요": "I agree to logging of taps, timing, typed text and survey answers",
+    "언제든 중단할 수 있어요": "I can stop at any time",
+    "과제": "Task", "새 과제": "New task", "과제 1 / 2": "Task 1 / 2", "과제 2 / 2": "Task 2 / 2",
+    "다 됐다고 느껴지면 눌러 주세요": "Press when you feel you're done",
+    "이전": "Back", "완료": "Done", "그대로 유지됨": "Kept",
+    "원본은 그대로, 앞으로 답변에 안 쓰여요": "Original kept, no longer used in answers",
+  });
+
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
