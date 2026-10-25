@@ -17,11 +17,11 @@
     START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고 '시작하기'를 누르세요. 패널의 '참가자 링크 만들기'로 만든 링크로 열면 참가자 코드가 자동으로 들어가요(직접 열었다면 코드를 입력). 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'",
       indicators:[], interact:"클릭 가능 — <b>참가자 코드 입력</b>, <b>시작하기</b>. 순서 교차는 주소 끝에 <b>?order=ba</b>(B→A)."},
     SA:{phase:'a', script:"(참가자 모드 전용) 상황 1 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
-    A1:{phase:'a', script:"[목표 제시] 상황만 읽어 주세요: '퇴근 후 소파에 앉아 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요. 질문을 보내고 답변을 살펴본 뒤, 해 보고 싶은 게 있으면 자유롭게 해 보세요.' 이후 참가자가 직접 입력창을 누르게 두세요.",
+    A1:{phase:'a', script:"[목표 제시] 상황만 읽어 주세요: '퇴근 후 소파에 앉아 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요. 입력창을 누르면 질문이 미리 입력돼 있으니, 그대로 보내고 답변을 살펴봐 주세요.' 이후 참가자가 직접 입력창을 누르게 두세요. 질문을 고정하는 이유: 모든 참가자가 같은 답변(정민 기억이 섞인 답변)을 보게 하려고.",
       indicators:[], interact:"클릭 가능 — <b>입력창</b>을 누르면 질문이 채워진 화면으로 넘어갑니다(질문은 고정)."},
-    A1B:{phase:'a', script:"정해진 질문이 한 글자씩 입력되는 연출입니다(약 1초). 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능 — <b>전송 버튼</b>만(입력 연출이 끝난 뒤 활성화)."},
+    A1B:{phase:'a', script:"정해진 질문이 입력창에 미리 채워져 있어요(고정 시나리오). 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능 — <b>전송 버튼</b>."},
     A1C:{phase:'a', script:"응답 대기 연출입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
-    A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 바가 이 문구로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
+    A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 카드가 화면에 떠요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
       indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
     A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 참가자가 스스로 조작하지 않으면 목표만 다시 말해 주세요: '앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (차단·삭제 같은 선택지나 방법은 말하지 마세요.) 조작하기 전에 '어떻게 하실 생각이세요?'로 의도를 들어 두세요(A-05). [이해 확인 — 조작 후, 설명 없이] ① '방금 무엇이 바뀌었나요?' ② (토글을 껐다면) '이 토글을 끄면 어떤 정보가 영향을 받을까요?' ③ (삭제했다면) '지운 것과 꺼 둔 것은 각각 어떻게 될까요?' ④ '이제 왜 그 답변이 나왔는지 설명해 주실 수 있나요?'",
       indicators:[1,2,4], interact:"클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>Memory는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·Calendar는 참조 차단만 가능. <b>X</b>·바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크."},
@@ -53,7 +53,7 @@
   const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], WITH_SUS ? ['QS'] : [], ['END']);
   const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
-    A:  { steps:['Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요'] },
+    A:  { steps:['미리 입력된 질문을 보내고 답변을 살펴보세요'] },
     A2: { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['답변에 정민 이야기가 왜 나왔는지 확인하기', '앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
     B:  { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
   };
@@ -178,9 +178,8 @@
     if(step === 'A1B' && prev !== 'A1B'){          // 질문이 한 글자씩 입력됨
       const typed = $('#a1bTyped'), send = $('#a1bSend');
       const full = typed.dataset.full = I18n.t('요즘 새로 생긴 이탈리안 레스토랑 추천해줘');
-      typed.textContent = ''; typed.classList.add('caret'); send.classList.add('wait'); send.setAttribute('aria-disabled','true');
-      [...full].forEach((ch, i) => later(() => { typed.textContent = full.slice(0, i + 1); }, 120 + i * 45));
-      later(() => { typed.classList.remove('caret'); send.classList.remove('wait'); send.setAttribute('aria-disabled','false'); }, 160 + full.length * 45);
+      // 질문은 미리 입력된 상태로 보여요(한 글자씩 입력되는 연출 없음).
+      typed.textContent = full; typed.classList.remove('caret'); send.classList.remove('wait'); send.setAttribute('aria-disabled','false');
     }
     if(step === 'A2' && prev === 'A1C'){           // 답변이 위에서부터 순서대로 나타남
       responseVisible = 0; responsePaused = false;
@@ -221,7 +220,7 @@
     if(responseVisible < parts.length) responseTimer = setTimeout(advanceResponse, REVEAL_MS / Math.max(1, parts.length - 1));
     else {
       M.a2Enter = performance.now(); Logger.log('response_complete', {step:current});
-      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant') Logger.log('task_goal_shown', {step:current}); renderTaskbar(); }
+      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); showTaskCard('A2'); } renderTaskbar(); }
     }
   }
 
@@ -385,7 +384,7 @@
     else if(memState.used) parts.push('이 답변에 쓰인 메모리 2건 삭제됨');
     if(off.length) parts.push(off.join('·') + ' 참조 끔');
     const keep = (memState.used || memState.all) ? `<br><span class="notice-sub">${esc(I18n.t(RETENTION))}</span>` : '';
-    el.innerHTML = parts.length ? `<b>${esc(I18n.t('설정이 바뀌었어요'))}</b> · ${esc(parts.map(x => I18n.t(x)).join(' · '))}<br>${esc(I18n.t('다음 답변부터 반영돼요'))}${keep}` : '';
+    el.innerHTML = parts.length ? `<b>${esc(I18n.t('설정이 바뀌었어요'))}</b><br>${parts.map(x => esc(I18n.t(x))).join('<br>')}<br><span class="notice-sub">${esc(I18n.t('다음 답변부터 반영돼요'))}</span>${keep}` : '';
     el.classList.toggle('show', parts.length > 0);
   }
 
@@ -444,11 +443,6 @@
     sheetBefore = null;
     if(!changed) return;
     showToast(I18n.t('설정이 바뀌었어요 · 다음 답변부터 반영돼요'));
-    const n = $('#a2Notice');
-    if(n && n.classList.contains('show')){
-      n.scrollIntoView({ block:'center', behavior:'smooth' });
-      n.classList.remove('pulse'); void n.offsetWidth; n.classList.add('pulse');
-    }
     Logger.log('a3_change_feedback', { step: current });
   }
 
@@ -573,13 +567,16 @@
     return sel;
   }
 
+  const ICON_DEL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
+  const ICON_BLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
   function renderB3B4(){
     const sel = b2Result || currentSelection();
     const lines = Object.keys(SRC).filter(k => sel[k]).map(k => {
       const s = SRC[k];
+      const head = `<div class="b3-head"><span class="b3-name">${s.name} ${s.count}건</span><span class="b3-status">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span></div>`;
       return s.del
-        ? `<div class="b3-line"><span class="tag del">삭제</span><span>${s.name} ${s.count}건을 삭제했어요</span></div>`
-        : `<div class="b3-line"><span class="tag block">참조 차단</span><span>${s.name} ${s.count}건 — 원본은 ${s.name}에 그대로 있고, 앞으로 답변에 사용하지 않아요</span></div>`;
+        ? `<div class="b3-line">${head}<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div></div>`
+        : `<div class="b3-line">${head}<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div></div>`;
     });
     $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines.join('');
     const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
@@ -590,14 +587,16 @@
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
       const d = $(`.screen[data-step="B4"] [data-b4d="${k}"]`);
-      if(!sel[k]){ d.textContent = '그대로 유지됨 — 계속 답변에 참조될 수 있어요'; item.classList.remove('dim'); }
-      else if(SRC[k].del){ d.textContent = '삭제됨 — 답변에 더 이상 쓰이지 않아요'; item.classList.add('dim'); }
-      else { d.textContent = '참조 차단됨 — 앞으로 답변에 사용되지 않아요'; item.classList.remove('dim'); }
+      const two = (a, b) => `<span class="b4-status">${a}</span><span class="b4-desc">${b}</span>`;
+      if(!sel[k]){ d.innerHTML = two('그대로 유지됨', '계속 답변에 쓰일 수 있어요'); item.classList.remove('dim'); }
+      else if(SRC[k].del){ d.innerHTML = two('삭제됨', '답변에 더 이상 쓰이지 않아요'); item.classList.add('dim'); }
+      else { d.innerHTML = two('참조 차단됨', '원본은 남고, 앞으로 답변에 쓰이지 않아요'); item.classList.remove('dim'); }
     });
   }
 
   function applyAll(){
     clearFx();
+    const tov = $('#taskOverlay'); if(tov) tov.hidden = true;
     b1Input.value = ''; syncB1(); renderB1Thread();
     if($('.sv-opt')) renderSurvey();
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
@@ -958,6 +957,19 @@
     ).reverse().join('');
   }
 
+  // 과제가 바뀌는 순간(A 답변이 다 나온 뒤) 화면 안에 과제 카드를 띄워 확실히 읽게 해요.
+  function showTaskCard(key){
+    const t = TASK_TEXT[key]; if(!t) return;
+    $('#taskCardCtx').textContent = t.ctx ? I18n.t(t.ctx) : '';
+    $('#taskCardCtx').hidden = !t.ctx;
+    $('#taskCardSteps').innerHTML = t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('');
+    $('#taskOverlay').hidden = false;
+  }
+  function closeTaskCard(){
+    if($('#taskOverlay').hidden) return;
+    $('#taskOverlay').hidden = true;
+    Logger.log('task_card_ok', { step: current });
+  }
   function renderTaskbar(){
     const bar = $('#taskbar');
     const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
@@ -990,7 +1002,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();

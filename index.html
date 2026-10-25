@@ -59,7 +59,7 @@
         <div class="intro-notice">
           <p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
           <p class="order-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요.</p>
-          <p>질문을 보내고 답변을 살펴본 뒤, 답변에 대해 궁금하거나 해 보고 싶은 게 있으면 자유롭게 해 보세요.</p>
+          <p>입력창을 누르면 질문이 미리 입력돼 있어요. 그대로 보내고 답변을 살펴봐 주세요.</p>
           <p>생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
         </div>
         <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
@@ -105,7 +105,7 @@
     <!-- A1 -->
     <div class="screen grad" data-step="A1">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -127,7 +127,7 @@
     <!-- A1B: 타이핑 중 -->
     <div class="screen grad" data-step="A1B">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -157,7 +157,7 @@
     <!-- A1C: 로딩 중 -->
     <div class="screen grad chat-screen" data-step="A1C">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -174,7 +174,7 @@
     <!-- A2 -->
     <div class="screen chat-screen" data-step="A2">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -309,7 +309,7 @@
     <!-- B1 -->
     <div class="screen chat-screen grad" data-step="B1">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -334,7 +334,7 @@
     <!-- B2 -->
     <div class="screen chat-screen" data-step="B2">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -431,7 +431,7 @@
     <!-- B3 -->
     <div class="screen chat-screen" data-step="B3">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -460,7 +460,7 @@
     <!-- B5: 확인 후 채팅으로 돌아온 상태 -->
     <div class="screen chat-screen" data-step="B5">
       <div class="topbar">
-        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg></div>
         <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
         <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -591,6 +591,17 @@
     </div>
 
     <div class="interaction-toast" id="interactionToast" role="status" aria-live="polite"></div>
+    <div class="task-overlay" id="taskOverlay" hidden>
+      <div class="task-card" role="dialog" aria-modal="true" aria-labelledby="taskCardTitle">
+        <div class="task-card-label">과제</div>
+        <h2 id="taskCardTitle">이제 이렇게 해 보세요</h2>
+        <p class="task-card-ctx" id="taskCardCtx"></p>
+        <ol class="task-card-steps" id="taskCardSteps"></ol>
+        <p class="task-card-hint">다 됐다고 느껴지면 화면 위 '과제 완료'를 눌러 주세요</p>
+        <button type="button" class="tc-btn hot" data-tag="과제 카드 확인" onclick="App.closeTaskCard()">확인</button>
+      </div>
+    </div>
+
     <div class="snackbar" id="snackbar" role="status" aria-live="polite">
       <span class="snackbar-msg">삭제됨</span>
       <button class="snackbar-undo hot" id="snackUndo" data-tag="실행취소" onclick="App.undoDelete()">실행취소</button>
