@@ -248,7 +248,7 @@
   }
 
   /* ================= 시작 ================= */
-  window.Live = { watch, stop, exportAll, get enabled(){ return !!cfg; } };
+  window.Live = { watch, stop, exportAll, get enabled(){ return !!cfg; }, get connected(){ return !!db; } };
 
   if(App.mode === 'moderator'){
     const shield = document.createElement('div');
