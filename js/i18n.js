@@ -436,6 +436,22 @@
   messages["나와 내 주변에 관한 정보를 바탕으로 더 유용한 답변과 추천을 받아 보세요"] = "Get more helpful responses and recommendations based on info about you and your world";
   messages["마무리 질문은 진행자가 이어서 안내해 드릴게요."] = "The moderator will guide you through a few wrap-up questions.";
   messages["접기"] = "Show less";
+  messages["참조 안 함"] = "Not used";
+  messages["[톨로 비스트로] 예약이 확정되었습니다"] = "[Tolo Bistro] Booking confirmed";
+  messages["[대한항공] 예약이 확정되었습니다"] = "[Korean Air] Booking confirmed";
+  messages["[스시타로] 오마카세 예약 확인"] = "[Sushi Taro] Omakase booking confirmed";
+  messages["[대한항공] 탑승객 2명 예약 확인 (정민 포함)"] = "[Korean Air] Booking for 2 passengers confirmed (incl. Jeongmin)";
+  messages["[CGV] 2인 예매 확인"] = "[CGV] 2 tickets confirmed";
+  messages["[카카오페이] 정민님에게 송금 완료"] = "[KakaoPay] Transfer to Jeongmin completed";
+  messages["[에어비앤비] 공동 게스트: 정민"] = "[Airbnb] Co-guest: Jeongmin";
+  messages["[네이버 예약] 와인바 2명 예약 확정"] = "[Naver Booking] Wine bar for 2 confirmed";
+  messages["[마켓컬리] 선물 배송 완료 (받는 분: 정민)"] = "[Kurly] Gift delivered (recipient: Jeongmin)";
+  messages["[인터파크] 공연 예매 2매"] = "[Interpark] 2 concert tickets";
+  messages["출처별로 묶었어요. 펼치면 최근 항목을 볼 수 있어요."] = "Grouped by source. Expand to see recent items.";
+  messages["이 답변에 쓰인 정보만 보여요. 토글을 끄면 앞으로 참조하지 않고, 펼치면 내용을 볼 수 있어요."] = "Only information used in this answer is shown. Turn a toggle off to stop using it; expand to see details.";
+  messages["나머지 15건은 Personal Intelligence에서 볼 수 있어요"] = "See the other 15 in Personal Intelligence";
+  messages["나머지 3건은 Personal Intelligence에서 볼 수 있어요"] = "See the other 3 in Personal Intelligence";
+  messages["기능 전체에 대한 설문"] = "About the whole feature";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
@@ -448,6 +464,9 @@
       .replace(/^(\d+)개 세션을 받았어요.*$/, '$1 sessions downloaded (use startedAt to tell repeated codes apart)')
       .replace(/^· (\d+)건$/, '· $1 items')
       .replace(/^\+ (\d+)건 더보기$/, '+ Show $1 more')
+      .replace(/^(\d+)건 중 (\d+)건 선택$/, '$2 of $1 selected')
+      .replace(/^(\d+)건$/, '$1 items')
+      .replace(/^(.*), (\d+)명$/, '$1, $2 people')
       .replace(/^(\d+(?:\.\d+)?)초$/, '$1s')
       .replace(/^(\d+)초 전$/, '$1s ago').replace(/^(\d+)분 전$/, '$1m ago').replace(/^(\d+)시간 전$/, '$1h ago')
       .replace(/^지표(\d)$/, 'Metric $1')

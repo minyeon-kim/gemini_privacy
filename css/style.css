@@ -855,3 +855,72 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .end-title{ margin-top:6px !important; }
 .end-lead{ text-wrap:balance; line-height:1.7 !important; font-size:15px !important; }
 .end-status{ text-wrap:balance; }
+
+/* ===== 가운데 점 정리 · 정렬 ===== */
+/* 건수와 상태: 이름 옆 회색 글자 / 작은 칩 */
+.used-dot, .item-count{ color:#747775 !important; font-weight:400 !important; font-size:13px !important; margin-left:2px; }
+.deleted-badge, .ref-off-badge{ font-size:11.5px !important; font-weight:600 !important; border-radius:6px; padding:1px 6px; margin-left:4px; }
+.deleted-badge{ background:#fce8e6; color:#b3261e !important; }
+.ref-off-badge{ background:#e9e8e8; color:#444746 !important; }
+/* 메일·일정 항목: 제목 아래 날짜 */
+.dt{ display:block; margin-top:2px; font-size:12px; color:#747775; }
+/* 아이콘: 모든 줄에서 같은 크기 · 같은 정렬 */
+.icon-chip, .icon-chip.sm{ width:32px !important; height:32px !important; flex:0 0 32px !important; border-radius:10px !important; }
+.icon-chip svg{ width:20px !important; height:20px !important; }
+/* 출처 시트 */
+.sheet-desc{ font-size:13px; color:#5e5e5e; line-height:1.55; margin:-2px 0 4px; }
+.source-item{ padding:12px 16px !important; gap:0 !important; }
+.source-item > .row, .source-item .row{ gap:12px !important; }
+.source-item .source-expand{ display:flex; flex-direction:column; gap:0; }
+.source-item .data-chip{ background:transparent !important; border-radius:0 !important; padding:10px 0 10px 44px !important; border-top:1px solid #e6e4e4; font-size:13px !important; }
+.source-item.open .source-expand{ margin-top:6px !important; }
+/* 처리 목록(B2) */
+.check-item{ border-radius:18px !important; }
+.check-item-head{ gap:12px !important; padding:12px 14px !important; align-items:center; }
+.ctext-name{ font-size:15px !important; font-weight:500 !important; color:#1f1f1f; }
+.ctext-sub{ font-size:12.5px !important; color:#5e5e5e !important; margin-top:2px; }
+.ctext-detail{ font-size:13px !important; padding:9px 0 !important; border-top:1px solid #eeeded; }
+.check-group-head{ margin:10px 2px 6px !important; }
+.check-group-title{ font-size:14px !important; font-weight:600 !important; }
+.check-group-desc{ font-size:12.5px !important; color:#5e5e5e !important; }
+.b2-hint{ font-size:13px !important; color:#5e5e5e !important; }
+/* A2 변경 안내 */
+.a2-notice{ padding:12px 16px !important; }
+.nt-title{ font-size:13.5px; font-weight:600; color:#1f1f1f; margin-bottom:4px; }
+.nt-list{ margin:0; padding-left:18px; font-size:13.5px; line-height:1.6; color:#1f1f1f; }
+.nt-foot{ margin-top:6px; font-size:12.5px; line-height:1.5; color:#5e5e5e; }
+.nt-foot + .nt-foot{ margin-top:2px; }
+/* 설문 머리 */
+.sv-top{ align-items:baseline !important; }
+.sv-title{ flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sv-count{ flex:0 0 auto; white-space:nowrap; }
+/* 과제 패널: 덜 튀게 (밝은 카드) */
+body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !important; border:1px solid #e3e3e3; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.tk-label{ color:#0b57d0 !important; }
+.taskbar .tk-ctx{ color:#5e5e5e !important; }
+.taskbar .tk-steps li::before{ background:#e8f0fe !important; color:#0b57d0 !important; }
+.taskbar-btn{ background:#0b57d0 !important; color:#fff !important; font-weight:500 !important; }
+.tk-foot{ color:#747775 !important; }
+.tk-new{ background:#e8f0fe !important; color:#0b57d0 !important; }
+.tk-check{ background:#e6f4ea !important; }
+.tk-check svg{ stroke:#137333; }
+@keyframes tkFlash{ 0%,100%{ box-shadow:0 0 0 0 rgba(11,87,208,0); } 50%{ box-shadow:0 0 0 4px rgba(11,87,208,.25); } }
+/* 진행자 패널: 설문 실시간 */
+.sv-live{ margin:12px 0 4px; }
+.sv-live[hidden]{ display:none; }
+.svl-group{ background:#f8f9fa; border-radius:10px; padding:8px 10px; margin-top:6px; }
+.svl-head{ font-size:12px; font-weight:700; color:#0842a0; margin-bottom:4px; }
+.svl-row{ display:flex; justify-content:space-between; gap:8px; font-size:12.5px; padding:2px 0; }
+.svl-row.flag .svl-v{ color:#b3261e; }
+.svl-k{ color:#444746; }
+.svl-v{ font-weight:700; }
+.svl-max{ font-weight:400; color:#80868b; margin-left:3px; }
+.svl-tip{ font-size:11.5px; color:#8a5a00; background:#fef7e0; border-radius:6px; padding:4px 7px; margin:2px 0 4px; line-height:1.45; }
+.svl-tip.warn{ color:#b3261e; background:#fce8e6; }
+.svl-act{ font-size:11.5px; color:#5f6368; margin-top:4px; }
+/* B2 줄: 안쪽 여백 한 겹만 */
+.check-item{ padding:0 !important; }
+.check-item-head{ padding:12px 14px !important; border-radius:18px; }
+.check-item-expand{ padding:0 14px 0 58px !important; }
+.check-item.open .check-item-expand{ margin-top:0 !important; padding-bottom:8px !important; }
+.ctext-sub{ white-space:nowrap; }
