@@ -24,10 +24,16 @@
     overflow:hidden; position:relative; display:flex; flex-direction:column;
   }
   .statusbar{
-    height:50px; flex:0 0 50px; display:flex; align-items:flex-start; justify-content:space-between;
-    padding:16px 34px 0; font-size:13px; font-weight:600; color:#1f1f1f;
+    position:relative; height:50px; flex:0 0 50px; display:flex; align-items:center; justify-content:space-between;
+    padding:4px 26px 0 36px; color:#000; font-family:-apple-system, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Noto Sans KR", sans-serif;
   }
-  .statusbar .icons{display:flex; gap:6px; align-items:center;}
+  .statusbar .sb-time{ font-size:16px; font-weight:600; letter-spacing:-.2px; width:54px; text-align:center; }
+  .statusbar .sb-island{ position:absolute; top:11px; left:50%; transform:translateX(-50%); width:120px; height:34px; border-radius:20px; background:#000; }
+  .statusbar .icons{display:flex; gap:5px; align-items:center;}
+  .sb-battery{ position:relative; width:25px; height:12px; border-radius:4px; background:rgba(0,0,0,.35); overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .sb-battery .sb-level{ position:absolute; left:0; top:0; bottom:0; background:#000; }
+  .sb-battery span{ position:relative; color:#fff; font-size:9.5px; font-weight:700; letter-spacing:-.2px; line-height:1; }
+  .sb-nub{ display:block; width:1.5px; height:4px; margin-left:-3px; border-radius:0 1px 1px 0; background:rgba(0,0,0,.4); }
   .battery-pill{background:#0a0a0a; color:#fff; font-size:11px; font-weight:700; padding:2.5px 7px 3px; border-radius:9px; line-height:1.2;}
   .screen{
     position:absolute; inset:0; top:50px; display:none; flex-direction:column;
@@ -548,3 +554,33 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 #b1Thread{ display:flex; flex-direction:column; gap:12px; }
 #b1Thread{ align-self:stretch; }
 .a2-notice .notice-sub{ display:inline-block; margin-top:4px; font-size:11px; color:var(--text-2); }
+
+/* 앱 안 설문 (QA·QB·QS) */
+.survey-screen{ overflow-y:auto; }
+.survey-body{ display:flex; flex-direction:column; gap:12px; padding:22px 20px 30px; }
+.survey-body h1{ font-size:20px; line-height:1.35; font-weight:600; margin:2px 0 0; }
+.survey-sub{ margin:-4px 0 4px; font-size:12.5px; color:var(--text-2); }
+.sv-item{ background:var(--bg-card); border-radius:16px; padding:13px 13px 11px; display:flex; flex-direction:column; gap:10px; }
+.sv-q{ display:flex; gap:8px; font-size:13.5px; font-weight:600; line-height:1.45; color:var(--text-1); }
+.sv-no{ flex:0 0 auto; width:20px; height:20px; border-radius:50%; background:#fff; color:var(--blue-dark); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.sv-scale, .sv-choices{ display:flex; gap:5px; }
+.sv-opt{ flex:1; min-width:0; height:38px; border-radius:11px; border:1px solid #dadce0; background:#fff; font:inherit; font-size:13.5px; font-weight:600; color:var(--text-1); cursor:pointer; padding:0; }
+.sv-opt.on{ background:var(--blue); border-color:var(--blue); color:#fff; }
+.sv-ends{ display:flex; justify-content:space-between; gap:6px; font-size:10.5px; color:var(--text-2); }
+.survey-body .primary-btn{ margin-top:6px; }
+.survey-body .primary-btn:disabled{ opacity:.38; cursor:default; }
+.survey-hint{ font-size:11px; color:var(--text-3); text-align:center; }
+.survey-hint[hidden]{ display:none; }
+.intro-pid{ font-size:12px; color:var(--text-2); text-align:center; }
+/* 진행자 패널 · 참가자 링크 만들기 */
+.linkmaker{ display:flex; flex-direction:column; gap:7px; margin-bottom:4px; }
+.lm-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:12px; color:var(--text-2); }
+.lm-row label{ display:flex; align-items:center; gap:5px; }
+.lm-row input, .lm-row select{ font:inherit; font-size:12px; padding:5px 7px; border:1px solid var(--border); border-radius:8px; background:#fff; color:var(--text-1); }
+.lm-row #lmPid{ width:64px; text-transform:uppercase; }
+.lm-row #lmUrl{ flex:1; min-width:0; font-size:11px; color:var(--text-2); }
+.lm-row button{ font-size:12px; padding:6px 12px; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; }
+.lm-check input{ margin:0; }
+.lm-hint{ font-size:11px; color:var(--text-3); line-height:1.5; }
+.live-export{ display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+.live-export button{ align-self:flex-start; font-size:12px; padding:7px 12px; border-radius:9px; border:1px solid var(--border); background:#fff; cursor:pointer; color:var(--text-1); font-weight:600; }
