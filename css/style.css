@@ -1,6 +1,6 @@
 :root{
-    --blue:#1a73e8;
-    --blue-dark:#0b57cf;
+    --blue:#0b57d0;
+    --blue-dark:#0842a0;
     --bg-page:#f6f7f9;
     --bg-card:#f2f4fd;
     --text-1:#1f1f1f;
@@ -623,3 +623,42 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 .consent-item input{ flex:0 0 auto; width:18px; height:18px; margin:1px 0 0; accent-color:var(--blue); }
 #startBtn:disabled{ opacity:.38; cursor:default; }
 .intro-body{ overflow-y:auto; }
+
+/* ===== Gemini(Material 3) 디자인에 맞춤 ===== */
+:root{ --m3-primary:#0b57d0; --m3-on-surface:#1f1f1f; --m3-on-surface-var:#444746; --m3-outline:#c4c7c5; --m3-surface-c:#f0f4f9; --m3-surface-ch:#e9eef6; }
+/* 출처 확인: 강조 파랑 대신 Gemini의 톤 칩 */
+.src-badge{ background:var(--m3-surface-ch) !important; color:var(--m3-on-surface) !important; font-weight:500 !important; }
+.src-badge svg{ color:var(--m3-primary); }
+.src-badge:hover{ background:#dde3ea !important; }
+/* 답변 아래 변경 안내: 조용한 시스템 메시지 */
+.a2-notice{ color:var(--m3-on-surface-var) !important; background:var(--m3-surface-c) !important; border-radius:12px !important; padding:10px 14px !important; font-size:12.5px !important; line-height:1.6 !important; }
+.a2-notice b{ color:var(--m3-on-surface); font-weight:600; }
+.a2-notice .notice-sub{ color:var(--m3-on-surface-var); }
+.a2-notice.pulse{ animation:none !important; }
+/* 버튼: M3 filled / outlined, 카드 안에서는 오른쪽 정렬 */
+.card-btn-row, .btn-row-h{ justify-content:flex-end !important; gap:8px !important; }
+.card-btn-row button, .btn-row-h .ghost-btn, .btn-row-h .primary-btn{ flex:0 0 auto !important; width:auto !important; height:40px; padding:0 22px !important; border-radius:20px !important; font-size:14px !important; font-weight:500 !important; display:inline-flex; align-items:center; justify-content:center; box-shadow:none !important; }
+.btn-cancel, .btn-row-h .ghost-btn{ background:transparent !important; color:var(--m3-primary) !important; border:1px solid var(--m3-outline) !important; }
+.btn-del, .btn-row-h .primary-btn{ background:var(--m3-primary) !important; color:#fff !important; border:none !important; }
+/* 처리 결과: 대시 없이 줄로 나눠 보기 */
+.b3-line{ flex-direction:column; gap:2px; padding:10px 14px !important; }
+.b3-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%; }
+.b3-name{ font-size:13.5px; font-weight:600; color:var(--m3-on-surface); }
+.b3-status{ display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:500; color:var(--m3-on-surface-var); }
+.b3-status svg{ flex:0 0 auto; }
+.b3-desc{ font-size:12.5px; color:var(--m3-on-surface-var); line-height:1.5; }
+.source-item .detail .b4-status{ display:block; font-size:12.5px; font-weight:600; color:var(--m3-on-surface); }
+.source-item .detail .b4-desc{ display:block; font-size:12px; color:var(--m3-on-surface-var); }
+/* 과제 카드 (참가자 모드) */
+.task-overlay{ position:absolute; inset:0; z-index:40; background:rgba(0,0,0,.32); display:flex; align-items:flex-end; }
+.task-overlay[hidden]{ display:none; }
+.task-card{ width:100%; background:#fff; border-radius:28px 28px 0 0; padding:22px 22px 26px; display:flex; flex-direction:column; gap:10px; animation:sheetUp .28s var(--motion-ease, ease) both; }
+@keyframes sheetUp{ from{ transform:translateY(24px); opacity:0; } to{ transform:none; opacity:1; } }
+.task-card-label{ align-self:flex-start; font-size:12px; font-weight:500; color:var(--m3-primary); background:#d3e3fd; border-radius:8px; padding:4px 10px; }
+.task-card h2{ margin:0; font-size:20px; font-weight:400; color:var(--m3-on-surface); }
+.task-card-ctx{ margin:0; font-size:13.5px; color:var(--m3-on-surface-var); line-height:1.5; }
+.task-card-steps{ margin:4px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; counter-reset:tk; }
+.task-card-steps li{ counter-increment:tk; display:flex; gap:12px; align-items:flex-start; background:var(--m3-surface-c); border-radius:16px; padding:12px 14px; font-size:14.5px; line-height:1.45; color:var(--m3-on-surface); }
+.task-card-steps li::before{ content:counter(tk); flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--m3-primary); color:#fff; font-size:12.5px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.task-card-hint{ margin:2px 0 4px; font-size:12px; color:var(--m3-on-surface-var); }
+.tc-btn{ align-self:flex-end; height:40px; padding:0 26px; border:none; border-radius:20px; background:var(--m3-primary); color:#fff; font:inherit; font-size:14px; font-weight:500; cursor:pointer; }
