@@ -494,6 +494,26 @@
   messages["방금 한 처리가 어떤 정보에 영향을 줬는지 얼마나 확실히 알고 계신가요?"] = "How sure are you about which information your changes affected?";
   messages["전혀 모르겠음"] = "Not sure at all";
   messages["매우 확실히 앎"] = "Completely sure";
+  messages["이사는 안 가기로 했어요"] = "You decided not to move";
+  messages["앞으로 이사 관련 정보가 답변에 쓰이지 않게 하기"] = "Make sure moving-related info isn't used in future answers";
+  messages["토요일 오전 10시"] = "Saturday 10 AM";
+  messages["토요일 오후"] = "Saturday afternoon";
+  messages["일요일 오후 2시"] = "Sunday 2 PM";
+  messages[": 예약해 두신 요가스튜디오 숨 클래스가 있어요."] = ": you have a class booked at Yoga Studio Sum.";
+  messages[": 날씨가 맑을 예정이라 한강 산책 어떠세요?"] = ": it should be sunny, so how about a walk by the Han River?";
+  messages[": 망원동 투룸 보기 일정이 있어요. 근처 카페에서 브런치를 먼저 드셔도 좋겠어요."] = ": you're scheduled to view a two-room apartment in Mangwon-dong. Maybe grab brunch at a café nearby first.";
+  messages["전세 대출 상담도 알아보신다고 하셨죠. 은행 상담 예약도 함께 챙겨 두면 좋겠어요."] = "You mentioned looking into a lease loan consultation. It might help to book a bank appointment too.";
+  messages["이 답변에 쓰인 정보"] = "Info used in this answer";
+  messages["Memory 1건, Gmail 1건, Calendar 1건"] = "Memory 1, Gmail 1, Calendar 1";
+  messages["Gmail 1건"] = "Gmail 1";
+  messages["이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?"] = "How difficult or easy was it to pick the moving-related info and stop it from being used?";
+  messages["이사 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?"] = "Do you think moving-related info will no longer be used in answers?";
+  messages["2025.2.20 인천→제주"] = "2025.2.20 Incheon→Jeju";
+  messages["2025.9.2 대화에서 \"전세 대출 상담\" 언급"] = "Mentioned \"lease loan consultation\" in a 2025.9.2 chat";
+  messages["[다방] 망원동 투룸 새 매물 알림"] = "[Dabang] New two-room listing in Mangwon-dong";
+  messages["일요일 14:00 \"망원동 투룸 보기\""] = "Sunday 14:00 \"View two-room in Mangwon\"";
+  messages["[요가스튜디오 숨] 토요일 클래스 예약 확정"] = "[Yoga Studio Sum] Saturday class confirmed";
+  messages["Memory에서 지웠어요"] = "Removed from Memory";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
@@ -508,6 +528,8 @@
       .replace(/^\+ (\d+)건 더보기$/, '+ Show $1 more')
       .replace(/^(\d+)건 중 (\d+)건 선택$/, '$2 of $1 selected')
       .replace(/^(\d+)건$/, '$1 items')
+      .replace(/^\/ (\d+)건$/, '/ $1')
+      .replace(/^원본은 (\w+)에 그대로 있어요$/, 'Original kept in $1')
       .replace(/^(.*), (\d+)명$/, '$1, $2 people')
       .replace(/^(\d+(?:\.\d+)?)초$/, '$1s')
       .replace(/^(\d+)초 전$/, '$1s ago').replace(/^(\d+)분 전$/, '$1m ago').replace(/^(\d+)시간 전$/, '$1h ago')
