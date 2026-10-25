@@ -662,3 +662,79 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 .task-card-steps li::before{ content:counter(tk); flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--m3-primary); color:#fff; font-size:12.5px; font-weight:600; display:flex; align-items:center; justify-content:center; }
 .task-card-hint{ margin:2px 0 4px; font-size:12px; color:var(--m3-on-surface-var); }
 .tc-btn{ align-self:flex-end; height:40px; padding:0 26px; border:none; border-radius:20px; background:var(--m3-primary); color:#fff; font:inherit; font-size:14px; font-weight:500; cursor:pointer; }
+
+/* ===== Readability pass ===== */
+/* 시작 화면 요약 */
+.intro-points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.intro-points li{ display:flex; align-items:center; gap:12px; font-size:14.5px; line-height:1.45; color:var(--m3-on-surface, #1f1f1f); }
+.ip-ic{ flex:0 0 32px; width:32px; height:32px; border-radius:50%; background:#d3e3fd; color:#0842a0; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; }
+.consent-item span{ font-size:13.5px; }
+
+/* 과제 패널: PC에선 휴대폰 왼쪽에 큰 카드로 */
+body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:14px; }
+.tk-head{ display:flex; align-items:center; gap:8px; }
+.tk-label{ font-size:13px; font-weight:700; letter-spacing:.2px; color:#fdd663; }
+.tk-new{ display:none; font-size:12px; font-weight:700; color:#1f1f1f; background:#fdd663; border-radius:999px; padding:3px 10px; }
+.taskbar.flash .tk-new{ display:inline-block; }
+.taskbar .tk-ctx{ font-size:14.5px; color:rgba(255,255,255,.78); line-height:1.5; }
+.taskbar .tk-main{ font-size:18px; font-weight:700; line-height:1.45; }
+.taskbar .tk-steps{ list-style:none; padding:0; margin:0; counter-reset:tk; display:flex; flex-direction:column; gap:12px; font-size:18px; font-weight:700; line-height:1.45; }
+.taskbar .tk-steps li{ counter-increment:tk; display:flex; gap:10px; }
+.taskbar .tk-steps li::before{ content:counter(tk); flex:0 0 26px; height:26px; border-radius:50%; background:#fdd663; color:#1f1f1f; font-size:14px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.taskbar-text{ gap:10px !important; }
+.taskbar-btn{ font-size:15px !important; padding:12px 16px !important; }
+.tk-foot{ font-size:12.5px; color:rgba(255,255,255,.6); text-align:center; margin-top:-6px; }
+.taskbar.flash{ animation:tkFlash 1.2s ease 0s 3; }
+@keyframes tkFlash{ 0%,100%{ box-shadow:0 0 0 0 rgba(253,214,99,0); } 50%{ box-shadow:0 0 0 6px rgba(253,214,99,.85); } }
+@media (min-width: 900px){
+  body.participant .taskbar.show{ position:absolute; top:40px; right:calc(100% + 36px); width:320px; margin:0; padding:22px 20px 18px; border-radius:22px; }
+}
+@media (max-width: 899px){
+  body.participant .tk-foot{ display:none; }
+  body.participant .taskbar.show{ flex-direction:row; flex-wrap:wrap; align-items:center; }
+  body.participant .tk-head{ width:100%; }
+  body.participant .taskbar-text{ flex:1; }
+  body.participant .taskbar .tk-steps, body.participant .taskbar .tk-main{ font-size:15px; }
+}
+
+/* B3/B5 결과 카드: 한 가지 면 색 + 앱 아이콘 + 상태 칩 */
+.complete-card{ background:#fff !important; border:1px solid #dde3ea; }
+.b3-lines{ gap:0 !important; }
+.b3-line{ flex-direction:row !important; align-items:flex-start; gap:12px !important; background:transparent !important; border-radius:0 !important; padding:12px 2px !important; }
+.b3-line + .b3-line{ border-top:1px solid #eceff3; }
+.b3-ic{ width:34px !important; height:34px !important; flex:0 0 34px !important; border-radius:11px !important; }
+.b3-ic svg{ width:18px; height:18px; }
+.b3-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.b3-name{ font-size:14px !important; font-weight:600; }
+.b3-count{ font-weight:500; color:var(--m3-on-surface-var, #444746); }
+.st-chip{ display:inline-flex; align-items:center; gap:4px; flex:0 0 auto; font-size:12px; font-weight:600; border-radius:8px; padding:3px 8px; }
+.st-chip svg{ width:13px; height:13px; }
+.st-chip.del{ background:#fce8e6; color:#b3261e; }
+.st-chip.block{ background:#d3e3fd; color:#0842a0; }
+.st-chip.keep{ background:#e6f4ea; color:#137333; }
+.b3-desc{ font-size:13px !important; color:var(--m3-on-surface-var, #444746); }
+.complete-card .retention-note, .settings-body .retention-note{ background:transparent; padding:2px 2px 0; border-top:1px solid #eceff3; border-radius:0; padding-top:10px; }
+.source-item .detail .st-chip{ margin:3px 0 4px; }
+.source-item .detail .b4-desc{ font-size:12.5px; }
+
+/* 설문: 한 화면에 한 문항 */
+.survey-body{ min-height:100%; gap:18px !important; padding:24px 22px 28px !important; }
+.sv-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.sv-title{ font-size:13px; font-weight:600; color:#0842a0; }
+.sv-count{ font-size:13px; color:var(--text-2); font-variant-numeric:tabular-nums; }
+.sv-progress{ height:4px; border-radius:2px; background:#e3e8ef; overflow:hidden; margin-top:-8px; }
+.sv-progress i{ display:block; height:100%; width:0; background:#0b57d0; border-radius:2px; transition:width .25s; }
+.sv-item{ display:none !important; background:transparent !important; padding:18px 0 0 !important; gap:22px !important; }
+.sv-item.cur{ display:flex !important; animation:fadeIn .2s ease both; }
+.sv-q{ font-size:19px !important; font-weight:600 !important; line-height:1.45 !important; }
+.sv-scale{ gap:6px !important; }
+.sv-choices{ flex-direction:column; gap:8px !important; }
+.sv-opt{ height:48px !important; border-radius:14px !important; font-size:16px !important; }
+.sv-choices .sv-opt{ text-align:left; padding:0 18px !important; }
+.sv-ends{ font-size:12.5px !important; margin-top:-12px; }
+.sv-nav{ margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px; }
+.sv-nav .primary-btn{ margin:0 !important; min-width:120px; }
+.sv-prev{ border:none; background:none; font:inherit; font-size:15px; color:#0b57d0; font-weight:500; padding:10px 6px; cursor:pointer; }
+@keyframes fadeIn{ from{ opacity:0; transform:translateY(4px);} to{ opacity:1; transform:none; } }
+.sv-choices .sv-opt{ flex:none !important; }
+.sv-prev{ white-space:nowrap; flex:0 0 auto; }

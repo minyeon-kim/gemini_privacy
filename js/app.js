@@ -21,7 +21,7 @@
       indicators:[], interact:"클릭 가능 — <b>입력창</b>을 누르면 질문이 채워진 화면으로 넘어갑니다(질문은 고정)."},
     A1B:{phase:'a', script:"정해진 질문이 입력창에 미리 채워져 있어요(고정 시나리오). 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능 — <b>전송 버튼</b>."},
     A1C:{phase:'a', script:"응답 대기 연출입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
-    A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 카드가 화면에 떠요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
+    A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 참조만 막을지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 왼쪽 과제 패널이 '새 과제'로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
       indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
     A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 참가자가 스스로 조작하지 않으면 목표만 다시 말해 주세요: '앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (차단·삭제 같은 선택지나 방법은 말하지 마세요.) 조작하기 전에 '어떻게 하실 생각이세요?'로 의도를 들어 두세요(A-05). [이해 확인 — 조작 후, 설명 없이] ① '방금 무엇이 바뀌었나요?' ② (토글을 껐다면) '이 토글을 끄면 어떤 정보가 영향을 받을까요?' ③ (삭제했다면) '지운 것과 꺼 둔 것은 각각 어떻게 될까요?' ④ '이제 왜 그 답변이 나왔는지 설명해 주실 수 있나요?'",
       indicators:[1,2,4], interact:"클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>Memory는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·Calendar는 참조 차단만 가능. <b>X</b>·바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크."},
@@ -70,7 +70,7 @@
   let stepEnteredAt = 0;
   let devMode = false;
   let sheetBefore = null;
-  let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {};
+  let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
@@ -80,7 +80,7 @@
     lastUndo = null;
     b1Text = '';
     b1Asks = [];
-    svDraft = {}; survey = {};
+    svDraft = {}; survey = {}; svIdx = {};
   }
   resetState();
 
@@ -220,7 +220,7 @@
     if(responseVisible < parts.length) responseTimer = setTimeout(advanceResponse, REVEAL_MS / Math.max(1, parts.length - 1));
     else {
       M.a2Enter = performance.now(); Logger.log('response_complete', {step:current});
-      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); showTaskCard('A2'); } renderTaskbar(); }
+      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); }
     }
   }
 
@@ -569,16 +569,24 @@
 
   const ICON_DEL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
   const ICON_BLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  // B2 화면의 앱 아이콘을 복사해요(그라디언트 id는 화면마다 겹치지 않게 바꿔요).
+  function srcIcon(k, sfx){
+    const src = $(`.screen[data-step="B2"] [data-src="${k}"]`)?.closest('.check-item-head')?.querySelector('.icon-chip');
+    if(!src) return '';
+    return src.outerHTML.replace(/id="([^"]+)"/g, `id="$1_${sfx}"`).replace(/url\(#([^)]+)\)/g, `url(#$1_${sfx})`).replace('icon-chip sm', 'icon-chip b3-ic');
+  }
   function renderB3B4(){
     const sel = b2Result || currentSelection();
-    const lines = Object.keys(SRC).filter(k => sel[k]).map(k => {
+    const lines = sfx => Object.keys(SRC).filter(k => sel[k]).map(k => {
       const s = SRC[k];
-      const head = `<div class="b3-head"><span class="b3-name">${s.name} ${s.count}건</span><span class="b3-status">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span></div>`;
-      return s.del
-        ? `<div class="b3-line">${head}<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div></div>`
-        : `<div class="b3-line">${head}<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div></div>`;
-    });
-    $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines.join('');
+      const chip = `<span class="st-chip ${s.del ? 'del' : 'block'}">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span>`;
+      const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${s.count}건</span></span>${chip}</div>`;
+      const desc = s.del
+        ? `<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div>`
+        : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div>`;
+      return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}</div></div>`;
+    }).join('');
+    $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
     const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
     const nBlock = Object.keys(SRC).filter(k => sel[k] && !SRC[k].del).length;
     ['#b3Note', '#b4Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = !nDel; });
@@ -587,16 +595,16 @@
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
       const d = $(`.screen[data-step="B4"] [data-b4d="${k}"]`);
-      const two = (a, b) => `<span class="b4-status">${a}</span><span class="b4-desc">${b}</span>`;
-      if(!sel[k]){ d.innerHTML = two('그대로 유지됨', '계속 답변에 쓰일 수 있어요'); item.classList.remove('dim'); }
-      else if(SRC[k].del){ d.innerHTML = two('삭제됨', '답변에 더 이상 쓰이지 않아요'); item.classList.add('dim'); }
-      else { d.innerHTML = two('참조 차단됨', '원본은 남고, 앞으로 답변에 쓰이지 않아요'); item.classList.remove('dim'); }
+      const two = (cls, ic, a, b) => `<span class="st-chip ${cls}">${ic}${a}</span><span class="b4-desc">${b}</span>`;
+      if(!sel[k]){ d.innerHTML = two('keep', '', '그대로 유지됨', '계속 답변에 쓰일 수 있어요'); item.classList.remove('dim'); }
+      else if(SRC[k].del){ d.innerHTML = two('del', ICON_DEL, '삭제됨', '답변에 더 이상 쓰이지 않아요'); item.classList.remove('dim'); }
+      else { d.innerHTML = two('block', ICON_BLOCK, '참조 차단됨', '원본은 그대로, 앞으로 답변에 안 쓰여요'); item.classList.remove('dim'); }
     });
   }
 
   function applyAll(){
     clearFx();
-    const tov = $('#taskOverlay'); if(tov) tov.hidden = true;
+    svIdx = {};
     b1Input.value = ''; syncB1(); renderB1Thread();
     if($('.sv-opt')) renderSurvey();
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
@@ -760,16 +768,19 @@
       const sv = SURVEY[k];
       const el = document.createElement('div');
       el.className = 'screen intro-screen survey-screen'; el.dataset.step = 'Q' + k;
+      const total = sv.items.length;
       el.innerHTML = `<div class="survey-body">
-        <div class="intro-badge">${esc(sv.badge)}</div>
-        <h1>${esc(sv.title)}</h1><p class="survey-sub">${esc(sv.sub)}</p>
-        ${sv.items.map((it, n) => `<div class="sv-item"><div class="sv-q"><span class="sv-no">${n + 1}</span><span>${esc(it.q)}</span></div>
+        <div class="sv-top"><span class="sv-title">${esc(sv.title)}</span><span class="sv-count" id="svCount${k}">1 / ${total}</span></div>
+        <div class="sv-progress"><i id="svBar${k}"></i></div>
+        ${sv.items.map((it, n) => `<div class="sv-item" data-sv="${k}" data-n="${n}"><div class="sv-q">${esc(it.q)}</div>
           ${it.scale ? `<div class="sv-scale">${it.scale.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${v}" onclick="App.pickSurvey('${it.id}', ${v})">${v}</button>`).join('')}</div>
             <div class="sv-ends"><span>${esc(it.lo)}</span>${it.mid ? `<span>${esc(it.mid)}</span>` : ''}<span>${esc(it.hi)}</span></div>`
           : `<div class="sv-choices">${it.choices.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${esc(v)}" onclick="App.pickSurvey('${it.id}', '${esc(v)}')">${esc(v)}</button>`).join('')}</div>`}
         </div>`).join('')}
-        <button type="button" class="primary-btn hot" id="svNext${k}" data-tag="설문 ${k} 다음" onclick="App.submitSurvey('${k}')" disabled>다음</button>
-        <div class="survey-hint" id="svHint${k}">모든 문항에 답하면 '다음'을 누를 수 있어요</div>
+        <div class="sv-nav">
+          <button type="button" class="sv-prev hot" id="svPrev${k}" data-tag="설문 ${k} 이전" onclick="App.surveyStep('${k}', -1)">이전</button>
+          <button type="button" class="primary-btn hot" id="svNext${k}" data-tag="설문 ${k} 다음" onclick="App.surveyStep('${k}', 1)" disabled>다음</button>
+        </div>
       </div>`;
       end.before(el);
     });
@@ -781,14 +792,33 @@
       b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
     });
     Object.keys(SURVEY).forEach(k => {
-      const ok = surveyDone(k); const btn = $('#svNext' + k);
-      if(btn) btn.disabled = !ok;
-      const hint = $('#svHint' + k); if(hint) hint.hidden = ok;
+      const items = SURVEY[k].items, total = items.length;
+      if(svIdx[k] === undefined){ const f = items.findIndex(it => svDraft[it.id] === undefined); svIdx[k] = f < 0 ? total - 1 : f; }
+      const i = svIdx[k];
+      $$(`.sv-item[data-sv="${k}"]`).forEach(el => el.classList.toggle('cur', +el.dataset.n === i));
+      const cnt = $('#svCount' + k); if(cnt) cnt.textContent = `${i + 1} / ${total}`;
+      const bar = $('#svBar' + k); if(bar) bar.style.width = `${(i + 1) / total * 100}%`;
+      const prev = $('#svPrev' + k); if(prev) prev.style.visibility = i ? 'visible' : 'hidden';
+      const btn = $('#svNext' + k);
+      if(btn){ btn.disabled = svDraft[items[i].id] === undefined; btn.textContent = I18n.t(i === total - 1 ? '완료' : '다음'); }
     });
   }
+  function surveyKey(id){ return Object.keys(SURVEY).find(k => SURVEY[k].items.some(it => it.id === id)); }
+  function surveyStep(k, d){
+    const total = SURVEY[k].items.length, i = svIdx[k] || 0;
+    if(d > 0 && svDraft[SURVEY[k].items[i].id] === undefined) return;
+    if(d > 0 && i === total - 1) return submitSurvey(k);
+    svIdx[k] = Math.max(0, Math.min(total - 1, i + d)); renderSurvey();
+    $(`.screen[data-step="Q${k}"]`)?.scrollTo?.({ top: 0 });
+  }
+  let svAuto;
   function pickSurvey(id, v){
+    const k = surveyKey(id), first = svDraft[id] === undefined;
     svDraft[id] = v; renderSurvey();
     Logger.log('survey_pick', { step: current, id, value: v });
+    // 처음 고른 문항은 잠깐 뒤 자동으로 다음 문항으로 넘어가요(마지막 문항은 '완료'를 직접 눌러요).
+    clearTimeout(svAuto);
+    if(first && k && svIdx[k] < SURVEY[k].items.length - 1) svAuto = setTimeout(() => { if(current === 'Q' + k) surveyStep(k, 1); }, 320);
   }
   function submitSurvey(k){
     if(!surveyDone(k)) return;
@@ -957,19 +987,8 @@
     ).reverse().join('');
   }
 
-  // 과제가 바뀌는 순간(A 답변이 다 나온 뒤) 화면 안에 과제 카드를 띄워 확실히 읽게 해요.
-  function showTaskCard(key){
-    const t = TASK_TEXT[key]; if(!t) return;
-    $('#taskCardCtx').textContent = t.ctx ? I18n.t(t.ctx) : '';
-    $('#taskCardCtx').hidden = !t.ctx;
-    $('#taskCardSteps').innerHTML = t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('');
-    $('#taskOverlay').hidden = false;
-  }
-  function closeTaskCard(){
-    if($('#taskOverlay').hidden) return;
-    $('#taskOverlay').hidden = true;
-    Logger.log('task_card_ok', { step: current });
-  }
+  // 과제 카드는 앱 기능처럼 보일 수 있어 화면 밖 과제 패널만 써요. 목표가 바뀌면 패널을 잠깐 강조해요.
+  function closeTaskCard(){}
   function renderTaskbar(){
     const bar = $('#taskbar');
     const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
@@ -980,6 +999,12 @@
       const t = TASK_TEXT[key];
       const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
       $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx">${esc(I18n.t(t.ctx))}</div>` : '') + steps;
+      $('#taskLabel').textContent = I18n.t(phase === FIRST ? '과제 1 / 2' : '과제 2 / 2');
+      if(M.flash){
+        M.flash = false;
+        bar.classList.remove('flash'); void bar.offsetWidth; bar.classList.add('flash');
+        clearTimeout(bar._ft); bar._ft = setTimeout(() => bar.classList.remove('flash'), 6000);
+      }
     }
   }
 
@@ -1002,7 +1027,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, surveyStep, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();
