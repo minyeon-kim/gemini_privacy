@@ -24,7 +24,7 @@
 <div class="phone-wrap">
   <!-- 참가자 모드 전용 과제 바 (휴대폰 화면 바깥, 기록 대상 아님) -->
   <div class="taskbar" id="taskbar">
-    <div class="tk-head"><span class="tk-label" id="taskLabel">과제</span><span class="tk-new" id="taskNew">새 과제</span></div>
+    <div class="tk-head" onclick="App.toggleTaskPeek()"><span class="tk-label" id="taskLabel">과제</span><span class="tk-new" id="taskNew">새 과제</span><span class="tk-peek">과제 보기</span></div>
     <div class="taskbar-text" id="taskText"></div>
     <button class="taskbar-btn" id="taskDoneBtn" onclick="App.taskDone()">과제 완료</button>
     <div class="tk-foot">다 됐다고 느껴지면 눌러 주세요</div>

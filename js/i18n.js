@@ -452,6 +452,8 @@
   messages["나머지 15건은 Personal Intelligence에서 볼 수 있어요"] = "See the other 15 in Personal Intelligence";
   messages["나머지 3건은 Personal Intelligence에서 볼 수 있어요"] = "See the other 3 in Personal Intelligence";
   messages["기능 전체에 대한 설문"] = "About the whole feature";
+  messages["과제 보기"] = "View task";
+  messages["접기"] = "Hide";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
