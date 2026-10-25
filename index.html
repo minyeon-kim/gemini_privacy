@@ -41,10 +41,12 @@
           <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg></span><span>정답은 없어요. 평소처럼 써 주세요.</span></li>
         </ul>
         <div class="consent" id="consentBox">
-          <div class="consent-title">아래 내용을 확인하고 체크해 주세요</div>
-          <label class="consent-item"><input type="checkbox" data-consent="record" onchange="App.syncConsent()"><span>화면·음성 녹화와 생각 말하며 하기에 동의해요</span></label>
-          <label class="consent-item"><input type="checkbox" data-consent="log" onchange="App.syncConsent()"><span>누른 위치·시간, 입력한 문장, 설문 응답 기록에 동의해요</span></label>
-          <label class="consent-item"><input type="checkbox" data-consent="stop" onchange="App.syncConsent()"><span>언제든 중단할 수 있어요</span></label>
+          <ul class="consent-list">
+            <li>화면과 목소리를 녹화하고, 생각을 소리 내어 말하며 진행해요</li>
+            <li>누른 위치와 시간, 입력한 문장, 설문 응답이 기록돼요</li>
+            <li>원할 때 언제든 중단할 수 있어요</li>
+          </ul>
+          <label class="consent-item consent-all"><input type="checkbox" data-consent="all" onchange="App.syncConsent()"><span>위 내용을 확인했고 동의해요</span></label>
         </div>
         <label class="intro-label" for="pidInput">참가자 코드</label>
         <input class="intro-input" id="pidInput" placeholder="예: P03" autocomplete="off" autocapitalize="characters">
@@ -86,7 +88,8 @@
       <div class="intro-body">
         <div class="end-mark"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></div>
         <h1 class="end-title">테스트가 끝났어요</h1>
-        <p class="intro-lead end-lead">참여해 주셔서 감사합니다.<br>마무리 질문은 진행자가 이어서 안내해 드릴게요.</p>
+        <p class="end-lead">참여해 주셔서 감사합니다</p>
+        <p class="end-sub">진행자가 마무리 질문을 이어서 드릴게요</p>
         <div class="end-actions" id="endActions">
           <button class="ghost-btn" onclick="Logger.download('json')">기록 파일 받기 (JSON)</button>
           <button class="ghost-btn" onclick="Logger.copy()">기록 복사하기</button>
@@ -628,6 +631,7 @@
   <button class="advance-btn no-watch" onclick="App.advance()">다음 단계 진행 →</button>
 
   <div id="stepTitle" class="step-title">START</div>
+  <div class="guide" id="guideBox"></div>
   <div class="script" id="scriptBox"></div>
   <div class="sv-live" id="svLive"></div>
   <div class="indicators" id="indicatorRow"></div>
