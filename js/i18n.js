@@ -7,9 +7,9 @@
   "과제 완료": "Finish task",
   "UX 리서치 · 사용성 테스트": "UX research · Usability test",
   "Gemini 프라이버시 컨트롤": "Gemini Privacy Controls",
-  "리디자인 컨셉 테스트": "Redesign concept test",
+  "Revamp 컨셉 테스트": "Revamp concept test",
   "이 화면은": "This is a",
-  "UX 리서치용으로 만든 재디자인 컨셉 프로토타입": "redesign concept prototype for UX research",
+  "UX 리서치용으로 만든 Revamp 컨셉 프로토타입": "revamp concept prototype for UX research",
   "이며, Google의 실제 제품이나 공식 화면이 아닙니다.": ", and is not an actual Google product or official interface.",
   "화면 속 이름·예약·일정은 모두": "All names, bookings, and events shown are",
   "가상의 데이터": "fictional data",
@@ -256,6 +256,16 @@
   "2024.9 일정 \"영화 — 정민\"": "Event 2024.9 “Movie — Jeongmin”",
   "2024.8 일정 \"강릉 1박\"": "Event 2024.8 “Gangneung overnight”",
   "2024.7 일정 \"와인바\"": "Event 2024.7 “Wine bar”"
+});
+  Object.assign(messages, {
+  "[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '이 답변에 정민 이야기가 왜 나왔는지 확인하고, 이 정보를 원하는 대로 처리해 보세요.' 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 바가 이 문구로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.": "[Try] The response includes a past memory involving Jeongmin that the participant never mentioned. When it has fully appeared, first ask “What do you think of that response?” After hearing the first reaction, give the goal: “Find out why Jeongmin came up in this response, and handle this information the way you want.” Do not reveal where or how to do it, or where the source badge is (in participant mode the task bar switches to this goal once the response finishes). Surprise is an intended reaction, not a failure. [Help] If stuck for over 60 seconds, ask: “Is there a way to find out why this response appeared?” If still stuck, open A3 with the moderator controls and record it as “after help”.",
+  "[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 참가자가 스스로 조작하지 않으면: '이 정보가 앞으로 어떻게 되길 원하세요? 원하는 상태로 만들어 보세요.' (차단·삭제 같은 선택지를 먼저 말하지 마세요.) [이해 확인 — 조작 후, 설명 없이] ① '방금 무엇이 바뀌었나요?' ② (토글을 껐다면) '이 토글을 끄면 어떤 정보가 영향을 받을까요?' ③ (삭제했다면) '지운 것과 꺼 둔 것은 각각 어떻게 될까요?' ④ '이제 왜 그 답변이 나왔는지 설명해 주실 수 있나요?'": "[Try] Let them look first without comment. If they do not act on their own: “How would you like this information to be handled from now on? Go ahead and set it up that way.” (Do not mention options such as blocking or deleting.) [Comprehension — after acting, without explanation] ① “What just changed?” ② (If a toggle was turned off) “Which information will this toggle affect?” ③ (If something was deleted) “What happens to what you deleted and to what you turned off?” ④ “Can you explain now why that response appeared?”",
+  "[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 더 나았나요?' ④ (답을 들은 뒤) '왜 그렇게 느끼셨나요?' ⑤ '진행하면서 가장 헷갈리거나 불편했던 순간은 언제였나요?'": "[End of phase] When the participant says they are done (Finish task in participant mode), run the post-task questions (SEQ, perceived completion, confidence, information amount). After both phases, ask the wrap-up questions one at a time: ① “How do you feel about this kind of feature now?” ② “Did you know before that AI could use information like this?” ③ “Which approach worked better for you — managing it from the response, or asking in chat?” ④ (After the answer) “What made you feel that way?” ⑤ “When was the most confusing or frustrating moment during the session?”",
+  "Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요.": "Ask Gemini for a dinner venue and review the response.",
+  "이 답변에 정민 이야기가 왜 나왔는지 확인하고, 이 정보를 원하는 대로 처리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.": "Find out why Jeongmin came up in this response, and handle this information the way you want. When you feel finished, select “Finish task”.",
+  "Revamp 컨셉 테스트": "Revamp concept test",
+  "UX 리서치용으로 만든 Revamp 컨셉 프로토타입": "revamp concept prototype for UX research",
+  "[관찰만] 먼저 묻지 마세요. '지금 확인하기'를 누르는지, 그냥 끝내는지가 관찰값입니다(참가자 모드에서는 '과제 완료'로 바로 끝낼 수 있어요). 누르지 않았다고 실패가 아니에요 — 확인 행동은 따로 기록합니다. [이해 확인 — 참가자가 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar에 있던 정민 관련 정보는 지금 어떤 상태일까요?' ③ (Memory를 지웠다면) '지운 정보는 지금 어떻게 됐을까요?' — 결과 카드의 보관 예외 안내(검토된 대화 사본 최대 3년)를 읽었는지가 이해 판정 기준이에요. '그래도 다 지워졌을지 의심된다'는 반응은 이해 실패가 아니라 신뢰 관찰값으로 따로 기록하세요.": "[Observe only] Do not ask first. Whether they select “Check now” or simply finish is the observation (in participant mode they can finish with “Finish task”). Not selecting it is not a failure; verification is recorded separately. [Comprehension — after they say they are done] ① “What was just processed?” ② “What is the status of the Jeongmin-related information in Gmail and Calendar now?” ③ (If Memory was deleted) “What has happened to the information you deleted?” — Whether they read the retention notice (reviewed chat copies kept up to 3 years) is the comprehension criterion. Doubt such as “I’m not sure it’s really all gone” is not a comprehension failure; record it separately as a trust observation."
 });
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
