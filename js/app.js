@@ -437,10 +437,44 @@
     a4Mem.classList.toggle('deleted', memState.all);
     if(memState.all) a4Mem.classList.remove('open');
     $('#a4MemCount').textContent = memState.all ? '' : (memState.used ? '· 9건' : '· 11건');
-    $('#a4MemMore').textContent = memState.used ? '+ 8건 더보기' : '+ 9건 더보기';
+    renderA4More();
     $$('[data-mem="used"]').forEach(el => el.classList.toggle('gone', memState.used));
     renderA2Notice();
     window.Interactions?.sync();
+  }
+
+  // A4 '+N건 더보기': 10건씩 실제로 펼쳐요.
+  const A4_POOL = {
+    memory: () => (memState.used ? [] : ['2025.1.20 대화에서 "정민이 좋아하던 재즈바" 언급']).concat([
+      '2025.2.1 대화에서 "회사 근처 필라테스" 언급', '2025.1.12 대화에서 "부모님 결혼기념일 선물" 언급', '2024.12.24 대화에서 "연말 제주 여행 일정" 언급',
+      '2024.12.3 대화에서 "고양이 사료 브랜드" 언급', '2024.11.18 대화에서 "이직 준비 포트폴리오" 언급', '2024.10.30 대화에서 "할로윈 파티 의상" 언급',
+      '2024.10.2 대화에서 "가을 캠핑 장비" 언급', '2024.9.14 대화에서 "추석 기차표 예매" 언급']),
+    gmail: () => {
+      const t = ['[쿠팡] 주문하신 상품이 배송 완료되었습니다', '[카카오뱅크] 이번 달 카드 이용 내역 안내', '[무신사] 주문이 접수되었습니다', '[CGV] 예매가 완료되었습니다',
+        '[스시타로] 오마카세 예약 확인', '[배달의민족] 주문하신 음식이 출발했어요', '[네이버페이] 결제가 완료되었습니다', '[인터파크] 공연 예매 확인',
+        '[SRT] 승차권 예매 내역', '[올리브영] 주문 상품 발송 안내', '[당근] 거래 후기가 도착했어요', '[야놀자] 숙소 예약이 확정되었습니다'];
+      return Array.from({ length: 128 }, (_, n) => { const d = new Date(2025, 2, 12 - n * 3); return `${t[n % t.length]} · ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`; });
+    },
+    calendar: () => {
+      const t = ['팀 주간 회의', '치과 정기 검진', '헬스 PT', '엄마 생신', '프로젝트 마감', '대학 동기 모임', '정민이랑 영화', '자동차 정기 점검', '독서 모임'];
+      return Array.from({ length: 34 }, (_, n) => { const d = new Date(2025, 2, 18 - n * 9); return `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} 일정 "${t[n % t.length]}"`; });
+    },
+  };
+  function a4Rest(btn){ return A4_POOL[btn.dataset.src]().length - (+btn.dataset.shown || 0); }
+  function renderA4More(){
+    $$('.screen[data-step="A4"] .chip-more[data-src]').forEach(btn => {
+      const list = A4_POOL[btn.dataset.src](), shown = Math.min(+btn.dataset.shown || 0, list.length);
+      btn.parentElement.querySelectorAll('.data-chip.gen').forEach(el => el.remove());
+      list.slice(0, shown).forEach(txt => { const d = document.createElement('div'); d.className = 'data-chip gen'; d.innerHTML = `<span>${esc(txt)}</span>`; btn.before(d); });
+      const rest = list.length - shown;
+      btn.textContent = rest > 0 ? I18n.t(`+ ${rest}건 더보기`) : I18n.t('접기');
+    });
+  }
+  function a4More(btn){
+    const rest = a4Rest(btn);
+    btn.dataset.shown = rest > 0 ? (+btn.dataset.shown || 0) + 10 : 0;
+    renderA4More();
+    Logger.log('more', { step: current, src: btn.dataset.src, open: rest > 0, shown: +btn.dataset.shown });
   }
 
   function showSnackbar(msg){
@@ -628,6 +662,7 @@
     b1Input.value = ''; syncB1(); renderB1Thread();
     if($('.sv-opt')) renderSurvey();
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
+    $$('.chip-more[data-src]').forEach(b => b.dataset.shown = 0); renderA4More();
     applyRefs(); applyMemory();
     b2Boxes().forEach(cb => cb.classList.add('checked'));
     syncSelectAll();
@@ -798,10 +833,10 @@
       { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
     ]},
     S: { badge:'마지막 설문', title:'오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요', sub:"'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
-      '이 기능을 자주 사용하고 싶을 것 같다.', '이 기능은 불필요하게 복잡하다.', '이 기능은 사용하기 쉽다.',
-      '이 기능을 사용하려면 기술 지원이 필요할 것 같다.', '이 기능의 여러 부분이 잘 통합되어 있다.', '이 기능에 불일치나 혼동이 너무 많다.',
-      '대부분의 사람들이 이 기능을 쉽게 배울 수 있을 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 사용할 때 자신감이 있다.',
-      '이 기능을 사용하기 전에 많은 것을 배워야 한다.',
+      '이 기능을 자주 사용하고 싶다.', '이 기능은 쓸데없이 복잡하다.', '이 기능은 사용하기 쉽다.',
+      '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 앞뒤가 맞지 않는 부분이 많다.',
+      '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
+      '이 기능을 쓰기 전에 배워야 할 것이 많았다.',
     ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의 안 함', hi:'매우 동의함' })) },
   };
   function buildSurveys(){
@@ -1087,7 +1122,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, surveyStep, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, surveyStep, a4More, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();

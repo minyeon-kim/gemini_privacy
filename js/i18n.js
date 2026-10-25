@@ -41,17 +41,17 @@
   "분위기 좋은 이탈리안 레스토랑을 찾고 계신다면 송도 센트럴파크 인근에 위치한 신상 맛집을 추천해 드립니다.": "If you are looking for an Italian restaurant with a lovely atmosphere, I recommend this new spot near Songdo Central Park.",
   "톨로 비스트로": "Tolo Bistro",
   "🍝 이탈리아 음식점": "🍝 Italian restaurant",
-  "— 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.": "— An Italian restaurant with a clean white and wood interior and panoramic Central Park views through floor-to-ceiling windows.",
+  "는 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.": "— An Italian restaurant with a clean white and wood interior and panoramic Central Park views through floor-to-ceiling windows.",
   "시그니처 메뉴: 쫄깃한 도우와 향긋한 바질, 탱글한 새우가 어우러진 '바질 새우 피자'": "Signature dish: basil shrimp pizza with chewy dough, fragrant basil, and juicy shrimp",
   "인기 메뉴: 꾸덕한 크림소스에 진한 풍미가 더해진 '트러플 뇨끼'": "Popular dish: truffle gnocchi in a rich, creamy sauce",
   "작년 봄에": "When you visited with",
   "정민": "Jeongmin",
-  "씨와 가셨을 때 트러플 리조또 좋아하셨었죠 — 이번에도 비슷한 메뉴 어떠세요?": "last spring, you enjoyed the truffle risotto — how about something similar this time?",
+  "씨와 가셨을 때 트러플 리조또를 좋아하셨었죠. 이번에도 비슷한 메뉴 어떠세요?": "last spring, you enjoyed the truffle risotto — how about something similar this time?",
   "출처 확인": "View sources",
   "· 삭제됨": "· Deleted",
   "· 참조 안 함": "· Not used",
-  "2025.3.14 대화 — \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat — mentioned “truffle risotto with Jeongmin”",
-  "2025.2.8 대화 — \"주말 등산 코스\" 언급": "Feb 8, 2025 chat — mentioned “weekend hiking trails”",
+  "2025.3.14 대화에서 \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat — mentioned “truffle risotto with Jeongmin”",
+  "2025.2.8 대화에서 \"주말 등산 코스\" 언급": "Feb 8, 2025 chat — mentioned “weekend hiking trails”",
   "메모리 전체 삭제": "Delete all memories",
   "토글을 끄면 이 데이터를 답변에서 참조하지 않아요": "Turn off the toggle to stop using this data in responses",
   "[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15 19:00, 2명": "[Tolo Bistro] Booking confirmed · Mar 15, 2025, 7:00 PM, 2 guests",
@@ -83,7 +83,7 @@
   "이 답변에 사용된 정보": "Information used in this response",
   "이 답변이 참고한 소스만 표시돼요 · 토글을 끄면 참조하지 않고, 펼치면 상세 데이터를 볼 수 있어요": "Only sources used in this response are shown. Turn off a toggle to stop using a source, or expand it to see details.",
   "[스시타로] 오마카세 예약 확인 · 2024.11.2 20:00, 2명": "[Sushi Taro] Omakase booking confirmed · Nov 2, 2024, 8:00 PM, 2 guests",
-  "2025.1.20 대화 — \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat — mentioned “Jeongmin’s favorite jazz bar”",
+  "2025.1.20 대화에서 \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat — mentioned “Jeongmin’s favorite jazz bar”",
   "이 답변에 쓰인 메모리 2건 삭제": "Delete the 2 memories used in this response",
   "Personal Intelligence에서 전체 관리 →": "Manage everything in Personal Intelligence →",
   "삭제됨": "Deleted",
@@ -240,8 +240,8 @@
   "사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요": "Copies of chats reviewed by people are kept separately from your account for up to 3 years",
   "삭제됨 — 답변에 더 이상 쓰이지 않아요": "Deleted — no longer used in responses",
   "어떤 정보를 정리할까요? 사람 이름이나 주제를 함께 알려 주세요. 예: '정민 관련 정보 지워줘'": "Which information should I manage? Tell me a person or topic, for example: “Delete information about Jeongmin.”",
-  "외 15건 — 전체 목록은 Personal Intelligence에서 볼 수 있어요": "15 more — see the full list in Personal Intelligence",
-  "외 3건 — 전체 목록은 Personal Intelligence에서 볼 수 있어요": "3 more — see the full list in Personal Intelligence",
+  "외 15건 · 전체 목록은 Personal Intelligence에서 볼 수 있어요": "15 more — see the full list in Personal Intelligence",
+  "외 3건 · 전체 목록은 Personal Intelligence에서 볼 수 있어요": "3 more — see the full list in Personal Intelligence",
   "2025.3.14 대화 \"정민과 트러플 리조또\" 언급": "Chat on 2025.3.14 mentioned “truffle risotto with Jeongmin”",
   "2025.1.20 대화 \"정민이 좋아하던 재즈바\" 언급": "Chat on 2025.1.20 mentioned “the jazz bar Jeongmin liked”",
   "2024.12.24 대화 \"정민 선물 고민\" 언급": "Chat on 2024.12.24 mentioned “gift ideas for Jeongmin”",
@@ -253,7 +253,7 @@
   "[마켓컬리] 선물 배송 완료 (받는 분: 정민) · 2024.6.1": "[Kurly] Gift delivered (recipient: Jeongmin) · 2024.6.1",
   "[인터파크] 공연 예매 2매 · 2024.5.18": "[Interpark] 2 concert tickets · 2024.5.18",
   "2024.10 일정 \"제주 여행 (정민)\"": "Event 2024.10 “Jeju trip (Jeongmin)”",
-  "2024.9 일정 \"영화 — 정민\"": "Event 2024.9 “Movie — Jeongmin”",
+  "2024.9 일정 \"정민이랑 영화\"": "Event 2024.9 “Movie — Jeongmin”",
   "2024.8 일정 \"강릉 1박\"": "Event 2024.8 “Gangneung overnight”",
   "2024.7 일정 \"와인바\"": "Event 2024.7 “Wine bar”"
 });
@@ -302,16 +302,16 @@
   "모르겠음": "Not sure",
   "다음": "Next",
   "모든 문항에 답하면 '다음'을 누를 수 있어요": "Answer every question to continue",
-  "이 기능을 자주 사용하고 싶을 것 같다.": "I think that I would like to use this feature frequently.",
-  "이 기능은 불필요하게 복잡하다.": "I found this feature unnecessarily complex.",
+  "이 기능을 자주 사용하고 싶다.": "I think that I would like to use this feature frequently.",
+  "이 기능은 쓸데없이 복잡하다.": "I found this feature unnecessarily complex.",
   "이 기능은 사용하기 쉽다.": "I thought this feature was easy to use.",
-  "이 기능을 사용하려면 기술 지원이 필요할 것 같다.": "I think I would need technical support to use this feature.",
-  "이 기능의 여러 부분이 잘 통합되어 있다.": "I found the various parts of this feature well integrated.",
-  "이 기능에 불일치나 혼동이 너무 많다.": "I thought there was too much inconsistency in this feature.",
-  "대부분의 사람들이 이 기능을 쉽게 배울 수 있을 것 같다.": "I would imagine most people would learn to use this feature quickly.",
+  "이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.": "I think I would need technical support to use this feature.",
+  "이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.": "I found the various parts of this feature well integrated.",
+  "이 기능에는 앞뒤가 맞지 않는 부분이 많다.": "I thought there was too much inconsistency in this feature.",
+  "대부분의 사람들이 이 기능을 금방 익힐 것 같다.": "I would imagine most people would learn to use this feature quickly.",
   "이 기능은 사용하기 번거롭다.": "I found this feature very cumbersome to use.",
-  "이 기능을 사용할 때 자신감이 있다.": "I felt very confident using this feature.",
-  "이 기능을 사용하기 전에 많은 것을 배워야 한다.": "I needed to learn a lot of things before I could get going with this feature.",
+  "이 기능을 자신 있게 사용할 수 있었다.": "I felt very confident using this feature.",
+  "이 기능을 쓰기 전에 배워야 할 것이 많았다.": "I needed to learn a lot of things before I could get going with this feature.",
   "참가자 링크 만들기": "Create participant link",
   "코드": "Code",
   "순서": "Order",
@@ -426,6 +426,16 @@
     "마지막 설문이에요. 휴대폰 화면에서 답해 주세요": "Last survey: answer it on the phone screen",
   });
 
+  messages["무엇을 도와드릴까요?"] = "What should we focus on?";
+  messages["나와 내 주변에 관한 정보를 바탕으로 더 유용한 답변과 추천을 받아 보세요"] = "Get more helpful responses and recommendations based on info about you and your world";
+  messages["무엇을 도와드릴까요?"] = "What should we focus on?";
+  messages["Gemini에게 물어보기"] = "Ask Gemini";
+  messages["Gemini는 AI이며 인물 등에 관한 정보 제공 시 실수를 할 수 있습니다."] = "Gemini is AI and can make mistakes, including about people.";
+  messages["개인 정보 보호 및 Gemini"] = "Your privacy & Gemini";
+  messages["연결된 앱"] = "Connected Apps";
+  messages["나와 내 주변에 관한 정보를 바탕으로 더 유용한 답변과 추천을 받아 보세요"] = "Get more helpful responses and recommendations based on info about you and your world";
+  messages["마무리 질문은 진행자가 이어서 안내해 드릴게요."] = "The moderator will guide you through a few wrap-up questions.";
+  messages["접기"] = "Show less";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
@@ -469,6 +479,7 @@
     }
     const input = document.getElementById('pidInput');
     input.placeholder = t('예: P03');
+    const b1 = document.getElementById('b1Input'); if (b1) b1.placeholder = t('Gemini에게 물어보기');
     document.documentElement.lang = language;
     document.querySelectorAll('[data-label]').forEach(el => {
       el.setAttribute('aria-label', t(el.dataset.label)); el.title = t(el.dataset.label);
