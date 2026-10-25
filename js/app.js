@@ -275,13 +275,18 @@
   /* ---------------- 세션 ---------------- */
   function start(){
     const input = $('#pidInput');
+    if(!consentOk()) return;
     const pid = (input.value || '').trim().toUpperCase() || PID;
     if(!pid){ $('#pidError').classList.add('show'); input.focus(); return; }
     $('#pidError').classList.remove('show');
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
     window.Interactions?.reset();
-    Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID });
+    const consentAt = new Date().toISOString();
+    const consentItems = $$('[data-consent]').map(el => el.dataset.consent);
+    Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID,
+      consent: { at: consentAt, items: consentItems } });
+    Logger.log('consent', { at: consentAt, items: consentItems });
     stepEnteredAt = performance.now();
     renderSession();
     go(firstStep(FIRST), 'start');
@@ -294,6 +299,7 @@
     resetState(); applyAll();
     window.Interactions?.reset();
     $('#pidInput').value = '';
+    $$('[data-consent]').forEach(el => el.checked = false); syncConsent();
     $$('.screen').forEach(el => el.classList.remove('active'));
     current = 'START';
     showScreen('START');
@@ -822,10 +828,11 @@
   function rowFrom(meta, sm){
     const ids = (sm && sm.ids) || {};
     return Object.assign({ participant: meta.participant || '', order: (sm && sm.order) || meta.order || '', mode: meta.mode || '',
-      startedAt: meta.startedAt || '', studyId: meta.studyId || '', ended: (meta.ended || meta.finishedAt) ? '예' : '' }, ids, { SUS: susScore(ids) });
+      startedAt: meta.startedAt || '', studyId: meta.studyId || '', ended: (meta.ended || meta.finishedAt) ? '예' : '',
+      consentAt: (meta.consent && meta.consent.at) || meta.consentAt || '' }, ids, { SUS: susScore(ids) });
   }
   function resultsCSV(rows){
-    const cols = ['participant', 'order', 'mode', 'startedAt', 'studyId', 'ended'].concat(RESULT_IDS, ['SUS']);
+    const cols = ['participant', 'order', 'mode', 'startedAt', 'consentAt', 'studyId', 'ended'].concat(RESULT_IDS, ['SUS']);
     const cell = v => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
     return '﻿' + [cols.join(',')].concat(rows.map(r => cols.map(c => cell(r[c])).join(','))).join('\n');
   }
@@ -840,6 +847,10 @@
     if(!Logger.active) return;
     downloadResults([rowFrom(Logger.session.meta, summary())], 'ut-result-' + Logger.session.meta.participant);
   }
+
+  /* ---------------- 시작 화면 동의 ---------------- */
+  function consentOk(){ return $$('[data-consent]').every(el => el.checked); }
+  function syncConsent(){ $('#startBtn').disabled = !consentOk(); }
 
   /* ---------------- 참가자 링크 만들기 (진행자 패널) ---------------- */
   function updateLink(fromPid){
@@ -979,7 +990,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();

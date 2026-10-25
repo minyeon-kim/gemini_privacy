@@ -367,6 +367,12 @@
   "오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요": "Tell us about the information-management features you used today",
   "'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요": "Thinking of both “checking and turning off sources in a response” and “asking in chat to remove it”, choose how much you agree with each statement"
 });
+  Object.assign(messages, {
+  "아래 내용을 확인하고 체크해 주세요": "Please review and check the following",
+  "화면·음성 녹화와 생각 말하기(think-aloud)에 동의해요": "I agree to screen and audio recording and to thinking aloud",
+  "누른 위치·순서·시간, 입력한 문장, 설문 응답이 연구 목적으로 기록되는 것에 동의해요": "I agree that taps (location, order, timing), typed text, and survey answers are recorded for research",
+  "원할 때 언제든 중단할 수 있다는 걸 이해했어요": "I understand I can stop at any time"
+});
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');

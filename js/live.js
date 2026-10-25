@@ -58,7 +58,7 @@
       const m = Logger.session.meta;
       sid = (m.participant || 'P').replace(/[^A-Za-z0-9_-]/g, '_') + '_' + Date.now().toString(36);
       const meta = {
-        participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode,
+        participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '',
         userAgent: m.userAgent, url: m.url,
         pw: phone.clientWidth, ph: phone.clientHeight, top: screenTop(),
         updatedAt: Date.now(), ended: false,
@@ -220,7 +220,7 @@
       if(!msid || !Logger.active || watching) return;
       const m = Logger.session.meta;
       db.ref('live/' + msid).update({
-        meta: clean({ participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, ended: !!m.endedAt, updatedAt: Date.now() }),
+        meta: clean({ participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '', ended: !!m.endedAt, updatedAt: Date.now() }),
         summary: clean(App.summary()),
       });
     };
