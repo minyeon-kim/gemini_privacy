@@ -924,3 +924,27 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .check-item-expand{ padding:0 14px 0 58px !important; }
 .check-item.open .check-item-expand{ margin-top:0 !important; padding-bottom:8px !important; }
 .ctext-sub{ white-space:nowrap; }
+
+/* ===== 휴대폰 참가자 화면: 과제 안내는 얇은 한 줄 ===== */
+.tk-peek{ display:none; }
+@media (max-width: 520px){
+  body.participant{ padding-top:0 !important; }
+  body.participant .language-control{ display:none; }
+  body.participant .phone-wrap{ height:100vh !important; height:100dvh !important; }
+  body.participant .taskbar.show{ position:relative; flex-direction:row !important; flex-wrap:nowrap !important; align-items:center !important; gap:8px !important;
+    padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px 14px !important; border:none !important; border-bottom:1px solid #ececec !important; box-shadow:none !important; border-radius:0 !important; }
+  body.participant .tk-head{ flex:1; width:auto !important; cursor:pointer; gap:6px !important; }
+  body.participant .tk-label{ font-size:12.5px !important; }
+  body.participant .tk-peek{ display:inline; font-size:12.5px; color:#0b57d0; text-decoration:underline; text-underline-offset:2px; }
+  body.participant .taskbar.peek .tk-peek{ font-size:0; }
+  body.participant .taskbar.peek .tk-peek::after{ content:'접기'; font-size:12.5px; }
+  body.participant .taskbar.done .tk-peek{ display:none; }
+  body.participant .taskbar-text{ display:none !important; }
+  body.participant .taskbar.peek .taskbar-text{ display:flex !important; position:absolute; left:0; right:0; top:100%; z-index:70; background:#fff; padding:12px 16px 14px; border-bottom:1px solid #e3e3e3; box-shadow:0 8px 20px rgba(0,0,0,.08); }
+  body.participant .taskbar.done .taskbar-text{ display:none !important; }
+  body.participant .taskbar .tk-steps, body.participant .taskbar .tk-main{ font-size:14.5px !important; }
+  body.participant .taskbar-btn{ flex:0 0 auto; font-size:13px !important; padding:7px 14px !important; }
+  body.participant .tk-foot{ display:none !important; }
+  body.participant .tk-done{ font-size:13px !important; }
+}
+@media (max-width: 520px){ body.participant .taskbar.show.done{ display:none !important; } }

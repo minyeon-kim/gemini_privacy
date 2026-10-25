@@ -1122,12 +1122,20 @@
 
   // 과제 카드는 앱 기능처럼 보일 수 있어 화면 밖 과제 패널만 써요. 목표가 바뀌면 패널을 잠깐 강조해요.
   function closeTaskCard(){}
+  // 휴대폰: 과제 문구는 접어 두고, 참가자가 '과제 보기'를 누를 때만 펼쳐요(진행자가 말로 안내).
+  function toggleTaskPeek(){
+    if(window.innerWidth > 520) return;
+    const bar = $('#taskbar'); const open = !bar.classList.contains('peek');
+    bar.classList.toggle('peek', open);
+    Logger.log('task_peek', { step: current, open });
+  }
   function renderTaskbar(){
     const bar = $('#taskbar');
     const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
     const doneKey = { QA:'A', QB:'B', QS:'S' }[current] || null;
     bar.classList.toggle('show', MODE === 'participant' && !!(phase || doneKey));
     const wasDone = bar.classList.contains('done');
+    if(bar.dataset.step !== current){ bar.classList.remove('peek'); bar.dataset.step = current; }
     bar.classList.toggle('done', !phase && !!doneKey);
     if(!phase && doneKey){
       const n = doneKey === 'S' ? null : (doneKey === FIRST ? 1 : 2);
@@ -1171,7 +1179,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, surveyStep, a4More, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();
