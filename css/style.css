@@ -823,3 +823,35 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 @media (min-width: 900px){
   body.participant{ padding-top:48px; padding-bottom:16px; }
 }
+
+/* ===== 한국어판 다듬기 ===== */
+/* 과제 패널: 글씨를 한 단계 작게 */
+@media (min-width: 900px){ body.participant .taskbar.show{ width:290px !important; padding:20px 18px 16px !important; } }
+.taskbar .tk-steps{ font-size:15.5px !important; gap:10px !important; }
+.taskbar .tk-steps li::before{ flex:0 0 22px !important; height:22px !important; font-size:12.5px !important; }
+.taskbar .tk-main{ font-size:15.5px !important; }
+.taskbar .tk-ctx{ font-size:13px !important; }
+.tk-label{ font-size:12px !important; }
+.tk-done{ font-size:16px !important; }
+.tk-check{ flex:0 0 28px !important; width:28px !important; height:28px !important; }
+.taskbar-btn{ font-size:14px !important; padding:10px 14px !important; }
+.tk-foot{ font-size:12px !important; }
+/* Personal Intelligence: 상자 안 상자 대신 구분선 목록 */
+.s-card .conn-wrap{ background:transparent !important; border-radius:0 !important; padding:2px 0 !important; margin-top:0 !important; border-top:1px solid #e3e1e1 !important; }
+.s-card .conn-wrap:first-child{ border-top:none !important; }
+.s-card .data-chip{ background:transparent !important; border-radius:0 !important; padding:9px 2px 9px 46px !important; font-size:13px !important; color:#444746 !important; border-top:1px solid #eae8e8; }
+.s-card .conn-detail .data-chip:first-child{ border-top:none; }
+.chip-more{ font-size:12.5px !important; color:#0b57d0 !important; padding:8px 0 4px !important; cursor:pointer; text-align:left !important; padding-left:46px !important; }
+.s-card .conn-wrap.open .conn-detail, .conn-wrap.open .conn-detail{ max-height:none !important; }
+/* 처리 결과 확인: 이름 · 상태 · 설명 사이 간격 */
+.source-item .name{ margin-bottom:6px; }
+.source-item .detail .st-chip{ margin:0 0 7px !important; }
+.source-item .detail .b4-desc{ line-height:1.5; }
+/* 설문: 글씨를 한 단계 작게 */
+.sv-q{ font-size:18px !important; line-height:1.55 !important; }
+.sv-opt{ font-size:15.5px !important; height:44px !important; }
+.sv-ends{ font-size:12.5px !important; }
+/* 마지막 화면 */
+.end-title{ margin-top:6px !important; }
+.end-lead{ text-wrap:balance; line-height:1.7 !important; font-size:15px !important; }
+.end-status{ text-wrap:balance; }
