@@ -36,7 +36,7 @@
       indicators:[3,4], interact:"클릭 가능 — <b>'지금 확인하기'</b>(누르기까지 시간 자동 기록), <b>'취소'</b>(처리 이전으로 되돌리고 B2로 복귀). 결과 문구는 B2에서 고른 항목에 맞춰 바뀝니다."},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면에서 무엇을 알 수 있나요?' → '정민 관련 정보 중 아직 남아 있는 건 무엇일까요?' 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
-    B5:{phase:'b', script:"[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 더 나았나요?' ④ (답을 들은 뒤) '왜 그렇게 느끼셨나요?' ⑤ '진행하면서 가장 헷갈리거나 불편했던 순간은 언제였나요?'",
+    B5:{phase:'b', script:"[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 과제 C와 SUS까지 모두 끝난 뒤 마지막 화면에서 해요.",
       indicators:[4,5], interact:"클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다."},
     QA:{phase:'-', script:"[과제 직후 설문 · 저녁 약속 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(A-12, 진행자 기록) 그다음 참가자가 화면의 설문 4문항에 직접 답하고 '다음'을 누르게 두세요. 화면을 설명하지 마세요.",
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
@@ -44,18 +44,29 @@
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
     QS:{phase:'-', script:"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.",
       indicators:[], interact:"클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화)."},
-    END:{phase:'-', script:"세션 종료 화면입니다. SUS(선택)를 진행한 뒤 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
+    SC:{phase:'c', script:"(참가자 모드 전용) 상황 3 안내 카드예요. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능: <b>시작하기</b>"},
+    C1:{phase:'c', script:"질문이 미리 입력돼 있어요. 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능: 전송"},
+    C2:{phase:'c', script:"[통합 과제] 최종 디자인처럼 답변 아래에 '출처 확인', 칩('이 답변에 쓰인 정보 관리하기'), 채팅 입력이 모두 있어요. 어떤 경로를 고르는지 지켜보세요. 방법은 알려 주지 마세요. 정답은 정해 두지 않아요. 참가자가 말한 의도와 실제 결과가 맞는지, 다른 정보(요가 예약)까지 영향을 받았다면 그걸 알고 했는지가 핵심이에요.", indicators:[1,2,4], interact:"클릭 가능: 출처 확인, 칩, 채팅 입력"},
+    C3:{phase:'c', script:"[출처 확인 경로] Gmail 토글은 앱 전체 단위라 끄면 요가 예약도 함께 막혀요. 참가자가 그걸 알고 그렇게 하는지 보세요(원해서 끄는 것도 괜찮아요).", indicators:[1,4], interact:"클릭 가능: 펼치기, 앱 토글, 메모리 삭제, 닫기"},
+    C4:{phase:'c', script:"[칩 경로] 주제별 목록이에요. '이사 준비'만 고르는지, '운동'도 고르는지 보세요.", indicators:[1,5], interact:"클릭 가능: 주제 선택, 다음, 닫기"},
+    C5:{phase:'c', script:"처리 목록이에요. 체크를 바꾸는지, '삭제돼요/참조만 차단돼요'를 알아차리는지 보세요.", indicators:[3,4,5], interact:"클릭 가능: 항목 체크, 취소, 선택 항목 처리"},
+    C6:{phase:'c', script:"처리 결과예요. 참가자가 끝났다고 하면 '과제 완료'를 누르게 두세요.", indicators:[3], interact:"클릭 가능: 취소(되돌리기)"},
+    QC:{phase:'-', script:"[과제 직후 설문 · 이사 상황] 설문 전에 먼저 말로: '지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' 그다음 화면 설문(3문항)에 답하게 두세요.", indicators:[3,5], interact:"클릭 가능: 문항별 보기, 다음"},
+    END:{phase:'-', script:"세션 종료 화면이에요(SUS까지 끝난 상태). 마무리 질문과 디브리핑을 진행한 뒤, 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
   const PHASE_B = ['B1','B2','B3','B4','B5'];
-  const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : PHASE_B);
+  const PHASE_C = ['C1','C2','C3','C4','C5','C6'];
+  const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : ph === 'B' ? PHASE_B : PHASE_C);
   const FIRST = SEQ[0], SECOND = SEQ[1];
-  const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], WITH_SUS ? ['QS'] : [], ['END']);
+  // 과제 C(통합)는 A·B를 마친 뒤 항상 세 번째로 해요. SUS는 C까지 끝난 뒤.
+  const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], seg('C'), ['QC'], WITH_SUS ? ['QS'] : [], ['END']);
   const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
     A:  { steps:['미리 입력된 질문을 보내고 답변을 살펴보세요'] },
     A2: { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['답변에 정민 이야기가 왜 나왔는지 확인하기', '앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
     B:  { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
+    C:  { ctx:'이사는 안 가기로 했어요', steps:['앞으로 이사 관련 정보가 답변에 쓰이지 않게 하기'] },
   };
   // 두 번째로 하는 상황 카드에만 '앞의 상황과는 별개' 문구를 보여요.
   document.querySelectorAll('.screen[data-step="SA"] .order-note').forEach(el => el.style.display = SEQ === 'BA' ? '' : 'none');
@@ -81,6 +92,7 @@
     b1Text = '';
     b1Asks = [];
     svDraft = {}; survey = {}; svIdx = {};
+    window.TaskC?.reset();
   }
   resetState();
 
@@ -106,10 +118,18 @@
       $('.screen[data-step="A2"]').inert = true;
       $('#sheetOverlay .sheet-close').focus({preventScroll:true});
       $('#sheetOverlay .sheet').scrollTop = 0;
+    }else if(step === 'C3' || step === 'C4'){
+      showScreen('C2');
+      $('#sheetOverlay').classList.remove('active');
+      $('#cSheet').classList.toggle('active', step === 'C3');
+      $('#cTopics').classList.toggle('active', step === 'C4');
+      $('.screen[data-step="C2"]').inert = true;
     }else{
       showScreen(step);
       $('#sheetOverlay').classList.remove('active');
       $('.screen[data-step="A2"]').inert = false;
+      $('#cSheet').classList.remove('active'); $('#cTopics').classList.remove('active');
+      const c2 = $('.screen[data-step="C2"]'); if(c2) c2.inert = false;
     }
   }
 
@@ -170,6 +190,7 @@
     $('#a1bSend').setAttribute('aria-disabled', 'false');
     $$('.stream').forEach(el => el.classList.remove('stream'));
     $$('.screen.loading').forEach(el => el.classList.remove('loading'));
+    $$('.screen.c-loading').forEach(el => el.classList.remove('c-loading'));
   }
   const later = (fn, ms) => fxTimers.push(setTimeout(fn, ms));
 
@@ -185,6 +206,11 @@
       responseVisible = 0; responsePaused = false;
       M.a2Enter = null;
       renderResponse(); advanceResponse();
+    }
+    if(step === 'C2' && prev === 'C1'){
+      const scr = $('.screen[data-step="C2"]');
+      scr.classList.add('c-loading');
+      later(() => { scr.classList.remove('c-loading'); TaskC.markReady(); Logger.log('response_complete', { step:'C2' }); }, 1300);
     }
     if(step === 'B2' && prev === 'B1'){            // 응답 대기 후 카드 등장
       const scr = $('.screen[data-step="B2"]');
@@ -244,6 +270,7 @@
     if(step === 'A1' && !M.aStart) M.aStart = p;
     if(step === 'A2' && responseVisible === null && !M.a2Enter) M.a2Enter = p;
     if(step === 'B1' && !M.bStart) M.bStart = p;
+    if(step === 'C1' && !M.cStart) M.cStart = p;
     if(step === 'B3') M.b3Enter = p;
   }
 
@@ -315,13 +342,13 @@
   }
 
   function taskDone(){
-    const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
+    const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : PHASE_C.includes(current) ? 'C' : null;
     if(!phase) return;
     finishPhase(phase, 'task-button');
   }
 
   function finishPhase(phase, how){
-    const startT = phase === 'A' ? M.aStart : M.bStart;
+    const startT = phase === 'A' ? M.aStart : phase === 'B' ? M.bStart : M.cStart;
     Logger.log('task_done', { step: current, phase, how: how || 'in-app', taskMs: startT ? Math.round(performance.now() - startT) : null });
     M['done' + phase] = true;
     go('Q' + phase, 'task-done');
@@ -727,6 +754,7 @@
       b1: { draft: b1Input.value, sent: b1Text, asks: b1Asks },
       more: $$('.b2-more').map(el => !el.hidden),
       sv: svDraft,
+      c: window.TaskC ? TaskC.snapshot() : null,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
@@ -742,6 +770,7 @@
     if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; b1Asks = (s.b1.asks || []).slice(); syncB1(); renderB1Thread(); }
     if(s.more){ $$('.b2-more').forEach((el, i) => el.hidden = !s.more[i]); renderMoreToggles(); }
     svDraft = Object.assign({}, s.sv || {}); renderSurvey();
+    if(s.c && window.TaskC) TaskC.apply(s.c);
     const checks = s.checks || {};
     b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
     syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
@@ -823,6 +852,8 @@
     out.resizes = ev.filter(e => e.type === 'resize').map(e => e.viewport);
     // 마지막 화면 체류 시간도 지금까지로 채워요.
     if(lastStep && Logger.active) dwell[lastStep] = (dwell[lastStep] || 0) + (ev[ev.length - 1].ms - lastMs);
+    Object.assign(out, window.TaskC ? TaskC.summary() : {});
+    out.C_taskSec = done('C') && done('C').taskMs != null ? +(done('C').taskMs / 1000).toFixed(1) : null;
     out.ids = resultIds(out);
     return out;
   }
@@ -843,7 +874,12 @@
       { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
       { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
     ]},
-    S: { badge:'마지막 설문', title:'기능 전체에 대한 설문', sub:"'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
+    C: { badge:'잠깐 설문', title:'이사 정보를 정리한 상황', sub:'답변에 섞여 있던 이사 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
+      { id:'C-10', q:'이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
+      { id:'C-11', q:'이사 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
+      { id:'C-12', q:'방금 한 처리가 어떤 정보에 영향을 줬는지 얼마나 확실히 알고 계신가요?', scale:S7, lo:'전혀 모르겠음', hi:'매우 확실히 앎' },
+    ]},
+    S: { badge:'마지막 설문', title:'기능 전체에 대한 설문', sub:"오늘 써 본 기능 전체(출처 확인, 답변 아래 버튼, 채팅 요청)를 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
       '이 기능을 자주 사용하고 싶다.', '이 기능은 쓸데없이 복잡하다.', '이 기능은 사용하기 쉽다.',
       '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 앞뒤가 맞지 않는 부분이 많다.',
       '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
@@ -913,19 +949,20 @@
     if(!surveyDone(k)) return;
     survey[k] = Object.fromEntries(SURVEY[k].items.map(it => [it.id, svDraft[it.id]]));
     Logger.log('survey', { step: current, key: k, answers: survey[k] });
-    const next = k === 'S' ? 'END' : k === FIRST ? firstStep(SECOND) : (WITH_SUS ? 'QS' : 'END');
+    const next = k === 'S' ? 'END' : k === FIRST ? firstStep(SECOND) : k === SECOND ? firstStep('C') : (WITH_SUS ? 'QS' : 'END');
     go(next, 'survey');
   }
   buildSurveys();
 
   /* ---------------- 결과 내보내기 (엑셀 '자동 수집' 시트에 붙여넣는 형식) ---------------- */
-  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-03', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17', 'L-01', 'L-02', 'L-03', 'L-04', 'L-05', 'L-06']
+  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-03', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17', 'L-01', 'L-02', 'L-03', 'L-04', 'L-05', 'L-06', 'C-05', 'C-15', 'C-06', 'C-09', 'C-07', 'C-08', 'C-10', 'C-11', 'C-12', 'L-07', 'L-08']
     .concat(Array.from({ length: 10 }, (_, i) => `S-${String(i + 1).padStart(2, '0')}`));
   function resultIds(sm){
     const yn = v => v ? '예' : '아니오';
     const ev = Logger.active ? Logger.session.events : [];
     const reachedA = ev.some(e => e.type === 'step' && PHASE_A.includes(e.step));
     const reachedB = ev.some(e => e.type === 'step' && PHASE_B.includes(e.step));
+    const reachedC = ev.some(e => e.type === 'step' && PHASE_C.includes(e.step));
     const ids = {
       'A-03': sm.A_sourceBadgeFoundSec ?? '',
       'A-11': reachedA ? yn(sm.A_visitedA4) : '',
@@ -941,6 +978,14 @@
       'L-04': reachedB ? sm.B_action : '',
       'L-05': Logger.active ? (Logger.session.meta.viewport || '') : '',
       'L-06': Logger.active ? ev.filter(e => e.type === 'resize').length : '',
+      'C-05': reachedC ? (TaskC.PATH_KO[sm.C_firstPath] || sm.C_firstPath) : '',
+      'C-15': reachedC ? ((sm.C_changedBy || []).map(p => TaskC.PATH_KO[p]).join(' + ') || '없음') : '',
+      'C-06': reachedC ? sm.C_moveResult : '',
+      'C-09': reachedC ? sm.C_otherState : '',
+      'C-07': reachedC ? yn(sm.C_chipClicked) : '',
+      'C-08': sm.C_chipSec ?? '',
+      'L-07': sm.C_taskSec ?? '',
+      'L-08': reachedC ? sm.C_action : '',
     };
     Object.values(sm.survey || {}).forEach(a => Object.assign(ids, a));
     return ids;
@@ -1032,8 +1077,18 @@
     B4: { first:['이 화면에서 무엇을 알 수 있나요?'], watch:['보관 예외(검토 사본 최대 3년) 안내를 읽는지'] },
     B5: { watch:["참가자가 끝났다고 하면 '과제 완료'"] },
     QB: { first:['(설문 전에 말로) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
-    QS: { say:['마지막 설문이에요. 오늘 써 본 두 방식을 함께 떠올리며 답해 주세요.'] },
-    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '두 방식 중 어느 쪽이 나았나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
+    SC: { say:['여기부터는 앞과 별개의 새 상황이에요. 안내를 읽고 시작해 주세요.'] },
+    C1: { watch:['미리 입력된 질문을 보내는지'] },
+    C2: { say:['(필요하면) 얼마 전 이사는 안 가기로 했어요. 앞으로 이사 관련 정보가 답변에 쓰이지 않게 해 보세요. 방법은 자유예요.'],
+          watch:['출처 확인, 칩, 채팅 입력 중 무엇을 먼저 쓰는지', '경로를 연 뒤 조작하기 전에: 어떻게 하실 생각이세요? (C-13)'],
+          help:['60초 넘게 막히면: 이 답변에 쓰인 정보를 관리할 방법이 있을까요?'] },
+    C3: { watch:['Gmail 토글은 앱 전체 단위예요. 요가 예약도 함께 막힌다는 걸 알고 끄는지'], after:['방금 끈 것은 어떤 정보에 영향을 줄까요?'] },
+    C4: { first:['이 목록은 무엇을 보여 주는 것 같으세요?'], watch:['어떤 주제를 고르는지, 왜 그렇게 고르는지'] },
+    C5: { watch:["'삭제돼요/참조만 차단돼요' 구분을 보는지", '체크를 바꾸는지'] },
+    C6: { after:['방금 무엇이 처리됐나요?', '이사 말고 다른 정보도 영향을 받았을까요?', '원하셨던 결과와 같은가요? (C-14)'], watch:["참가자가 끝났다고 하면 '과제 완료'"] },
+    QC: { first:['(설문 전에 말로) 지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?', '(칩을 썼다면) 답변 아래 버튼은 누르기 전에 무엇을 할 거라고 생각하셨나요?', '(칩을 안 썼다면) 답변 아래 이 버튼은 무엇을 할 것 같으세요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
+    QS: { say:['마지막 설문이에요. 오늘 써 본 기능 전체를 떠올리며 답해 주세요.'] },
+    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '출처 확인, 칩, 채팅 요청 중 어느 쪽이 가장 편했나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
            say:['(디브리핑) 오늘 본 이름·예약·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'] },
   };
   let guideStep = null;
@@ -1050,7 +1105,8 @@
   function renderPanel(){
     const d = STEPS[current] || STEPS.START;
     const tag = d.phase === 'a' ? '<span class="phase-tag a">Phase A · 인라인 데이터 관리</span>'
-              : d.phase === 'b' ? '<span class="phase-tag b">Phase B · 채팅 자연어 삭제</span>' : '';
+              : d.phase === 'b' ? '<span class="phase-tag b">Phase B · 채팅 자연어 삭제</span>'
+              : d.phase === 'c' ? '<span class="phase-tag c">Phase C · 통합(칩·출처·채팅)</span>' : '';
     $('#stepTitle').innerHTML = current + ' ' + tag;
     $('#scriptBox').textContent = I18n.t(d.script);
     renderGuide();
@@ -1094,11 +1150,12 @@
 
   // 진행자 패널: 참가자가 고르는 설문 응답을 실시간으로 보여 주고, 후속 질문 거리를 짚어 줘요.
   const SV_SHORT = { 'A-13':'쉬움 정도 (SEQ)', 'A-14':'완료됐다고 생각', 'A-15':'확신도', 'A-16':'정보량',
-    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 부담' };
+    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 부담',
+    'C-10':'쉬움 정도 (SEQ)', 'C-11':'완료됐다고 생각', 'C-12':'영향 범위 확신도' };
   function svFlag(id, v){
-    if(['A-13', 'B-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
-    if(['A-14', 'B-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
-    if(['A-15', 'B-12'].includes(id) && v <= 3) return "확신이 낮아요. '무엇이 확실하지 않게 느껴졌나요?'";
+    if(['A-13', 'B-10', 'C-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
+    if(['A-14', 'B-11', 'C-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
+    if(['A-15', 'B-12', 'C-12'].includes(id) && v <= 3) return "확신이 낮아요. '무엇이 확실하지 않게 느껴졌나요?'";
     if(['A-16', 'B-13'].includes(id) && (v <= 2 || v >= 6)) return v <= 2 ? "정보가 적다고 했어요. '어떤 정보가 더 있었으면 했나요?'" : "정보가 많다고 했어요. '어떤 부분이 과했나요?'";
     if(id === 'B-14' && v >= 5) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
     return '';
@@ -1110,11 +1167,11 @@
     const ans = {};
     Object.values(s.survey || {}).forEach(o => Object.assign(ans, o));
     evs.forEach(e => { if(e.type === 'survey_pick') ans[e.id] = e.value; });
-    const groups = [['A', '저녁 약속 상황 (A)'], ['B', '채팅으로 정리한 상황 (B)']].filter(([k]) => SURVEY[k].items.some(it => ans[it.id] !== undefined));
+    const groups = [['A', '저녁 약속 상황 (A)'], ['B', '채팅으로 정리한 상황 (B)'], ['C', '이사 정보 정리 (C)']].filter(([k]) => SURVEY[k].items.some(it => ans[it.id] !== undefined));
     const susIds = SURVEY.S.items.map(it => it.id), susN = susIds.filter(id => ans[id] !== undefined).length;
     if(!groups.length && !susN){ box.innerHTML = ''; box.hidden = true; return; }
     box.hidden = false;
-    const act = { A: s.A_action, B: s.B_action };
+    const act = { A: s.A_action, B: s.B_action, C: s.C_action ? `${s.C_action} (경로: ${(s.C_paths || []).map(p => TaskC.PATH_KO[p]).join(' → ') || '없음'}, 이사 정보: ${s.C_moveResult}, 다른 정보: ${s.C_otherState})` : '' };
     let html = '<div class="panel-section-title">설문 응답 · 실시간</div>';
     groups.forEach(([k, label]) => {
       html += `<div class="svl-group"><div class="svl-head">${label}</div>`;
@@ -1123,8 +1180,8 @@
         const f = svFlag(it.id, v), scale = it.scale ? `<span class="svl-max">/ ${it.scale.length}</span>` : '';
         html += `<div class="svl-row${f ? ' flag' : ''}"><span class="svl-k">${esc(SV_SHORT[it.id] || it.id)}</span><span class="svl-v">${esc(v)}${scale}</span></div>` + (f ? `<div class="svl-tip">${esc(f)}</div>` : '');
       });
-      const doneId = k === 'A' ? 'A-14' : 'B-11';
-      const noAct = k === 'A' ? act.A === '변경 없음' : act.B === '처리 안 함';
+      const doneId = k === 'A' ? 'A-14' : k === 'B' ? 'B-11' : 'C-11';
+      const noAct = k === 'A' ? act.A === '변경 없음' : k === 'B' ? act.B === '처리 안 함' : s.C_moveResult === '없음';
       if(ans[doneId] === '예' && noAct) html += `<div class="svl-tip warn">완료했다고 답했지만 실제로 바꾼 게 없어요. '어떻게 처리하셨다고 생각하세요?'</div>`;
       if(act[k]) html += `<div class="svl-act">실제 조작: ${esc(act[k])}</div>`;
       html += '</div>';
@@ -1180,16 +1237,16 @@
   }
   function renderTaskbar(){
     const bar = $('#taskbar');
-    const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
-    const doneKey = { QA:'A', QB:'B', QS:'S' }[current] || null;
+    const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : PHASE_C.includes(current) ? 'C' : null;
+    const doneKey = { QA:'A', QB:'B', QC:'C', QS:'S' }[current] || null;
     bar.classList.toggle('show', MODE === 'participant' && !!(phase || doneKey));
     const wasDone = bar.classList.contains('done');
     if(bar.dataset.step !== current){ bar.classList.remove('peek'); bar.dataset.step = current; }
     bar.classList.toggle('done', !phase && !!doneKey);
     if(!phase && doneKey){
-      const n = doneKey === 'S' ? null : (doneKey === FIRST ? 1 : 2);
-      $('#taskLabel').textContent = I18n.t(n ? `과제 ${n} / 2` : '과제 2 / 2');
-      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' ? '두 과제를 모두 마쳤어요' : `과제 ${n}${n === 1 ? '을' : '를'} 마쳤어요`))}</span></div>`
+      const n = doneKey === 'S' ? 3 : doneKey === 'C' ? 3 : (doneKey === FIRST ? 1 : 2);
+      $('#taskLabel').textContent = I18n.t(`과제 ${n} / 3`);
+      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' ? '세 과제를 모두 마쳤어요' : `과제 ${n}${n === 2 ? '를' : '을'} 마쳤어요`))}</span></div>`
         + `<div class="tk-ctx">${esc(I18n.t(doneKey === 'S' ? '마지막 설문이에요. 휴대폰 화면에서 답해 주세요' : '휴대폰 화면의 짧은 설문에 답해 주세요'))}</div>`;
       if(!wasDone){ bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); }
       return;
@@ -1200,7 +1257,7 @@
       const t = TASK_TEXT[key];
       const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
       $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx">${esc(I18n.t(t.ctx))}</div>` : '') + steps;
-      $('#taskLabel').textContent = I18n.t(phase === FIRST ? '과제 1 / 2' : '과제 2 / 2');
+      $('#taskLabel').textContent = I18n.t(phase === 'C' ? '과제 3 / 3' : phase === FIRST ? '과제 1 / 3' : '과제 2 / 3');
       if(M.flash){
         M.flash = false;
         bar.classList.remove('flash'); void bar.offsetWidth; bar.classList.add('flash');

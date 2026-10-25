@@ -992,3 +992,35 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .gd-sec.first .gd-label, .gd-sec.after .gd-label{ color:#0b57d0; }
 .gd-sec.first .gd-line, .gd-sec.say .gd-line{ font-weight:600; }
 .gd-sec.help .gd-label{ color:#b06000; }
+
+/* ===== 과제 C ===== */
+.screen.c-loading .c-answer, .screen.c-loading .a2-notice, .screen.c-loading #cThread{ display:none; }
+.c-dots{ display:none; }
+.screen.c-loading .c-dots{ display:flex; }
+.screen[data-step="C2"]:not(.c-loading) .c-answer{ animation:streamIn .3s ease-out; }
+.c-ico{ display:inline-flex; align-items:center; justify-content:center; color:#444746; }
+.sugg-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.sugg-chip{ display:inline-flex; align-items:center; gap:8px; border:1px solid #c4c7c5; background:#fff; color:#1f1f1f; border-radius:12px; padding:9px 14px; font:inherit; font-size:13.5px; font-weight:500; cursor:pointer; }
+.sugg-chip svg{ color:#0b57d0; }
+.c-mini{ opacity:.7; }
+.c-mini p{ font-size:13.5px; }
+.c-card-title{ font-size:14.5px; font-weight:600; color:#1f1f1f; margin-bottom:2px; }
+.c-list{ background:#fff; border-radius:18px; overflow:hidden; }
+.c-item{ display:flex; align-items:center; gap:12px; padding:12px 14px; }
+.c-item + .c-item{ border-top:1px solid #eeeded; }
+.c-item-main{ flex:1; min-width:0; }
+.c-item-src{ font-size:12px; color:#5e5e5e; margin-bottom:1px; }
+.c-item-text{ font-size:13.5px; color:#1f1f1f; line-height:1.45; }
+.tp-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 14px; }
+.tp-row{ display:flex; align-items:center; gap:12px; background:var(--g-surface, #f3f2f2); border-radius:20px; padding:14px 16px; cursor:pointer; }
+.tp-row .checkbox{ background:#fff; color:transparent; border:1.5px solid #747775; }
+.tp-row.checked .checkbox{ background:#0b57d0; border-color:#0b57d0; color:#fff; }
+.tp-main{ flex:1; min-width:0; }
+.tp-name{ font-size:15px; font-weight:500; color:#1f1f1f; }
+.tp-sub{ font-size:13px; color:#444746; margin-top:2px; line-height:1.45; }
+.tp-src{ font-size:12px; color:#747775; margin-top:4px; }
+#cTopics .card-btn-row{ justify-content:flex-end; }
+#cTopicsNext:disabled, #cProcessBtn:disabled{ opacity:.4; cursor:default; }
+.b3-desc.muted{ color:#747775 !important; font-size:12.5px !important; }
+.hero-hint{ margin:10px 0 0; font-size:13px; color:#5e5e5e; text-align:center; }
+.phase-tag.c{ background:#fef7e0; color:#8a5a00; }

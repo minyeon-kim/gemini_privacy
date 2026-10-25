@@ -219,7 +219,7 @@
   "클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀.": "Return to chat opens B5. Back returns to B3.",
   "[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 나았나요? 왜요?'": "When the participant finishes, run the post-task survey on ease, perceived completion, confidence, and amount of information. After both phases, ask one question at a time: How do they feel about the feature? Did they know AI could use information this way? Which method did they prefer, managing within an answer or requesting changes in chat, and why?",
   "클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다.": "No further task interaction; the result card and final response are displayed.",
-  "세션 종료 화면입니다. SUS(선택)를 진행한 뒤 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.": "The session has ended. Optionally administer SUS, save JSON or CSV from the panel, then start a new participant.",
+  "세션 종료 화면이에요(SUS까지 끝난 상태). 마무리 질문과 디브리핑을 진행한 뒤, 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요.": "End screen (SUS is done). Run the wrap-up questions and debrief, then save with JSON/CSV in the panel and press 'Start new participant' for the next one.",
   "참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송).": "Participant mode offers download and copy; automatic sending is used when configured.",
   "채팅으로 Gemini에게 직접 요청해서": "ask Gemini directly in chat",
   "요청 문장은 평소 말하듯 자유롭게 입력하면 돼요. 생각나는 것을 소리 내어 말하면서 진행해 주세요.": "Type your request in your own words, as you normally would. Please think aloud as you go.",
@@ -260,7 +260,7 @@
   Object.assign(messages, {
   "[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '이 답변에 정민 이야기가 왜 나왔는지 확인하고, 이 정보를 원하는 대로 처리해 보세요.' 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 과제 바가 이 문구로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.": "[Try] The response includes a past memory involving Jeongmin that the participant never mentioned. When it has fully appeared, first ask “What do you think of that response?” After hearing the first reaction, give the goal: “Find out why Jeongmin came up in this response, and handle this information the way you want.” Do not reveal where or how to do it, or where the source badge is (in participant mode the task bar switches to this goal once the response finishes). Surprise is an intended reaction, not a failure. [Help] If stuck for over 60 seconds, ask: “Is there a way to find out why this response appeared?” If still stuck, open A3 with the moderator controls and record it as “after help”.",
   "[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 참가자가 스스로 조작하지 않으면: '이 정보가 앞으로 어떻게 되길 원하세요? 원하는 상태로 만들어 보세요.' (차단·삭제 같은 선택지를 먼저 말하지 마세요.) [이해 확인 — 조작 후, 설명 없이] ① '방금 무엇이 바뀌었나요?' ② (토글을 껐다면) '이 토글을 끄면 어떤 정보가 영향을 받을까요?' ③ (삭제했다면) '지운 것과 꺼 둔 것은 각각 어떻게 될까요?' ④ '이제 왜 그 답변이 나왔는지 설명해 주실 수 있나요?'": "[Try] Let them look first without comment. If they do not act on their own: “How would you like this information to be handled from now on? Go ahead and set it up that way.” (Do not mention options such as blocking or deleting.) [Comprehension — after acting, without explanation] ① “What just changed?” ② (If a toggle was turned off) “Which information will this toggle affect?” ③ (If something was deleted) “What happens to what you deleted and to what you turned off?” ④ “Can you explain now why that response appeared?”",
-  "[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 더 나았나요?' ④ (답을 들은 뒤) '왜 그렇게 느끼셨나요?' ⑤ '진행하면서 가장 헷갈리거나 불편했던 순간은 언제였나요?'": "[End of phase] When the participant says they are done (Finish task in participant mode), run the post-task questions (SEQ, perceived completion, confidence, information amount). After both phases, ask the wrap-up questions one at a time: ① “How do you feel about this kind of feature now?” ② “Did you know before that AI could use information like this?” ③ “Which approach worked better for you — managing it from the response, or asking in chat?” ④ (After the answer) “What made you feel that way?” ⑤ “When was the most confusing or frustrating moment during the session?”",
+  "[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 과제 C와 SUS까지 모두 끝난 뒤 마지막 화면에서 해요.": "[End of phase] When the participant says they are done (Finish task in participant mode), run the post-task questions (SEQ, perceived completion, confidence, information amount). Wrap-up questions come at the very end, after task C and SUS.",
   "Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요.": "Ask Gemini for a dinner venue and review the response.",
   "이 답변에 정민 이야기가 왜 나왔는지 확인하고, 이 정보를 원하는 대로 처리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.": "Find out why Jeongmin came up in this response, and handle this information the way you want. When you feel finished, select “Finish task”.",
   "Revamp 컨셉 테스트": "Revamp concept test",
@@ -365,7 +365,7 @@
   "Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?": "How was the amount of information in the Jeongmin list and the results Gemini showed?",
   "목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?": "Was reviewing and choosing items in the list a hassle?",
   "오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요": "Tell us about the information-management features you used today",
-  "'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요": "Thinking of both “checking and turning off sources in a response” and “asking in chat to remove it”, choose how much you agree with each statement"
+  "오늘 써 본 기능 전체(출처 확인, 답변 아래 버튼, 채팅 요청)를 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요": "Think about everything you used today (source check, the button under the answer, chat requests) and rate how much you agree with each statement"
 });
   Object.assign(messages, {
   "아래 내용을 확인하고 체크해 주세요": "Please review and check the following",
@@ -464,6 +464,36 @@
   messages["정민 님과 관련해서 무엇을 도와드릴까요?"] = "What can I help you with about Jeongmin?";
   messages["네, 말씀해 주세요. 무엇을 도와드릴까요?"] = "Sure. What can I help you with?";
   messages["처리할 정보"] = "Selected";
+  messages["상황 3"] = "Situation 3";
+  messages["주말 계획 세우기"] = "Planning the weekend";
+  messages["이번 주말에 뭘 할지 Gemini에게 물어보려고 해요. 얼마 전 이사는 안 가기로 했어요."] = "You're about to ask Gemini what to do this weekend. You recently decided not to move.";
+  messages["입력창의 질문을 그대로 보내고 답변을 살펴봐 주세요."] = "Send the question in the input box and look through the answer.";
+  messages["앞으로 이사 관련 정보가 답변에 쓰이지 않게 해 보세요. 방법은 자유롭게 골라도 돼요."] = "Make sure information about moving isn't used in future answers. Any method is fine.";
+  messages["이번 주말에 뭐 하면 좋을까?"] = "What should I do this weekend?";
+  messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요."] = "Here's a plan based on your schedule this weekend.";
+  messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요. …"] = "Here's a plan based on your schedule this weekend. …";
+  messages["이 답변에 쓰인 정보 관리하기"] = "Manage info used in this answer";
+  messages["앞으로 답변에 쓰지 않을 정보를 골라 주세요."] = "Choose information that shouldn't be used in future answers.";
+  messages["이사 준비"] = "Moving plans";
+  messages["운동"] = "Workout";
+  messages["요가 클래스 예약"] = "Yoga class booking";
+  messages["전세 대출 상담, 투룸 매물 알림, 집 보기 일정"] = "Lease loan consultation, listing alert, viewing appointment";
+  messages["관련 정보"] = "related info:";
+  messages["건을 찾았어요"] = " items found";
+  messages["다음"] = "Next";
+  messages["기억된 정보는 채팅으로 잊어 달라고 말할 수 있어요"] = "You can ask in chat to forget remembered info";
+  messages["이사와 관련해서 무엇을 도와드릴까요?"] = "What can I help you with about moving?";
+  messages["이 답변에 쓰인 메모리 삭제"] = "Delete memory used in this answer";
+  messages["이 답변에 쓰인 메모리 1건 삭제됨"] = "1 memory used in this answer deleted";
+  messages["과제 1 / 3"] = "Task 1 / 3";
+  messages["과제 2 / 3"] = "Task 2 / 3";
+  messages["과제 3 / 3"] = "Task 3 / 3";
+  messages["과제 3을 마쳤어요"] = "Task 3 finished";
+  messages["세 과제를 모두 마쳤어요"] = "All three tasks finished";
+  messages["이사 정보를 정리한 상황"] = "Tidying up moving info";
+  messages["방금 한 처리가 어떤 정보에 영향을 줬는지 얼마나 확실히 알고 계신가요?"] = "How sure are you about which information your changes affected?";
+  messages["전혀 모르겠음"] = "Not sure at all";
+  messages["매우 확실히 앎"] = "Completely sure";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
