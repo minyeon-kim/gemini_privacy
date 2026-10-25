@@ -58,12 +58,13 @@
       <div class="intro-body">
         <div class="intro-badge">상황 1</div>
         <h1>저녁 약속 장소 찾기</h1>
-        <div class="intro-notice">
-          <p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
-          <p class="order-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요.</p>
-          <p>입력창을 누르면 질문이 미리 입력돼 있어요. 그대로 보내고 답변을 살펴봐 주세요.</p>
-          <p>생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
-        </div>
+        <p class="order-note intro-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요</p>
+        <p class="intro-lead">퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
+        <ul class="intro-points">
+          <li><span class="ip-ic">1</span><span>입력창을 누르면 질문이 미리 입력돼 있어요. 그대로 보내 주세요.</span></li>
+          <li><span class="ip-ic">2</span><span>답변을 살펴봐 주세요.</span></li>
+          <li><span class="ip-ic">💬</span><span>생각나는 것을 소리 내어 말해 주세요.</span></li>
+        </ul>
         <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
       </div>
     </div>
@@ -71,22 +72,21 @@
       <div class="intro-body">
         <div class="intro-badge">상황 2</div>
         <h1>채팅으로 정보 지우기</h1>
-        <div class="intro-notice">
-          <p class="order-note">앞의 상황과는 별개인 새로운 상황이에요.</p>
-          <p>Gemini가 '정민'이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.</p>
-          <p>이번에는 <b>채팅으로 Gemini에게 직접 요청해서</b> 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.</p>
-          <p>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요. 생각나는 것을 소리 내어 말하면서 진행해 주세요.</p>
-        </div>
+        <p class="order-note intro-note">앞의 상황과는 별개인 새로운 상황이에요</p>
+        <p class="intro-lead">Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.</p>
+        <ul class="intro-points">
+          <li><span class="ip-ic">1</span><span>채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.</span></li>
+          <li><span class="ip-ic">2</span><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요.</span></li>
+          <li><span class="ip-ic">💬</span><span>생각나는 것을 소리 내어 말해 주세요.</span></li>
+        </ul>
         <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
       </div>
     </div>
     <div class="screen intro-screen" data-step="END">
       <div class="intro-body">
-        <div class="intro-badge">완료</div>
-        <h1>테스트가 끝났어요</h1>
-        <div class="intro-notice">
-          <p>참여해 주셔서 감사합니다. 진행자의 안내에 따라 마무리 질문에 답해 주세요.</p>
-        </div>
+        <div class="end-mark"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></div>
+        <h1 class="end-title">테스트가 끝났어요</h1>
+        <p class="intro-lead end-lead">참여해 주셔서 감사합니다.<br>진행자의 안내에 따라 마무리 질문에 답해 주세요.</p>
         <div class="end-actions" id="endActions">
           <button class="ghost-btn" onclick="Logger.download('json')">기록 파일 받기 (JSON)</button>
           <button class="ghost-btn" onclick="Logger.copy()">기록 복사하기</button>
@@ -445,6 +445,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
             <h3 id="b3Title">요청을 처리했어요</h3>
           </div>
+          <p class="b3-sub">아래 정보는 앞으로 답변에 쓰지 않아요</p>
           <div class="b3-lines" id="b3Lines">
           </div>
           <div class="retention-note" id="b3Note">ⓘ 사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)</div>
@@ -474,6 +475,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e8e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg>
             <h3 id="b5Title">요청을 처리했어요</h3>
           </div>
+          <p class="b3-sub">아래 정보는 앞으로 답변에 쓰지 않아요</p>
           <div class="b3-lines" id="b5Lines">
           </div>
           <div class="retention-note" id="b5Note">ⓘ 사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)</div>

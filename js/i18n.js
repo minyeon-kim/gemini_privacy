@@ -409,6 +409,23 @@
     "원본은 그대로, 앞으로 답변에 안 쓰여요": "Original kept, no longer used in answers",
   });
 
+  Object.assign(messages, {
+    "앞의 상황과는 별개인 새로운 상황이에요": "This is a new situation, separate from the previous one",
+    "퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.": "After work, sitting on the sofa, you open Gemini to find a place for dinner plans this week.",
+    "입력창을 누르면 질문이 미리 입력돼 있어요. 그대로 보내 주세요.": "Tap the input box: the question is already filled in. Just send it.",
+    "답변을 살펴봐 주세요.": "Look through the answer.",
+    "생각나는 것을 소리 내어 말해 주세요.": "Please think aloud as you go.",
+    "Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.": "Gemini remembers information about 'Jeongmin'. Jeongmin is someone you're no longer in touch with.",
+    "채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.": "Ask Gemini in the chat so that information about Jeongmin isn't used in future answers.",
+    "요청 문장은 평소 말하듯 자유롭게 입력하면 돼요.": "Type your request however you'd normally say it.",
+    "참여해 주셔서 감사합니다.": "Thank you for participating.",
+    "진행자의 안내에 따라 마무리 질문에 답해 주세요.": "Please answer the wrap-up questions with the moderator.",
+    "아래 정보는 앞으로 답변에 쓰지 않아요": "The information below won't be used in future answers",
+    "과제 1을 마쳤어요": "Task 1 finished", "과제 2를 마쳤어요": "Task 2 finished", "두 과제를 모두 마쳤어요": "Both tasks finished",
+    "휴대폰 화면의 짧은 설문에 답해 주세요": "Answer the short survey on the phone screen",
+    "마지막 설문이에요. 휴대폰 화면에서 답해 주세요": "Last survey: answer it on the phone screen",
+  });
+
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');

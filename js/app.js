@@ -138,7 +138,7 @@
 
     const d = STEPS[step];
     if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
-    if(step === 'END') onEnd();
+    if(step === 'END'){ onEnd(); celebrate(); }
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
@@ -327,6 +327,25 @@
     go('Q' + phase, 'task-done');
   }
 
+  // 테스트를 모두 마쳤을 때만 축하 효과(과제 중에는 정답 신호가 되지 않도록 쓰지 않아요).
+  function celebrate(){
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cv = document.createElement('canvas');
+    cv.className = 'confetti'; cv.width = phone.clientWidth * 2; cv.height = phone.clientHeight * 2;
+    phone.appendChild(cv);
+    const g = cv.getContext('2d'), W = cv.width, H = cv.height;
+    const colors = ['#4285f4', '#ea4335', '#fbbc04', '#34a853', '#a142f4', '#24c1e0'];
+    const ps = Array.from({ length: 90 }, () => ({
+      x: W / 2 + (Math.random() - .5) * W * .3, y: H * .42, vx: (Math.random() - .5) * 22, vy: -Math.random() * 26 - 10,
+      s: 8 + Math.random() * 10, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: colors[Math.random() * colors.length | 0] }));
+    const t0 = performance.now();
+    (function frame(t){
+      const k = (t - t0) / 1800; g.clearRect(0, 0, W, H);
+      ps.forEach(p => { p.vy += .9; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        g.save(); g.globalAlpha = Math.max(0, 1 - k); g.translate(p.x, p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); g.restore(); });
+      if(k < 1) requestAnimationFrame(frame); else cv.remove();
+    })(t0);
+  }
   async function onEnd(){
     if(!Logger.active) return;
     Logger.finish(summary());
@@ -430,9 +449,10 @@
     bar.querySelector('.snackbar-msg').textContent = msg;
     $('#snackUndo').hidden = false;
     bar.classList.add('show');
+    $('#sheetOverlay').classList.add('snack-lift');
     undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 4000);
   }
-  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#snackUndo').hidden = false; }
+  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#sheetOverlay').classList.remove('snack-lift'); $('#snackUndo').hidden = false; }
   // 실행취소 없이 잠깐 보이는 안내
   function showToast(msg){
     showSnackbar(msg); lastUndo = null; $('#snackUndo').hidden = true;
@@ -582,8 +602,8 @@
       const chip = `<span class="st-chip ${s.del ? 'del' : 'block'}">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span>`;
       const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${s.count}건</span></span>${chip}</div>`;
       const desc = s.del
-        ? `<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div>`
-        : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div><div class="b3-desc">앞으로 답변에 쓰지 않아요</div>`;
+        ? `<div class="b3-desc">${s.name}에서 지웠어요</div>`
+        : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div>`;
       return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}</div></div>`;
     }).join('');
     $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
@@ -1010,7 +1030,18 @@
   function renderTaskbar(){
     const bar = $('#taskbar');
     const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : null;
-    bar.classList.toggle('show', MODE === 'participant' && !!phase);
+    const doneKey = { QA:'A', QB:'B', QS:'S' }[current] || null;
+    bar.classList.toggle('show', MODE === 'participant' && !!(phase || doneKey));
+    const wasDone = bar.classList.contains('done');
+    bar.classList.toggle('done', !phase && !!doneKey);
+    if(!phase && doneKey){
+      const n = doneKey === 'S' ? null : (doneKey === FIRST ? 1 : 2);
+      $('#taskLabel').textContent = I18n.t(n ? `과제 ${n} / 2` : '과제 2 / 2');
+      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' ? '두 과제를 모두 마쳤어요' : `과제 ${n}${n === 1 ? '을' : '를'} 마쳤어요`))}</span></div>`
+        + `<div class="tk-ctx">${esc(I18n.t(doneKey === 'S' ? '마지막 설문이에요. 휴대폰 화면에서 답해 주세요' : '휴대폰 화면의 짧은 설문에 답해 주세요'))}</div>`;
+      if(!wasDone){ bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); }
+      return;
+    }
     // A는 답변이 다 나온 뒤 구체적인 목표로 바뀌어요(첫 반응은 자유롭게 보고, 그다음 목표 제시).
     const key = phase === 'A' && (M.aGoal || ['A3', 'A4'].includes(current)) ? 'A2' : phase;
     if(phase){
