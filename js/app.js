@@ -401,9 +401,9 @@
     const parts = [];
     if(memState.all) parts.push('메모리 전체 삭제됨');
     else if(memState.used) parts.push('이 답변에 쓰인 메모리 2건 삭제됨');
-    if(off.length) parts.push(off.join('·') + ' 참조 끔');
-    const keep = (memState.used || memState.all) ? `<br><span class="notice-sub">${esc(I18n.t(RETENTION))}</span>` : '';
-    el.innerHTML = parts.length ? `<b>${esc(I18n.t('설정이 바뀌었어요'))}</b><br>${parts.map(x => esc(I18n.t(x))).join('<br>')}<br><span class="notice-sub">${esc(I18n.t('다음 답변부터 반영돼요'))}</span>${keep}` : '';
+    if(off.length) parts.push(off.join(', ') + ' 참조 끔');
+    const keep = (memState.used || memState.all) ? `<div class="nt-foot">${esc(I18n.t(RETENTION))}</div>` : '';
+    el.innerHTML = parts.length ? `<div class="nt-title">${esc(I18n.t('설정이 바뀌었어요'))}</div><ul class="nt-list">${parts.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ul><div class="nt-foot">${esc(I18n.t('다음 답변부터 반영돼요'))}</div>${keep}` : '';
     el.classList.toggle('show', parts.length > 0);
   }
 
@@ -436,7 +436,7 @@
     const a4Mem = $('#a4MemCount').closest('.conn-wrap');
     a4Mem.classList.toggle('deleted', memState.all);
     if(memState.all) a4Mem.classList.remove('open');
-    $('#a4MemCount').textContent = memState.all ? '' : (memState.used ? '· 9건' : '· 11건');
+    $('#a4MemCount').textContent = memState.all ? '' : (memState.used ? '9건' : '11건');
     renderA4More();
     $$('[data-mem="used"]').forEach(el => el.classList.toggle('gone', memState.used));
     renderA2Notice();
@@ -453,7 +453,7 @@
       const t = ['[쿠팡] 주문하신 상품이 배송 완료되었습니다', '[카카오뱅크] 이번 달 카드 이용 내역 안내', '[무신사] 주문이 접수되었습니다', '[CGV] 예매가 완료되었습니다',
         '[스시타로] 오마카세 예약 확인', '[배달의민족] 주문하신 음식이 출발했어요', '[네이버페이] 결제가 완료되었습니다', '[인터파크] 공연 예매 확인',
         '[SRT] 승차권 예매 내역', '[올리브영] 주문 상품 발송 안내', '[당근] 거래 후기가 도착했어요', '[야놀자] 숙소 예약이 확정되었습니다'];
-      return Array.from({ length: 128 }, (_, n) => { const d = new Date(2025, 2, 12 - n * 3); return `${t[n % t.length]} · ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`; });
+      return Array.from({ length: 128 }, (_, n) => { const d = new Date(2025, 2, 12 - n * 3); return [t[n % t.length], `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`]; });
     },
     calendar: () => {
       const t = ['팀 주간 회의', '치과 정기 검진', '헬스 PT', '엄마 생신', '프로젝트 마감', '대학 동기 모임', '정민이랑 영화', '자동차 정기 점검', '독서 모임'];
@@ -465,7 +465,7 @@
     $$('.screen[data-step="A4"] .chip-more[data-src]').forEach(btn => {
       const list = A4_POOL[btn.dataset.src](), shown = Math.min(+btn.dataset.shown || 0, list.length);
       btn.parentElement.querySelectorAll('.data-chip.gen').forEach(el => el.remove());
-      list.slice(0, shown).forEach(txt => { const d = document.createElement('div'); d.className = 'data-chip gen'; d.innerHTML = `<span>${esc(txt)}</span>`; btn.before(d); });
+      list.slice(0, shown).forEach(txt => { const d = document.createElement('div'); d.className = 'data-chip gen'; d.innerHTML = Array.isArray(txt) ? `<span>${esc(txt[0])}<span class="dt">${esc(txt[1])}</span></span>` : `<span>${esc(txt)}</span>`; btn.before(d); });
       const rest = list.length - shown;
       btn.textContent = rest > 0 ? I18n.t(`+ ${rest}건 더보기`) : I18n.t('접기');
     });
@@ -565,7 +565,7 @@
       b.setAttribute('aria-checked', String(b.classList.contains('checked')));
     });
     const picked = boxes.filter(b => b.classList.contains('checked')).reduce((a, b) => a + (SRC[b.dataset.src] ? SRC[b.dataset.src].count : 0), 0);
-    $('#selectionCount').textContent = I18n.t('선택한 정보') + ' · ' + picked + '/' + B2_TOTAL;
+    $('#selectionCount').textContent = I18n.t(`${B2_TOTAL}건 중 ${picked}건 선택`);
     $('#b2ProcessBtn').disabled = !any;
   }
 
@@ -675,7 +675,8 @@
   function fitPhone(){
     const wrap = $('.phone-wrap');
     if(MODE !== 'participant' || window.innerWidth < 900){ wrap.style.zoom = ''; window.UI_ZOOM = 1; return; }
-    const z = Math.max(.8, Math.min(1.5, (window.innerHeight - 96) / 832));
+    // 참가자마다 같은 크기로 보이게 1.1배로 고정하고, 창이 낮을 때만 줄여요.
+    const z = Math.max(.8, Math.min(1.1, (window.innerHeight - 80) / 832));
     wrap.style.zoom = z.toFixed(3); window.UI_ZOOM = z;
   }
   fitPhone();
@@ -832,7 +833,7 @@
       { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
       { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
     ]},
-    S: { badge:'마지막 설문', title:'오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요', sub:"'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
+    S: { badge:'마지막 설문', title:'기능 전체에 대한 설문', sub:"'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
       '이 기능을 자주 사용하고 싶다.', '이 기능은 쓸데없이 복잡하다.', '이 기능은 사용하기 쉽다.',
       '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 앞뒤가 맞지 않는 부분이 많다.',
       '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
@@ -893,6 +894,7 @@
     const k = surveyKey(id), first = svDraft[id] === undefined;
     svDraft[id] = v; renderSurvey();
     Logger.log('survey_pick', { step: current, id, value: v });
+    renderMetrics();
     // 처음 고른 문항은 잠깐 뒤 자동으로 다음 문항으로 넘어가요(마지막 문항은 '완료'를 직접 눌러요).
     clearTimeout(svAuto);
     if(first && k && svIdx[k] < SURVEY[k].items.length - 1) svAuto = setTimeout(() => { if(current === 'Q' + k) surveyStep(k, 1); }, 320);
@@ -1026,6 +1028,7 @@
   function renderMetrics(){
     const box = $('#metricsBox');
     const src = remote || (Logger.active ? { summary: summary(), events: Logger.session.events } : null);
+    renderSurveyLive(src);
     if(!src || !src.summary){ box.innerHTML = '<span class="k">기록 없음</span><span class="v"></span>'; return; }
     const s = src.summary;
     const rows = [
@@ -1038,6 +1041,52 @@
       ['기록된 이벤트', src.events.length],
     ];
     box.innerHTML = rows.map(([k,v]) => `<span class="k">${k}</span><span class="v">${esc(v)}</span>`).join('');
+  }
+
+  // 진행자 패널: 참가자가 고르는 설문 응답을 실시간으로 보여 주고, 후속 질문 거리를 짚어 줘요.
+  const SV_SHORT = { 'A-13':'쉬움 정도 (SEQ)', 'A-14':'완료됐다고 생각', 'A-15':'확신도', 'A-16':'정보량',
+    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 부담' };
+  function svFlag(id, v){
+    if(['A-13', 'B-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
+    if(['A-14', 'B-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
+    if(['A-15', 'B-12'].includes(id) && v <= 3) return "확신이 낮아요. '무엇이 확실하지 않게 느껴졌나요?'";
+    if(['A-16', 'B-13'].includes(id) && (v <= 2 || v >= 6)) return v <= 2 ? "정보가 적다고 했어요. '어떤 정보가 더 있었으면 했나요?'" : "정보가 많다고 했어요. '어떤 부분이 과했나요?'";
+    if(id === 'B-14' && v >= 5) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
+    return '';
+  }
+  function renderSurveyLive(src){
+    const box = $('#svLive'); if(!box) return;
+    const evs = src ? src.events || [] : [];
+    const s = src && src.summary ? src.summary : {};
+    const ans = {};
+    Object.values(s.survey || {}).forEach(o => Object.assign(ans, o));
+    evs.forEach(e => { if(e.type === 'survey_pick') ans[e.id] = e.value; });
+    const groups = [['A', '저녁 약속 상황 (A)'], ['B', '채팅으로 정리한 상황 (B)']].filter(([k]) => SURVEY[k].items.some(it => ans[it.id] !== undefined));
+    const susIds = SURVEY.S.items.map(it => it.id), susN = susIds.filter(id => ans[id] !== undefined).length;
+    if(!groups.length && !susN){ box.innerHTML = ''; box.hidden = true; return; }
+    box.hidden = false;
+    const act = { A: s.A_action, B: s.B_action };
+    let html = '<div class="panel-section-title">설문 응답 · 실시간</div>';
+    groups.forEach(([k, label]) => {
+      html += `<div class="svl-group"><div class="svl-head">${label}</div>`;
+      SURVEY[k].items.forEach(it => {
+        const v = ans[it.id]; if(v === undefined) return;
+        const f = svFlag(it.id, v), scale = it.scale ? `<span class="svl-max">/ ${it.scale.length}</span>` : '';
+        html += `<div class="svl-row${f ? ' flag' : ''}"><span class="svl-k">${esc(SV_SHORT[it.id] || it.id)}</span><span class="svl-v">${esc(v)}${scale}</span></div>` + (f ? `<div class="svl-tip">${esc(f)}</div>` : '');
+      });
+      const doneId = k === 'A' ? 'A-14' : 'B-11';
+      const noAct = k === 'A' ? act.A === '변경 없음' : act.B === '처리 안 함';
+      if(ans[doneId] === '예' && noAct) html += `<div class="svl-tip warn">완료했다고 답했지만 실제로 바꾼 게 없어요. '어떻게 처리하셨다고 생각하세요?'</div>`;
+      if(act[k]) html += `<div class="svl-act">실제 조작: ${esc(act[k])}</div>`;
+      html += '</div>';
+    });
+    if(susN){
+      const ids = Object.fromEntries(susIds.map(id => [id, ans[id]]));
+      const score = susScore(ids);
+      html += `<div class="svl-group"><div class="svl-head">SUS</div><div class="svl-row"><span class="svl-k">응답한 문항</span><span class="svl-v">${susN}<span class="svl-max">/ 10</span></span></div>`
+        + (score !== '' ? `<div class="svl-row"><span class="svl-k">점수</span><span class="svl-v">${score}</span></div>` : '') + '</div>';
+    }
+    box.innerHTML = html;
   }
 
   function renderFeed(){
