@@ -5,12 +5,16 @@
   if(MODE === 'participant') document.body.classList.add('participant');
   // 과제 순서: 기본 A→B, 주소에 ?order=ba 를 붙이면 B→A (순서 효과를 줄이려고 참가자마다 교차)
   const SEQ = (params.get('order') || '').toLowerCase() === 'ba' ? 'BA' : 'AB';
+  // 참가자 코드는 링크에 담아 보내요(?pid=P03). 참가자 모드에서 코드가 없으면 익명 코드를 자동으로 만들어요.
+  const PID = (params.get('pid') || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 12);
+  // SUS는 모든 참가자가 마지막 상황의 설문 다음에 답해요.
+  const WITH_SUS = true;
 
   /* ---------------- 단계 정의 (진행자 스크립트) ----------------
      진행 원칙: ① 목표만 제시 → ② 참가자가 직접 시도(진행자는 설명·힌트 없이 관찰) → ③ 설명 없이 이해 확인 → ④ 과제 직후 설문 → ⑤ 그다음 심층 질문.
      조작 방법이나 선택지(차단/삭제)를 진행자가 먼저 말하지 않아요. 도움을 줬다면 그 시점을 기록지에 남겨요. */
   const STEPS = {
-    START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고 참가자 코드(P01 등)를 입력한 뒤 '시작하기'를 누르세요. 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'",
+    START:{phase:'-', script:"참가자에게 연구 고지를 읽게 하고 '시작하기'를 누르세요. 패널의 '참가자 링크 만들기'로 만든 링크로 열면 참가자 코드가 자동으로 들어가요(직접 열었다면 코드를 입력). 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'",
       indicators:[], interact:"클릭 가능 — <b>참가자 코드 입력</b>, <b>시작하기</b>. 순서 교차는 주소 끝에 <b>?order=ba</b>(B→A)."},
     SA:{phase:'a', script:"(참가자 모드 전용) 상황 1 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     A1:{phase:'a', script:"[목표 제시] 상황만 읽어 주세요: '퇴근 후 소파에 앉아 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요. 질문을 보내고 답변을 살펴본 뒤, 해 보고 싶은 게 있으면 자유롭게 해 보세요.' 이후 참가자가 직접 입력창을 누르게 두세요.",
@@ -34,13 +38,19 @@
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
     B5:{phase:'b', script:"[Phase 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 두 Phase를 모두 마쳤다면 마무리 질문을 한 번에 하나씩: ① '지금 이런 기능에 대해 어떻게 느끼세요?' ② 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?' ③ '두 방식(답변에서 바로 관리 / 채팅으로 요청) 중 어느 쪽이 더 나았나요?' ④ (답을 들은 뒤) '왜 그렇게 느끼셨나요?' ⑤ '진행하면서 가장 헷갈리거나 불편했던 순간은 언제였나요?'",
       indicators:[4,5], interact:"클릭 지점 없음 — 처리 결과 카드와 마무리 답변만 표시됩니다."},
+    QA:{phase:'-', script:"[과제 직후 설문 · 저녁 약속 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(A-12, 진행자 기록) 그다음 참가자가 화면의 설문 4문항에 직접 답하고 '다음'을 누르게 두세요. 화면을 설명하지 마세요.",
+      indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
+    QB:{phase:'-', script:"[과제 직후 설문 · 채팅 삭제 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(B-09, 진행자 기록) 그다음 참가자가 화면의 설문 5문항에 직접 답하고 '다음'을 누르게 두세요.",
+      indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
+    QS:{phase:'-', script:"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.",
+      indicators:[], interact:"클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화)."},
     END:{phase:'-', script:"세션 종료 화면입니다. SUS(선택)를 진행한 뒤 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
   const PHASE_B = ['B1','B2','B3','B4','B5'];
   const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : PHASE_B);
   const FIRST = SEQ[0], SECOND = SEQ[1];
-  const ORDER = ['START'].concat(seg(FIRST), seg(SECOND), ['END']);
+  const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], WITH_SUS ? ['QS'] : [], ['END']);
   const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
     A: "Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요.",
@@ -59,7 +69,7 @@
   let current = 'START';
   let stepEnteredAt = 0;
   let devMode = false;
-  let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [];
+  let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {};
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
@@ -69,6 +79,7 @@
     lastUndo = null;
     b1Text = '';
     b1Asks = [];
+    svDraft = {}; survey = {};
   }
   resetState();
 
@@ -261,13 +272,13 @@
   /* ---------------- 세션 ---------------- */
   function start(){
     const input = $('#pidInput');
-    const pid = (input.value || '').trim().toUpperCase();
+    const pid = (input.value || '').trim().toUpperCase() || PID;
     if(!pid){ $('#pidError').classList.add('show'); input.focus(); return; }
     $('#pidError').classList.remove('show');
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
     window.Interactions?.reset();
-    Logger.start({ participant: pid, mode: MODE, order: SEQ, language: I18n.language });
+    Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID });
     stepEnteredAt = performance.now();
     renderSession();
     go(firstStep(FIRST), 'start');
@@ -305,7 +316,7 @@
     const startT = phase === 'A' ? M.aStart : M.bStart;
     Logger.log('task_done', { step: current, phase, how: how || 'in-app', taskMs: startT ? Math.round(performance.now() - startT) : null });
     M['done' + phase] = true;
-    go(phase === FIRST ? firstStep(SECOND) : 'END', 'task-done');
+    go('Q' + phase, 'task-done');
   }
 
   async function onEnd(){
@@ -557,6 +568,7 @@
   function applyAll(){
     clearFx();
     b1Input.value = ''; syncB1(); renderB1Thread();
+    if($('.sv-opt')) renderSurvey();
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
     applyRefs(); applyMemory();
     b2Boxes().forEach(cb => cb.classList.add('checked'));
@@ -599,6 +611,7 @@
       b2: b2Result,
       b1: { draft: b1Input.value, sent: b1Text, asks: b1Asks },
       more: $$('.b2-more').map(el => !el.hidden),
+      sv: svDraft,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
@@ -613,6 +626,7 @@
     b2Result = s.b2 || null;
     if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; b1Asks = (s.b1.asks || []).slice(); syncB1(); renderB1Thread(); }
     if(s.more){ $$('.b2-more').forEach((el, i) => el.hidden = !s.more[i]); renderMoreToggles(); }
+    svDraft = Object.assign({}, s.sv || {}); renderSurvey();
     const checks = s.checks || {};
     b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
     syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
@@ -657,7 +671,7 @@
     });
     const count = type => ev.filter(e => e.type === type).length;
     const sel = b2Result;
-    return {
+    const out = {
       participant: Logger.active ? Logger.session.meta.participant : null,
       mode: MODE,
       A_sourceBadgeFound: !!M.sourceFoundMs,
@@ -681,8 +695,157 @@
       misclicksByStep: miss,
       misclicksTotal: count('misclick'),
       dwellMsByStep: dwell,
+      survey: JSON.parse(JSON.stringify(survey)),
     };
+    out.ids = resultIds(out);
+    return out;
   }
+
+  /* ---------------- 과제 직후 설문 (앱 안에서 참가자가 직접 응답) ---------------- */
+  const S7 = [1, 2, 3, 4, 5, 6, 7], S5 = [1, 2, 3, 4, 5];
+  const SURVEY = {
+    A: { badge:'잠깐 설문', title:'방금 상황에 대해 알려 주세요', sub:'저녁 약속 장소 찾기', items:[
+      { id:'A-13', q:'방금 과제는 전반적으로 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
+      { id:'A-14', q:'원하시던 상태로 처리를 마쳤다고 느끼시나요?', choices:['예', '아니오', '모르겠음'] },
+      { id:'A-15', q:'방금 처리한 결과가 생각하신 대로 반영됐다고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
+      { id:'A-16', q:'출처 패널과 전체 관리 화면에서 보여준 정보의 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+    ]},
+    B: { badge:'잠깐 설문', title:'방금 상황에 대해 알려 주세요', sub:'채팅으로 정보 지우기', items:[
+      { id:'B-10', q:'방금 과제는 전반적으로 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
+      { id:'B-11', q:'원하시던 상태로 처리를 마쳤다고 느끼시나요?', choices:['예', '아니오', '모르겠음'] },
+      { id:'B-12', q:'방금 처리한 결과가 생각하신 대로 반영됐다고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
+      { id:'B-13', q:'처리 목록과 처리 결과에서 보여준 정보의 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+      { id:'B-14', q:'처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
+    ]},
+    S: { badge:'마지막 설문', title:'오늘 사용한 기능 전체에 대해 알려 주세요', sub:'각 문장에 얼마나 동의하는지 골라 주세요', items:[
+      '이 기능을 자주 사용하고 싶을 것 같다.', '이 기능은 불필요하게 복잡하다.', '이 기능은 사용하기 쉽다.',
+      '이 기능을 사용하려면 기술 지원이 필요할 것 같다.', '이 기능의 여러 부분이 잘 통합되어 있다.', '이 기능에 불일치나 혼동이 너무 많다.',
+      '대부분의 사람들이 이 기능을 쉽게 배울 수 있을 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 사용할 때 자신감이 있다.',
+      '이 기능을 사용하기 전에 많은 것을 배워야 한다.',
+    ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의 안 함', hi:'매우 동의함' })) },
+  };
+  function buildSurveys(){
+    const end = $('.screen[data-step="END"]');
+    Object.keys(SURVEY).forEach(k => {
+      const sv = SURVEY[k];
+      const el = document.createElement('div');
+      el.className = 'screen intro-screen survey-screen'; el.dataset.step = 'Q' + k;
+      el.innerHTML = `<div class="survey-body">
+        <div class="intro-badge">${esc(sv.badge)}</div>
+        <h1>${esc(sv.title)}</h1><p class="survey-sub">${esc(sv.sub)}</p>
+        ${sv.items.map((it, n) => `<div class="sv-item"><div class="sv-q"><span class="sv-no">${n + 1}</span><span>${esc(it.q)}</span></div>
+          ${it.scale ? `<div class="sv-scale">${it.scale.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${v}" onclick="App.pickSurvey('${it.id}', ${v})">${v}</button>`).join('')}</div>
+            <div class="sv-ends"><span>${esc(it.lo)}</span>${it.mid ? `<span>${esc(it.mid)}</span>` : ''}<span>${esc(it.hi)}</span></div>`
+          : `<div class="sv-choices">${it.choices.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${esc(v)}" onclick="App.pickSurvey('${it.id}', '${esc(v)}')">${esc(v)}</button>`).join('')}</div>`}
+        </div>`).join('')}
+        <button type="button" class="primary-btn hot" id="svNext${k}" data-tag="설문 ${k} 다음" onclick="App.submitSurvey('${k}')" disabled>다음</button>
+        <div class="survey-hint" id="svHint${k}">모든 문항에 답하면 '다음'을 누를 수 있어요</div>
+      </div>`;
+      end.before(el);
+    });
+  }
+  const surveyDone = k => SURVEY[k].items.every(it => svDraft[it.id] !== undefined);
+  function renderSurvey(){
+    $$('.sv-opt').forEach(b => {
+      const on = String(svDraft[b.dataset.id]) === b.dataset.v;
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    });
+    Object.keys(SURVEY).forEach(k => {
+      const ok = surveyDone(k); const btn = $('#svNext' + k);
+      if(btn) btn.disabled = !ok;
+      const hint = $('#svHint' + k); if(hint) hint.hidden = ok;
+    });
+  }
+  function pickSurvey(id, v){
+    svDraft[id] = v; renderSurvey();
+    Logger.log('survey_pick', { step: current, id, value: v });
+  }
+  function submitSurvey(k){
+    if(!surveyDone(k)) return;
+    survey[k] = Object.fromEntries(SURVEY[k].items.map(it => [it.id, svDraft[it.id]]));
+    Logger.log('survey', { step: current, key: k, answers: survey[k] });
+    const next = k === 'S' ? 'END' : k === FIRST ? firstStep(SECOND) : (WITH_SUS ? 'QS' : 'END');
+    go(next, 'survey');
+  }
+  buildSurveys();
+
+  /* ---------------- 결과 내보내기 (엑셀 '자동 수집' 시트에 붙여넣는 형식) ---------------- */
+  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17']
+    .concat(Array.from({ length: 10 }, (_, i) => `S-${String(i + 1).padStart(2, '0')}`));
+  function resultIds(sm){
+    const yn = v => v ? '예' : '아니오';
+    const ev = Logger.active ? Logger.session.events : [];
+    const reachedA = ev.some(e => e.type === 'step' && PHASE_A.includes(e.step));
+    const reachedB = ev.some(e => e.type === 'step' && PHASE_B.includes(e.step));
+    const ids = {
+      'A-03': sm.A_sourceBadgeFoundSec ?? '',
+      'A-11': reachedA ? yn(sm.A_visitedA4) : '',
+      'B-01': sm.B_requestText || '',
+      'B-06': sm.B_processed ? yn(sm.B_verifyClicked) : '',
+      'B-07': sm.B_verifySec ?? '',
+      'B-16': reachedB ? sm.B_clarifyCount : '',
+      'B-17': reachedB ? yn(sm.B_moreOpened) : '',
+    };
+    Object.values(sm.survey || {}).forEach(a => Object.assign(ids, a));
+    return ids;
+  }
+  function susScore(ids){
+    const v = Array.from({ length: 10 }, (_, i) => ids[`S-${String(i + 1).padStart(2, '0')}`]);
+    if(v.some(x => typeof x !== 'number')) return '';
+    return v.reduce((a, x, i) => a + (i % 2 === 0 ? x - 1 : 5 - x), 0) * 2.5;
+  }
+  function rowFrom(meta, sm){
+    const ids = (sm && sm.ids) || {};
+    return Object.assign({ participant: meta.participant || '', order: (sm && sm.order) || meta.order || '', mode: meta.mode || '',
+      startedAt: meta.startedAt || '', studyId: meta.studyId || '', ended: (meta.ended || meta.finishedAt) ? '예' : '' }, ids, { SUS: susScore(ids) });
+  }
+  function resultsCSV(rows){
+    const cols = ['participant', 'order', 'mode', 'startedAt', 'studyId', 'ended'].concat(RESULT_IDS, ['SUS']);
+    const cell = v => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+    return '﻿' + [cols.join(',')].concat(rows.map(r => cols.map(c => cell(r[c])).join(','))).join('\n');
+  }
+  function downloadResults(rows, name){
+    const blob = new Blob([resultsCSV(rows)], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = (name || 'ut-results') + '-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  function downloadResultLocal(){
+    if(remote) return downloadResults([rowFrom(remote.meta || {}, remote.summary)], 'ut-result-' + ((remote.meta || {}).participant || 'P'));
+    if(!Logger.active) return;
+    downloadResults([rowFrom(Logger.session.meta, summary())], 'ut-result-' + Logger.session.meta.participant);
+  }
+
+  /* ---------------- 참가자 링크 만들기 (진행자 패널) ---------------- */
+  function updateLink(fromPid){
+    const pidEl = $('#lmPid'); if(!pidEl) return;
+    const pid = (pidEl.value || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+    const n = parseInt((pid.match(/\d+/) || [''])[0], 10);
+    if(fromPid && !isNaN(n)) $('#lmOrder').value = n % 2 === 1 ? 'ab' : 'ba';   // 홀수 A→B, 짝수 B→A
+    const q = new URLSearchParams();
+    if($('#lmMode').value === 'participant') q.set('mode', 'participant');
+    if(pid) q.set('pid', pid);
+    if($('#lmOrder').value === 'ba') q.set('order', 'ba');
+    if($('#lmLang').value) q.set('lang', $('#lmLang').value);
+    $('#lmUrl').value = location.origin + location.pathname + '?' + q.toString();
+  }
+  function copyLink(){
+    const el = $('#lmUrl'); el.select();
+    const done = () => { const b = $('#lmCopy'); const t = b.textContent; b.textContent = I18n.t('복사됨'); setTimeout(() => b.textContent = t, 1200); };
+    if(navigator.clipboard) navigator.clipboard.writeText(el.value).then(done, () => { document.execCommand('copy'); done(); });
+    else { document.execCommand('copy'); done(); }
+  }
+
+  // 시작 화면: 참가자 모드에서는 코드를 입력받지 않아요(링크의 코드 또는 자동 코드).
+  (function setupStart(){
+    const input = $('#pidInput');
+    if(MODE === 'participant'){
+      input.value = PID || ('U' + Math.random().toString(36).slice(2, 6).toUpperCase());
+      ['.intro-label', '#pidInput', '#pidError'].forEach(sel => { const el = $(sel); if(el) el.style.display = 'none'; });
+      if(PID){ const tag = document.createElement('div'); tag.className = 'intro-pid'; tag.textContent = '참가자 ' + PID; $('#startBtn').before(tag); }
+    } else if(PID){ input.value = PID; }
+    updateLink(true);
+  })();
 
   /* ---------------- 진행자 패널 렌더 ---------------- */
   function renderPanel(){
@@ -787,6 +950,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
+    pickSurvey, submitSurvey, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();

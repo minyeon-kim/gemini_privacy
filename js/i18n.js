@@ -267,6 +267,72 @@
   "UX 리서치용으로 만든 Revamp 컨셉 프로토타입": "revamp concept prototype for UX research",
   "[관찰만] 먼저 묻지 마세요. '지금 확인하기'를 누르는지, 그냥 끝내는지가 관찰값입니다(참가자 모드에서는 '과제 완료'로 바로 끝낼 수 있어요). 누르지 않았다고 실패가 아니에요 — 확인 행동은 따로 기록합니다. [이해 확인 — 참가자가 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar에 있던 정민 관련 정보는 지금 어떤 상태일까요?' ③ (Memory를 지웠다면) '지운 정보는 지금 어떻게 됐을까요?' — 결과 카드의 보관 예외 안내(검토된 대화 사본 최대 3년)를 읽었는지가 이해 판정 기준이에요. '그래도 다 지워졌을지 의심된다'는 반응은 이해 실패가 아니라 신뢰 관찰값으로 따로 기록하세요.": "[Observe only] Do not ask first. Whether they select “Check now” or simply finish is the observation (in participant mode they can finish with “Finish task”). Not selecting it is not a failure; verification is recorded separately. [Comprehension — after they say they are done] ① “What was just processed?” ② “What is the status of the Jeongmin-related information in Gmail and Calendar now?” ③ (If Memory was deleted) “What has happened to the information you deleted?” — Whether they read the retention notice (reviewed chat copies kept up to 3 years) is the comprehension criterion. Doubt such as “I’m not sure it’s really all gone” is not a comprehension failure; record it separately as a trust observation."
 });
+  Object.assign(messages, {
+  "[과제 직후 설문 · 저녁 약속 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(A-12, 진행자 기록) 그다음 참가자가 화면의 설문 4문항에 직접 답하고 '다음'을 누르게 두세요. 화면을 설명하지 마세요.": "[Post-task survey · Dinner scenario] Before showing the survey, ask aloud first: “Of the information about Jeongmin, what is gone now and what remains?” (A-12, recorded by the moderator). Then let the participant answer the 4 on-screen questions and select Next. Do not explain the screen.",
+  "클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요.": "Available: answer options, Next (enabled when every question is answered). Answers are saved to the log and Firebase automatically.",
+  "[과제 직후 설문 · 채팅 삭제 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(B-09, 진행자 기록) 그다음 참가자가 화면의 설문 5문항에 직접 답하고 '다음'을 누르게 두세요.": "[Post-task survey · Chat deletion scenario] Before showing the survey, ask aloud first: “Of the information about Jeongmin, what is gone now and what remains?” (B-09, recorded by the moderator). Then let the participant answer the 5 on-screen questions and select Next.",
+  "[선택 · SUS] 링크에 sus=1이 있을 때만 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.": "[Optional · SUS] Shown only when the link includes sus=1. Let the participant answer all 10 items. Run the wrap-up questions aloud after this screen.",
+  "클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화).": "Available: 1–5 for each item, Next (enabled when all 10 are answered).",
+  "잠깐 설문": "Quick survey",
+  "마지막 설문": "Final survey",
+  "방금 상황에 대해 알려 주세요": "Tell us about the scenario you just finished",
+  "저녁 약속 장소 찾기": "Find a place for dinner",
+  "채팅으로 정보 지우기": "Remove information through chat",
+  "오늘 사용한 기능 전체에 대해 알려 주세요": "Tell us about the features you used today",
+  "각 문장에 얼마나 동의하는지 골라 주세요": "Choose how much you agree with each statement",
+  "방금 과제는 전반적으로 얼마나 어렵거나 쉬웠나요?": "Overall, how difficult or easy was the task you just did?",
+  "원하시던 상태로 처리를 마쳤다고 느끼시나요?": "Do you feel you finished handling it the way you wanted?",
+  "방금 처리한 결과가 생각하신 대로 반영됐다고 얼마나 확신하시나요?": "How confident are you that the result was applied the way you expected?",
+  "출처 패널과 전체 관리 화면에서 보여준 정보의 양은 어땠나요?": "How was the amount of information shown in the sources panel and the full management screen?",
+  "처리 목록과 처리 결과에서 보여준 정보의 양은 어땠나요?": "How was the amount of information shown in the list and the results?",
+  "처리할 항목을 확인하고 고르는 과정이 번거로웠나요?": "Was reviewing and choosing the items to process a hassle?",
+  "매우 어려움": "Very difficult",
+  "매우 쉬움": "Very easy",
+  "전혀 확신하지 않음": "Not at all confident",
+  "매우 확신함": "Very confident",
+  "너무 적다": "Too little",
+  "너무 많다": "Too much",
+  "4 = 적절하다": "4 = About right",
+  "전혀 번거롭지 않다": "Not a hassle at all",
+  "매우 번거롭다": "A big hassle",
+  "전혀 동의 안 함": "Strongly disagree",
+  "매우 동의함": "Strongly agree",
+  "예": "Yes",
+  "아니오": "No",
+  "모르겠음": "Not sure",
+  "다음": "Next",
+  "모든 문항에 답하면 '다음'을 누를 수 있어요": "Answer every question to continue",
+  "이 기능을 자주 사용하고 싶을 것 같다.": "I think that I would like to use this feature frequently.",
+  "이 기능은 불필요하게 복잡하다.": "I found this feature unnecessarily complex.",
+  "이 기능은 사용하기 쉽다.": "I thought this feature was easy to use.",
+  "이 기능을 사용하려면 기술 지원이 필요할 것 같다.": "I think I would need technical support to use this feature.",
+  "이 기능의 여러 부분이 잘 통합되어 있다.": "I found the various parts of this feature well integrated.",
+  "이 기능에 불일치나 혼동이 너무 많다.": "I thought there was too much inconsistency in this feature.",
+  "대부분의 사람들이 이 기능을 쉽게 배울 수 있을 것 같다.": "I would imagine most people would learn to use this feature quickly.",
+  "이 기능은 사용하기 번거롭다.": "I found this feature very cumbersome to use.",
+  "이 기능을 사용할 때 자신감이 있다.": "I felt very confident using this feature.",
+  "이 기능을 사용하기 전에 많은 것을 배워야 한다.": "I needed to learn a lot of things before I could get going with this feature.",
+  "참가자 링크 만들기": "Create participant link",
+  "코드": "Code",
+  "순서": "Order",
+  "기기": "Device",
+  "참가자 기기": "Participant’s device",
+  "진행자 기기(대면)": "Moderator’s device (in person)",
+  "언어": "Language",
+  "SUS 포함": "Include SUS",
+  "복사": "Copy",
+  "복사됨": "Copied",
+  "결과 CSV": "Results CSV",
+  "코드가 홀수면 A→B, 짝수면 B→A로 자동 선택돼요. 참가자는 코드를 입력하지 않아요.": "Odd codes default to A→B and even codes to B→A. Participants never type a code.",
+  "전체 결과 CSV 받기": "Download all results (CSV)",
+  "Firebase에 저장된 모든 세션의 설문 응답·로그 값을 한 파일로 받아요 (엑셀 '자동 수집' 시트에 붙여넣기)": "Download survey answers and log values for every session saved in Firebase (paste into the spreadsheet’s import sheet)",
+  "불러오는 중…": "Loading…",
+  "저장된 결과가 없어요": "No saved results",
+  "Firebase에 연결되지 않았어요": "Not connected to Firebase",
+  "불러오지 못했어요. Firebase 보안 규칙을 확인해 주세요.": "Could not load. Check the Firebase security rules."
+});
+  Object.assign(messages, {"참가자에게 연구 고지를 읽게 하고 '시작하기'를 누르세요. 패널의 '참가자 링크 만들기'로 만든 링크로 열면 참가자 코드가 자동으로 들어가요(직접 열었다면 코드를 입력). 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'": "Ask the participant to read the research notice, then select Start. Links made with “Create participant link” fill in the participant code automatically (type it only if you opened the page directly). Logging starts now. Before starting, say: “We’re evaluating the design, not you. There are no right answers — please think aloud as you go.”"});
+  Object.assign(messages, {"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.": "[SUS] Always shown after the final scenario’s survey. Let the participant answer all 10 items. Run the wrap-up questions aloud after this screen.", "메뉴": "Menu", "임시 채팅": "Temporary chat"});
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
@@ -275,6 +341,7 @@
   function english(text) {
     if (messages[text]) return messages[text];
     return text
+      .replace(/^(\d+)개 세션을 받았어요.*$/, '$1 sessions downloaded (use startedAt to tell repeated codes apart)')
       .replace(/^· (\d+)건$/, '· $1 items')
       .replace(/^\+ (\d+)건 더보기$/, '+ Show $1 more')
       .replace(/^(\d+(?:\.\d+)?)초$/, '$1s')

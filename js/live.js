@@ -7,6 +7,8 @@
 //   live/{sid}/state    현재 화면 상태 (App.snapshot())
 //   live/{sid}/summary  요약 지표
 //   live/{sid}/events   이벤트 기록 (Logger와 동일)
+//   live/M_…/meta·summary  진행자 기기(대면)로 진행한 세션의 결과 — 목록(liveIndex)에는 나오지 않고 결과 내보내기에만 쓰여요
+//   summary.ids          과제 직후 설문·SUS 응답과 로그 값(엑셀 '자동 수집'용)
 (function(){
   const cfg = (window.UT_CONFIG || {}).FIREBASE;
   const SDK = 'https://www.gstatic.com/firebasejs/10.12.2/';
@@ -106,6 +108,10 @@
       <div class="panel-section-title">참가자 화면 실시간 보기</div>
       <div class="live-hint">참가자가 <b>?mode=participant</b> 링크로 시작하면 여기에 나타나요. 누르면 왼쪽 휴대폰 화면이 참가자 화면을 그대로 따라가요.</div>
       <div class="live-list" id="liveList">불러오는 중…</div>
+      <div class="live-export">
+        <button id="exportAllBtn" onclick="Live.exportAll()">전체 결과 CSV 받기</button>
+        <span class="live-hint" id="exportStatus">Firebase에 저장된 모든 세션의 설문 응답·로그 값을 한 파일로 받아요 (엑셀 '자동 수집' 시트에 붙여넣기)</span>
+      </div>
       <div class="panel-divider"></div>`;
     $('#sessionRow').after(box);
   }
@@ -206,8 +212,43 @@
     }
   }
 
+  /* ================= 결과 저장 · 내보내기 ================= */
+  // 진행자 기기로 대면 진행한 세션도 결과(meta·summary)를 Firebase에 남겨요.
+  function startModeratorWriter(){
+    let msid = null, timer = null;
+    const push = () => {
+      if(!msid || !Logger.active || watching) return;
+      const m = Logger.session.meta;
+      db.ref('live/' + msid).update({
+        meta: clean({ participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, ended: !!m.endedAt, updatedAt: Date.now() }),
+        summary: clean(App.summary()),
+      });
+    };
+    Logger.onEvent(ev => {
+      if(ev.type === 'session_start'){
+        const m = Logger.session.meta;
+        msid = 'M_' + (m.participant || 'P').replace(/[^A-Za-z0-9_-]/g, '_') + '_' + Date.now().toString(36);
+      }
+      if(['session_start', 'survey', 'task_done', 'session_end'].includes(ev.type)){ clearTimeout(timer); timer = setTimeout(push, 200); }
+    });
+  }
+  async function exportAll(){
+    const st = $('#exportStatus');
+    if(!db){ st.textContent = 'Firebase에 연결되지 않았어요'; return; }
+    st.textContent = '불러오는 중…';
+    try{
+      const snap = await db.ref('live').once('value');
+      const rows = [];
+      snap.forEach(c => { const v = c.val() || {}; if(v.meta && v.summary) rows.push(App.rowFrom(v.meta, v.summary)); });
+      rows.sort((a, b) => String(a.participant).localeCompare(String(b.participant)) || String(a.startedAt).localeCompare(String(b.startedAt)));
+      if(!rows.length){ st.textContent = '저장된 결과가 없어요'; return; }
+      App.downloadResults(rows, 'ut-results-all');
+      st.textContent = `${rows.length}개 세션을 받았어요 (같은 코드가 여러 번이면 startedAt으로 구분)`;
+    }catch(e){ st.textContent = '불러오지 못했어요. Firebase 보안 규칙을 확인해 주세요.'; }
+  }
+
   /* ================= 시작 ================= */
-  window.Live = { watch, stop, get enabled(){ return !!cfg; } };
+  window.Live = { watch, stop, exportAll, get enabled(){ return !!cfg; } };
 
   if(App.mode === 'moderator'){
     const shield = document.createElement('div');
@@ -226,7 +267,7 @@
 
   connect().then(() => {
     if(App.mode === 'participant') startPublisher();
-    else { buildPanel(); listSessions(); }
+    else { buildPanel(); listSessions(); startModeratorWriter(); }
   }).catch(() => {
     if(App.mode === 'moderator'){ buildPanel(); $('#liveList').innerHTML = '<span class="live-empty">Firebase에 연결하지 못했어요. 인터넷 연결과 config.js 설정을 확인해 주세요.</span>'; }
   });

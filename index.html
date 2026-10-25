@@ -85,27 +85,23 @@
         <div class="end-status" id="endStatus"></div>
       </div>
     </div>
-    <div class="statusbar">
-      <span>7:31</span>
+    <div class="statusbar" aria-hidden="true">
+      <span class="sb-time">7:31</span>
+      <div class="sb-island"></div>
       <div class="icons">
-        <svg width="17" height="11" viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="0.6" fill="#000"/><rect x="4.5" y="5" width="3" height="7" rx="0.6" fill="#000"/><rect x="9" y="3" width="3" height="9" rx="0.6" fill="#000"/><rect x="13.5" y="0" width="3" height="12" rx="0.6" fill="#000"/></svg>
-        <svg width="15" height="11" viewBox="0 0 16 12"><circle cx="8" cy="10" r="1.3" fill="#000"/><path d="M4.5 7.2a5 5 0 0 1 7 0" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1.8 4.4a9 9 0 0 1 12.4 0" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-        <div class="battery-pill">90</div>
+        <svg class="sb-signal" width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3.2" height="4" rx="1" fill="#000"/><rect x="4.9" y="5.6" width="3.2" height="6.4" rx="1" fill="#000"/><rect x="9.8" y="3" width="3.2" height="9" rx="1" fill="#000"/><rect x="14.7" y="0" width="3.2" height="12" rx="1" fill="#000"/></svg>
+        <svg class="sb-wifi" width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.6 10.4 9.1a3.4 3.4 0 0 0-4.8 0L8 11.6Z" fill="#000"/><path d="M3.9 7.4a5.8 5.8 0 0 1 8.2 0l1.4-1.5a7.9 7.9 0 0 0-11 0l1.4 1.5Z" fill="#000"/><path d="M1.4 4.8a9.4 9.4 0 0 1 13.2 0L16 3.3A11.5 11.5 0 0 0 0 3.3l1.4 1.5Z" fill="#000"/></svg>
+        <div class="sb-battery"><div class="sb-level" style="width:90%"></div><span>90</span></div><i class="sb-nub"></i>
       </div>
     </div>
 
     <!-- A1 -->
     <div class="screen grad" data-step="A1">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="iconbtn dashed">
-          <svg width="24" height="24" viewBox="0 0 34 34">
-            <circle cx="17" cy="17" r="15" fill="none" stroke="#c4c7c9" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="0.1 7.2"/>
-            <path d="M19 13a1.7 1.7 0 0 1 0 2.4l-5.8 5.8-2.8.5.5-2.8 5.8-5.8a1.7 1.7 0 0 1 2.3-.1z" fill="#fff" stroke="#3c4043" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="empty-hero">
         <img src="assets/gemini-logo.svg" width="34" height="34" alt="Gemini" style="display:block;">
@@ -124,15 +120,10 @@
     <!-- A1B: 타이핑 중 -->
     <div class="screen grad" data-step="A1B">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="iconbtn dashed">
-          <svg width="24" height="24" viewBox="0 0 34 34">
-            <circle cx="17" cy="17" r="15" fill="none" stroke="#c4c7c9" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="0.1 7.2"/>
-            <path d="M19 13a1.7 1.7 0 0 1 0 2.4l-5.8 5.8-2.8.5.5-2.8 5.8-5.8a1.7 1.7 0 0 1 2.3-.1z" fill="#fff" stroke="#3c4043" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="empty-hero" style="flex:1;"></div>
       <div class="chat-input-bar">
@@ -159,10 +150,10 @@
     <!-- A1C: 로딩 중 -->
     <div class="screen grad chat-screen" data-step="A1C">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
@@ -176,10 +167,10 @@
     <!-- A2 -->
     <div class="screen chat-screen" data-step="A2">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
@@ -311,10 +302,10 @@
     <!-- B1 -->
     <div class="screen chat-screen" data-step="B1">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user">요즘 새로 생긴 이탈리안 레스토랑 추천해줘</div>
@@ -334,10 +325,10 @@
     <!-- B2 -->
     <div class="screen chat-screen" data-step="B2">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
@@ -431,10 +422,10 @@
     <!-- B3 -->
     <div class="screen chat-screen" data-step="B3">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
@@ -460,10 +451,10 @@
     <!-- B5: 확인 후 채팅으로 돌아온 상태 -->
     <div class="screen chat-screen" data-step="B5">
       <div class="topbar">
-        <div class="iconbtn"><svg width="18" height="8" viewBox="0 0 18 8" fill="none" stroke="#3c4043" stroke-width="1.8" stroke-linecap="round"><line x1="1" y1="1.5" x2="17" y2="1.5"/><line x1="1" y1="6.5" x2="17" y2="6.5"/></svg></div>
-        <div class="brand"><b>Gemini</b> <span>Pro ⌄</span></div>
+        <div class="tb-btn tb-menu" data-label="메뉴"><svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="#1f1f1f" stroke-width="1.9" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="18.5" y2="1.5"/><line x1="1.5" y1="8.5" x2="18.5" y2="8.5"/></svg><i class="tb-dot"></i></div>
+        <div class="brand">Gemini <span>Pro</span><svg class="tb-chev" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#1f1f1f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg></div>
         <div class="spacer"></div>
-        <div class="topbar-pill"><span class="iconbtn">✎</span><span class="iconbtn">⋯</span></div>
+        <div class="tb-btn tb-temp" data-label="임시 채팅"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.3A9 9 0 1 0 20.7 10.4" stroke="#1f1f1f" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="0.1 3.1"/><path d="M19.2 3.4a1.6 1.6 0 0 1 2.3 2.3l-7.4 7.4-3 .7.7-3 7.4-7.4z" stroke="#1f1f1f" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="chat-body">
         <div class="msg-user b1-echo">정민이랑 관련된 정보 다 지워줘</div>
@@ -605,6 +596,21 @@
 
   <div class="session-row" id="sessionRow">세션 시작 전</div>
 
+  <div class="linkmaker no-watch">
+    <div class="panel-section-title">참가자 링크 만들기</div>
+    <div class="lm-row">
+      <label>코드 <input id="lmPid" value="P01" maxlength="12" oninput="App.updateLink(true)"></label>
+      <label>순서 <select id="lmOrder" onchange="App.updateLink()"><option value="ab">A→B</option><option value="ba">B→A</option></select></label>
+    </div>
+    <div class="lm-row">
+      <label>기기 <select id="lmMode" onchange="App.updateLink()"><option value="participant">참가자 기기</option><option value="moderator">진행자 기기(대면)</option></select></label>
+      <label>언어 <select id="lmLang" onchange="App.updateLink()"><option value="">한국어</option><option value="en">English</option></select></label>
+    </div>
+    <div class="lm-row"><input id="lmUrl" readonly onclick="this.select()"><button id="lmCopy" onclick="App.copyLink()">복사</button></div>
+    <div class="lm-hint">코드가 홀수면 A→B, 짝수면 B→A로 자동 선택돼요. 참가자는 코드를 입력하지 않아요.</div>
+  </div>
+  <div class="panel-divider"></div>
+
   <button class="advance-btn no-watch" onclick="App.advance()">다음 단계 진행 →</button>
 
   <div id="stepTitle" class="step-title">START</div>
@@ -633,6 +639,7 @@
   <div class="log-actions">
     <button onclick="App.download('json')">JSON 받기</button>
     <button onclick="App.download('csv')">CSV 받기</button>
+    <button onclick="App.downloadResultLocal()" title="엑셀 '자동 수집' 시트에 붙여넣는 형식">결과 CSV</button>
     <button class="no-watch" onclick="Logger.copy()">복사</button>
   </div>
   <button class="resetbtn danger no-watch" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
