@@ -636,11 +636,22 @@
     renderB3B4();
   }
 
+  /* ---------------- PC 참가자 화면: 창 높이에 맞춰 휴대폰을 키워요 ---------------- */
+  function fitPhone(){
+    const wrap = $('.phone-wrap');
+    if(MODE !== 'participant' || window.innerWidth < 900){ wrap.style.zoom = ''; window.UI_ZOOM = 1; return; }
+    const z = Math.max(.8, Math.min(1.5, (window.innerHeight - 96) / 832));
+    wrap.style.zoom = z.toFixed(3); window.UI_ZOOM = z;
+  }
+  fitPhone();
+  window.addEventListener('resize', fitPhone);
+
   /* ---------------- 클릭 기록 (휴대폰 화면 안의 모든 클릭) ---------------- */
   phone.addEventListener('click', e => {
     if(!Logger.active) return;
     const r = phone.getBoundingClientRect();
-    const x = Math.round(e.clientX - r.left), y = Math.round(e.clientY - r.top);
+    const z = window.UI_ZOOM || 1;   // PC에서 화면을 키운 배율만큼 되돌려 휴대폰 기준 좌표로 기록
+    const x = Math.round((e.clientX - r.left) / z), y = Math.round((e.clientY - r.top) / z);
     const hit = e.target.closest('[data-tag], button, input, .hot');
     if(hit){
       const tag = hit.dataset.tag || (hit.textContent || '').trim().slice(0, 24) || hit.id || hit.tagName.toLowerCase();
