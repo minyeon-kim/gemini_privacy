@@ -454,6 +454,16 @@
   messages["기능 전체에 대한 설문"] = "About the whole feature";
   messages["과제 보기"] = "View task";
   messages["접기"] = "Hide";
+  messages["화면과 목소리를 녹화하고, 생각을 소리 내어 말하며 진행해요"] = "Your screen and voice are recorded, and you think aloud as you go";
+  messages["누른 위치와 시간, 입력한 문장, 설문 응답이 기록돼요"] = "Taps and timing, typed text and survey answers are logged";
+  messages["원할 때 언제든 중단할 수 있어요"] = "You can stop at any time";
+  messages["위 내용을 확인했고 동의해요"] = "I have read the above and agree";
+  messages["참여해 주셔서 감사합니다"] = "Thank you for taking part";
+  messages["진행자가 마무리 질문을 이어서 드릴게요"] = "The moderator will continue with a few wrap-up questions";
+  messages["어떤 정보를 정리할까요? 사람 이름이나 주제를 알려 주세요."] = "Which information should I tidy up? Tell me a name or a topic.";
+  messages["정민 님과 관련해서 무엇을 도와드릴까요?"] = "What can I help you with about Jeongmin?";
+  messages["네, 말씀해 주세요. 무엇을 도와드릴까요?"] = "Sure. What can I help you with?";
+  messages["처리할 정보"] = "Selected";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');

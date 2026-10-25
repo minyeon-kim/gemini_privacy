@@ -844,7 +844,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .chip-more{ font-size:12.5px !important; color:#0b57d0 !important; padding:8px 0 4px !important; cursor:pointer; text-align:left !important; padding-left:46px !important; }
 .s-card .conn-wrap.open .conn-detail, .conn-wrap.open .conn-detail{ max-height:none !important; }
 /* 처리 결과 확인: 이름 · 상태 · 설명 사이 간격 */
-.source-item .name{ margin-bottom:6px; }
+.screen[data-step="B4"] .source-item .name{ margin-bottom:6px; }
 .source-item .detail .st-chip{ margin:0 0 7px !important; }
 .source-item .detail .b4-desc{ line-height:1.5; }
 /* 설문: 글씨를 한 단계 작게 */
@@ -948,3 +948,47 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
   body.participant .tk-done{ font-size:13px !important; }
 }
 @media (max-width: 520px){ body.participant .taskbar.show.done{ display:none !important; } }
+
+/* ===== 여백 · 정렬 다듬기 ===== */
+/* 아이콘: 배경 없이 같은 크기 (Memory만 파란 선 아이콘) */
+.icon-chip, .icon-chip:not([style]), .icon-chip[style]{ background:transparent !important; width:28px !important; height:28px !important; flex:0 0 28px !important; }
+.icon-chip:not([style]){ color:#0b57d0 !important; }
+.icon-chip svg{ width:22px !important; height:22px !important; }
+/* 출처 시트 행 */
+.source-head{ gap:12px !important; min-height:40px; }
+.source-head .meta{ align-items:center !important; }
+.source-item .name{ font-size:15px !important; font-weight:500 !important; align-items:baseline; }
+.source-item .data-chip{ padding-left:40px !important; }
+/* 처리 목록(B2) */
+.check-item-head{ padding:12px 14px !important; }
+.check-item-expand{ padding-left:54px !important; }
+.ctext-detail{ border-top:1px solid #eeeded; }
+.ctext-detail:first-child{ border-top:none; }
+.b2-hint{ margin:2px 0 8px !important; line-height:1.5; }
+.selection-count{ font-size:13px !important; color:#5e5e5e !important; margin:10px 2px 0 !important; }
+.selection-count b{ color:#1f1f1f; font-weight:600; margin-left:4px; }
+.sc-total{ margin-left:3px; color:#747775; }
+.btn-cancel, .btn-row-h .ghost-btn{ background:#fff !important; color:#0b57d0 !important; border:1px solid #c4c7c5 !important; }
+/* 상황 안내 화면 */
+.intro-screen .intro-lead{ font-size:16px !important; font-weight:400 !important; line-height:1.65 !important; }
+.intro-screen h1{ font-size:23px !important; font-weight:500 !important; }
+.intro-screen .intro-points{ gap:14px !important; }
+/* 동의 */
+.consent-list{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:14px; line-height:1.55; color:#444746; }
+.consent-all{ border-top:1px solid #e3e1e1; padding-top:12px; margin-top:2px; }
+.consent-all span{ font-weight:600 !important; }
+/* 마지막 화면 */
+.end-lead{ margin:0; text-align:center; font-size:16px; color:#1f1f1f; }
+.end-sub{ margin:-6px 0 0; text-align:center; font-size:14px; color:#5e5e5e; }
+.end-status:empty{ display:none; }
+/* 진행자 안내 카드 */
+.guide{ border:1px solid #d3e3fd; background:#f8fbff; border-radius:12px; padding:10px 12px; margin:8px 0 10px; display:flex; flex-direction:column; gap:8px; }
+.guide[hidden]{ display:none; }
+.guide.flash{ animation:guideFlash 1.4s ease; }
+@keyframes guideFlash{ 0%{ box-shadow:0 0 0 0 rgba(11,87,208,.4); } 100%{ box-shadow:0 0 0 8px rgba(11,87,208,0); } }
+.gd-label{ font-size:11px; font-weight:700; letter-spacing:.2px; color:#5f6368; margin-bottom:2px; }
+.gd-line{ font-size:13px; line-height:1.5; color:#1f1f1f; padding-left:10px; position:relative; }
+.gd-line::before{ content:''; position:absolute; left:0; top:.65em; width:4px; height:4px; border-radius:50%; background:#9aa0a6; }
+.gd-sec.first .gd-label, .gd-sec.after .gd-label{ color:#0b57d0; }
+.gd-sec.first .gd-line, .gd-sec.say .gd-line{ font-weight:600; }
+.gd-sec.help .gd-label{ color:#b06000; }

@@ -282,7 +282,7 @@
     resetState(); applyAll();
     window.Interactions?.reset();
     const consentAt = new Date().toISOString();
-    const consentItems = $$('[data-consent]').map(el => el.dataset.consent);
+    const consentItems = ['record', 'log', 'stop'];   // 체크 한 번으로 세 항목 모두 동의
     Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID,
       consent: { at: consentAt, items: consentItems } });
     Logger.log('consent', { at: consentAt, items: consentItems });
@@ -361,7 +361,7 @@
       // 결과는 Firebase로 저장되고 진행자 패널에서 받으니, 참가자 화면에는 버튼을 숨겨요(연결 실패 시에만 보여요).
       const saved = window.Live && Live.connected;
       $('#endActions').style.display = MODE === 'participant' && !saved ? '' : 'none';
-      if(MODE === 'participant') status.textContent = saved ? I18n.t('응답이 저장됐어요. 진행자에게 알려 주세요.') : I18n.t('저장에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.');
+      if(MODE === 'participant') status.textContent = saved ? '' : I18n.t('저장에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.');
     }
   }
 
@@ -510,19 +510,29 @@
   }
   // 요청에 정리할 대상(사람·지칭어)이 있어야 정리 목록을 보여줘요. 없으면 되물어요.
   const B1_TARGET = /정민|jeongmin|jungmin|그\s?사람|이\s?사람|그\s?분|이\s?분|걔|그\s?친구|이\s?친구|\bthat person\b|\bthis person\b|\bhim\b|\bher\b|\bthem\b/i;
-  const B1_CLARIFY = "어떤 정보를 정리할까요? 사람 이름이나 주제를 함께 알려 주세요. 예: '정민 관련 정보 지워줘'";
+  const B1_INTENT = /지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
+  const B1_REPLY = {
+    noTarget: '어떤 정보를 정리할까요? 사람 이름이나 주제를 알려 주세요.',
+    noIntent: '정민 님과 관련해서 무엇을 도와드릴까요?',
+    other: '네, 말씀해 주세요. 무엇을 도와드릴까요?',
+  };
   function renderB1Thread(){
     const box = $('#b1Thread');
-    box.innerHTML = b1Asks.map(t => `<div class="msg-user" data-no-translate>${esc(t)}</div><div class="msg-ai b1-clarify">${esc(I18n.t(B1_CLARIFY))}</div>`).join('');
+    box.innerHTML = b1Asks.map(t => `<div class="msg-user" data-no-translate>${esc(t)}</div><div class="msg-ai b1-clarify">${esc(I18n.t(B1_REPLY[b1Kind(t)]))}</div>`).join('');
     const hero = $('.screen[data-step="B1"] .b1-hero'); if(hero) hero.hidden = b1Asks.length > 0;
     const body = box.closest('.chat-body'); if(body) body.scrollTop = body.scrollHeight;
+  }
+  function b1Kind(t){
+    const tg = B1_TARGET.test(t), it = B1_INTENT.test(t);
+    return tg && it ? 'ok' : it ? 'noTarget' : tg ? 'noIntent' : 'other';
   }
   function sendB1(){
     const text = b1Input.value.trim();
     if(!text || current !== 'B1') return;
-    if(!B1_TARGET.test(text)){
+    const kind = b1Kind(text);
+    if(kind !== 'ok'){
       b1Asks.push(text);
-      Logger.log('b1_clarify', { step: current, text, count: b1Asks.length });
+      Logger.log('b1_clarify', { step: current, text, kind, count: b1Asks.length });
       b1Input.value = ''; syncB1(); renderB1Thread();
       return;
     }
@@ -565,7 +575,7 @@
       b.setAttribute('aria-checked', String(b.classList.contains('checked')));
     });
     const picked = boxes.filter(b => b.classList.contains('checked')).reduce((a, b) => a + (SRC[b.dataset.src] ? SRC[b.dataset.src].count : 0), 0);
-    $('#selectionCount').textContent = I18n.t(`${B2_TOTAL}건 중 ${picked}건 선택`);
+    $('#selectionCount').innerHTML = `${esc(I18n.t('처리할 정보'))} <b>${picked}</b><span class="sc-total">/ ${B2_TOTAL}건</span>`;
     $('#b2ProcessBtn').disabled = !any;
   }
 
@@ -999,12 +1009,51 @@
   })();
 
   /* ---------------- 진행자 패널 렌더 ---------------- */
+  // 진행자 안내 카드: 화면이 바뀔 때마다 지금 할 말과 질문을 짧게 보여 줘요(자세한 내용은 아래 스크립트).
+  const GUIDE = {
+    START: { say:['오늘 보실 화면은 연구용 가상 화면이에요. 이름·일정도 모두 가상이에요.', '정답은 없으니 평소처럼 쓰면서 생각나는 걸 소리 내어 말씀해 주세요.'], watch:['동의 체크 후 시작하기'] },
+    SA: { say:['안내를 읽고 시작하기를 눌러 주세요.'] },
+    SB: { first:['정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?'], say:['(두 번째 상황이면) 여기부터는 앞과 별개의 새 상황이에요.'] },
+    A1: { watch:['입력창을 스스로 누르는지'] },
+    A1B: { watch:['미리 입력된 질문을 보내는지'] },
+    A1C: { watch:['기다리는 동안의 반응'] },
+    A2: { first:['방금 답변을 보고 어떤 생각이 드세요?'],
+          say:['참고로 정민은 지금은 연락하지 않는 사람이에요.', '이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.'],
+          watch:["'출처 확인'을 스스로 찾는지", '조작 위치는 알려 주지 않기'],
+          help:['60초 넘게 막히면: 이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?'] },
+    A3: { watch:['토글(참조 끄기)과 삭제를 구분하는지', 'Memory를 펼쳐 삭제를 찾는지'],
+          after:['방금 무엇이 바뀌었나요?', '(토글을 껐다면) 이 토글을 끄면 어떤 정보가 영향을 받을까요?', '지운 정보와 끈 정보는 각각 어떻게 될까요?'] },
+    A4: { first:['이 화면은 무엇을 보여 주는 것 같으세요?'], watch:['정민 메모리만 골라 지우려 하는지'] },
+    QA: { first:['(설문 전에 말로) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
+    B1: { say:['채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.'], watch:['어떤 문장으로 요청하는지', '되묻기가 나오면 어떻게 고쳐 말하는지'] },
+    B2: { watch:['펼쳐 보는지, 더보기를 누르는지, 체크를 바꾸는지', "'삭제돼요/참조만 차단돼요' 라벨을 알아차리는지"], help:['처리 전에 망설이면: 이 목록을 생각하셨던 범위와 비교하면 어떤가요?'] },
+    B3: { watch:["'지금 확인하기'를 누르는지(안 눌러도 실패 아님)"],
+          after:['방금 무엇이 처리됐나요?', 'Gmail과 Calendar의 원본은 어떻게 됐을까요?', '남아 있는 게 있다면 무엇일까요?'] },
+    B4: { first:['이 화면에서 무엇을 알 수 있나요?'], watch:['보관 예외(검토 사본 최대 3년) 안내를 읽는지'] },
+    B5: { watch:["참가자가 끝났다고 하면 '과제 완료'"] },
+    QB: { first:['(설문 전에 말로) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
+    QS: { say:['마지막 설문이에요. 오늘 써 본 두 방식을 함께 떠올리며 답해 주세요.'] },
+    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '두 방식 중 어느 쪽이 나았나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
+           say:['(디브리핑) 오늘 본 이름·예약·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'] },
+  };
+  let guideStep = null;
+  function renderGuide(){
+    const box = $('#guideBox'); if(!box) return;
+    const g = GUIDE[current];
+    if(!g){ box.innerHTML = ''; box.hidden = true; return; }
+    box.hidden = false;
+    const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
+    box.innerHTML = sec('first', '먼저 물어보기', g.first) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after);
+    if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
+  }
+
   function renderPanel(){
     const d = STEPS[current] || STEPS.START;
     const tag = d.phase === 'a' ? '<span class="phase-tag a">Phase A · 인라인 데이터 관리</span>'
               : d.phase === 'b' ? '<span class="phase-tag b">Phase B · 채팅 자연어 삭제</span>' : '';
     $('#stepTitle').innerHTML = current + ' ' + tag;
     $('#scriptBox').textContent = I18n.t(d.script);
+    renderGuide();
     $('#interactNote').innerHTML = I18n.t(d.interact);
     if(current === 'A2') $('#interactNote').append(document.createTextNode(' ' + I18n.t('생성 중지·계속, 복사·공유·듣기·평가 버튼도 사용할 수 있어요.')));
     if(current === 'A3') $('#interactNote').append(document.createTextNode(' ' + I18n.t('시트 상단을 아래로 드래그하거나 Esc를 눌러 닫을 수 있어요.')));
