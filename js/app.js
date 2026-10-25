@@ -53,9 +53,9 @@
   const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], WITH_SUS ? ['QS'] : [], ['END']);
   const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
-    A: "Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요.",
-    A2: "참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 확인하고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.",
-    B: "채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.",
+    A:  { steps:['Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요'] },
+    A2: { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['답변에 정민 이야기가 왜 나왔는지 확인하기', '앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
+    B:  { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
   };
   // 두 번째로 하는 상황 카드에만 '앞의 상황과는 별개' 문구를 보여요.
   document.querySelectorAll('.screen[data-step="SA"] .order-note').forEach(el => el.style.display = SEQ === 'BA' ? '' : 'none');
@@ -69,6 +69,7 @@
   let current = 'START';
   let stepEnteredAt = 0;
   let devMode = false;
+  let sheetBefore = null;
   let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {};
   const M = {}; // 지표 계산용 타임스탬프
 
@@ -96,6 +97,7 @@
   }
 
   function showStep(step){
+    if(step === 'A3' && current !== 'A3') sheetBefore = JSON.stringify({ refState, memState });
     if(step === 'A3'){                // A3 = A2 화면 위에 출처 시트가 열린 상태
       showScreen('A2');
       sheetReturnFocus = document.activeElement;
@@ -262,6 +264,7 @@
         ov.classList.remove('closing');
         if(current === 'A3') {
           go('A2', 'sheet-close');
+          afterSheetClose();
           if(sheetReturnFocus && sheetReturnFocus.isConnected) sheetReturnFocus.focus({preventScroll:true});
         }
       }, 200);
@@ -272,13 +275,18 @@
   /* ---------------- 세션 ---------------- */
   function start(){
     const input = $('#pidInput');
+    if(!consentOk()) return;
     const pid = (input.value || '').trim().toUpperCase() || PID;
     if(!pid){ $('#pidError').classList.add('show'); input.focus(); return; }
     $('#pidError').classList.remove('show');
     Object.keys(M).forEach(k => delete M[k]);
     resetState(); applyAll();
     window.Interactions?.reset();
-    Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID });
+    const consentAt = new Date().toISOString();
+    const consentItems = $$('[data-consent]').map(el => el.dataset.consent);
+    Logger.start({ participant: pid, mode: MODE, order: SEQ, sus: WITH_SUS, language: I18n.language, pidFromLink: !!PID,
+      consent: { at: consentAt, items: consentItems } });
+    Logger.log('consent', { at: consentAt, items: consentItems });
     stepEnteredAt = performance.now();
     renderSession();
     go(firstStep(FIRST), 'start');
@@ -291,6 +299,7 @@
     resetState(); applyAll();
     window.Interactions?.reset();
     $('#pidInput').value = '';
+    $$('[data-consent]').forEach(el => el.checked = false); syncConsent();
     $$('.screen').forEach(el => el.classList.remove('active'));
     current = 'START';
     showScreen('START');
@@ -331,7 +340,10 @@
       status.textContent = r === 'sent' ? '기록이 전송됐어요. 창을 닫으셔도 돼요.' : '전송에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.';
       $('#endActions').style.display = r === 'sent' ? 'none' : '';
     }else{
-      $('#endActions').style.display = MODE === 'participant' ? '' : 'none';
+      // 결과는 Firebase로 저장되고 진행자 패널에서 받으니, 참가자 화면에는 버튼을 숨겨요(연결 실패 시에만 보여요).
+      const saved = window.Live && Live.connected;
+      $('#endActions').style.display = MODE === 'participant' && !saved ? '' : 'none';
+      if(MODE === 'participant') status.textContent = saved ? I18n.t('응답이 저장됐어요. 진행자에게 알려 주세요.') : I18n.t('저장에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.');
     }
   }
 
@@ -417,10 +429,28 @@
     clearTimeout(undoTimer);
     const bar = $('#snackbar');
     bar.querySelector('.snackbar-msg').textContent = msg;
+    $('#snackUndo').hidden = false;
     bar.classList.add('show');
     undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 4000);
   }
-  function hideSnackbar(){ $('#snackbar').classList.remove('show'); }
+  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#snackUndo').hidden = false; }
+  // 실행취소 없이 잠깐 보이는 안내
+  function showToast(msg){
+    showSnackbar(msg); lastUndo = null; $('#snackUndo').hidden = true;
+  }
+  // 출처 패널에서 바꾼 게 있으면, 닫았을 때 바로 알려 주고 답변 아래 변경 안내로 데려가요.
+  function afterSheetClose(){
+    const changed = sheetBefore !== null && sheetBefore !== JSON.stringify({ refState, memState });
+    sheetBefore = null;
+    if(!changed) return;
+    showToast(I18n.t('설정이 바뀌었어요 · 다음 답변부터 반영돼요'));
+    const n = $('#a2Notice');
+    if(n && n.classList.contains('show')){
+      n.scrollIntoView({ block:'center', behavior:'smooth' });
+      n.classList.remove('pulse'); void n.offsetWidth; n.classList.add('pulse');
+    }
+    Logger.log('a3_change_feedback', { step: current });
+  }
 
   /* ---------------- B1 (자유 입력 요청) ---------------- */
   const B1_DEFAULT = '정민이랑 관련된 정보 다 지워줘';   // 바로가기로 B2 이후에 들어온 경우에만 쓰는 대체 문구
@@ -436,6 +466,7 @@
   function renderB1Thread(){
     const box = $('#b1Thread');
     box.innerHTML = b1Asks.map(t => `<div class="msg-user" data-no-translate>${esc(t)}</div><div class="msg-ai b1-clarify">${esc(I18n.t(B1_CLARIFY))}</div>`).join('');
+    const hero = $('.screen[data-step="B1"] .b1-hero'); if(hero) hero.hidden = b1Asks.length > 0;
     const body = box.closest('.chat-body'); if(body) body.scrollTop = body.scrollHeight;
   }
   function sendB1(){
@@ -704,20 +735,20 @@
   /* ---------------- 과제 직후 설문 (앱 안에서 참가자가 직접 응답) ---------------- */
   const S7 = [1, 2, 3, 4, 5, 6, 7], S5 = [1, 2, 3, 4, 5];
   const SURVEY = {
-    A: { badge:'잠깐 설문', title:'방금 상황에 대해 알려 주세요', sub:'저녁 약속 장소 찾기', items:[
-      { id:'A-13', q:'방금 과제는 전반적으로 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
-      { id:'A-14', q:'원하시던 상태로 처리를 마쳤다고 느끼시나요?', choices:['예', '아니오', '모르겠음'] },
-      { id:'A-15', q:'방금 처리한 결과가 생각하신 대로 반영됐다고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'A-16', q:'출처 패널과 전체 관리 화면에서 보여준 정보의 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+    A: { badge:'잠깐 설문', title:'저녁 약속 상황에 대해 알려 주세요', sub:'답변에 나온 정민 관련 정보를 확인하고 처리한 과정을 떠올리며 답해 주세요', items:[
+      { id:'A-13', q:'정민 이야기가 나온 이유를 확인하고, 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
+      { id:'A-14', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
+      { id:'A-15', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
+      { id:'A-16', q:"'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?", scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
     ]},
-    B: { badge:'잠깐 설문', title:'방금 상황에 대해 알려 주세요', sub:'채팅으로 정보 지우기', items:[
-      { id:'B-10', q:'방금 과제는 전반적으로 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
-      { id:'B-11', q:'원하시던 상태로 처리를 마쳤다고 느끼시나요?', choices:['예', '아니오', '모르겠음'] },
-      { id:'B-12', q:'방금 처리한 결과가 생각하신 대로 반영됐다고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'B-13', q:'처리 목록과 처리 결과에서 보여준 정보의 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
-      { id:'B-14', q:'처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
+    B: { badge:'잠깐 설문', title:'채팅으로 정리한 상황에 대해 알려 주세요', sub:'채팅으로 요청해 정민 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
+      { id:'B-10', q:'채팅으로 요청해서 정민 관련 정보를 처리하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
+      { id:'B-11', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
+      { id:'B-12', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
+      { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+      { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
     ]},
-    S: { badge:'마지막 설문', title:'오늘 사용한 기능 전체에 대해 알려 주세요', sub:'각 문장에 얼마나 동의하는지 골라 주세요', items:[
+    S: { badge:'마지막 설문', title:'오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요', sub:"'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
       '이 기능을 자주 사용하고 싶을 것 같다.', '이 기능은 불필요하게 복잡하다.', '이 기능은 사용하기 쉽다.',
       '이 기능을 사용하려면 기술 지원이 필요할 것 같다.', '이 기능의 여러 부분이 잘 통합되어 있다.', '이 기능에 불일치나 혼동이 너무 많다.',
       '대부분의 사람들이 이 기능을 쉽게 배울 수 있을 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 사용할 때 자신감이 있다.',
@@ -797,10 +828,11 @@
   function rowFrom(meta, sm){
     const ids = (sm && sm.ids) || {};
     return Object.assign({ participant: meta.participant || '', order: (sm && sm.order) || meta.order || '', mode: meta.mode || '',
-      startedAt: meta.startedAt || '', studyId: meta.studyId || '', ended: (meta.ended || meta.finishedAt) ? '예' : '' }, ids, { SUS: susScore(ids) });
+      startedAt: meta.startedAt || '', studyId: meta.studyId || '', ended: (meta.ended || meta.finishedAt) ? '예' : '',
+      consentAt: (meta.consent && meta.consent.at) || meta.consentAt || '' }, ids, { SUS: susScore(ids) });
   }
   function resultsCSV(rows){
-    const cols = ['participant', 'order', 'mode', 'startedAt', 'studyId', 'ended'].concat(RESULT_IDS, ['SUS']);
+    const cols = ['participant', 'order', 'mode', 'startedAt', 'consentAt', 'studyId', 'ended'].concat(RESULT_IDS, ['SUS']);
     const cell = v => { const t = v == null ? '' : String(v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
     return '﻿' + [cols.join(',')].concat(rows.map(r => cols.map(c => cell(r[c])).join(','))).join('\n');
   }
@@ -815,6 +847,10 @@
     if(!Logger.active) return;
     downloadResults([rowFrom(Logger.session.meta, summary())], 'ut-result-' + Logger.session.meta.participant);
   }
+
+  /* ---------------- 시작 화면 동의 ---------------- */
+  function consentOk(){ return $$('[data-consent]').every(el => el.checked); }
+  function syncConsent(){ $('#startBtn').disabled = !consentOk(); }
 
   /* ---------------- 참가자 링크 만들기 (진행자 패널) ---------------- */
   function updateLink(fromPid){
@@ -928,7 +964,11 @@
     bar.classList.toggle('show', MODE === 'participant' && !!phase);
     // A는 답변이 다 나온 뒤 구체적인 목표로 바뀌어요(첫 반응은 자유롭게 보고, 그다음 목표 제시).
     const key = phase === 'A' && (M.aGoal || ['A3', 'A4'].includes(current)) ? 'A2' : phase;
-    if(phase) $('#taskText').textContent = I18n.t(TASK_TEXT[key]);
+    if(phase){
+      const t = TASK_TEXT[key];
+      const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
+      $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx">${esc(I18n.t(t.ctx))}</div>` : '') + steps;
+    }
   }
 
   function notice(msg){ const s = $('#endStatus'); if(s) s.textContent = msg; }
@@ -950,7 +990,7 @@
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
-    pickSurvey, submitSurvey, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
+    pickSurvey, submitSurvey, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
       clearFx();

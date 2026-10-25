@@ -343,6 +343,36 @@
   "이번에는": "This time,",
   "앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.": "so that information about Jeongmin isn’t used in responses from now on."
 });
+  Object.assign(messages, {
+  "Gemini에게 저녁 약속 장소를 물어보고 답변을 살펴보세요": "Ask Gemini for a dinner venue and review the response",
+  "정민은 지금은 연락하지 않는 사람이에요": "Jeongmin is someone you’re no longer in touch with",
+  "답변에 정민 이야기가 왜 나왔는지 확인하기": "Find out why Jeongmin came up in the response",
+  "앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기": "Make sure information about Jeongmin isn’t used in responses from now on",
+  "채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기": "Ask in chat so that information about Jeongmin isn’t used in responses from now on",
+  "설정이 바뀌었어요 · 다음 답변부터 반영돼요": "Settings updated · Applies to future responses",
+  "응답이 저장됐어요. 진행자에게 알려 주세요.": "Your answers have been saved. Please let the moderator know.",
+  "저장에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.": "Saving failed. Use the buttons below to download the log and send it to the moderator.",
+  "최근 답변에 쓰인 2건 포함": "Includes 2 used in a recent response",
+  "저녁 약속 상황에 대해 알려 주세요": "Tell us about the dinner scenario",
+  "답변에 나온 정민 관련 정보를 확인하고 처리한 과정을 떠올리며 답해 주세요": "Think about how you checked and handled the Jeongmin-related information in the response",
+  "정민 이야기가 나온 이유를 확인하고, 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?": "How difficult or easy was it to find out why Jeongmin came up and to keep that information from being used?",
+  "정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?": "Do you think information about Jeongmin will no longer be used in responses?",
+  "앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?": "How confident are you that Jeongmin-related information won’t appear in Gemini’s responses from now on?",
+  "'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?": "How was the amount of information shown on the “Information used in this response” screen?",
+  "채팅으로 정리한 상황에 대해 알려 주세요": "Tell us about handling it through chat",
+  "채팅으로 요청해 정민 관련 정보를 처리한 과정을 떠올리며 답해 주세요": "Think about how you asked in chat and handled the Jeongmin-related information",
+  "채팅으로 요청해서 정민 관련 정보를 처리하는 과정은 얼마나 어렵거나 쉬웠나요?": "How difficult or easy was it to handle the Jeongmin-related information by asking in chat?",
+  "Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?": "How was the amount of information in the Jeongmin list and the results Gemini showed?",
+  "목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?": "Was reviewing and choosing items in the list a hassle?",
+  "오늘 써 본 정보 관리 기능 전체에 대해 알려 주세요": "Tell us about the information-management features you used today",
+  "'답변에서 출처 확인·끄기'와 '채팅으로 요청해 지우기'를 함께 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요": "Thinking of both “checking and turning off sources in a response” and “asking in chat to remove it”, choose how much you agree with each statement"
+});
+  Object.assign(messages, {
+  "아래 내용을 확인하고 체크해 주세요": "Please review and check the following",
+  "화면·음성 녹화와 생각 말하기(think-aloud)에 동의해요": "I agree to screen and audio recording and to thinking aloud",
+  "누른 위치·순서·시간, 입력한 문장, 설문 응답이 연구 목적으로 기록되는 것에 동의해요": "I agree that taps (location, order, timing), typed text, and survey answers are recorded for research",
+  "원할 때 언제든 중단할 수 있다는 걸 이해했어요": "I understand I can stop at any time"
+});
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
