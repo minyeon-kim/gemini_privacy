@@ -40,7 +40,7 @@
     background:#fff; overflow-y:auto;
   }
   .screen.active{display:flex;}
-  .screen.grad{background:linear-gradient(180deg,#ffffff 0%,#ffffff 52%,#a8d0fb 88%,#a8d0fb 100%);}
+  .screen.grad{background:linear-gradient(180deg,#f8f8f9 0%,#fbfbfc 45%,#e9f3fd 66%,#bfe0fc 84%,#8fcdfb 100%);}
   .screen.chat-screen{overflow:hidden;}
   /* 스크롤바 완전히 숨김 — 스크롤 기능은 유지하되 화면엔 보이지 않게, 카드 쏠림도 방지 */
   .screen::-webkit-scrollbar, .chat-body::-webkit-scrollbar, .sheet::-webkit-scrollbar, .panel::-webkit-scrollbar{ width:0; height:0; background:transparent; }
@@ -584,3 +584,16 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 .lm-hint{ font-size:11px; color:var(--text-3); line-height:1.5; }
 .live-export{ display:flex; flex-direction:column; gap:5px; margin-top:8px; }
 .live-export button{ align-self:flex-start; font-size:12px; padding:7px 12px; border-radius:9px; border:1px solid var(--border); background:#fff; cursor:pointer; color:var(--text-1); font-weight:600; }
+
+/* 상단바 — 실제 Gemini 앱(2026) 형태: 흰 원형 메뉴(알림 점) · Gemini + 모델 · 흰 원형 임시 채팅 */
+.topbar{ padding:8px 16px 6px; gap:10px; }
+.tb-btn{ position:relative; width:42px; height:42px; flex:0 0 42px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,.07), 0 0 0 .5px rgba(0,0,0,.03); cursor:default; }
+.tb-dot{ position:absolute; top:7px; right:8px; width:6px; height:6px; border-radius:50%; background:#1a73e8; }
+.topbar .brand{ gap:5px; font-size:16px; font-weight:400; color:#1f1f1f; letter-spacing:-.1px; margin-left:6px; }
+.topbar .brand span{ color:#747775; font-weight:400; }
+.topbar .brand .tb-chev{ margin-left:4px; margin-top:1px; }
+.empty-hero .headline{ font-size:24px; font-weight:400; letter-spacing:-.3px; }
+.sb-battery{ background:#000 !important; }
+.sb-battery .sb-level{ display:none; }
+.statusbar .sb-time{ font-size:16.5px; font-weight:600; }
+.phone:has(.screen.grad.active) .statusbar{ background:#f8f8f9; }

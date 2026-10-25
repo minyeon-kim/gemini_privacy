@@ -332,6 +332,7 @@
   "불러오지 못했어요. Firebase 보안 규칙을 확인해 주세요.": "Could not load. Check the Firebase security rules."
 });
   Object.assign(messages, {"참가자에게 연구 고지를 읽게 하고 '시작하기'를 누르세요. 패널의 '참가자 링크 만들기'로 만든 링크로 열면 참가자 코드가 자동으로 들어가요(직접 열었다면 코드를 입력). 이때부터 기록이 시작됩니다. 시작 전 안내: '디자인을 평가하는 자리지 참가자분을 평가하는 게 아니에요. 정답은 없고, 생각나는 걸 소리 내어 말하면서 진행해 주세요.'": "Ask the participant to read the research notice, then select Start. Links made with “Create participant link” fill in the participant code automatically (type it only if you opened the page directly). Logging starts now. Before starting, say: “We’re evaluating the design, not you. There are no right answers — please think aloud as you go.”"});
+  Object.assign(messages, {"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.": "[SUS] Always shown after the final scenario’s survey. Let the participant answer all 10 items. Run the wrap-up questions aloud after this screen.", "메뉴": "Menu", "임시 채팅": "Temporary chat"});
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');

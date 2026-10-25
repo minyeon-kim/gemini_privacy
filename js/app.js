@@ -7,8 +7,8 @@
   const SEQ = (params.get('order') || '').toLowerCase() === 'ba' ? 'BA' : 'AB';
   // 참가자 코드는 링크에 담아 보내요(?pid=P03). 참가자 모드에서 코드가 없으면 익명 코드를 자동으로 만들어요.
   const PID = (params.get('pid') || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 12);
-  // SUS(선택)는 링크에 sus=1이 있을 때만 마지막에 보여요.
-  const WITH_SUS = params.get('sus') === '1';
+  // SUS는 모든 참가자가 마지막 상황의 설문 다음에 답해요.
+  const WITH_SUS = true;
 
   /* ---------------- 단계 정의 (진행자 스크립트) ----------------
      진행 원칙: ① 목표만 제시 → ② 참가자가 직접 시도(진행자는 설명·힌트 없이 관찰) → ③ 설명 없이 이해 확인 → ④ 과제 직후 설문 → ⑤ 그다음 심층 질문.
@@ -42,7 +42,7 @@
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
     QB:{phase:'-', script:"[과제 직후 설문 · 채팅 삭제 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(B-09, 진행자 기록) 그다음 참가자가 화면의 설문 5문항에 직접 답하고 '다음'을 누르게 두세요.",
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
-    QS:{phase:'-', script:"[선택 · SUS] 링크에 sus=1이 있을 때만 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.",
+    QS:{phase:'-', script:"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.",
       indicators:[], interact:"클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화)."},
     END:{phase:'-', script:"세션 종료 화면입니다. SUS(선택)를 진행한 뒤 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고, 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
@@ -826,7 +826,6 @@
     if($('#lmMode').value === 'participant') q.set('mode', 'participant');
     if(pid) q.set('pid', pid);
     if($('#lmOrder').value === 'ba') q.set('order', 'ba');
-    if($('#lmSus').checked) q.set('sus', '1');
     if($('#lmLang').value) q.set('lang', $('#lmLang').value);
     $('#lmUrl').value = location.origin + location.pathname + '?' + q.toString();
   }
