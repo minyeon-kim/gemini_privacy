@@ -167,7 +167,6 @@
   "클릭 가능 — <b>전송 버튼</b>만(입력 연출이 끝난 뒤 활성화).": "Only Send is available after typing finishes.",
   "응답을 기다리는 짧은 로딩 장면입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.": "A brief loading screen. It advances automatically after about 1.2 seconds.",
   "클릭 지점 없음 — 자동 전환됩니다.": "No interaction; advances automatically.",
-  "실제 검색 기반 답변 형식(지도·맛집 카드)에 참가자가 언급한 적 없는 전 남자친구 이름이 자연스럽게 섞여 나옵니다. '예상하신 답변이었나요?'라고 물은 뒤, 참가자가 스스로 확인할 방법을 찾는지 관찰하세요.": "A restaurant response unexpectedly mentions an ex-boyfriend. Ask “Was this the response you expected?” Observe whether the participant finds a way to inspect it.",
   "관찰 포인트 — 좋아요·싫어요 옆의 <b>파란색 '출처 확인' 배지</b>를 참가자가 스스로 찾아 누르는지가 핵심입니다. 답변은 약 1.6초에 걸쳐 순서대로 나타나고, <b>발견 시간은 답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다.": "Observe whether they find the blue View sources badge beside the rating icons. The response appears over 1.6 seconds; discovery timing starts after it is fully shown. Changes in A3 appear below the response.",
   "출처 패널이 열렸습니다. 이 답변이 참고한 소스만 표시되어, 펼치면 나오는 데이터도 전부 정민 관련(과거 예약·일정·대화)입니다. '이 정보를 앞으로 어떻게 하고 싶으신가요? 참조만 막고 싶으신가요, 아예 지우고 싶으신가요?'라고 열린 질문을 던지세요.": "The source panel shows only information used in this response, all related to Jeongmin. Ask what they want to do with it: block its use or delete it?",
   "클릭 가능 — 항목 이름을 누르면 <b>구체적 데이터가 펼쳐짐(읽기 전용)</b>, 참조 on/off는 <b>앱 단위 토글</b>. <b>Memory는 펼쳤을 때만</b> 하단에 '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초간 실행취소 토스트). Gmail·Calendar는 연동 데이터라 참조 차단만 가능. 우측 상단 <b>X</b>나 바깥 영역으로 닫기, 하단 <b>'Personal Intelligence에서 전체 관리 →'</b> 링크.": "Expand sources to read details; toggles control each app. Expanding Memory reveals deletion of the 2 memories used here, with 4 seconds to undo. Gmail and Calendar can only be blocked. Close with X or the backdrop, or open Manage everything in Personal Intelligence.",
@@ -227,6 +226,36 @@
   "진행자 패널 · 과제 기반 UT": "Moderator panel · Task-based usability test",
   "A(인라인 데이터 관리)와 B(채팅 자연어 삭제)는 별개의 두 메커니즘이에요. 참가자가 직접 조작하고, 진행자는 목표만 제시한 뒤 관찰 → 이해 확인 순서로 진행합니다. 조작 방법·선택지를 먼저 알려주지 마세요.": "A (inline data management) and B (deletion through chat) are separate mechanisms. Present the goal, let the participant interact, then check their understanding. Do not explain controls or suggest options first.",
   "채팅으로 Gemini에게 직접 요청해서 '정민' 관련 정보를 정리해 보세요. 다 됐다고 느껴지면 '과제 완료'를 눌러 주세요.": "Ask Gemini directly in chat to manage information about Jeongmin. When you feel finished, select “Finish task”."
+});
+  Object.assign(messages, {
+  "[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 이번엔 채팅으로 Gemini에게 직접 요청해서 정민 관련 정보를 정리해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.": "[Before the task] First ask: “If you wanted Gemini to stop using information about Jeongmin, what would you normally do?” Record whether they think of asking in chat. [Goal] (If A came first: “This is a new scenario, separate from the previous one.”) “Gemini remembers information about someone named Jeongmin. This time, ask Gemini directly in chat to manage that information.” The input is empty; let the participant type (in screen-share sessions, type exactly what they say). If the request names no target such as “Jeongmin” or “that person”, Gemini asks “Which information should I manage?”; once a target is named, the list appears. Requests and clarification counts are logged automatically.",
+  "[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 목록은 실제처럼 36건(Memory 3 · Gmail 24 · Calendar 9)이고 출처별로 접혀 있어요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 펼쳤는지, '더보기'를 눌렀는지, 체크를 바꿨는지, 양이 많다는 반응이 있는지 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'": "[Try] Let them review and process without asking first. The list is realistic: 36 items (Memory 3 · Gmail 24 · Calendar 9), collapsed by source. Everything is selected by default, so processing immediately is not evidence that they understood delete vs. block. Observe whether they expand groups, use “Show more”, change selections, or react to the volume. If they pause before processing, ask: “How does this list compare with what you expected?”",
+  "B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 출처별 <b>체크박스</b>(출처 단위로 선택), 펼친 뒤 <b>'+N건 더보기'</b>, <b>선택 항목 처리/취소</b>. 그룹 라벨 '삭제돼요'/'참조만 차단돼요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성.": "Appears after about 1.2 seconds. Available: Select all, expand by source, per-source checkboxes, “+N more” inside an expanded group, Process selected / Cancel. Watch whether they notice the “Deleted” vs. “Reference blocked” labels. Process is disabled when nothing is selected.",
+  "[관찰만] 먼저 묻지 마세요. '지금 확인하기'를 누르는지, 그냥 끝내는지가 관찰값입니다(참가자 모드에서는 '과제 완료'로 바로 끝낼 수 있어요). 누르지 않았다고 실패가 아니에요 — 확인 행동은 따로 기록합니다. [이해 확인 — 참가자가 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar에 있던 정민 관련 정보는 지금 어떤 상태일까요?' ③ (Memory를 지웠다면) '지운 정보 중 어딘가 남아 있는 게 있을까요?' — 결과 카드의 보관 예외 안내(검토된 대화 사본 최대 3년)를 읽었는지가 이해 판정 기준이에요. '그래도 다 지워졌을지 의심된다'는 반응은 이해 실패가 아니라 신뢰 관찰값으로 따로 기록하세요.": "[Observe only] Do not ask first. Whether they select “Check now” or simply finish is the observation (in participant mode they can finish with “Finish task”). Not selecting it is not a failure; verification is recorded separately. [Comprehension — after they say they are done] ① “What was just processed?” ② “What is the status of the Jeongmin-related information in Gmail and Calendar now?” ③ (If Memory was deleted) “Is anything you deleted still kept somewhere?” — Whether they read the retention notice (reviewed chat copies kept up to 3 years) is the comprehension criterion. Doubt such as “I’m not sure it’s really all gone” is not a comprehension failure; record it separately as a trust observation.",
+  "'정민' 관련 정보 36건을 찾았어요": "Found 36 items related to Jeongmin",
+  "출처별로 묶었어요 · 펼치면 최근 항목을 볼 수 있어요": "Grouped by source · Expand to see recent items",
+  "답변에 쓰인 2건 포함": "Includes 2 used in the response",
+  "접기": "Show less",
+  "ⓘ 사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)": "ⓘ Copies of chats reviewed by people are kept separately from your account for up to 3 years (Gemini Privacy Notice)",
+  "사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요": "Copies of chats reviewed by people are kept separately from your account for up to 3 years",
+  "삭제됨 — 답변에 더 이상 쓰이지 않아요": "Deleted — no longer used in responses",
+  "어떤 정보를 정리할까요? 사람 이름이나 주제를 함께 알려 주세요. 예: '정민 관련 정보 지워줘'": "Which information should I manage? Tell me a person or topic, for example: “Delete information about Jeongmin.”",
+  "외 15건 — 전체 목록은 Personal Intelligence에서 볼 수 있어요": "15 more — see the full list in Personal Intelligence",
+  "외 3건 — 전체 목록은 Personal Intelligence에서 볼 수 있어요": "3 more — see the full list in Personal Intelligence",
+  "2025.3.14 대화 \"정민과 트러플 리조또\" 언급": "Chat on 2025.3.14 mentioned “truffle risotto with Jeongmin”",
+  "2025.1.20 대화 \"정민이 좋아하던 재즈바\" 언급": "Chat on 2025.1.20 mentioned “the jazz bar Jeongmin liked”",
+  "2024.12.24 대화 \"정민 선물 고민\" 언급": "Chat on 2024.12.24 mentioned “gift ideas for Jeongmin”",
+  "[대한항공] 탑승객 2명 예약 확인 (정민 포함) · 2024.10.8": "[Korean Air] Booking for 2 passengers confirmed (incl. Jeongmin) · 2024.10.8",
+  "[CGV] 2인 예매 확인 · 2024.9.21": "[CGV] 2 tickets confirmed · 2024.9.21",
+  "[카카오페이] 정민님에게 송금 완료 · 2024.9.3": "[KakaoPay] Transfer to Jeongmin completed · 2024.9.3",
+  "[에어비앤비] 공동 게스트: 정민 · 2024.8.12": "[Airbnb] Co-guest: Jeongmin · 2024.8.12",
+  "[네이버 예약] 와인바 2명 예약 확정 · 2024.7.6": "[Naver Booking] Wine bar for 2 confirmed · 2024.7.6",
+  "[마켓컬리] 선물 배송 완료 (받는 분: 정민) · 2024.6.1": "[Kurly] Gift delivered (recipient: Jeongmin) · 2024.6.1",
+  "[인터파크] 공연 예매 2매 · 2024.5.18": "[Interpark] 2 concert tickets · 2024.5.18",
+  "2024.10 일정 \"제주 여행 (정민)\"": "Event 2024.10 “Jeju trip (Jeongmin)”",
+  "2024.9 일정 \"영화 — 정민\"": "Event 2024.9 “Movie — Jeongmin”",
+  "2024.8 일정 \"강릉 1박\"": "Event 2024.8 “Gangneung overnight”",
+  "2024.7 일정 \"와인바\"": "Event 2024.7 “Wine bar”"
 });
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
