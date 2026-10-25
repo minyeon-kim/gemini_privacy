@@ -534,3 +534,17 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
 }
+
+/* B2 대량 목록 · 보관 예외 안내 · B1 되묻기 */
+.b2-hint{ font-size:11px; color:var(--text-2); margin:-2px 2px 0; }
+.used-tag{ font-size:10px; font-weight:600; color:var(--blue-dark); background:#e8f0fe; border-radius:999px; padding:1px 7px; }
+.more-toggle{ font-size:11px; color:var(--blue-dark); font-weight:600; cursor:pointer; padding:2px 0; }
+.b2-more{ display:flex; flex-direction:column; gap:6px; }
+.b2-more[hidden]{ display:none; }
+.ctext-detail.muted{ color:var(--text-3); }
+.check-item.open .check-item-expand{ max-height:640px; }
+.retention-note{ font-size:11px; line-height:1.5; color:var(--text-2); background:#f1f3f4; border-radius:10px; padding:7px 10px; }
+.retention-note[hidden]{ display:none; }
+#b1Thread{ display:flex; flex-direction:column; gap:12px; }
+#b1Thread{ align-self:stretch; }
+.a2-notice .notice-sub{ display:inline-block; margin-top:4px; font-size:11px; color:var(--text-2); }
