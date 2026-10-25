@@ -491,6 +491,9 @@
   messages["과제 3을 마쳤어요"] = "Task 3 finished";
   messages["세 과제를 모두 마쳤어요"] = "All three tasks finished";
   messages["이사 정보를 정리한 상황"] = "Tidying up moving info";
+  messages["방금 한 처리가 어떤 정보에 영향을 줬는지 얼마나 확실히 알고 계신가요?"] = "How sure are you about which information your changes affected?";
+  messages["전혀 모르겠음"] = "Not sure at all";
+  messages["매우 확실히 앎"] = "Completely sure";
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');

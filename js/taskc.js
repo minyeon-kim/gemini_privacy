@@ -168,13 +168,18 @@
   function summary(){
     const move = Object.keys(ITEMS).filter(id => ITEMS[id].topic === 'move');
     const n = move.filter(handled).length, gym = handled('gm_yoga');
-    const accuracy = n === move.length ? (gym ? '과다' : '정확') : n > 0 ? '일부' : '처리 안 함';
+    // 정답을 정해 두지 않아요. 사실만 기록하고, 의도와 맞는지는 진행자가 참가자의 말로 판단해요(C-14).
+    const moveResult = n === move.length ? '3건 모두' : n > 0 ? `일부(${n}건)` : '없음';
+    const otherState = gym ? '함께 막힘' : '그대로';
+    const changedBy = [];
+    if(S.memDel || ['gmail', 'calendar', 'memory'].some(k => !S.refs[k])) changedBy.push('source');
+    if(S.result && Object.values(S.result).some(Boolean)) changedBy.push(S.via || 'chip');
     const act = [];
     if(S.memDel) act.push('Memory 1건 삭제');
     ['gmail', 'calendar', 'memory'].filter(k => !S.refs[k]).forEach(k => act.push(SRC_NAME[k] + ' 끔'));
     if(S.result) Object.keys(S.result).filter(id => S.result[id]).forEach(id => act.push(`${ITEMS[id].label} ${ITEMS[id].src === 'memory' ? '삭제' : '차단'}`));
     return {
-      C_firstPath: S.paths[0] || '없음', C_paths: S.paths.slice(), C_accuracy: accuracy,
+      C_firstPath: S.paths[0] || '없음', C_paths: S.paths.slice(), C_moveResult: moveResult, C_otherState: otherState, C_changedBy: changedBy,
       C_moveHandled: n, C_gymAffected: gym, C_chipClicked: S.paths.includes('chip'),
       C_chipSec: S.chipMs != null ? +(S.chipMs / 1000).toFixed(1) : null, C_action: act.join(', ') || '변경 없음',
       C_requestText: S.via === 'chat' ? S.echo : '', C_clarifyCount: S.thread.length,
