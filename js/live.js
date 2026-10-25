@@ -59,7 +59,7 @@
       sid = (m.participant || 'P').replace(/[^A-Za-z0-9_-]/g, '_') + '_' + Date.now().toString(36);
       const meta = {
         participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '',
-        userAgent: m.userAgent, url: m.url,
+        userAgent: m.userAgent, url: m.url, viewport: m.viewport, screen: m.screen, dpr: m.dpr,
         pw: phone.clientWidth, ph: phone.clientHeight, top: screenTop(),
         updatedAt: Date.now(), ended: false,
       };
@@ -220,7 +220,7 @@
       if(!msid || !Logger.active || watching) return;
       const m = Logger.session.meta;
       db.ref('live/' + msid).update({
-        meta: clean({ participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '', ended: !!m.endedAt, updatedAt: Date.now() }),
+        meta: clean({ participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '', viewport: m.viewport, screen: m.screen, dpr: m.dpr, ended: !!m.endedAt, updatedAt: Date.now() }),
         summary: clean(App.summary()),
       });
     };
@@ -238,12 +238,22 @@
     st.textContent = '불러오는 중…';
     try{
       const snap = await db.ref('live').once('value');
-      const rows = [];
-      snap.forEach(c => { const v = c.val() || {}; if(v.meta && v.summary) rows.push(App.rowFrom(v.meta, v.summary)); });
-      rows.sort((a, b) => String(a.participant).localeCompare(String(b.participant)) || String(a.startedAt).localeCompare(String(b.startedAt)));
+      const study = (window.UT_CONFIG || {}).STUDY_ID || '';
+      const rows = []; let skipped = 0;
+      snap.forEach(c => {
+        const v = c.val() || {};
+        if(!(v.meta && v.summary)) return;
+        if(study && v.meta.studyId !== study){ skipped++; return; }   // 이전 버전·테스트 세션은 빼요
+        rows.push(App.rowFrom(v.meta, v.summary));
+      });
+      // 같은 코드가 여러 번이면(새로고침·재시작) 끝까지 마친 최신 세션이 위로 와서 엑셀이 그 행을 읽어요.
+      rows.sort((a, b) => String(a.participant).localeCompare(String(b.participant))
+        || (b.ended === '예') - (a.ended === '예')
+        || String(b.startedAt).localeCompare(String(a.startedAt)));
       if(!rows.length){ st.textContent = '저장된 결과가 없어요'; return; }
       App.downloadResults(rows, 'ut-results-all');
-      st.textContent = `${rows.length}개 세션을 받았어요 (같은 코드가 여러 번이면 startedAt으로 구분)`;
+      const dup = rows.length - new Set(rows.map(r => r.participant)).size;
+      st.textContent = `${rows.length}개 세션을 받았어요` + (dup ? ` · 같은 코드 중복 ${dup}건(마친 최신 세션이 위)` : '') + (skipped ? ` · 다른 버전 ${skipped}건 제외` : '');
     }catch(e){ st.textContent = '불러오지 못했어요. Firebase 보안 규칙을 확인해 주세요.'; }
   }
 

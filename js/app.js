@@ -735,6 +735,17 @@
       dwellMsByStep: dwell,
       survey: JSON.parse(JSON.stringify(survey)),
     };
+    const done = p => ev.find(e => e.type === 'task_done' && e.phase === p);
+    out.A_taskSec = done('A') && done('A').taskMs != null ? +(done('A').taskMs / 1000).toFixed(1) : null;
+    out.B_taskSec = done('B') && done('B').taskMs != null ? +(done('B').taskMs / 1000).toFixed(1) : null;
+    const offA = ['gmail', 'calendar', 'memory', 'photos'].filter(k => !refState[k]).map(k => REF_NAME[k] + ' 끔');
+    const memA = memState.all ? ['Memory 전체 삭제'] : memState.used ? ['Memory 2건 삭제'] : [];
+    out.A_action = memA.concat(offA).join(' · ') || '변경 없음';
+    out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => SRC[k].name + (SRC[k].del ? ' 삭제' : ' 차단')).join(' · ') || '선택 없음') : '처리 안 함';
+    out.viewport = Logger.active ? Logger.session.meta.viewport : null;
+    out.resizes = ev.filter(e => e.type === 'resize').map(e => e.viewport);
+    // 마지막 화면 체류 시간도 지금까지로 채워요.
+    if(lastStep && Logger.active) dwell[lastStep] = (dwell[lastStep] || 0) + (ev[ev.length - 1].ms - lastMs);
     out.ids = resultIds(out);
     return out;
   }
@@ -830,7 +841,7 @@
   buildSurveys();
 
   /* ---------------- 결과 내보내기 (엑셀 '자동 수집' 시트에 붙여넣는 형식) ---------------- */
-  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17']
+  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-03', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17', 'L-01', 'L-02', 'L-03', 'L-04', 'L-05', 'L-06']
     .concat(Array.from({ length: 10 }, (_, i) => `S-${String(i + 1).padStart(2, '0')}`));
   function resultIds(sm){
     const yn = v => v ? '예' : '아니오';
@@ -845,6 +856,13 @@
       'B-07': sm.B_verifySec ?? '',
       'B-16': reachedB ? sm.B_clarifyCount : '',
       'B-17': reachedB ? yn(sm.B_moreOpened) : '',
+      'B-03': reachedB ? yn(ev.some(e => e.step === 'B2' && ['expand', 'check', 'check_all', 'more'].includes(e.type))) : '',
+      'L-01': sm.A_taskSec ?? '',
+      'L-02': reachedA ? sm.A_action : '',
+      'L-03': sm.B_taskSec ?? '',
+      'L-04': reachedB ? sm.B_action : '',
+      'L-05': Logger.active ? (Logger.session.meta.viewport || '') : '',
+      'L-06': Logger.active ? ev.filter(e => e.type === 'resize').length : '',
     };
     Object.values(sm.survey || {}).forEach(a => Object.assign(ids, a));
     return ids;
