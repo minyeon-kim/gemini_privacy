@@ -50,8 +50,8 @@
   "출처 확인": "View sources",
   "· 삭제됨": "· Deleted",
   "· 참조 안 함": "· Not used",
-  "2025.3.14 대화에서 \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat — mentioned “truffle risotto with Jeongmin”",
-  "2025.2.8 대화에서 \"주말 등산 코스\" 언급": "Feb 8, 2025 chat — mentioned “weekend hiking trails”",
+  "2025.3.14 Gemini 채팅에서 \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat — mentioned “truffle risotto with Jeongmin”",
+  "2025.2.8 Gemini 채팅에서 \"주말 등산 코스\" 언급": "Feb 8, 2025 chat — mentioned “weekend hiking trails”",
   "메모리 전체 삭제": "Delete all memories",
   "토글을 끄면 이 데이터를 답변에서 참조하지 않아요": "Turn off the toggle to stop using this data in responses",
   "[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15 19:00, 2명": "[Tolo Bistro] Booking confirmed · Mar 15, 2025, 7:00 PM, 2 guests",
@@ -64,8 +64,8 @@
   "'정민' 관련 정보 6건을 찾았어요": "I found 6 items related to Jeongmin",
   "전체 선택": "Select all",
   "삭제돼요": "Will be deleted",
-  "2025.3.14 대화 \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat: “truffle risotto with Jeongmin”",
-  "2025.1.20 대화 \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat: “Jeongmin’s favorite jazz bar”",
+  "2025.3.14 Gemini 채팅 \"정민과 트러플 리조또\" 언급": "Mar 14, 2025 chat: “truffle risotto with Jeongmin”",
+  "2025.1.20 Gemini 채팅 \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat: “Jeongmin’s favorite jazz bar”",
   "참조만 차단돼요": "Only use in responses will be blocked",
   "[톨로 비스트로] 예약이 확정되었습니다 · 2025.3.15": "[Tolo Bistro] Booking confirmed · Mar 15, 2025",
   "[스시타로] 오마카세 예약 확인 · 2024.11.2": "[Sushi Taro] Omakase booking confirmed · Nov 2, 2024",
@@ -83,7 +83,7 @@
   "이 답변에 사용된 정보": "Information used in this response",
   "이 답변이 참고한 소스만 표시돼요 · 토글을 끄면 참조하지 않고, 펼치면 상세 데이터를 볼 수 있어요": "Only sources used in this response are shown. Turn off a toggle to stop using a source, or expand it to see details.",
   "[스시타로] 오마카세 예약 확인 · 2024.11.2 20:00, 2명": "[Sushi Taro] Omakase booking confirmed · Nov 2, 2024, 8:00 PM, 2 guests",
-  "2025.1.20 대화에서 \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat — mentioned “Jeongmin’s favorite jazz bar”",
+  "2025.1.20 Gemini 채팅에서 \"정민이 좋아하던 재즈바\" 언급": "Jan 20, 2025 chat — mentioned “Jeongmin’s favorite jazz bar”",
   "이 답변에 쓰인 메모리 2건 삭제": "Delete the 2 memories used in this response",
   "Personal Intelligence에서 전체 관리 →": "Manage everything in Personal Intelligence →",
   "삭제됨": "Deleted",
@@ -242,9 +242,9 @@
   "어떤 정보를 정리할까요? 사람 이름이나 주제를 함께 알려 주세요. 예: '정민 관련 정보 지워줘'": "Which information should I manage? Tell me a person or topic, for example: “Delete information about Jeongmin.”",
   "외 15건 · 전체 목록은 Personal Intelligence에서 볼 수 있어요": "15 more — see the full list in Personal Intelligence",
   "외 3건 · 전체 목록은 Personal Intelligence에서 볼 수 있어요": "3 more — see the full list in Personal Intelligence",
-  "2025.3.14 대화 \"정민과 트러플 리조또\" 언급": "Chat on 2025.3.14 mentioned “truffle risotto with Jeongmin”",
-  "2025.1.20 대화 \"정민이 좋아하던 재즈바\" 언급": "Chat on 2025.1.20 mentioned “the jazz bar Jeongmin liked”",
-  "2024.12.24 대화 \"정민 선물 고민\" 언급": "Chat on 2024.12.24 mentioned “gift ideas for Jeongmin”",
+  "2025.3.14 Gemini 채팅 \"정민과 트러플 리조또\" 언급": "Chat on 2025.3.14 mentioned “truffle risotto with Jeongmin”",
+  "2025.1.20 Gemini 채팅 \"정민이 좋아하던 재즈바\" 언급": "Chat on 2025.1.20 mentioned “the jazz bar Jeongmin liked”",
+  "2024.12.24 Gemini 채팅 \"정민 선물 고민\" 언급": "Chat on 2024.12.24 mentioned “gift ideas for Jeongmin”",
   "[대한항공] 탑승객 2명 예약 확인 (정민 포함) · 2024.10.8": "[Korean Air] Booking for 2 passengers confirmed (incl. Jeongmin) · 2024.10.8",
   "[CGV] 2인 예매 확인 · 2024.9.21": "[CGV] 2 tickets confirmed · 2024.9.21",
   "[카카오페이] 정민님에게 송금 완료 · 2024.9.3": "[KakaoPay] Transfer to Jeongmin completed · 2024.9.3",
@@ -349,7 +349,7 @@
   "답변에 정민 이야기가 왜 나왔는지 확인하기": "Find out why Jeongmin came up in the response",
   "앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기": "Make sure information about Jeongmin isn’t used in responses from now on",
   "채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기": "Ask in chat so that information about Jeongmin isn’t used in responses from now on",
-  "설정이 바뀌었어요 · 다음 답변부터 반영돼요": "Settings updated · Applies to future responses",
+  "설정이 바뀌었어요. 다음 답변부터 반영돼요": "Settings updated. Applies to future responses",
   "응답이 저장됐어요. 진행자에게 알려 주세요.": "Your answers have been saved. Please let the moderator know.",
   "저장에 실패했어요. 아래 버튼으로 기록을 받아 진행자에게 보내 주세요.": "Saving failed. Use the buttons below to download the log and send it to the moderator.",
   "최근 답변에 쓰인 2건 포함": "Includes 2 used in a recent response",
@@ -473,6 +473,42 @@
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요."] = "Here's a plan based on your schedule this weekend.";
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요. …"] = "Here's a plan based on your schedule this weekend. …";
   messages["이 답변에 쓰인 정보 관리하기"] = "Manage info used in this answer";
+  messages["목록에서 처리할 항목을 확인하고 고르는 과정은 얼마나 번거롭거나 수월했나요?"] = "How cumbersome or easy was it to review and pick items from the list?";
+  messages["매우 번거로움"] = "Very cumbersome";
+  messages["매우 수월함"] = "Very easy";
+  messages["너무 적음"] = "Too little";
+  messages["너무 많음"] = "Too much";
+  messages["4 = 적절함"] = "4 = About right";
+  messages["전혀 동의하지 않음"] = "Strongly disagree";
+  messages["같은 질문 다시 하기"] = "Ask the same question again";
+  messages["설정을 바꾼 뒤 같은 질문을 다시 했어요"] = "Asked the same question again after changing settings";
+  messages["정보를 처리한 뒤 같은 질문을 다시 했어요"] = "Asked the same question again after handling the info";
+  messages["처리한 정보"] = "Handled";
+  messages["되돌리기"] = "Undo";
+  messages["앱 설정을 바꿨어요"] = "App settings changed";
+  messages["전체 참조 끔"] = "turned off entirely";
+  messages["앱 전체 설정"] = "App-wide settings";
+  messages["앱 전체 꺼짐"] = "App off";
+  messages["선택한 정보"] = "Selected";
+  messages["선택한 정보 처리"] = "Process selected info";
+  messages["처리함"] = "Handled";
+  messages["주제별로 묶었어요. 앞으로 답변에 쓰지 않을 정보를 골라 주세요."] = "Grouped by topic. Choose the info you don't want used in future answers.";
+  messages["이 답변에 쓰인 정보만 보여요. 펼치면 내용을 볼 수 있어요."] = "Only info used in this answer is shown. Expand to see details.";
+  messages["끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요."] = "Turning this off stops using all of Gmail. Your emails stay as they are.";
+  messages["끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요."] = "Turning this off stops using all of Calendar. Your events stay as they are.";
+  messages["끄면 메모리 전체를 답변에 쓰지 않아요. 지우려면 펼쳐서 삭제해요."] = "Turning this off stops using all memory. Expand to delete items.";
+  messages["끄면 메모리 전체를 답변에 쓰지 않아요."] = "Turning this off stops using all memory.";
+  messages["토글을 끄면 그 앱의 정보 전체를 답변에 쓰지 않아요. 메일과 일정 원본은 그대로예요."] = "Turning a toggle off stops using all info from that app. Original emails and events stay.";
+  messages["Memory에서 지웠어요. 사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요."] = "Deleted from Memory. Human-reviewed chat copies may be kept separately for up to 3 years.";
+  messages["참조만 차단돼요. 원본은 Gmail에 그대로 있어요"] = "Only blocked from use. The original stays in Gmail";
+  messages["참조만 차단돼요. 원본은 Calendar에 그대로 있어요"] = "Only blocked from use. The original stays in Calendar";
+  messages["Gmail 전체 참조 끔"] = "Gmail turned off entirely";
+  messages["메모리 전체 삭제됨"] = "All memory deleted";
+  messages["이 답변에 쓰인 메모리 2건 삭제됨"] = "2 memories used in this answer deleted";
+  messages["같은 날 Calendar 일정 \"정민과 저녁\""] = "Same day as the Calendar event “Dinner with Jeongmin”";
+  messages["참석자: 정민"] = "Attendee: Jeongmin";
+  messages["방금 처리로 무엇이 지워지거나 막혔고 무엇이 남았는지, 얼마나 확실히 아시나요?"] = "How sure are you about what was deleted or blocked, and what remains?";
+  messages["이 기능에는 일관성이 없는 부분이 너무 많다."] = "I thought there was too much inconsistency in this feature.";
   messages["앞으로 답변에 쓰지 않을 정보를 골라 주세요."] = "Choose information that shouldn't be used in future answers.";
   messages["이사 준비"] = "Moving plans";
   messages["운동"] = "Workout";
@@ -509,7 +545,7 @@
   messages["이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?"] = "How difficult or easy was it to pick the moving-related info and stop it from being used?";
   messages["이사 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?"] = "Do you think moving-related info will no longer be used in answers?";
   messages["2025.2.20 인천→제주"] = "2025.2.20 Incheon→Jeju";
-  messages["2025.9.2 대화에서 \"전세 대출 상담\" 언급"] = "Mentioned \"lease loan consultation\" in a 2025.9.2 chat";
+  messages["2025.9.2 Gemini 채팅에서 \"전세 대출 상담\" 언급"] = "Mentioned \"lease loan consultation\" in a 2025.9.2 chat";
   messages["[다방] 망원동 투룸 새 매물 알림"] = "[Dabang] New two-room listing in Mangwon-dong";
   messages["일요일 14:00 \"망원동 투룸 보기\""] = "Sunday 14:00 \"View two-room in Mangwon\"";
   messages["[요가스튜디오 숨] 토요일 클래스 예약 확정"] = "[Yoga Studio Sum] Saturday class confirmed";

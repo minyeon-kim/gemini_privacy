@@ -30,7 +30,7 @@
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, Enter로도 전송)."},
-    B2:{phase:'b', script:"[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 목록은 실제처럼 36건(Memory 3 · Gmail 24 · Calendar 9)이고 출처별로 접혀 있어요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 펼쳤는지, '더보기'를 눌렀는지, 체크를 바꿨는지, 양이 많다는 반응이 있는지 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'",
+    B2:{phase:'b', script:"[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 목록은 20건(Memory 3 · Gmail 8 · Calendar 9)이고, 이름이 안 보이는 항목엔 포함 이유가 한 줄 붙어 있어요이고 출처별로 접혀 있어요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 펼쳤는지, '더보기'를 눌렀는지, 체크를 바꿨는지, 양이 많다는 반응이 있는지 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'",
       indicators:[2], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 출처별 <b>체크박스</b>(출처 단위로 선택), 펼친 뒤 <b>'+N건 더보기'</b>, <b>선택 항목 처리/취소</b>. 그룹 라벨 '삭제돼요'/'참조만 차단돼요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성."},
     B3:{phase:'b', script:"[관찰만] 먼저 묻지 마세요. '지금 확인하기'를 누르는지, 그냥 끝내는지가 관찰값입니다(참가자 모드에서는 '과제 완료'로 바로 끝낼 수 있어요). 누르지 않았다고 실패가 아니에요 — 확인 행동은 따로 기록합니다. [이해 확인 — 참가자가 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar에 있던 정민 관련 정보는 지금 어떤 상태일까요?' ③ (Memory를 지웠다면) '지운 정보는 지금 어떻게 됐을까요?' — 결과 카드의 보관 예외 안내(검토된 대화 사본 최대 3년)를 읽었는지가 이해 판정 기준이에요. '그래도 다 지워졌을지 의심된다'는 반응은 이해 실패가 아니라 신뢰 관찰값으로 따로 기록하세요.",
       indicators:[3,4], interact:"클릭 가능 — <b>'지금 확인하기'</b>(누르기까지 시간 자동 기록), <b>'취소'</b>(처리 이전으로 되돌리고 B2로 복귀). 결과 문구는 B2에서 고른 항목에 맞춰 바뀝니다."},
@@ -46,17 +46,16 @@
       indicators:[], interact:"클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화)."},
     SC:{phase:'c', script:"(참가자 모드 전용) 상황 3 안내 카드예요. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능: <b>시작하기</b>"},
     C1:{phase:'c', script:"질문이 미리 입력돼 있어요. 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능: 전송"},
-    C2:{phase:'c', script:"[통합 과제] 최종 디자인처럼 답변 아래에 '출처 확인', 칩('이 답변에 쓰인 정보 관리하기'), 채팅 입력이 모두 있어요. 어떤 경로를 고르는지 지켜보세요. 방법은 알려 주지 마세요. 정답은 정해 두지 않아요. 참가자가 말한 의도와 실제 결과가 맞는지, 다른 정보(요가 예약)까지 영향을 받았다면 그걸 알고 했는지가 핵심이에요.", indicators:[1,2,4], interact:"클릭 가능: 출처 확인, 칩, 채팅 입력"},
-    C3:{phase:'c', script:"[출처 확인 경로] Gmail 토글은 앱 전체 단위라 끄면 요가 예약도 함께 막혀요. 참가자가 그걸 알고 그렇게 하는지 보세요(원해서 끄는 것도 괜찮아요).", indicators:[1,4], interact:"클릭 가능: 펼치기, 앱 토글, 메모리 삭제, 닫기"},
-    C4:{phase:'c', script:"[칩 경로] 주제별 목록이에요. '이사 준비'만 고르는지, '운동'도 고르는지 보세요.", indicators:[1,5], interact:"클릭 가능: 주제 선택, 다음, 닫기"},
+    C2:{phase:'c', script:"[통합 과제] 최종 디자인이에요. 답변 아래 '출처 확인'을 누르면 쓰인 정보가 주제별로 나오고, 거기서 바로 골라 처리할 수 있어요. 채팅으로 요청하는 길도 있어요. 어떤 경로를 고르는지 지켜보고 방법은 알려 주지 마세요. 정답은 정해 두지 않아요. 참가자가 말한 의도와 실제 결과가 맞는지, 다른 정보(요가 예약)까지 영향을 받았다면 그걸 알고 했는지가 핵심이에요.", indicators:[1,2,4], interact:"클릭 가능: 출처 확인, 채팅 입력"},
+    C3:{phase:'c', script:"[출처 확인 + 관리] 주제(이사 준비, 운동)를 펼쳐 항목을 고르고 '선택한 정보 처리'로 처리해요. 아래 '앱 전체 설정'의 토글은 앱 전체 단위라 끄면 요가 예약도 함께 막혀요. 참가자가 그걸 알고 그렇게 하는지 보세요(원해서 끄는 것도 괜찮아요).", indicators:[1,4,5], interact:"클릭 가능: 주제 펼치기, 주제와 항목 체크, 선택한 정보 처리, 앱 전체 설정 토글, 닫기"},
     C5:{phase:'c', script:"처리 목록이에요. 체크를 바꾸는지, '삭제돼요/참조만 차단돼요'를 알아차리는지 보세요.", indicators:[3,4,5], interact:"클릭 가능: 항목 체크, 취소, 선택 항목 처리"},
-    C6:{phase:'c', script:"처리 결과예요. 참가자가 끝났다고 하면 '과제 완료'를 누르게 두세요.", indicators:[3], interact:"클릭 가능: 취소(되돌리기)"},
+    C6:{phase:'c', script:"처리 결과예요. '같은 질문 다시 하기'로 처리된 정보가 빠진 답변을 직접 확인하는지 보세요(C-07). '되돌리기'는 방금 처리한 것만 원래대로 돌려요. 참가자가 끝났다고 하면 '과제 완료'를 누르게 두세요.", indicators:[3], interact:"클릭 가능: 되돌리기, 같은 질문 다시 하기"},
     QC:{phase:'-', script:"[과제 직후 설문 · 이사 상황] 설문 전에 먼저 말로: '지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' 그다음 화면 설문(3문항)에 답하게 두세요.", indicators:[3,5], interact:"클릭 가능: 문항별 보기, 다음"},
     END:{phase:'-', script:"세션 종료 화면이에요(SUS까지 끝난 상태). 마무리 질문과 디브리핑을 진행한 뒤, 패널의 'JSON 받기/CSV 받기'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
   const PHASE_B = ['B1','B2','B3','B4','B5'];
-  const PHASE_C = ['C1','C2','C3','C4','C5','C6'];
+  const PHASE_C = ['C1','C2','C3','C5','C6'];
   const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : ph === 'B' ? PHASE_B : PHASE_C);
   const FIRST = SEQ[0], SECOND = SEQ[1];
   // 과제 C(통합)는 A·B를 마친 뒤 항상 세 번째로 해요. SUS는 C까지 끝난 뒤.
@@ -118,17 +117,16 @@
       $('.screen[data-step="A2"]').inert = true;
       $('#sheetOverlay .sheet-close').focus({preventScroll:true});
       $('#sheetOverlay .sheet').scrollTop = 0;
-    }else if(step === 'C3' || step === 'C4'){
+    }else if(step === 'C3'){
       showScreen('C2');
       $('#sheetOverlay').classList.remove('active');
-      $('#cSheet').classList.toggle('active', step === 'C3');
-      $('#cTopics').classList.toggle('active', step === 'C4');
+      $('#cSheet').classList.add('active');
       $('.screen[data-step="C2"]').inert = true;
     }else{
       showScreen(step);
       $('#sheetOverlay').classList.remove('active');
       $('.screen[data-step="A2"]').inert = false;
-      $('#cSheet').classList.remove('active'); $('#cTopics').classList.remove('active');
+      $('#cSheet').classList.remove('active');
       const c2 = $('.screen[data-step="C2"]'); if(c2) c2.inert = false;
     }
   }
@@ -425,13 +423,33 @@
     const el = $('#a2Notice');
     if(!el || !refState || !memState) return;
     const off = Object.keys(refState).filter(k => !refState[k]).map(k => REF_NAME[k]);
-    const parts = [];
-    if(memState.all) parts.push('메모리 전체 삭제됨');
-    else if(memState.used) parts.push('이 답변에 쓰인 메모리 2건 삭제됨');
-    if(off.length) parts.push(off.join(', ') + ' 참조 끔');
-    const keep = (memState.used || memState.all) ? `<div class="nt-foot">${esc(I18n.t(RETENTION))}</div>` : '';
-    el.innerHTML = parts.length ? `<div class="nt-title">${esc(I18n.t('설정이 바뀌었어요'))}</div><ul class="nt-list">${parts.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ul><div class="nt-foot">${esc(I18n.t('다음 답변부터 반영돼요'))}</div>${keep}` : '';
-    el.classList.toggle('show', parts.length > 0);
+    const items = [];
+    if(memState.all) items.push([ '메모리 전체 삭제됨', RETENTION ]);
+    else if(memState.used) items.push([ '이 답변에 쓰인 메모리 2건 삭제됨', RETENTION ]);
+    if(off.length) items.push([ off.join(', ') + ' 전체 참조 끔', '' ]);
+    el.innerHTML = items.length ? `<div class="nt-title">${esc(I18n.t('설정이 바뀌었어요'))}</div><ul class="nt-list">${items.map(([a, b]) => `<li>${esc(I18n.t(a))}${b ? `<div class="nt-sub">${esc(I18n.t(b))}</div>` : ''}</li>`).join('')}</ul><div class="nt-foot">${esc(I18n.t('다음 답변부터 반영돼요'))}</div>
+      <div class="nt-actions"><button type="button" class="nt-verify hot" data-tag="A 다시 물어보기" onclick="App.verifyA()">${esc(I18n.t('같은 질문 다시 하기'))}</button></div>` : '';
+    el.classList.toggle('show', items.length > 0);
+    renderA2Regen();
+  }
+  // 처리한 뒤 같은 질문을 다시 해서, 정민 이야기가 빠졌는지 직접 확인해요.
+  var aVerify = 0;   // var: 초기화 중 renderA2Notice가 먼저 불려도 안전하게
+  function renderA2Regen(){
+    const box = $('#a2Regen'); if(!box) return;
+    if(!aVerify){ box.innerHTML = ''; return; }
+    const memOn = refState.memory && !(memState.used || memState.all), calOn = refState.calendar, gmOn = refState.gmail;
+    const tail = memOn || calOn
+      ? '<p>작년 봄에 <b>정민</b> 씨와 가셨을 때 트러플 리조또를 좋아하셨었죠. 이번에도 비슷한 메뉴 어떠세요?</p>'
+      : gmOn ? '<p>지난봄에 다녀오신 톨로 비스트로도 다시 가 보셔도 좋겠어요.</p>' : '';
+    box.innerHTML = `<div class="regen-mark">${esc(I18n.t('설정을 바꾼 뒤 같은 질문을 다시 했어요'))}</div>
+      <div class="msg-user">${esc(I18n.t('요즘 새로 생긴 이탈리안 레스토랑 추천해줘'))}</div>
+      <div class="msg-ai regen"><p>송도 센트럴파크 인근의 <b>톨로 비스트로</b>를 추천해 드려요. 통창으로 공원 뷰를 즐길 수 있고, '바질 새우 피자'와 '트러플 뇨끼'가 인기 메뉴예요.</p>${tail}
+        <div class="msg-icons"><span class="src-badge hot" data-tag="A 출처 확인(다시 받은 답변)" onclick="App.go('A3')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg><span>${esc(I18n.t('출처 확인'))}</span></span></div></div>`;
+  }
+  function verifyA(){
+    aVerify++; renderA2Regen();
+    Logger.log('a_verify', { step: current, n: aVerify, refs: Object.assign({}, refState), mem: Object.assign({}, memState) });
+    setTimeout(() => { const b = $('.screen[data-step="A2"] .chat-body'); if(b) b.scrollTop = b.scrollHeight; }, 50);
   }
 
   /* ---------------- 메모리 삭제 (A3: 이 답변에 쓰인 2건 / A4: 전체) ---------------- */
@@ -472,10 +490,10 @@
 
   // A4 '+N건 더보기': 10건씩 실제로 펼쳐요.
   const A4_POOL = {
-    memory: () => (memState.used ? [] : ['2025.1.20 대화에서 "정민이 좋아하던 재즈바" 언급']).concat([
-      '2025.2.1 대화에서 "회사 근처 필라테스" 언급', '2025.1.12 대화에서 "부모님 결혼기념일 선물" 언급', '2024.12.24 대화에서 "연말 제주 여행 일정" 언급',
-      '2024.12.3 대화에서 "고양이 사료 브랜드" 언급', '2024.11.18 대화에서 "이직 준비 포트폴리오" 언급', '2024.10.30 대화에서 "할로윈 파티 의상" 언급',
-      '2024.10.2 대화에서 "가을 캠핑 장비" 언급', '2024.9.14 대화에서 "추석 기차표 예매" 언급']),
+    memory: () => (memState.used ? [] : ['2025.1.20 Gemini 채팅에서 "정민이 좋아하던 재즈바" 언급']).concat([
+      '2025.2.1 Gemini 채팅에서 "회사 근처 필라테스" 언급', '2025.1.12 Gemini 채팅에서 "부모님 결혼기념일 선물" 언급', '2024.12.24 Gemini 채팅에서 "연말 제주 여행 일정" 언급',
+      '2024.12.3 Gemini 채팅에서 "고양이 사료 브랜드" 언급', '2024.11.18 Gemini 채팅에서 "이직 준비 포트폴리오" 언급', '2024.10.30 Gemini 채팅에서 "할로윈 파티 의상" 언급',
+      '2024.10.2 Gemini 채팅에서 "가을 캠핑 장비" 언급', '2024.9.14 Gemini 채팅에서 "추석 기차표 예매" 언급']),
     gmail: () => {
       const t = ['[쿠팡] 주문하신 상품이 배송 완료되었습니다', '[카카오뱅크] 이번 달 카드 이용 내역 안내', '[무신사] 주문이 접수되었습니다', '[CGV] 예매가 완료되었습니다',
         '[스시타로] 오마카세 예약 확인', '[배달의민족] 주문하신 음식이 출발했어요', '[네이버페이] 결제가 완료되었습니다', '[인터파크] 공연 예매 확인',
@@ -511,7 +529,7 @@
     $('#snackUndo').hidden = false;
     bar.classList.add('show');
     $('#sheetOverlay').classList.add('snack-lift');
-    undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 4000);
+    undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 8000);
   }
   function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#sheetOverlay').classList.remove('snack-lift'); $('#snackUndo').hidden = false; }
   // 실행취소 없이 잠깐 보이는 안내
@@ -523,7 +541,7 @@
     const changed = sheetBefore !== null && sheetBefore !== JSON.stringify({ refState, memState });
     sheetBefore = null;
     if(!changed) return;
-    showToast(I18n.t('설정이 바뀌었어요 · 다음 답변부터 반영돼요'));
+    showToast(I18n.t('설정이 바뀌었어요. 다음 답변부터 반영돼요'));
     Logger.log('a3_change_feedback', { step: current });
   }
 
@@ -632,7 +650,7 @@
 
   const SRC = {
     memory:  { name:'Memory',   count:3,  del:true },
-    gmail:   { name:'Gmail',    count:24, del:false },
+    gmail:   { name:'Gmail',    count:8,  del:false },
     calendar:{ name:'Calendar', count:9,  del:false },
   };
   const B2_TOTAL = Object.values(SRC).reduce((a, s) => a + s.count, 0);
@@ -673,14 +691,15 @@
       const chip = `<span class="st-chip ${s.del ? 'del' : 'block'}">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span>`;
       const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${s.count}건</span></span>${chip}</div>`;
       const desc = s.del
-        ? `<div class="b3-desc">${s.name}에서 지웠어요</div>`
+        ? `<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
         : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div>`;
       return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}</div></div>`;
     }).join('');
     $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
     const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
     const nBlock = Object.keys(SRC).filter(k => sel[k] && !SRC[k].del).length;
-    ['#b3Note', '#b4Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = !nDel; });
+    ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
+    { const n = $('#b4Note'); if(n) n.hidden = !nDel; }
     $('#b3Title').textContent = $('#b5Title').textContent = nDel && nBlock ? '요청을 처리했어요' : nDel ? '선택한 정보를 삭제했어요' : '선택한 정보의 참조를 차단했어요';
 
     Object.keys(SRC).forEach(k => {
@@ -695,6 +714,7 @@
 
   function applyAll(){
     clearFx();
+    aVerify = 0;
     svIdx = {};
     b1Input.value = ''; syncB1(); renderB1Thread();
     if($('.sv-opt')) renderSurvey();
@@ -754,6 +774,7 @@
       b1: { draft: b1Input.value, sent: b1Text, asks: b1Asks },
       more: $$('.b2-more').map(el => !el.hidden),
       sv: svDraft,
+      av: aVerify,
       c: window.TaskC ? TaskC.snapshot() : null,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
@@ -770,6 +791,7 @@
     if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; b1Asks = (s.b1.asks || []).slice(); syncB1(); renderB1Thread(); }
     if(s.more){ $$('.b2-more').forEach((el, i) => el.hidden = !s.more[i]); renderMoreToggles(); }
     svDraft = Object.assign({}, s.sv || {}); renderSurvey();
+    aVerify = s.av || 0;
     if(s.c && window.TaskC) TaskC.apply(s.c);
     const checks = s.checks || {};
     b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
@@ -865,26 +887,26 @@
       { id:'A-13', q:'정민 이야기가 나온 이유를 확인하고, 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
       { id:'A-14', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
       { id:'A-15', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'A-16', q:"'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?", scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+      { id:'A-16', q:"'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?", scale:S7, lo:'너무 적음', hi:'너무 많음', mid:'4 = 적절함' },
     ]},
     B: { badge:'잠깐 설문', title:'채팅으로 정리한 상황에 대해 알려 주세요', sub:'채팅으로 요청해 정민 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
       { id:'B-10', q:'채팅으로 요청해서 정민 관련 정보를 처리하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
       { id:'B-11', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
       { id:'B-12', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
-      { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
+      { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적음', hi:'너무 많음', mid:'4 = 적절함' },
+      { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정은 얼마나 번거롭거나 수월했나요?', scale:S7, lo:'매우 번거로움', hi:'매우 수월함' },
     ]},
     C: { badge:'잠깐 설문', title:'이사 정보를 정리한 상황', sub:'답변에 섞여 있던 이사 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
       { id:'C-10', q:'이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
       { id:'C-11', q:'이사 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
-      { id:'C-12', q:'방금 한 처리가 어떤 정보에 영향을 줬는지 얼마나 확실히 알고 계신가요?', scale:S7, lo:'전혀 모르겠음', hi:'매우 확실히 앎' },
+      { id:'C-12', q:'방금 처리로 무엇이 지워지거나 막혔고 무엇이 남았는지, 얼마나 확실히 아시나요?', scale:S7, lo:'전혀 모르겠음', hi:'매우 확실히 앎' },
     ]},
-    S: { badge:'마지막 설문', title:'기능 전체에 대한 설문', sub:"오늘 써 본 기능 전체(출처 확인, 답변 아래 버튼, 채팅 요청)를 떠올리며, 각 문장에 얼마나 동의하는지 골라 주세요", items:[
+    S: { badge:'마지막 설문', title:'기능 전체에 대한 설문', sub:"여기서 '이 기능'은 오늘 써 본 세 가지 상황의 정보 관리 기능 전체예요(출처 확인, 채팅으로 요청 모두 포함). 각 문장에 얼마나 동의하는지 골라 주세요", items:[
       '이 기능을 자주 사용하고 싶다.', '이 기능은 쓸데없이 복잡하다.', '이 기능은 사용하기 쉽다.',
-      '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 앞뒤가 맞지 않는 부분이 많다.',
+      '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 일관성이 없는 부분이 너무 많다.',
       '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
       '이 기능을 쓰기 전에 배워야 할 것이 많았다.',
-    ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의 안 함', hi:'매우 동의함' })) },
+    ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의하지 않음', hi:'매우 동의함' })) },
   };
   function buildSurveys(){
     const end = $('.screen[data-step="END"]');
@@ -943,7 +965,8 @@
     renderMetrics();
     // 처음 고른 문항은 잠깐 뒤 자동으로 다음 문항으로 넘어가요(마지막 문항은 '완료'를 직접 눌러요).
     clearTimeout(svAuto);
-    if(first && k && svIdx[k] < SURVEY[k].items.length - 1) svAuto = setTimeout(() => { if(current === 'Q' + k) surveyStep(k, 1); }, 320);
+    // SUS는 긍정·부정 문장이 섞여 있어서 자동으로 넘기지 않아요(직접 '다음').
+    if(first && k && k !== 'S' && svIdx[k] < SURVEY[k].items.length - 1) svAuto = setTimeout(() => { if(current === 'Q' + k) surveyStep(k, 1); }, 320);
   }
   function submitSurvey(k){
     if(!surveyDone(k)) return;
@@ -982,8 +1005,8 @@
       'C-15': reachedC ? ((sm.C_changedBy || []).map(p => TaskC.PATH_KO[p]).join(' + ') || '없음') : '',
       'C-06': reachedC ? sm.C_moveResult : '',
       'C-09': reachedC ? sm.C_otherState : '',
-      'C-07': reachedC ? yn(sm.C_chipClicked) : '',
-      'C-08': sm.C_chipSec ?? '',
+      'C-07': reachedC ? yn(sm.C_verify) : '',
+      'C-08': sm.C_sourceSec ?? '',
       'L-07': sm.C_taskSec ?? '',
       'L-08': reachedC ? sm.C_action : '',
     };
@@ -1080,15 +1103,14 @@
     SC: { say:['여기부터는 앞과 별개의 새 상황이에요. 안내를 읽고 시작해 주세요.'] },
     C1: { watch:['미리 입력된 질문을 보내는지'] },
     C2: { say:['(필요하면) 얼마 전 이사는 안 가기로 했어요. 앞으로 이사 관련 정보가 답변에 쓰이지 않게 해 보세요. 방법은 자유예요.'],
-          watch:['출처 확인, 칩, 채팅 입력 중 무엇을 먼저 쓰는지', '경로를 연 뒤 조작하기 전에: 어떻게 하실 생각이세요? (C-13)'],
+          watch:['출처 확인과 채팅 입력 중 무엇을 먼저 쓰는지', '경로를 연 뒤 조작하기 전에: 어떻게 하실 생각이세요? (C-13)'],
           help:['60초 넘게 막히면: 이 답변에 쓰인 정보를 관리할 방법이 있을까요?'] },
-    C3: { watch:['Gmail 토글은 앱 전체 단위예요. 요가 예약도 함께 막힌다는 걸 알고 끄는지'], after:['방금 끈 것은 어떤 정보에 영향을 줄까요?'] },
-    C4: { first:['이 목록은 무엇을 보여 주는 것 같으세요?'], watch:['어떤 주제를 고르는지, 왜 그렇게 고르는지'] },
+    C3: { first:['이 화면은 무엇을 보여 주는 것 같으세요?'], watch:['주제를 펼쳐 항목까지 보는지', '이사 준비만 고르는지, 운동도 고르는지', "'앱 전체 설정' 토글을 쓴다면 요가 예약도 함께 막힌다는 걸 아는지"], after:['방금 처리한 것은 어떤 정보에 영향을 줄까요?'] },
     C5: { watch:["'삭제돼요/참조만 차단돼요' 구분을 보는지", '체크를 바꾸는지'] },
-    C6: { after:['방금 무엇이 처리됐나요?', '이사 말고 다른 정보도 영향을 받았을까요?', '원하셨던 결과와 같은가요? (C-14)'], watch:["참가자가 끝났다고 하면 '과제 완료'"] },
-    QC: { first:['(설문 전에 말로) 지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?', '(칩을 썼다면) 답변 아래 버튼은 누르기 전에 무엇을 할 거라고 생각하셨나요?', '(칩을 안 썼다면) 답변 아래 이 버튼은 무엇을 할 것 같으세요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
+    C6: { watch:["'같은 질문 다시 하기'로 직접 확인하는지(C-07)", "'되돌리기'를 누르는지, 누른다면 왜인지", "참가자가 끝났다고 하면 '과제 완료'"], after:['방금 무엇이 처리됐나요?', '이사 말고 다른 정보도 영향을 받았을까요?', '원하셨던 결과와 같은가요? (C-14)'] },
+    QC: { first:['(설문 전에 말로) 지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?', '(다시 물어보지 않았다면) 처리가 제대로 됐는지 어떻게 확인하고 싶으셨어요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
     QS: { say:['마지막 설문이에요. 오늘 써 본 기능 전체를 떠올리며 답해 주세요.'] },
-    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '출처 확인, 칩, 채팅 요청 중 어느 쪽이 가장 편했나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
+    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '출처 확인과 채팅 요청 중 어느 쪽이 더 편했나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
            say:['(디브리핑) 오늘 본 이름·예약·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'] },
   };
   let guideStep = null;
@@ -1106,7 +1128,7 @@
     const d = STEPS[current] || STEPS.START;
     const tag = d.phase === 'a' ? '<span class="phase-tag a">Phase A · 인라인 데이터 관리</span>'
               : d.phase === 'b' ? '<span class="phase-tag b">Phase B · 채팅 자연어 삭제</span>'
-              : d.phase === 'c' ? '<span class="phase-tag c">Phase C · 통합(칩·출처·채팅)</span>' : '';
+              : d.phase === 'c' ? '<span class="phase-tag c">Phase C · 통합(출처 확인+관리, 채팅)</span>' : '';
     $('#stepTitle').innerHTML = current + ' ' + tag;
     $('#scriptBox').textContent = I18n.t(d.script);
     renderGuide();
@@ -1125,7 +1147,7 @@
       row.innerHTML = `참가자 <b>${esc(m.participant || '?')}</b> 화면을 실시간으로 보는 중${m.ended ? ' · <b>세션 종료됨</b>' : ''}`;
       return;
     }
-    if(!Logger.active){ row.innerHTML = '세션 시작 전 — 참가자 코드를 입력하고 시작하세요'; return; }
+    if(!Logger.active){ row.innerHTML = '세션 시작 전'; return; }
     const m = Logger.session.meta;
     row.innerHTML = `참가자 <b>${m.participant}</b> · ${MODE === 'participant' ? '참가자 모드' : '진행자 모드'} · 시작 ${new Date(m.startedAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;
   }
@@ -1150,14 +1172,14 @@
 
   // 진행자 패널: 참가자가 고르는 설문 응답을 실시간으로 보여 주고, 후속 질문 거리를 짚어 줘요.
   const SV_SHORT = { 'A-13':'쉬움 정도 (SEQ)', 'A-14':'완료됐다고 생각', 'A-15':'확신도', 'A-16':'정보량',
-    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 부담',
+    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 수월함',
     'C-10':'쉬움 정도 (SEQ)', 'C-11':'완료됐다고 생각', 'C-12':'영향 범위 확신도' };
   function svFlag(id, v){
     if(['A-13', 'B-10', 'C-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
     if(['A-14', 'B-11', 'C-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
     if(['A-15', 'B-12', 'C-12'].includes(id) && v <= 3) return "확신이 낮아요. '무엇이 확실하지 않게 느껴졌나요?'";
     if(['A-16', 'B-13'].includes(id) && (v <= 2 || v >= 6)) return v <= 2 ? "정보가 적다고 했어요. '어떤 정보가 더 있었으면 했나요?'" : "정보가 많다고 했어요. '어떤 부분이 과했나요?'";
-    if(id === 'B-14' && v >= 5) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
+    if(id === 'B-14' && v <= 3) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
     return '';
   }
   function renderSurveyLive(src){
@@ -1217,7 +1239,7 @@
 
   function renderArchive(){
     let el = $('#archiveList');
-    if(!el){ el = document.createElement('div'); el.id = 'archiveList'; el.className = 'archive-list'; $('#panel .legend').before(el); }
+    if(!el){ el = document.createElement('div'); el.id = 'archiveList'; el.className = 'archive-list'; $('#toolsExtra').append(el); }
     const arc = Logger.archived();
     if(!arc.length){ el.innerHTML = ''; return; }
     el.innerHTML = '<div style="font-weight:700;">이 브라우저에 보관된 세션</div>' + arc.map((s, i) =>
@@ -1283,7 +1305,7 @@
   applyAll();
   renderSession(); renderPanel(); renderTaskbar(); renderFeed(); renderArchive();
 
-  window.App = {
+  window.App = { verifyA,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
     toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
