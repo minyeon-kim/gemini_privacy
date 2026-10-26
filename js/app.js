@@ -1253,6 +1253,8 @@
     }
     // A는 답변이 다 나온 뒤 구체적인 목표로 바뀌어요(첫 반응은 자유롭게 보고, 그다음 목표 제시).
     const key = phase === 'A' && (M.aGoal || ['A3', 'A4'].includes(current)) ? 'A2' : phase;
+    // A는 목표가 나오기 전(질문 보내고 답변 기다리는 중)에는 '과제 완료'를 숨겨 실수로 끝내지 않게 해요.
+    $('#taskDoneBtn').hidden = key === 'A';
     if(phase){
       const t = TASK_TEXT[key];
       const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
