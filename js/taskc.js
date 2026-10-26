@@ -104,9 +104,10 @@
     const parts = [];
     if(nDel) parts.push(`삭제 ${nDel}건`);
     if(nBlock) parts.push(`참조 차단 ${nBlock}건`);
-    if(off.length) parts.push(off.join(', ') + ' 참조 끔');
+    if(off.length) parts.push((off.length <= 2 ? off.join(', ') : `${off[0]} 외 ${off.length - 1}개 앱`) + ' 참조 끔');
+    const icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
     const undo = S.result && S.via === 'source' ? `<button type="button" class="nt-undo hot" data-tag="C 되돌리기(답변 아래)" onclick="TaskC.undo()">${esc(t('되돌리기'))}</button>` : '';
-    el.innerHTML = parts.length ? `<div class="nt-line"><span class="nt-k">${esc(t('변경됨'))}</span>${esc(parts.join(', '))}${undo}</div>`
+    el.innerHTML = parts.length ? `<div class="nt-row"><button type="button" class="nt-chip hot" data-tag="C 변경 내역 보기" onclick="TaskC.openSource()">${icon}<span>${esc(parts.join(', '))}</span><span class="nt-chev">›</span></button>${undo}</div>`
       + (nDel ? `<div class="nt-sub">${esc(t(RETENTION))}</div>` : '') : '';
     el.classList.toggle('show', parts.length > 0);
   }

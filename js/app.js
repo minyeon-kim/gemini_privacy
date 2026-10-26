@@ -42,6 +42,7 @@
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
     QB:{phase:'-', script:"[과제 직후 설문 · 채팅 삭제 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(B-09, 진행자 기록) 그다음 참가자가 화면의 설문 5문항에 직접 답하고 '다음'을 누르게 두세요.",
       indicators:[3,5], interact:"클릭 가능 — 문항별 보기, <b>다음</b>(모든 문항에 답하면 활성화). 응답은 기록 파일과 Firebase에 자동 저장돼요."},
+    QW:{phase:'-', script:"[마지막 질문] SUS 다음에 나오는 닫힌 질문 3개예요(W-01~03, 자동 기록). 참가자가 답하면 이어서 말로 정해진 질문 두 개를 꼭 하세요: W-03을 고른 이유(W-04), 가장 헷갈리거나 불편했던 순간(W-05).", indicators:[4], interact:"클릭 가능: 보기 선택, 다음"},
     QS:{phase:'-', script:"[SUS] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요.",
       indicators:[], interact:"클릭 가능 — 문항별 1~5, <b>다음</b>(10문항 모두 답하면 활성화)."},
     SC:{phase:'c', script:"(참가자 모드 전용) 상황 3 안내 카드예요. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능: <b>시작하기</b>"},
@@ -59,7 +60,7 @@
   const seg = ph => (MODE === 'participant' ? ['S' + ph] : []).concat(ph === 'A' ? PHASE_A : ph === 'B' ? PHASE_B : PHASE_C);
   const FIRST = SEQ[0], SECOND = SEQ[1];
   // 과제 C(통합)는 A·B를 마친 뒤 항상 세 번째로 해요. SUS는 C까지 끝난 뒤.
-  const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], seg('C'), ['QC'], WITH_SUS ? ['QS'] : [], ['END']);
+  const ORDER = ['START'].concat(seg(FIRST), ['Q' + FIRST], seg(SECOND), ['Q' + SECOND], seg('C'), ['QC'], WITH_SUS ? ['QS'] : [], ['QW', 'END']);
   const firstStep = ph => seg(ph)[0];
   const TASK_TEXT = {
     A:  { steps:['미리 입력된 질문을 보내고 답변을 살펴보세요'] },
@@ -420,6 +421,9 @@
   const REF_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };
   const RETENTION = '사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요';
   // 답변 아래에는 무엇이 바뀌었는지만 한 줄로 알려줘요.
+  // 답변 아래: 바뀐 내용을 칩 하나로 보여 주고, 누르면 출처 화면에서 자세히 볼 수 있어요.
+  const NT_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
+  const appList = names => names.length <= 2 ? names.join(', ') : `${names[0]} 외 ${names.length - 1}개 앱`;
   function renderA2Notice(){
     const el = $('#a2Notice');
     if(!el || !refState || !memState) return;
@@ -427,8 +431,8 @@
     const parts = [];
     if(memState.all) parts.push('메모리 전체 삭제');
     else if(memState.used) parts.push('메모리 2건 삭제');
-    if(off.length) parts.push(off.join(', ') + ' 참조 끔');
-    el.innerHTML = parts.length ? `<div class="nt-line"><span class="nt-k">${esc(I18n.t('변경됨'))}</span>${esc(parts.map(x => I18n.t(x)).join(', '))}</div>`
+    if(off.length) parts.push(appList(off) + ' 참조 끔');
+    el.innerHTML = parts.length ? `<div class="nt-row"><button type="button" class="nt-chip hot" data-tag="A 변경 내역 보기" onclick="App.go('A3')">${NT_ICON}<span>${esc(parts.map(x => I18n.t(x)).join(', '))}</span><span class="nt-chev">›</span></button></div>`
       + ((memState.used || memState.all) ? `<div class="nt-sub">${esc(I18n.t(RETENTION))}</div>` : '') : '';
     el.classList.toggle('show', parts.length > 0);
   }
@@ -439,7 +443,7 @@
   var chat = { a2: [], b5: [] };   // var: 초기화 중 먼저 불려도 안전하게
   const RESTO_Q = /추천|레스토랑|식당|맛집|이탈리안|저녁|약속|어디|restaurant|dinner/i;
   function aSources(){ return { memory: refState.memory && !(memState.used || memState.all), calendar: refState.calendar, gmail: refState.gmail }; }
-  function bSources(){ const sel = b2Result || {}; return { memory: !sel.memory, calendar: !sel.calendar, gmail: !sel.gmail }; }
+  function bSources(){ const sel = b2Result || {}; return { memory: (sel.memory || 0) < SRC.memory.count, calendar: (sel.calendar || 0) < SRC.calendar.count, gmail: (sel.gmail || 0) < SRC.gmail.count }; }
   function restoAnswer(src){
     const tail = src.memory || src.calendar
       ? '<p>작년 봄에 <b>정민</b> 씨와 가셨을 때 트러플 리조또를 좋아하셨었죠. 이번에도 비슷한 메뉴 어떠세요?</p>'
@@ -628,33 +632,47 @@
   /* ---------------- B2 ~ B4 (채팅 자연어 삭제) ---------------- */
   const b2Boxes = () => $$('.screen[data-step="B2"] .check-item .checkbox[data-src]');
 
+  const b2Items = k => $$(`.screen[data-step="B2"] .checkbox[data-isrc${k ? `="${k}"` : ''}]`);
   function toggleCheckItem(el){
+    if($('#b2ProcessBtn').classList.contains('busy')) return;
+    const items = b2Items(el.dataset.src), next = !items.every(b => b.classList.contains('checked'));
+    items.forEach(b => b.classList.toggle('checked', next));
+    syncSelectAll();
+    Logger.log('check', { step: current, src: el.dataset.src, checked: next });
+  }
+  // 항목 하나만 고르거나 빼기
+  function toggleB2Item(el){
     if($('#b2ProcessBtn').classList.contains('busy')) return;
     el.classList.toggle('checked');
     syncSelectAll();
-    Logger.log('check', { step: current, src: el.dataset.src, checked: el.classList.contains('checked') });
+    Logger.log('check_item', { step: current, src: el.dataset.isrc, item: +el.dataset.item, checked: el.classList.contains('checked') });
   }
   function toggleSelectAll(el){
     if($('#b2ProcessBtn').classList.contains('busy')) return;
-    const next = !el.classList.contains('checked');
-    b2Boxes().forEach(cb => cb.classList.toggle('checked', next));
+    const next = !b2Items().every(b => b.classList.contains('checked'));
+    b2Items().forEach(cb => cb.classList.toggle('checked', next));
     syncSelectAll();
     Logger.log('check_all', { step: current, checked: next });
   }
   function syncSelectAll(){
-    const boxes = b2Boxes();
-    const all = boxes.every(b => b.classList.contains('checked'));
-    const any = boxes.some(b => b.classList.contains('checked'));
+    const items = b2Items();
+    const all = items.every(b => b.classList.contains('checked'));
+    const any = items.some(b => b.classList.contains('checked'));
     const selAll = $('.screen[data-step="B2"] .select-all-row .checkbox');
     selAll.classList.toggle('checked', all);
     selAll.textContent = all ? '✓' : '';
     selAll.classList.toggle('mixed', any && !all);
     selAll.setAttribute('aria-checked', all ? 'true' : any ? 'mixed' : 'false');
-    boxes.forEach(b => {
-      b.textContent = b.classList.contains('checked') ? '✓' : '';
-      b.setAttribute('aria-checked', String(b.classList.contains('checked')));
+    items.forEach(b => { b.textContent = b.classList.contains('checked') ? '✓' : ''; b.setAttribute('aria-checked', String(b.classList.contains('checked'))); });
+    b2Boxes().forEach(b => {
+      const its = b2Items(b.dataset.src), n = its.filter(x => x.classList.contains('checked')).length;
+      b.classList.toggle('checked', n === its.length); b.classList.toggle('mixed', n > 0 && n < its.length);
+      b.textContent = n === its.length ? '✓' : '';
+      b.setAttribute('aria-checked', n === its.length ? 'true' : n ? 'mixed' : 'false');
+      const sub = b.closest('.check-item-head')?.querySelector('.item-count');
+      if(sub) sub.textContent = n === its.length ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
-    const picked = boxes.filter(b => b.classList.contains('checked')).reduce((a, b) => a + (SRC[b.dataset.src] ? SRC[b.dataset.src].count : 0), 0);
+    const picked = items.filter(b => b.classList.contains('checked')).length;
     $('#selectionCount').innerHTML = `${esc(I18n.t('처리할 정보'))} <b>${picked}</b><span class="sc-total">/ ${B2_TOTAL}건</span>`;
     $('#b2ProcessBtn').disabled = !any;
   }
@@ -666,8 +684,8 @@
     btn.classList.add('busy'); btn.textContent = '처리 중…'; btn.disabled = true;
     btn.setAttribute('aria-busy', 'true');
     $('.screen[data-step="B2"] .ai-card').classList.add('processing');
-    b2Boxes().forEach(box => box.setAttribute('aria-disabled', 'true'));
-    Logger.log('b2_process', { step: current, selected: sel });
+    b2Items().forEach(box => box.setAttribute('aria-disabled', 'true'));
+    Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState() });
     processTimer = setTimeout(() => {
       btn.classList.remove('busy'); btn.textContent = '선택 항목 처리';
       if(current !== 'B2') return;
@@ -707,9 +725,10 @@
 
   function currentSelection(){
     const sel = {};
-    b2Boxes().forEach(cb => sel[cb.dataset.src] = cb.classList.contains('checked'));
+    Object.keys(SRC).forEach(k => sel[k] = b2Items(k).filter(b => b.classList.contains('checked')).length);
     return sel;
   }
+  const b2ItemState = () => b2Items().map(b => b.classList.contains('checked'));
 
   const ICON_DEL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
   const ICON_BLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
@@ -724,11 +743,13 @@
     const lines = sfx => Object.keys(SRC).filter(k => sel[k]).map(k => {
       const s = SRC[k];
       const chip = `<span class="st-chip ${s.del ? 'del' : 'block'}">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '참조 차단'}</span>`;
-      const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${s.count}건</span></span>${chip}</div>`;
+      const part = sel[k] < s.count;
+      const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${part ? `${s.count}건 중 ${sel[k]}건` : `${s.count}건`}</span></span>${chip}</div>`;
       const desc = s.del
         ? `<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
         : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div>`;
-      return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}</div></div>`;
+      const rest = part ? `<div class="b3-desc muted">고르지 않은 ${s.count - sel[k]}건은 계속 답변에 쓰일 수 있어요</div>` : '';
+      return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}${rest}</div></div>`;
     }).join('');
     $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
     const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
@@ -742,6 +763,7 @@
       const d = $(`.screen[data-step="B4"] [data-b4d="${k}"]`);
       const two = (cls, ic, a, b) => `<span class="st-chip ${cls}">${ic}${a}</span><span class="b4-desc">${b}</span>`;
       if(!sel[k]){ d.innerHTML = two('keep', '', '그대로 유지됨', '계속 답변에 쓰일 수 있어요'); item.classList.remove('dim'); }
+      else if(sel[k] < SRC[k].count){ d.innerHTML = two(SRC[k].del ? 'del' : 'block', SRC[k].del ? ICON_DEL : ICON_BLOCK, `${sel[k]}건 ${SRC[k].del ? '삭제됨' : '참조 차단됨'}`, `나머지 ${SRC[k].count - sel[k]}건은 계속 답변에 쓰일 수 있어요`); item.classList.remove('dim'); }
       else if(SRC[k].del){ d.innerHTML = two('del', ICON_DEL, '삭제됨', '답변에 더 이상 쓰이지 않아요'); item.classList.remove('dim'); }
       else { d.innerHTML = two('block', ICON_BLOCK, '참조 차단됨', '원본은 그대로, 앞으로 답변에 안 쓰여요'); item.classList.remove('dim'); }
     });
@@ -756,7 +778,7 @@
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
     $$('.chip-more[data-src]').forEach(b => b.dataset.shown = 0); renderA4More();
     applyRefs(); applyMemory();
-    b2Boxes().forEach(cb => cb.classList.add('checked'));
+    b2Items().forEach(cb => cb.classList.add('checked'));
     syncSelectAll();
     $$('.open').forEach(el => el.classList.remove('open'));
     hideSnackbar();
@@ -804,7 +826,7 @@
       step: current,
       response: {visible:responseVisible, paused:responsePaused},
       ref: refState, mem: memState,
-      checks: currentSelection(),
+      checks: b2ItemState(),
       b2: b2Result,
       b1: { draft: b1Input.value, sent: b1Text, asks: b1Asks },
       more: $$('.b2-more').map(el => !el.hidden),
@@ -828,8 +850,8 @@
     svDraft = Object.assign({}, s.sv || {}); renderSurvey();
     chat = { a2: ((s.chat || {}).a2 || []).slice(), b5: ((s.chat || {}).b5 || []).slice() }; renderChat();
     if(s.c && window.TaskC) TaskC.apply(s.c);
-    const checks = s.checks || {};
-    b2Boxes().forEach(cb => cb.classList.toggle('checked', !!checks[cb.dataset.src]));
+    const checks = Array.isArray(s.checks) ? s.checks : null;
+    b2Items().forEach((cb, i) => cb.classList.toggle('checked', checks ? !!checks[i] : true));
     syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
     if(s.step && s.step !== current && STEPS[s.step]){
       current = s.step;
@@ -904,7 +926,7 @@
     const offA = ['gmail', 'calendar', 'memory', 'photos'].filter(k => !refState[k]).map(k => REF_NAME[k] + ' 끔');
     const memA = memState.all ? ['Memory 전체 삭제'] : memState.used ? ['Memory 2건 삭제'] : [];
     out.A_action = memA.concat(offA).join(' · ') || '변경 없음';
-    out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => SRC[k].name + (SRC[k].del ? ' 삭제' : ' 차단')).join(' · ') || '선택 없음') : '처리 안 함';
+    out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => `${SRC[k].name} ${sel[k]}/${SRC[k].count}건 ${SRC[k].del ? '삭제' : '차단'}`).join(', ') || '선택 없음') : '처리 안 함';
     out.viewport = Logger.active ? Logger.session.meta.viewport : null;
     out.resizes = ev.filter(e => e.type === 'resize').map(e => e.viewport);
     // 마지막 화면 체류 시간도 지금까지로 채워요.
@@ -943,6 +965,11 @@
       '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
       '이 기능을 쓰기 전에 배워야 할 것이 많았다.',
     ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의하지 않음', hi:'매우 동의함' })) },
+    W: { badge:'마지막 질문', title:'마지막으로 세 가지만 여쭤볼게요', sub:'', items:[
+      { id:'W-01', q:'오늘 써 본 기능들이 실제 Gemini에 있다면, 내 정보를 답변에 쓰는 것에 대해 어떻게 느끼실 것 같나요?', choices:['더 안심돼요', '비슷해요', '더 불안해요'] },
+      { id:'W-02', q:'오늘 전에, AI가 메모리나 다른 앱 정보를 답변에 쓴다는 걸 알고 계셨나요?', choices:['예', '아니오'] },
+      { id:'W-03', q:'오늘 해 본 방법 중 가장 편했던 것은 무엇인가요?', choices:['출처 확인에서 끄고 지우기', '채팅으로 요청하기', '주제별로 골라 처리하기', '비슷해요'] },
+    ]},
   };
   function buildSurveys(){
     const end = $('.screen[data-step="END"]');
@@ -1008,13 +1035,13 @@
     if(!surveyDone(k)) return;
     survey[k] = Object.fromEntries(SURVEY[k].items.map(it => [it.id, svDraft[it.id]]));
     Logger.log('survey', { step: current, key: k, answers: survey[k] });
-    const next = k === 'S' ? 'END' : k === FIRST ? firstStep(SECOND) : k === SECOND ? firstStep('C') : (WITH_SUS ? 'QS' : 'END');
+    const next = k === 'W' ? 'END' : k === 'S' ? 'QW' : k === FIRST ? firstStep(SECOND) : k === SECOND ? firstStep('C') : (WITH_SUS ? 'QS' : 'QW');
     go(next, 'survey');
   }
   buildSurveys();
 
   /* ---------------- 결과 내보내기 (엑셀 '자동 수집' 시트에 붙여넣는 형식) ---------------- */
-  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-03', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17', 'L-01', 'L-02', 'L-03', 'L-04', 'L-05', 'L-06', 'C-05', 'C-15', 'C-06', 'C-09', 'C-07', 'C-08', 'C-10', 'C-11', 'C-12', 'L-07', 'L-08']
+  const RESULT_IDS = ['A-03', 'A-11', 'A-13', 'A-14', 'A-15', 'A-16', 'B-01', 'B-03', 'B-06', 'B-07', 'B-10', 'B-11', 'B-12', 'B-13', 'B-14', 'B-16', 'B-17', 'L-01', 'L-02', 'L-03', 'L-04', 'L-05', 'L-06', 'C-05', 'C-15', 'C-06', 'C-09', 'C-07', 'C-08', 'C-10', 'C-11', 'C-12', 'L-07', 'L-08', 'W-01', 'W-02', 'W-03']
     .concat(Array.from({ length: 10 }, (_, i) => `S-${String(i + 1).padStart(2, '0')}`));
   function resultIds(sm){
     const yn = v => v ? '예' : '아니오';
@@ -1147,8 +1174,8 @@
     C6: { watch:["(사용 안 함)", "'되돌리기'를 누르는지, 누른다면 왜인지", "참가자가 끝났다고 하면 '과제 완료'"], after:['방금 무엇이 처리됐나요?', '이사 말고 다른 정보도 영향을 받았을까요?', '원하셨던 결과와 같은가요? (C-14)'] },
     QC: { first:['(설문 전에 말로) 지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?', '(다시 물어보지 않았다면) 처리가 제대로 됐는지 어떻게 확인하고 싶으셨어요?'], say:['이어서 화면의 짧은 설문에 답해 주세요.'] },
     QS: { say:['마지막 설문이에요. 오늘 써 본 기능 전체를 떠올리며 답해 주세요.'] },
-    END: { after:['지금 이런 기능에 대해 어떻게 느끼세요?', 'AI가 이렇게 정보를 쓴다는 걸 전에 알고 계셨나요?', '출처 확인과 채팅 요청 중 어느 쪽이 더 편했나요?', '그렇게 생각하신 이유는 무엇인가요?', '가장 헷갈리거나 불편했던 순간은 언제였나요?'],
-           say:['(디브리핑) 오늘 본 이름·예약·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'] },
+    QW: { say:['마지막으로 세 가지만 화면에서 골라 주세요.'], after:['(꼭) 그 방법이 가장 편했던 이유는 무엇인가요? (W-04)', '(꼭) 오늘 가장 헷갈리거나 불편했던 순간은 언제였나요? (W-05)'] },
+    END: { say:['(디브리핑) 오늘 본 이름·예약·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'], after:['(필요하면) 꼬리 질문은 여기서 자유롭게'] },
   };
   let guideStep = null;
   function renderGuide(){
@@ -1210,7 +1237,7 @@
   // 진행자 패널: 참가자가 고르는 설문 응답을 실시간으로 보여 주고, 후속 질문 거리를 짚어 줘요.
   const SV_SHORT = { 'A-13':'쉬움 정도 (SEQ)', 'A-14':'완료됐다고 생각', 'A-15':'확신도', 'A-16':'정보량',
     'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 수월함',
-    'C-10':'쉬움 정도 (SEQ)', 'C-11':'완료됐다고 생각', 'C-12':'영향 범위 확신도' };
+    'C-10':'쉬움 정도 (SEQ)', 'C-11':'완료됐다고 생각', 'C-12':'영향 범위 확신도', 'W-01':'지금 느낌', 'W-02':'사전 인지', 'W-03':'가장 편한 방법' };
   function svFlag(id, v){
     if(['A-13', 'B-10', 'C-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
     if(['A-14', 'B-11', 'C-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
@@ -1226,7 +1253,7 @@
     const ans = {};
     Object.values(s.survey || {}).forEach(o => Object.assign(ans, o));
     evs.forEach(e => { if(e.type === 'survey_pick') ans[e.id] = e.value; });
-    const groups = [['A', '저녁 약속 상황 (A)'], ['B', '채팅으로 정리한 상황 (B)'], ['C', '이사 정보 정리 (C)']].filter(([k]) => SURVEY[k].items.some(it => ans[it.id] !== undefined));
+    const groups = [['A', '저녁 약속 상황 (A)'], ['B', '채팅으로 정리한 상황 (B)'], ['C', '이사 정보 정리 (C)'], ['W', '마지막 질문']].filter(([k]) => SURVEY[k].items.some(it => ans[it.id] !== undefined));
     const susIds = SURVEY.S.items.map(it => it.id), susN = susIds.filter(id => ans[id] !== undefined).length;
     if(!groups.length && !susN){ box.innerHTML = ''; box.hidden = true; return; }
     box.hidden = false;
@@ -1241,7 +1268,7 @@
       });
       const doneId = k === 'A' ? 'A-14' : k === 'B' ? 'B-11' : 'C-11';
       const noAct = k === 'A' ? act.A === '변경 없음' : k === 'B' ? act.B === '처리 안 함' : s.C_moveResult === '없음';
-      if(ans[doneId] === '예' && noAct) html += `<div class="svl-tip warn">완료했다고 답했지만 실제로 바꾼 게 없어요. '어떻게 처리하셨다고 생각하세요?'</div>`;
+      if(k !== 'W' && ans[doneId] === '예' && noAct) html += `<div class="svl-tip warn">완료했다고 답했지만 실제로 바꾼 게 없어요. '어떻게 처리하셨다고 생각하세요?'</div>`;
       if(act[k]) html += `<div class="svl-act">실제 조작: ${esc(act[k])}</div>`;
       html += '</div>';
     });
@@ -1297,16 +1324,16 @@
   function renderTaskbar(){
     const bar = $('#taskbar');
     const phase = PHASE_A.includes(current) ? 'A' : PHASE_B.includes(current) ? 'B' : PHASE_C.includes(current) ? 'C' : null;
-    const doneKey = { QA:'A', QB:'B', QC:'C', QS:'S' }[current] || null;
+    const doneKey = { QA:'A', QB:'B', QC:'C', QS:'S', QW:'W' }[current] || null;
     bar.classList.toggle('show', MODE === 'participant' && !!(phase || doneKey));
     const wasDone = bar.classList.contains('done');
     if(bar.dataset.step !== current){ bar.classList.remove('peek'); bar.dataset.step = current; }
     bar.classList.toggle('done', !phase && !!doneKey);
     if(!phase && doneKey){
-      const n = doneKey === 'S' ? 3 : doneKey === 'C' ? 3 : (doneKey === FIRST ? 1 : 2);
+      const n = doneKey === 'S' || doneKey === 'W' ? 3 : doneKey === 'C' ? 3 : (doneKey === FIRST ? 1 : 2);
       $('#taskLabel').textContent = I18n.t(`과제 ${n} / 3`);
-      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' ? '세 과제를 모두 마쳤어요' : `과제 ${n}${n === 2 ? '를' : '을'} 마쳤어요`))}</span></div>`
-        + `<div class="tk-ctx">${esc(I18n.t(doneKey === 'S' ? '마지막 설문이에요. 휴대폰 화면에서 답해 주세요' : '휴대폰 화면의 짧은 설문에 답해 주세요'))}</div>`;
+      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' || doneKey === 'W' ? '세 과제를 모두 마쳤어요' : `과제 ${n}${n === 2 ? '를' : '을'} 마쳤어요`))}</span></div>`
+        + `<div class="tk-ctx">${esc(I18n.t(doneKey === 'S' || doneKey === 'W' ? '마지막 설문이에요. 휴대폰 화면에서 답해 주세요' : '휴대폰 화면의 짧은 설문에 답해 주세요'))}</div>`;
       if(!wasDone){ bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); }
       return;
     }
@@ -1345,7 +1372,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
-    toggleCheckItem, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
