@@ -60,8 +60,8 @@
       : `<div class="checkbox${S.sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!S.sel[id]}" data-tag="C 항목 ${id}" onclick="event.stopPropagation(); TaskC.pick('${id}')">✓</div>`;
     const right = done ? `<span class="st-chip ${isDel(id) ? 'del' : 'block'}">${isDel(id) ? ICON_DEL : ICON_BLOCK}${esc(t(isDel(id) ? '삭제됨' : '참조 차단'))}</span>`
       : off ? `<span class="st-chip block">${ICON_BLOCK}${esc(t('앱 꺼짐'))}</span>` : '';
-    return `<div class="ct-item${done || off ? ' done' : ''}">${left}${srcIcon(it.src)}
-      <div class="ct-text"><div class="ct-t1">${esc(t(it.text))}</div><div class="ct-t2">${esc(SRC_NAME[it.src])}${it.date ? ', ' + esc(it.date) : ''}</div></div>${right}</div>`;
+    return `<div class="li-row${done || off ? ' done' : ''}">${left}
+      <div class="li-text"><div class="li-t1">${esc(t(it.text))}</div><div class="li-t2"><span class="li-app">${srcIcon(it.src)}</span>${esc(SRC_NAME[it.src])}${it.date ? ', ' + esc(it.date) : ''}</div></div>${right}</div>`;
   }
   function renderSheet(){
     const box = $('#cSheetBody'); if(!box) return;
@@ -102,12 +102,11 @@
     const ids = Object.keys(S.done), nDel = ids.filter(isDel).length, nBlock = ids.length - nDel;
     const off = ['gmail', 'calendar', 'memory'].filter(k => !S.refs[k]).map(k => SRC_NAME[k]);
     const parts = [];
-    if(nDel) parts.push(`삭제 ${nDel}건`);
-    if(nBlock) parts.push(`참조 차단 ${nBlock}건`);
-    if(off.length) parts.push((off.length <= 2 ? off.join(', ') : `${off[0]} 외 ${off.length - 1}개 앱`) + ' 참조 끔');
+    if(ids.length) parts.push(`정보 ${ids.length}건 처리`);
+    if(off.length) parts.push(`앱 ${off.length}개 끔`);
     const icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
     const undo = S.result && S.via === 'source' ? `<button type="button" class="nt-undo hot" data-tag="C 되돌리기(답변 아래)" onclick="TaskC.undo()">${esc(t('되돌리기'))}</button>` : '';
-    el.innerHTML = parts.length ? `<div class="nt-row"><button type="button" class="nt-chip hot" data-tag="C 변경 내역 보기" onclick="TaskC.openSource()">${icon}<span>${esc(parts.join(', '))}</span><span class="nt-chev">›</span></button>${undo}</div>`
+    el.innerHTML = parts.length ? `<div class="nt-row"><button type="button" class="nt-chip hot" data-tag="C 변경 내역 보기" onclick="TaskC.openSource()">${icon}<span>${esc(parts.join(', '))}</span><span class="nt-chev" aria-hidden="true"></span></button>${undo}</div>`
       + (nDel ? `<div class="nt-sub">${esc(t(RETENTION))}</div>` : '') : '';
     el.classList.toggle('show', parts.length > 0);
   }
