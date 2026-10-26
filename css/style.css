@@ -1083,3 +1083,38 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .tools .script{ font-size:12px !important; }
 .tools .live-export{ margin:10px 0; }
 .live-box{ margin-bottom:12px; }
+/* ===== v22: 변경 한 줄 안내 · 다시 물어보기 · C 시트 평평한 목록 ===== */
+.a2-notice.show{ background:transparent !important; padding:2px 2px !important; }
+.nt-line{ display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; font-size:13px; line-height:1.5; color:#444746; }
+.nt-k{ font-size:12px; font-weight:600; color:#1f1f1f; background:#f1f3f4; border-radius:8px; padding:2px 8px; }
+.a2-notice .nt-sub{ font-size:12px; color:#747775; margin-top:4px; padding-left:2px; }
+.nt-undo{ font:inherit; font-size:13px; font-weight:500; color:#0b57d0; background:none; border:none; padding:0 2px; cursor:pointer; }
+.msg-ai.reask{ animation:streamIn .35s ease-out; }
+.msg-ai.reask .nt-sub{ font-size:12px; color:#747775; }
+.msg-ai.reask .nt-undo{ margin-top:2px; padding:0; }
+#a2Thread, #b5Thread{ display:flex; flex-direction:column; gap:14px; }
+#a2Thread:empty, #b5Thread:empty{ display:none; }
+
+#cSheet .ct-list{ gap:0; margin:0 0 6px; }
+#cSheet .ct-group{ background:none; border-radius:0; border-bottom:1px solid #eceff3; }
+#cSheet .ct-head{ padding:14px 2px; gap:12px; align-items:center; }
+#cSheet .ct-head .checkbox, #cSheet .ct-item .checkbox{ background:#fff; border:1.5px solid #747775; }
+#cSheet .checkbox.checked, #cSheet .checkbox.mixed{ background:#0b57d0 !important; border-color:#0b57d0 !important; }
+#cSheet .ct-items{ background:none; margin:0 0 6px; border-radius:0; }
+#cSheet .ct-item{ padding:9px 2px 9px 30px; gap:10px; border-top:none !important; }
+.ct-spacer{ width:18px; flex:0 0 18px; }
+.ct-ic{ width:26px !important; height:26px !important; flex:0 0 26px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; background:#f1f3f4; }
+.ct-ic svg{ width:14px; height:14px; }
+.ct-text{ flex:1; min-width:0; }
+.ct-name{ font-size:15px; font-weight:500; color:#1f1f1f; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.ct-count{ font-size:13px; font-weight:400; color:#747775; }
+.ct-t1{ font-size:13.5px; color:#1f1f1f; line-height:1.4; }
+.ct-t2{ font-size:12px; color:#747775; margin-top:2px; line-height:1.4; }
+.ct-item.done .ct-t1{ color:#747775; }
+#cSheet .ct-alldone{ font-size:11.5px; padding:1px 7px; }
+.ct-legend{ font-size:12px; color:#5e5e5e; line-height:1.5; margin:10px 2px 12px; }
+.ct-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+.ct-sel{ font-size:13px; color:#444746; }
+.ct-sel b{ color:#1f1f1f; }
+#cSheet .ct-app{ gap:10px; padding:10px 0; }
+.msg-ai.reask .nt-undo{ display:block; text-align:left; align-self:flex-start; }
