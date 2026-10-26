@@ -1227,3 +1227,4 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 #sheetOverlay .ct-items{ border-top:1px solid #e3e3e3; }
 #sheetOverlay .ct-name{ font-size:15px; font-weight:500; }
 #sheetOverlay .ct-items{ background:none !important; }
+.li-row.hot, .b2-item.hot{ cursor:pointer; }

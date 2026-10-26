@@ -530,7 +530,7 @@
         : `<div class="checkbox${a3Sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!a3Sel[id]}" data-tag="A3 항목 ${id}" onclick="event.stopPropagation(); App.a3Pick('${id}')">${CHECK_TXT}</div>`;
       const right = done ? `<span class="st-chip ${it.src === 'memory' ? 'del' : 'block'}">${esc(I18n.t(it.src === 'memory' ? '삭제됨' : '참조 차단'))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
-      return `<div class="li-row${done || off ? ' done' : ''}">${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span>${esc(REF_NAME[it.src])}${it.meta ? ', ' + esc(it.meta) : ''}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div>${right}</div>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span>${esc(REF_NAME[it.src])}${it.meta ? ', ' + esc(it.meta) : ''}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div>${right}</div>`;
     };
     body.innerHTML = `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
@@ -675,7 +675,7 @@
   }
   // 요청에 정리할 대상(사람·지칭어)이 있어야 정리 목록을 보여줘요. 없으면 되물어요.
   const B1_TARGET = /정민|jeongmin|jungmin|그\s?사람|이\s?사람|그\s?분|이\s?분|걔|그\s?친구|이\s?친구|\bthat person\b|\bthis person\b|\bhim\b|\bher\b|\bthem\b/i;
-  const B1_INTENT = /지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
+  const B1_INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
   const B1_REPLY = {
     noTarget: '어떤 정보를 정리할까요? 사람 이름이나 주제를 알려 주세요.',
     noIntent: '정민 님과 관련해서 무엇을 도와드릴까요?',

@@ -23,7 +23,7 @@
     memory: '끄면 메모리 전체를 답변에 쓰지 않아요.',
   };
   const TARGET = /이사|집\s?보|전세|투룸|망원|부동산|매물|대출|moving|apartment|lease/i;
-  const INTENT = /지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|그만|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
+  const INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|그만|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
   const PLAN_Q = /주말|계획|뭐\s?하|뭘\s?하|할\s?거|추천|일정|weekend|plan/i;
   const RETENTION = '사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요';
   const ICON_DEL = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
@@ -60,7 +60,7 @@
       : `<div class="checkbox${S.sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!S.sel[id]}" data-tag="C 항목 ${id}" onclick="event.stopPropagation(); TaskC.pick('${id}')">✓</div>`;
     const right = done ? `<span class="st-chip ${isDel(id) ? 'del' : 'block'}">${isDel(id) ? ICON_DEL : ICON_BLOCK}${esc(t(isDel(id) ? '삭제됨' : '참조 차단'))}</span>`
       : off ? `<span class="st-chip block">${ICON_BLOCK}${esc(t('앱 꺼짐'))}</span>` : '';
-    return `<div class="li-row${done || off ? ' done' : ''}">${left}
+    return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="C 항목 줄 ${id}" onclick="TaskC.pick('${id}')"`}>${left}
       <div class="li-text"><div class="li-t1">${esc(t(it.text))}</div><div class="li-t2"><span class="li-app">${srcIcon(it.src)}</span>${esc(SRC_NAME[it.src])}${it.date ? ', ' + esc(it.date) : ''}</div></div>${right}</div>`;
   }
   function renderSheet(){
