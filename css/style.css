@@ -1024,3 +1024,48 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .b3-desc.muted{ color:#747775 !important; font-size:12.5px !important; }
 .hero-hint{ margin:10px 0 0; font-size:13px; color:#5e5e5e; text-align:center; }
 .phase-tag.c{ background:#fef7e0; color:#8a5a00; }
+
+/* ===== P01 이터레이션 (v21) ===== */
+/* 포함 이유 · 토글 범위 */
+.why{ display:block; margin-top:3px; font-size:12px; color:#0b57d0; }
+.why::before{ content:'ⓘ '; }
+.scope-note{ font-size:12px; line-height:1.45; color:#5e5e5e; margin:4px 0 2px 46px; }
+.ct-app .scope-note{ margin:2px 0 0; }
+/* 다시 물어보기 */
+.nt-sub{ font-size:12px; color:#5e5e5e; line-height:1.45; margin-top:2px; }
+.nt-actions{ margin-top:10px; }
+.nt-verify{ font:inherit; font-size:13px; font-weight:500; color:#0b57d0; background:#fff; border:1px solid #c4c7c5; border-radius:16px; padding:6px 14px; cursor:pointer; }
+.regen-mark{ align-self:center; font-size:12px; color:#747775; background:#f1f3f4; border-radius:12px; padding:4px 12px; margin:6px 0 2px; }
+#a2Regen, #cRegen{ display:flex; flex-direction:column; gap:14px; }
+#a2Regen:empty, #cRegen:empty{ display:none; }
+.msg-ai.regen{ animation:streamIn .35s ease-out; }
+.msg-ai.regen .msg-icons{ margin-top:6px; }
+/* C 통합 시트: 주제 → 항목 */
+.ct-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 12px; }
+.ct-group{ background:var(--g-surface, #f3f2f2); border-radius:20px; overflow:hidden; }
+.ct-head{ display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; }
+.ct-head .chevron{ margin-left:auto; }
+.ct-group.open .ct-head .chevron{ transform:rotate(180deg); }
+.ct-head .checkbox{ background:#fff; border:1.5px solid #747775; }
+.ct-head .checkbox.checked, .ct-head .checkbox.mixed{ background:#0b57d0; border-color:#0b57d0; }
+.ct-items{ display:none; background:#fff; margin:0 8px 8px; border-radius:14px; }
+.ct-group.open .ct-items{ display:block; }
+.ct-item{ display:flex; align-items:center; gap:12px; padding:12px 14px; }
+.ct-item + .ct-item{ border-top:1px solid #eeeded; }
+.ct-item.done .c-item-text{ color:#747775; }
+.ct-effect{ font-size:12px; color:#5e5e5e; margin-top:3px; line-height:1.45; }
+.ct-alldone{ font-size:12px; font-weight:600; color:#137333; background:#e6f4ea; border-radius:8px; padding:3px 8px; flex:0 0 auto; }
+#cSheet .selection-count{ margin:2px 2px 10px; }
+#cSheet .card-btn-row{ justify-content:flex-end; margin-bottom:14px; }
+#cSheetProcess:disabled{ opacity:.4; cursor:default; }
+.ct-apps{ border-top:1px solid #eceff3; padding-top:4px; }
+.ct-apps-head{ display:flex; align-items:center; justify-content:space-between; padding:10px 4px; font-size:13.5px; color:#444746; cursor:pointer; }
+.ct-apps.open .ct-apps-head .chevron{ transform:rotate(180deg); }
+.ct-apps-body{ display:none; padding:0 4px 6px; }
+.ct-apps.open .ct-apps-body{ display:block; }
+.ct-app{ display:flex; align-items:center; gap:12px; padding:8px 0; }
+.ct-app-main{ flex:1; min-width:0; }
+.ct-app-name{ font-size:14px; color:#1f1f1f; }
+.c-echo[hidden]{ display:none !important; }
+/* 결과 카드: 되돌리기는 보조, 다시 하기는 주 버튼 */
+.complete-card .btn-row-h{ margin-top:4px; }
