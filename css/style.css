@@ -1197,3 +1197,33 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 /* 변경 칩 */
 .nt-row{ flex-wrap:nowrap; }
 .nt-chip{ white-space:nowrap; }
+
+/* v25: 과제 1 출처 시트도 같은 카드 구조 */
+#sheetOverlay .selection-count{ margin:2px 2px 10px; }
+#sheetOverlay .card-btn-row{ justify-content:flex-end; margin-bottom:14px; }
+#sheetOverlay .ct-list{ gap:0; margin:0 0 6px; }
+#sheetOverlay .ct-group{ background:none; border-radius:0; border-bottom:1px solid #eceff3; }
+#sheetOverlay .ct-head{ padding:14px 2px; gap:12px; align-items:center; }
+#sheetOverlay .ct-head .checkbox, #sheetOverlay .ct-item .checkbox{ background:#fff; border:1.5px solid #747775; }
+#sheetOverlay .checkbox.checked, #sheetOverlay .checkbox.mixed{ background:#0b57d0 !important; border-color:#0b57d0 !important; }
+#sheetOverlay .ct-items{ background:none; margin:0 0 6px; border-radius:0; }
+#sheetOverlay .ct-item{ padding:9px 2px 9px 30px; gap:10px; border-top:none !important; }
+#sheetOverlay .ct-alldone{ font-size:11.5px; padding:1px 7px; }
+#sheetOverlay .ct-app{ gap:10px; padding:10px 0; }
+#sheetOverlay .ct-list{ gap:10px !important; margin:6px 0 8px !important; }
+#sheetOverlay .ct-group{ background:var(--g-surface, #f3f2f2) !important; border-radius:24px !important; border-bottom:none !important; padding:2px 16px; }
+#sheetOverlay .ct-head{ padding:12px 0 !important; }
+#sheetOverlay .ct-items{ display:none; margin:0 !important; border-top:1px solid #e3e3e3; }
+#sheetOverlay .ct-group.open .ct-items{ display:block; }
+#sheetOverlay .ct-item{ padding:11px 0 11px 30px !important; }
+#sheetOverlay .ct-item + .ct-item{ border-top:1px solid #e9e9e9 !important; }
+#sheetOverlay .ct-ic{ background:#fff !important; }
+#sheetOverlay .ct-legend{ margin:4px 4px 10px; }
+#sheetOverlay .ct-foot{ padding:0 4px; }
+#sheetOverlay .ct-apps{ border-top:none; background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; margin-bottom:8px; }
+#sheetOverlay .ct-apps-head{ padding:14px 0; font-size:14px; color:#1f1f1f; }
+#sheetOverlay .ct-apps-body{ border-top:1px solid #e3e3e3; padding:2px 0 6px; }
+#sheetOverlay .ct-items .li-row{ padding-left:30px; }
+#sheetOverlay .ct-items{ border-top:1px solid #e3e3e3; }
+#sheetOverlay .ct-name{ font-size:15px; font-weight:500; }
+#sheetOverlay .ct-items{ background:none !important; }
