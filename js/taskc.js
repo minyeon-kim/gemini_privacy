@@ -18,14 +18,14 @@
   const TOPICS = { move: { name:'이사 준비' }, gym: { name:'운동' } };
   const SRC_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar' };
   const SRC_SCOPE = {
-    gmail: '끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.',
-    calendar: '끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요.',
-    memory: '끄면 메모리 전체를 답변에 쓰지 않아요.',
+    gmail: '끄면 Gmail 연동을 꺼서 답변에 쓰지 않아요. 메일은 그대로예요.',
+    calendar: '끄면 Calendar 연동을 꺼서 답변에 쓰지 않아요. 일정은 그대로예요.',
+    memory: '끄면 메모리를 답변에 쓰지 않아요.',
   };
   const TARGET = /이사|집\s?보|전세|투룸|망원|부동산|매물|대출|moving|apartment|lease/i;
   const INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|그만|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
   const PLAN_Q = /주말|계획|뭐\s?하|뭘\s?하|할\s?거|추천|일정|weekend|plan/i;
-  const RETENTION = '사람이 검토한 대화 사본은 계정과 분리되어 최대 3년간 보관될 수 있어요';
+  const RETENTION = '품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요';
   const ICON_DEL = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
   const ICON_BLOCK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/></svg>';
   // 앱 아이콘은 B2 화면의 것을 복사해서 써요(그라디언트 id는 겹치지 않게 바꿔요).
@@ -58,7 +58,7 @@
     const it = ITEMS[id], done = !!S.done[id], off = !S.refs[it.src];
     const left = done || off ? '<span class="ct-spacer"></span>'
       : `<div class="checkbox${S.sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!S.sel[id]}" data-tag="C 항목 ${id}" onclick="event.stopPropagation(); TaskC.pick('${id}')">✓</div>`;
-    const right = done ? `<span class="st-chip ${isDel(id) ? 'del' : 'block'}">${isDel(id) ? ICON_DEL : ICON_BLOCK}${esc(t(isDel(id) ? '삭제됨' : '참조 차단'))}</span>`
+    const right = done ? `<span class="st-chip ${isDel(id) ? 'del' : 'block'}">${isDel(id) ? ICON_DEL : ICON_BLOCK}${esc(t(isDel(id) ? '삭제됨' : '답변에 안 씀'))}</span>`
       : off ? `<span class="st-chip block">${ICON_BLOCK}${esc(t('앱 꺼짐'))}</span>` : '';
     return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="C 항목 줄 ${id}" onclick="TaskC.pick('${id}')"`}>${left}
       <div class="li-text"><div class="li-t1">${esc(t(it.text))}</div><div class="li-t2"><span class="li-app">${srcIcon(it.src)}</span>${esc(SRC_NAME[it.src])}${it.date ? ', ' + esc(it.date) : ''}</div></div>${right}</div>`;
@@ -90,9 +90,9 @@
     box.innerHTML = `<div class="ct-list">${groups}</div>
       <p class="ct-legend">${esc(t('Memory는 삭제되고, Gmail과 Calendar는 원본은 그대로 두고 답변에만 쓰지 않아요.'))}</p>
       <div class="ct-foot"><span class="ct-sel">${esc(t('선택'))} <b>${n}</b>${esc(t('건'))}</span>
-        <button class="btn-del hot" id="cSheetProcess" data-tag="C 시트 처리" onclick="TaskC.processSheet()" ${n ? '' : 'disabled'}>${esc(t('선택한 정보 처리'))}</button></div>
+        <button class="btn-del hot" id="cSheetProcess" data-tag="C 시트 처리" onclick="TaskC.processSheet()" ${n ? '' : 'disabled'}>${n ? `${n}${esc(t('건 처리'))}` : esc(t('선택한 정보 처리'))}</button></div>
       <div class="ct-apps${S.appsOpen ? ' open' : ''}">
-        <div class="ct-apps-head hot" data-tag="C 앱 전체 설정 펼치기" onclick="TaskC.toggleApps()"><span>${esc(t('앱 전체 설정'))}</span><span class="chevron">⌄</span></div>
+        <div class="ct-apps-head hot" data-tag="C 앱 연동 설정 펼치기" onclick="TaskC.toggleApps()"><span>${esc(t('앱 연동 설정'))}</span><span class="chevron">⌄</span></div>
         <div class="ct-apps-body">${apps}</div>
       </div>`;
   }
@@ -103,7 +103,7 @@
     const off = ['gmail', 'calendar', 'memory'].filter(k => !S.refs[k]).map(k => SRC_NAME[k]);
     const parts = [];
     if(ids.length) parts.push(`정보 ${ids.length}건 처리`);
-    if(off.length) parts.push(`앱 ${off.length}개 끔`);
+    if(off.length) parts.push(`앱 연동 ${off.length}개 끔`);
     const icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
     const undo = S.result && S.via === 'source' ? `<button type="button" class="nt-undo hot" data-tag="C 되돌리기(답변 아래)" onclick="TaskC.undo()">${esc(t('되돌리기'))}</button>` : '';
     el.innerHTML = parts.length ? `<div class="nt-row"><button type="button" class="nt-chip hot" data-tag="C 변경 내역 보기" onclick="TaskC.openSource()">${icon}<span>${esc(parts.join(', '))}</span><span class="nt-chev" aria-hidden="true"></span></button>${undo}</div>`
@@ -112,7 +112,7 @@
   }
   function resultHtml(m, last){
     if(m.undone) return `<p>${esc(t('처리를 되돌렸어요. 다시 답변에 쓸 수 있어요.'))}</p>`;
-    const li = m.ids.map(id => `<li>${esc(t(ITEMS[id].label))}: ${esc(t(isDel(id) ? '삭제됨' : '참조 차단'))}</li>`).join('');
+    const li = m.ids.map(id => `<li>${esc(t(ITEMS[id].label))}: ${esc(t(isDel(id) ? '삭제됨' : '답변에 안 씀'))}</li>`).join('');
     const del = m.ids.some(isDel);
     return `<p>${esc(t("'이사 준비' 정보를 처리했어요. 앞으로 답변에 쓰지 않아요."))}</p><ul>${li}</ul>`
       + (del ? `<p class="nt-sub">${esc(t(RETENTION))}</p>` : '')
@@ -156,7 +156,7 @@
     const picked = ids.filter(id => S.checks[id] && !handled(id)).length;
     box.innerHTML = `<div class="c-card-title">'${esc(t('이사 준비'))}' ${esc(t('관련 정보'))} ${ids.length}${esc(t('건을 찾았어요'))}</div>
       ${mem.length ? `<div class="check-group-head"><span class="check-group-title">Memory</span><span class="check-group-desc">${esc(t('삭제돼요'))}</span></div><div class="c-list">${mem.map(row).join('')}</div>` : ''}
-      ${apps.length ? `<div class="check-group-head"><span class="check-group-title">${esc(t('연결된 앱'))}</span><span class="check-group-desc">${esc(t('참조만 차단돼요'))}</span></div><div class="c-list">${apps.map(row).join('')}</div>` : ''}
+      ${apps.length ? `<div class="check-group-head"><span class="check-group-title">${esc(t('연결된 앱'))}</span><span class="check-group-desc">${esc(t('답변에만 안 써요'))}</span></div><div class="c-list">${apps.map(row).join('')}</div>` : ''}
       <div class="selection-count">${esc(t('처리할 정보'))} <b>${picked}</b><span class="sc-total">/ ${ids.length}건</span></div>
       <div class="card-btn-row">
         <button class="btn-cancel hot" data-tag="C 카드 취소" onclick="TaskC.cancelCard()">취소</button>
