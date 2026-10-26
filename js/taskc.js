@@ -126,7 +126,7 @@
   function closeSheet(how){ log('c_sheet_close', { how }); App.go('C2', 'c-sheet-close'); }
   function chip(){
     if(S.chipMs == null && S.readyAt) S.chipMs = Math.round(performance.now() - S.readyAt);
-    firstPath('chip'); log('c_chip', { ms:S.chipMs }); App.go('C4', 'c-chip');
+    firstPath('chip'); log('c_chip', { chipMs:S.chipMs }); App.go('C4', 'c-chip');
   }
   function topic(k){ S.topics[k] = !S.topics[k]; log('c_topic', { topic:k, on:S.topics[k] }); renderTopics(); }
   function topicsNext(){
