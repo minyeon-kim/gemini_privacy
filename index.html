@@ -739,9 +739,7 @@
 
 <!-- ---------------- 진행자 패널 ---------------- -->
 <div class="panel mod-only" id="panel">
-  <h2>진행자 패널 · 과제 기반 UT</h2>
-  <p class="subtitle">A(인라인 데이터 관리)와 B(채팅 자연어 삭제)는 별개의 두 메커니즘이에요. 참가자가 직접 조작하고, 진행자는 목표만 제시한 뒤 관찰 → 이해 확인 순서로 진행합니다. 조작 방법·선택지를 먼저 알려주지 마세요.</p>
-
+  <h2>진행자 패널</h2>
   <div class="session-row" id="sessionRow">세션 시작 전</div>
 
   <div class="linkmaker no-watch">
@@ -750,54 +748,45 @@
       <label>코드 <input id="lmPid" value="P01" maxlength="12" oninput="App.updateLink(true)"></label>
       <label>순서 <select id="lmOrder" onchange="App.updateLink()"><option value="ab">A→B</option><option value="ba">B→A</option></select></label>
     </div>
-    <div class="lm-row">
+    <div class="lm-row lm-hide">
       <label>기기 <select id="lmMode" onchange="App.updateLink()"><option value="participant">참가자 기기</option><option value="moderator">진행자 기기(대면)</option></select></label>
       <label>언어 <select id="lmLang" onchange="App.updateLink()"><option value="">한국어</option><option value="en">English</option></select></label>
     </div>
     <div class="lm-row"><input id="lmUrl" readonly onclick="this.select()"><button id="lmCopy" onclick="App.copyLink()">복사</button></div>
-    <div class="lm-hint">코드가 홀수면 A→B, 짝수면 B→A로 자동 선택돼요. 참가자는 코드를 입력하지 않아요.</div>
   </div>
-  <div class="panel-divider"></div>
-
-  <button class="advance-btn no-watch" onclick="App.advance()">다음 단계 진행 →</button>
 
   <div id="stepTitle" class="step-title">START</div>
   <div class="guide" id="guideBox"></div>
-  <div class="script" id="scriptBox"></div>
   <div class="sv-live" id="svLive"></div>
-  <div class="indicators" id="indicatorRow"></div>
-  <div class="interact-note" id="interactNote"></div>
 
-  <div class="panel-divider"></div>
-
-  <div class="no-watch">
-  <div class="panel-section-title">단계 바로가기 (진행자 전용)</div>
-  <div class="jumpnav" id="jumpnav"></div>
-  </div>
-
-  <div class="togglerow">
-    <span>주석(빨간 점선) 표시</span>
-    <div class="miniswitch" id="devSwitch" onclick="App.toggleDev()"><div class="k"></div></div>
-  </div>
-  <button class="resetbtn no-watch" onclick="App.resetScenario()">시나리오 상태 초기화 (A1로)</button>
-
-  <div class="panel-divider"></div>
-
-  <div class="panel-section-title">실시간 기록</div>
-  <div class="metrics" id="metricsBox"></div>
-  <div class="log-feed" id="logFeed"></div>
-  <div class="log-actions">
-    <button onclick="App.download('json')">JSON 받기</button>
-    <button onclick="App.download('csv')">CSV 받기</button>
-    <button onclick="App.downloadResultLocal()" title="엑셀 '자동 수집' 시트에 붙여넣는 형식">결과 CSV</button>
-    <button class="no-watch" onclick="Logger.copy()">복사</button>
-  </div>
-  <button class="resetbtn danger no-watch" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
-
-  <div class="legend">
-    <b>검증 지표</b> — ①통제 난이도 ②응답 예측 부합도 ③삭제 성공 여부 ④신뢰·불안 변화(그레이존 인지) ⑤정보량 적절성<br><br>
-    참가자에게는 휴대폰 화면만 공유하세요(패널은 우측 상단 버튼으로 숨김 가능). 참가자 본인 기기로 진행할 땐 주소 끝에 <b>?mode=participant</b>를 붙인 링크를 보내세요.
-  </div>
+  <details class="tools" id="toolsBox">
+    <summary>도구 · 기록</summary>
+    <div class="panel-section-title">상세 메모</div>
+    <div class="script" id="scriptBox"></div>
+    <div class="indicators" id="indicatorRow" hidden></div>
+    <div class="interact-note" id="interactNote" hidden></div>
+    <div class="no-watch">
+      <button class="advance-btn" onclick="App.advance()">다음 단계 진행 →</button>
+      <div class="panel-section-title">단계 바로가기</div>
+      <div class="jumpnav" id="jumpnav"></div>
+    </div>
+    <div class="panel-section-title">기록</div>
+    <div class="metrics" id="metricsBox"></div>
+    <div class="log-feed" id="logFeed"></div>
+    <div class="log-actions">
+      <button onclick="App.download('json')">JSON 받기</button>
+      <button onclick="App.download('csv')">CSV 받기</button>
+      <button onclick="App.downloadResultLocal()" title="엑셀 '자동 수집' 시트에 붙여넣는 형식">결과 CSV</button>
+      <button class="no-watch" onclick="Logger.copy()">복사</button>
+    </div>
+    <div id="toolsExtra"></div>
+    <div class="togglerow">
+      <span>주석(빨간 점선) 표시</span>
+      <div class="miniswitch" id="devSwitch" onclick="App.toggleDev()"><div class="k"></div></div>
+    </div>
+    <button class="resetbtn no-watch" onclick="App.resetScenario()">시나리오 상태 초기화</button>
+    <button class="resetbtn danger no-watch" onclick="App.newSession()">새 참가자로 시작 (현재 기록 저장 후 초기화)</button>
+  </details>
 </div>
 
 <script src="js/config.js"></script>

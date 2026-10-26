@@ -887,14 +887,14 @@
       { id:'A-13', q:'정민 이야기가 나온 이유를 확인하고, 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
       { id:'A-14', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
       { id:'A-15', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'A-16', q:"'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?", scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
+      { id:'A-16', q:"'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은 어땠나요?", scale:S7, lo:'너무 적음', hi:'너무 많음', mid:'4 = 적절함' },
     ]},
     B: { badge:'잠깐 설문', title:'채팅으로 정리한 상황에 대해 알려 주세요', sub:'채팅으로 요청해 정민 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
       { id:'B-10', q:'채팅으로 요청해서 정민 관련 정보를 처리하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
       { id:'B-11', q:'정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고 생각하시나요?', choices:['예', '아니오', '모르겠음'] },
       { id:'B-12', q:'앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고 얼마나 확신하시나요?', scale:S7, lo:'전혀 확신하지 않음', hi:'매우 확신함' },
-      { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적다', hi:'너무 많다', mid:'4 = 적절하다' },
-      { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정이 번거로웠나요?', scale:S7, lo:'전혀 번거롭지 않다', hi:'매우 번거롭다' },
+      { id:'B-13', q:'Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은 어땠나요?', scale:S7, lo:'너무 적음', hi:'너무 많음', mid:'4 = 적절함' },
+      { id:'B-14', q:'목록에서 처리할 항목을 확인하고 고르는 과정은 얼마나 번거롭거나 수월했나요?', scale:S7, lo:'매우 번거로움', hi:'매우 수월함' },
     ]},
     C: { badge:'잠깐 설문', title:'이사 정보를 정리한 상황', sub:'답변에 섞여 있던 이사 관련 정보를 처리한 과정을 떠올리며 답해 주세요', items:[
       { id:'C-10', q:'이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은 얼마나 어렵거나 쉬웠나요?', scale:S7, lo:'매우 어려움', hi:'매우 쉬움' },
@@ -906,7 +906,7 @@
       '이 기능을 쓰려면 다른 사람의 도움이 필요할 것 같다.', '이 기능의 여러 부분이 자연스럽게 잘 연결되어 있다.', '이 기능에는 일관성이 없는 부분이 너무 많다.',
       '대부분의 사람들이 이 기능을 금방 익힐 것 같다.', '이 기능은 사용하기 번거롭다.', '이 기능을 자신 있게 사용할 수 있었다.',
       '이 기능을 쓰기 전에 배워야 할 것이 많았다.',
-    ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의 안 함', hi:'매우 동의함' })) },
+    ].map((q, i) => ({ id:`S-${String(i + 1).padStart(2, '0')}`, q, scale:S5, lo:'전혀 동의하지 않음', hi:'매우 동의함' })) },
   };
   function buildSurveys(){
     const end = $('.screen[data-step="END"]');
@@ -1147,7 +1147,7 @@
       row.innerHTML = `참가자 <b>${esc(m.participant || '?')}</b> 화면을 실시간으로 보는 중${m.ended ? ' · <b>세션 종료됨</b>' : ''}`;
       return;
     }
-    if(!Logger.active){ row.innerHTML = '세션 시작 전 — 참가자 코드를 입력하고 시작하세요'; return; }
+    if(!Logger.active){ row.innerHTML = '세션 시작 전'; return; }
     const m = Logger.session.meta;
     row.innerHTML = `참가자 <b>${m.participant}</b> · ${MODE === 'participant' ? '참가자 모드' : '진행자 모드'} · 시작 ${new Date(m.startedAt).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;
   }
@@ -1172,14 +1172,14 @@
 
   // 진행자 패널: 참가자가 고르는 설문 응답을 실시간으로 보여 주고, 후속 질문 거리를 짚어 줘요.
   const SV_SHORT = { 'A-13':'쉬움 정도 (SEQ)', 'A-14':'완료됐다고 생각', 'A-15':'확신도', 'A-16':'정보량',
-    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 부담',
+    'B-10':'쉬움 정도 (SEQ)', 'B-11':'완료됐다고 생각', 'B-12':'확신도', 'B-13':'정보량', 'B-14':'선택 수월함',
     'C-10':'쉬움 정도 (SEQ)', 'C-11':'완료됐다고 생각', 'C-12':'영향 범위 확신도' };
   function svFlag(id, v){
     if(['A-13', 'B-10', 'C-10'].includes(id) && v <= 3) return "어렵다고 답했어요. '어느 부분이 어려웠나요?'";
     if(['A-14', 'B-11', 'C-11'].includes(id) && v !== '예') return "완료에 확신이 없어요. '어떤 점 때문에 그렇게 생각하셨나요?'";
     if(['A-15', 'B-12', 'C-12'].includes(id) && v <= 3) return "확신이 낮아요. '무엇이 확실하지 않게 느껴졌나요?'";
     if(['A-16', 'B-13'].includes(id) && (v <= 2 || v >= 6)) return v <= 2 ? "정보가 적다고 했어요. '어떤 정보가 더 있었으면 했나요?'" : "정보가 많다고 했어요. '어떤 부분이 과했나요?'";
-    if(id === 'B-14' && v >= 5) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
+    if(id === 'B-14' && v <= 3) return "고르기가 번거로웠대요. '어떤 점이 번거로웠나요?'";
     return '';
   }
   function renderSurveyLive(src){
@@ -1239,7 +1239,7 @@
 
   function renderArchive(){
     let el = $('#archiveList');
-    if(!el){ el = document.createElement('div'); el.id = 'archiveList'; el.className = 'archive-list'; $('#panel .legend').before(el); }
+    if(!el){ el = document.createElement('div'); el.id = 'archiveList'; el.className = 'archive-list'; $('#toolsExtra').append(el); }
     const arc = Logger.archived();
     if(!arc.length){ el.innerHTML = ''; return; }
     el.innerHTML = '<div style="font-weight:700;">이 브라우저에 보관된 세션</div>' + arc.map((s, i) =>

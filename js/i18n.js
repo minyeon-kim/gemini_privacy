@@ -473,6 +473,13 @@
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요."] = "Here's a plan based on your schedule this weekend.";
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요. …"] = "Here's a plan based on your schedule this weekend. …";
   messages["이 답변에 쓰인 정보 관리하기"] = "Manage info used in this answer";
+  messages["목록에서 처리할 항목을 확인하고 고르는 과정은 얼마나 번거롭거나 수월했나요?"] = "How cumbersome or easy was it to review and pick items from the list?";
+  messages["매우 번거로움"] = "Very cumbersome";
+  messages["매우 수월함"] = "Very easy";
+  messages["너무 적음"] = "Too little";
+  messages["너무 많음"] = "Too much";
+  messages["4 = 적절함"] = "4 = About right";
+  messages["전혀 동의하지 않음"] = "Strongly disagree";
   messages["같은 질문 다시 하기"] = "Ask the same question again";
   messages["설정을 바꾼 뒤 같은 질문을 다시 했어요"] = "Asked the same question again after changing settings";
   messages["정보를 처리한 뒤 같은 질문을 다시 했어요"] = "Asked the same question again after handling the info";

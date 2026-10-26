@@ -105,15 +105,15 @@
     const box = document.createElement('div');
     box.className = 'live-box';
     box.innerHTML = `
-      <div class="panel-section-title">참가자 화면 실시간 보기</div>
-      <div class="live-hint">참가자가 <b>?mode=participant</b> 링크로 시작하면 여기에 나타나요. 누르면 왼쪽 휴대폰 화면이 참가자 화면을 그대로 따라가요.</div>
-      <div class="live-list" id="liveList">불러오는 중…</div>
-      <div class="live-export">
-        <button id="exportAllBtn" onclick="Live.exportAll()">전체 결과 CSV 받기</button>
-        <span class="live-hint" id="exportStatus">Firebase에 저장된 모든 세션의 설문 응답·로그 값을 한 파일로 받아요 (엑셀 '자동 수집' 시트에 붙여넣기)</span>
-      </div>
-      <div class="panel-divider"></div>`;
+      <div class="panel-section-title">참가자 화면 보기</div>
+      <div class="live-list" id="liveList">불러오는 중…</div>`;
     $('#sessionRow').after(box);
+    // 결과 받기는 세션이 끝난 뒤 쓰는 기능이라 '도구 · 기록' 안에 둬요.
+    const ex = document.createElement('div');
+    ex.className = 'live-export';
+    ex.innerHTML = `<button id="exportAllBtn" onclick="Live.exportAll()">전체 결과 CSV 받기</button>
+      <span class="live-hint" id="exportStatus">엑셀 '자동 수집' 시트에 붙여넣기</span>`;
+    ($('#toolsExtra') || box).append(ex);
   }
 
   function ago(ms){

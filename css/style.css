@@ -1069,3 +1069,17 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .c-echo[hidden]{ display:none !important; }
 /* 결과 카드: 되돌리기는 보조, 다시 하기는 주 버튼 */
 .complete-card .btn-row-h{ margin-top:4px; }
+/* 진행자 패널: 세션에 필요한 것만 위에, 나머지는 '도구 · 기록'에 접어 둠 */
+.lm-hide{ display:none !important; }
+.linkmaker{ margin-bottom:12px; }
+.panel .step-title{ margin:4px 0 6px; }
+.tools{ margin-top:16px; border-top:1px solid var(--border); padding-top:10px; }
+.tools > summary{ cursor:pointer; font-size:12.5px; font-weight:600; color:var(--text-2); padding:4px 0; list-style:none; }
+.tools > summary::-webkit-details-marker{ display:none; }
+.tools > summary::before{ content:'▸ '; }
+.tools[open] > summary::before{ content:'▾ '; }
+.tools[open] > summary{ margin-bottom:10px; }
+.tools .panel-section-title{ margin-top:14px; }
+.tools .script{ font-size:12px !important; }
+.tools .live-export{ margin:10px 0; }
+.live-box{ margin-bottom:12px; }
