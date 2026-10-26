@@ -3,7 +3,7 @@
   const params = new URLSearchParams(location.search);
   const MODE = params.get('mode') === 'participant' ? 'participant' : 'moderator';
   if(MODE === 'participant') document.body.classList.add('participant');
-  // 과제 순서: 기본 A→B, 주소에 ?order=ba 를 붙이면 B→A (순서 효과를 줄이려고 참가자마다 교차)
+  // 과제 순서: 모든 참가자 A→B로 고정. (필요할 때만 주소에 ?order=ba 를 붙이면 B→A)
   const SEQ = (params.get('order') || '').toLowerCase() === 'ba' ? 'BA' : 'AB';
   // 참가자 코드는 링크에 담아 보내요(?pid=P03). 참가자 모드에서 코드가 없으면 익명 코드를 자동으로 만들어요.
   const PID = (params.get('pid') || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 12);
@@ -1199,7 +1199,7 @@
     const pidEl = $('#lmPid'); if(!pidEl) return;
     const pid = (pidEl.value || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
     const n = parseInt((pid.match(/\d+/) || [''])[0], 10);
-    if(fromPid && !isNaN(n)) $('#lmOrder').value = n % 2 === 1 ? 'ab' : 'ba';   // 홀수 A→B, 짝수 B→A
+    $('#lmOrder').value = 'ab';   // 순서는 모든 참가자 A→B로 고정 (P01, P02와 같게)
     const q = new URLSearchParams();
     if($('#lmMode').value === 'participant') q.set('mode', 'participant');
     if(pid) q.set('pid', pid);
