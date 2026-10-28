@@ -1228,3 +1228,8 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 #sheetOverlay .ct-name{ font-size:15px; font-weight:500; }
 #sheetOverlay .ct-items{ background:none !important; }
 .li-row.hot, .b2-item.hot{ cursor:pointer; }
+/* v28: 처리 버튼을 시트 아래에 고정 */
+#sheetOverlay .ct-foot, #cSheet .ct-foot{ position:sticky; bottom:0; z-index:3; background:#fff; margin:0 -4px 12px; padding:12px 8px; box-shadow:0 -8px 12px -10px rgba(0,0,0,.18); border-radius:0; }
+#a3Bar{ position:sticky; bottom:0; z-index:3; background:#fff; margin:0 -20px; padding:4px 22px 0; box-shadow:0 -8px 12px -10px rgba(0,0,0,.18); }
+#a3Bar .ct-foot{ position:static !important; box-shadow:none !important; margin:0 0 10px !important; padding:0 2px !important; }
+#a3Bar .ct-legend{ margin:8px 2px 8px; }

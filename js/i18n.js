@@ -473,6 +473,13 @@
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요."] = "Here's a plan based on your schedule this weekend.";
   messages["이번 주말 일정을 바탕으로 계획을 정리해 봤어요. …"] = "Here's a plan based on your schedule this weekend. …";
   messages["이 답변에 쓰인 정보 관리하기"] = "Manage info used in this answer";
+  messages["품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요"] = "Chats reviewed by people to improve quality may be kept for up to 3 years, disconnected from your account";
+  messages["답변에 안 씀"] = "Not used in answers";
+  messages["답변에만 안 써요"] = "Only kept out of answers";
+  messages["연동 끔"] = "Disconnected";
+  messages["앱 연동 설정"] = "App connections";
+  messages["건 처리"] = " items: process";
+  messages["선택한 정보를 답변에 쓰지 않게 했어요"] = "Selected info won’t be used in answers";
   messages["목록에서 처리할 항목을 확인하고 고르는 과정은 얼마나 번거롭거나 수월했나요?"] = "How cumbersome or easy was it to review and pick items from the list?";
   messages["매우 번거로움"] = "Very cumbersome";
   messages["매우 수월함"] = "Very easy";
