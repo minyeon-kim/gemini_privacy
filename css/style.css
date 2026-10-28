@@ -61,12 +61,12 @@
   .chat-body{flex:1; min-height:0; overflow-y:auto; padding:16px 18px; display:flex; flex-direction:column; gap:16px;}
   .msg-user{
     align-self:flex-end; background:#e8eaed; color:var(--text-1);
-    padding:13px 20px; border-radius:26px; max-width:82%; font-size:14.5px; line-height:1.5;
+    padding:12px 18px; border-radius:24px; max-width:82%; font-size:16px; line-height:1.5;
   }
-  .msg-ai{ align-self:flex-start; max-width:94%; font-size:14.5px; line-height:1.6; color:var(--text-1); display:flex; flex-direction:column; gap:12px; }
+  .msg-ai{ align-self:flex-start; max-width:94%; font-size:16px; line-height:1.5; color:var(--text-1); display:flex; flex-direction:column; gap:12px; }
   .msg-ai p{margin:0;}
   .msg-ai ul{margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;}
-  .msg-ai li{font-size:13.5px; line-height:1.55;}
+  .msg-ai li{font-size:16px; line-height:1.5;}
   .typing-dots{display:flex; align-items:center; gap:4px; padding:6px 0;}
   .typing-dots i{border-radius:50%; background:#9aa0a6; display:inline-block;}
   .typing-dots i:nth-child(1){width:6px;height:6px;}
@@ -185,8 +185,7 @@
   .sheet-topbar{display:flex; align-items:center; justify-content:space-between; gap:12px;}
   .sheet-topbar h2{margin:0;}
   .sheet-close{width:30px; height:30px; border-radius:50%; background:#f1f3f4; display:flex; align-items:center; justify-content:center; cursor:pointer; flex:0 0 30px; color:#3c4043;}
-  .text-link{ font-size:12.5px; color:var(--blue-dark); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; cursor:pointer; }
-  .sheet h2{font-size:16px; margin:2px 0 2px; font-weight:600;}
+  .text-link{ font-size:13px; color:var(--blue-dark); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; cursor:pointer; }
   .source-item{ background:var(--bg-card); border-radius:18px; padding:14px 16px; display:flex; flex-direction:column; gap:9px; }
   .source-head{display:flex; align-items:center; gap:10px;}
   .source-head .meta{flex:1; cursor:pointer;}
@@ -203,9 +202,9 @@
   .btn-row-h .primary-btn{ flex:1; }
 
   .ai-card{ background:var(--bg-card); border-radius:20px; padding:16px 17px; display:flex; flex-direction:column; gap:11px; max-width:94%; align-self:flex-start; }
-  .ai-card h3{font-size:13.5px; margin:0; font-weight:700;}
+  .ai-card h3{font-size:16px; margin:0; font-weight:500; line-height:1.4;}
   .card-head-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-  .select-all-row{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-2); flex:0 0 auto; white-space:nowrap;}
+  .select-all-row{display:flex; align-items:center; gap:10px; font-size:14px; color:var(--text-2); flex:0 0 auto; white-space:nowrap;}
   .check-group{display:flex; flex-direction:column; gap:6px;}
   .check-group-head{display:flex; align-items:baseline; gap:6px; margin:0 2px;}
   .check-group-title{font-size:12.5px; font-weight:700; color:var(--text-1);}
@@ -228,7 +227,7 @@
   .complete-card{ background:var(--bg-card); border-radius:20px; padding:16px 17px; display:flex; flex-direction:column; gap:12px; max-width:94%; align-self:flex-start; }
   .complete-card .check-row{ display:flex; align-items:center; gap:8px; }
   .complete-card .check-row svg{flex:0 0 auto;}
-  .complete-card h3{margin:0; font-size:13.5px; font-weight:700; color:var(--text-1);}
+  .complete-card h3{margin:0; font-size:16px; font-weight:500; color:var(--text-1);}
 
   .devmode .hot{outline:2px dashed #ea4335; outline-offset:2px; border-radius:10px;}
 
@@ -642,7 +641,7 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 .btn-del, .btn-row-h .primary-btn{ background:var(--m3-primary) !important; color:#fff !important; border:none !important; }
 /* 처리 결과: 대시 없이 줄로 나눠 보기 */
 .b3-line{ flex-direction:column; gap:2px; padding:10px 14px !important; }
-.b3-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%; }
+.b3-head{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:4px 8px; width:100%; }
 .b3-name{ font-size:13.5px; font-weight:600; color:var(--m3-on-surface); }
 .b3-status{ display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:500; color:var(--m3-on-surface-var); }
 .b3-status svg{ flex:0 0 auto; }
@@ -705,14 +704,14 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .b3-ic{ width:34px !important; height:34px !important; flex:0 0 34px !important; border-radius:11px !important; }
 .b3-ic svg{ width:18px; height:18px; }
 .b3-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
-.b3-name{ font-size:14px !important; font-weight:600; }
+.b3-name{ font-size:15px !important; font-weight:500; white-space:nowrap; }
 .b3-count{ font-weight:500; color:var(--m3-on-surface-var, #444746); }
 .st-chip{ display:inline-flex; align-items:center; gap:4px; flex:0 0 auto; font-size:12px; font-weight:600; border-radius:8px; padding:3px 8px; }
 .st-chip svg{ width:13px; height:13px; }
 .st-chip.del{ background:#fce8e6; color:#b3261e; }
 .st-chip.block{ background:#d3e3fd; color:#0842a0; }
 .st-chip.keep{ background:#e6f4ea; color:#137333; }
-.b3-desc{ font-size:13px !important; color:var(--m3-on-surface-var, #444746); }
+.b3-desc{ font-size:14px !important; color:var(--m3-on-surface-var, #444746); }
 .complete-card .retention-note, .settings-body .retention-note{ background:transparent; padding:2px 2px 0; border-top:1px solid #eceff3; border-radius:0; padding-top:10px; }
 .source-item .detail .st-chip{ margin:3px 0 4px; }
 .source-item .detail .b4-desc{ font-size:12.5px; }
@@ -742,7 +741,6 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 /* ===== Feedback polish ===== */
 /* 시트가 열린 상태에서 스낵바가 뜨면 시트 아래쪽을 띄워 링크가 가려지지 않게 */
 .sheet-overlay .sheet{ transition:padding-bottom .18s; }
-.sheet-overlay.snack-lift .sheet{ padding-bottom:84px !important; }
 .snackbar{ bottom:20px; }
 /* 상황 안내 화면 */
 .intro-lead{ margin:0; font-size:16px; line-height:1.6; font-weight:500; color:#1f1f1f; }
@@ -794,7 +792,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .source-item{ background:var(--g-surface) !important; border-radius:24px !important; }
 .source-item .name{ font-weight:500 !important; font-size:14.5px !important; }
 .source-item .data-chip{ box-shadow:none; }
-.sheet h2{ font-size:18px !important; font-weight:400 !important; }
+.sheet h2{ font-size:20px; font-weight:400; margin:2px 0; }
 .ai-card{ background:var(--g-surface) !important; border-radius:24px !important; }
 .check-item{ background:#fff; }
 
@@ -868,7 +866,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .icon-chip, .icon-chip.sm{ width:32px !important; height:32px !important; flex:0 0 32px !important; border-radius:10px !important; }
 .icon-chip svg{ width:20px !important; height:20px !important; }
 /* 출처 시트 */
-.sheet-desc{ font-size:13px; color:#5e5e5e; line-height:1.55; margin:-2px 0 4px; }
+.sheet-desc{ font-size:14px; color:#5e5e5e; line-height:1.5; margin:-2px 0 4px; }
 .source-item{ padding:12px 16px !important; gap:0 !important; }
 .source-item > .row, .source-item .row{ gap:12px !important; }
 .source-item .source-expand{ display:flex; flex-direction:column; gap:0; }
@@ -878,12 +876,12 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .check-item{ border-radius:18px !important; }
 .check-item-head{ gap:12px !important; padding:12px 14px !important; align-items:center; }
 .ctext-name{ font-size:15px !important; font-weight:500 !important; color:#1f1f1f; }
-.ctext-sub{ font-size:12.5px !important; color:#5e5e5e !important; margin-top:2px; }
+.ctext-sub{ font-size:13px !important; color:#5e5e5e !important; margin-top:2px; }
 .ctext-detail{ font-size:13px !important; padding:9px 0 !important; border-top:1px solid #eeeded; }
 .check-group-head{ margin:10px 2px 6px !important; }
-.check-group-title{ font-size:14px !important; font-weight:600 !important; }
-.check-group-desc{ font-size:12.5px !important; color:#5e5e5e !important; }
-.b2-hint{ font-size:13px !important; color:#5e5e5e !important; }
+.check-group-title{ font-size:14px !important; font-weight:500 !important; }
+.check-group-desc{ font-size:13px !important; color:#5e5e5e !important; }
+.b2-hint{ font-size:14px !important; color:#5e5e5e !important; }
 /* A2 변경 안내 */
 .a2-notice{ padding:12px 16px !important; }
 .nt-title{ font-size:13.5px; font-weight:600; color:#1f1f1f; margin-bottom:4px; }
@@ -921,9 +919,9 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 /* B2 줄: 안쪽 여백 한 겹만 */
 .check-item{ padding:0 !important; }
 .check-item-head{ padding:12px 14px !important; border-radius:18px; }
-.check-item-expand{ padding:0 14px 0 58px !important; }
+.check-item-expand{ padding:0 14px !important; }
 .check-item.open .check-item-expand{ margin-top:0 !important; padding-bottom:8px !important; }
-.ctext-sub{ white-space:nowrap; }
+.ctext-sub{ white-space:normal; }
 
 /* ===== 휴대폰 참가자 화면: 과제 안내는 얇은 한 줄 ===== */
 .tk-peek{ display:none; }
@@ -961,7 +959,6 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .source-item .data-chip{ padding-left:40px !important; }
 /* 처리 목록(B2) */
 .check-item-head{ padding:12px 14px !important; }
-.check-item-expand{ padding-left:54px !important; }
 .ctext-detail{ border-top:1px solid #eeeded; }
 .ctext-detail:first-child{ border-top:none; }
 .b2-hint{ margin:2px 0 8px !important; line-height:1.5; }
@@ -1021,13 +1018,13 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .tp-src{ font-size:12px; color:#747775; margin-top:4px; }
 #cTopics .card-btn-row{ justify-content:flex-end; }
 #cTopicsNext:disabled, #cProcessBtn:disabled{ opacity:.4; cursor:default; }
-.b3-desc.muted{ color:#747775 !important; font-size:12.5px !important; }
+.b3-desc.muted{ color:#747775 !important; font-size:13px !important; }
 .hero-hint{ margin:10px 0 0; font-size:13px; color:#5e5e5e; text-align:center; }
 .phase-tag.c{ background:#fef7e0; color:#8a5a00; }
 
 /* ===== P01 이터레이션 (v21) ===== */
 /* 포함 이유 · 토글 범위 */
-.why{ display:block; margin-top:3px; font-size:12px; color:#0b57d0; }
+.why{ display:block; margin-top:3px; font-size:13px; color:#0b57d0; }
 .why::before{ content:'ⓘ '; }
 .scope-note{ font-size:12px; line-height:1.45; color:#5e5e5e; margin:4px 0 2px 46px; }
 .ct-app .scope-note{ margin:2px 0 0; }
@@ -1109,7 +1106,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .ct-name{ font-size:15px; font-weight:500; color:#1f1f1f; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
 .ct-count{ font-size:13px; font-weight:400; color:#747775; }
 .ct-t1{ font-size:13.5px; color:#1f1f1f; line-height:1.4; }
-.ct-t2{ font-size:12px; color:#747775; margin-top:2px; line-height:1.4; }
+.ct-t2{ font-size:13px; color:#747775; margin-top:2px; line-height:1.4; }
 .ct-item.done .ct-t1{ color:#747775; }
 #cSheet .ct-alldone{ font-size:11.5px; padding:1px 7px; }
 .ct-legend{ font-size:12px; color:#5e5e5e; line-height:1.5; margin:10px 2px 12px; }
@@ -1144,7 +1141,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .b2-item{ display:flex !important; align-items:flex-start; gap:10px; }
 .b2-item .checkbox{ margin-top:2px; background:#fff; border:1.5px solid #747775; }
 .b2-item .checkbox.checked{ background:#0b57d0; border-color:#0b57d0; }
-.b2-item-text{ flex:1; min-width:0; }
+.b2-item-text{ flex:1; min-width:0; font-size:14px; line-height:1.45; color:#1f1f1f; }
 .check-item-head .checkbox.mixed{ background:#0b57d0; border-color:#0b57d0; }
 
 /* ===== v24: Material 3 컨트롤로 통일 (체크박스, 스위치, 펼침 아이콘) ===== */
@@ -1169,8 +1166,8 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .li-row + .li-row{ border-top:1px solid #e3e3e3; }
 .li-row .checkbox{ margin-top:1px; }
 .li-text{ flex:1; min-width:0; }
-.li-t1{ font-size:14px; color:#1f1f1f; line-height:1.45; }
-.li-t2{ display:flex; align-items:center; gap:4px; font-size:12px; color:#5e5e5e; margin-top:2px; }
+.li-t1{ font-size:15px; color:#1f1f1f; line-height:1.45; }
+.li-t2{ display:flex; align-items:center; flex-wrap:wrap; gap:4px; font-size:13px; color:#5e5e5e; margin-top:2px; }
 .li-row.done .li-t1{ color:#747775; }
 .li-row .st-chip{ margin-top:1px; }
 .li-app .icon-chip{ width:14px !important; height:14px !important; background:none !important; padding:0 !important; border-radius:0 !important; display:inline-flex; }
@@ -1192,44 +1189,37 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .check-item-head .checkbox, .select-all-row .checkbox{ order:-1; }
 .select-all-row{ display:flex; align-items:center; gap:6px; }
 .check-item-head{ gap:10px !important; }
-.b2-item{ padding-left:34px !important; gap:12px !important; }
+.b2-item{ padding-left:0 !important; gap:12px !important; }
 .b2-item .checkbox{ margin-top:1px !important; }
 /* 변경 칩 */
 .nt-row{ flex-wrap:nowrap; }
 .nt-chip{ white-space:nowrap; }
 
-/* v25: 과제 1 출처 시트도 같은 카드 구조 */
-#sheetOverlay .selection-count{ margin:2px 2px 10px; }
-#sheetOverlay .card-btn-row{ justify-content:flex-end; margin-bottom:14px; }
-#sheetOverlay .ct-list{ gap:0; margin:0 0 6px; }
-#sheetOverlay .ct-group{ background:none; border-radius:0; border-bottom:1px solid #eceff3; }
-#sheetOverlay .ct-head{ padding:14px 2px; gap:12px; align-items:center; }
-#sheetOverlay .ct-head .checkbox, #sheetOverlay .ct-item .checkbox{ background:#fff; border:1.5px solid #747775; }
-#sheetOverlay .checkbox.checked, #sheetOverlay .checkbox.mixed{ background:#0b57d0 !important; border-color:#0b57d0 !important; }
-#sheetOverlay .ct-items{ background:none; margin:0 0 6px; border-radius:0; }
-#sheetOverlay .ct-item{ padding:9px 2px 9px 30px; gap:10px; border-top:none !important; }
-#sheetOverlay .ct-alldone{ font-size:11.5px; padding:1px 7px; }
-#sheetOverlay .ct-app{ gap:10px; padding:10px 0; }
-#sheetOverlay .ct-list{ gap:10px !important; margin:6px 0 8px !important; }
-#sheetOverlay .ct-group{ background:var(--g-surface, #f3f2f2) !important; border-radius:24px !important; border-bottom:none !important; padding:2px 16px; }
-#sheetOverlay .ct-head{ padding:12px 0 !important; }
-#sheetOverlay .ct-items{ display:none; margin:0 !important; border-top:1px solid #e3e3e3; }
+/* 과제 1 출처 시트 (v29: v25·v28 규칙을 하나로) */
+#sheetOverlay .sheet{ padding:10px 16px 0; gap:12px; }
+#sheetOverlay .ct-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 0; }
+#sheetOverlay .ct-group{ background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; }
+#sheetOverlay .ct-head{ padding:12px 0; gap:12px; align-items:center; }
+#sheetOverlay .ct-head .checkbox{ background:#fff; border:1.5px solid #747775; }
+#sheetOverlay .checkbox.checked, #sheetOverlay .checkbox.mixed{ background:#0b57d0; border-color:#0b57d0; }
+#sheetOverlay .ct-name{ font-size:16px; font-weight:500; }
+#sheetOverlay .ct-alldone{ font-size:12px; padding:1px 7px; }
+/* 펼친 항목: 들여쓰기 없이 주제 체크박스와 같은 줄에 맞춰요 */
+#sheetOverlay .ct-items{ display:none; background:none; margin:0; border-radius:0; border-top:1px solid #e3e3e3; }
 #sheetOverlay .ct-group.open .ct-items{ display:block; }
-#sheetOverlay .ct-item{ padding:11px 0 11px 30px !important; }
-#sheetOverlay .ct-item + .ct-item{ border-top:1px solid #e9e9e9 !important; }
-#sheetOverlay .ct-ic{ background:#fff !important; }
-#sheetOverlay .ct-legend{ margin:4px 4px 10px; }
-#sheetOverlay .ct-foot{ padding:0 4px; }
-#sheetOverlay .ct-apps{ border-top:none; background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; margin-bottom:8px; }
-#sheetOverlay .ct-apps-head{ padding:14px 0; font-size:14px; color:#1f1f1f; }
+#sheetOverlay .ct-items .li-row{ padding:12px 0; }
+#sheetOverlay .ct-ic{ background:#fff; }
+.li-dot{ color:#9aa0a6; }
+.li-status{ margin-top:6px; }
+/* 앱 연동 설정 */
+#sheetOverlay .ct-apps{ border-top:none; background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; margin:0; }
+#sheetOverlay .ct-apps-head{ padding:14px 0; font-size:15px; color:#1f1f1f; }
 #sheetOverlay .ct-apps-body{ border-top:1px solid #e3e3e3; padding:2px 0 6px; }
-#sheetOverlay .ct-items .li-row{ padding-left:30px; }
-#sheetOverlay .ct-items{ border-top:1px solid #e3e3e3; }
-#sheetOverlay .ct-name{ font-size:15px; font-weight:500; }
-#sheetOverlay .ct-items{ background:none !important; }
-.li-row.hot, .b2-item.hot{ cursor:pointer; }
-/* v28: 처리 버튼을 시트 아래에 고정 */
-#sheetOverlay .ct-foot, #cSheet .ct-foot{ position:sticky; bottom:0; z-index:3; background:#fff; margin:0 -4px 12px; padding:12px 8px; box-shadow:0 -8px 12px -10px rgba(0,0,0,.18); border-radius:0; }
-#a3Bar{ position:sticky; bottom:0; z-index:3; background:#fff; margin:0 -20px; padding:4px 22px 0; box-shadow:0 -8px 12px -10px rgba(0,0,0,.18); }
-#a3Bar .ct-foot{ position:static !important; box-shadow:none !important; margin:0 0 10px !important; padding:0 2px !important; }
-#a3Bar .ct-legend{ margin:8px 2px 8px; }
+#sheetOverlay .ct-app{ gap:12px; padding:12px 0; }
+#a3Foot{ margin:0; }
+.a3-pi-link{ text-align:center; padding:2px 0 4px; }
+/* 처리 줄: 시트의 마지막 요소라 항상 아래에 붙어 있어요 */
+#a3Bar{ position:sticky; bottom:0; z-index:3; margin:auto -16px 0; padding:4px 20px 12px; background:#fff; box-shadow:0 -8px 12px -10px rgba(0,0,0,.18); }
+#a3Bar .ct-legend{ margin:8px 0; font-size:13px; }
+#a3Bar .ct-foot{ position:static; box-shadow:none; margin:0; padding:0; display:flex; align-items:center; justify-content:space-between; gap:12px; background:none; }
+#a3Bar .ct-sel{ font-size:14px; color:#444746; }

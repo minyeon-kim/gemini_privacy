@@ -557,14 +557,53 @@
   messages["일요일 14:00 \"망원동 투룸 보기\""] = "Sunday 14:00 \"View two-room in Mangwon\"";
   messages["[요가스튜디오 숨] 토요일 클래스 예약 확정"] = "[Yoga Studio Sum] Saturday class confirmed";
   messages["Memory에서 지웠어요"] = "Removed from Memory";
+  // v29: strings that were still Korean in the English UI
+  Object.assign(messages, {
+    "식당 취향": "Dining preferences",
+    "정민과 저녁": "Dinner with Jeongmin",
+    "정민 생일": "Jeongmin's birthday",
+    "\"정민과 트러플 리조또\"": "\"Truffle risotto with Jeongmin\"",
+    "\"정민이 좋아하던 재즈바\"": "\"The jazz bar Jeongmin liked\"",
+    "\"이탈리안 음식 좋아함\"": "\"Likes Italian food\"",
+    "[캐치테이블] 저장한 송도 레스토랑 3곳 소식": "[CatchTable] News from 3 saved Songdo restaurants",
+    "끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.": "When off, nothing from Gmail is used in answers. Your emails stay.",
+    "끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요.": "When off, nothing from Calendar is used in answers. Your events stay.",
+    "끄면 메모리 전체를 답변에 쓰지 않아요.": "When off, no memories are used in answers.",
+    "Memory는 삭제돼요. Gmail과 Calendar는 원본은 그대로 두고 답변에만 안 써요.": "Memories are deleted. Gmail and Calendar keep the originals and are only left out of answers.",
+    "선택한 정보 처리": "Process selected info",
+    "앱 꺼짐": "App off",
+    "'정민' 관련 정보 20건을 찾았어요": "Found 20 items related to Jeongmin",
+    "마지막 질문": "Last questions",
+    "마지막으로 세 가지만 여쭤볼게요": "Just three last questions",
+    "오늘 써 본 기능들이 실제 Gemini에 있다면, 내 정보를 답변에 쓰는 것에 대해 어떻게 느끼실 것 같나요?": "If today's features were in the real Gemini, how would you feel about it using your info in answers?",
+    "더 안심돼요": "More at ease",
+    "비슷해요": "About the same",
+    "더 불안해요": "More uneasy",
+    "오늘 전에, AI가 메모리나 다른 앱 정보를 답변에 쓴다는 걸 알고 계셨나요?": "Before today, did you know AI can use memories and info from other apps in its answers?",
+    "오늘 해 본 두 방법 중 더 편했던 것은 무엇인가요?": "Which of the two methods you tried today felt easier?",
+    "출처 확인 화면에서 고르기": "Choosing in the sources sheet",
+    "채팅으로 요청하기": "Asking in chat",
+  });
   let language = 'ko';
   try { language = localStorage.getItem('ut-language') === 'en' ? 'en' : 'ko'; } catch (_) {}
   const requested = new URLSearchParams(location.search).get('lang');
   if (requested === 'ko' || requested === 'en') language = requested;
   const sources = new WeakMap();
-  function english(text) {
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dates = s => s
+    .replace(/\b(20\d\d)\.(\d{1,2})\.(\d{1,2})\b/g, (_, y, m, d) => `${MONTHS[m - 1]} ${+d}, ${y}`)
+    .replace(/\b(20\d\d)\.(\d{1,2})\b(?!\.\d)/g, (_, y, m) => `${MONTHS[m - 1]} ${y}`);
+  const items = n => `${n} item${n === '1' ? '' : 's'}`;
+  function english(text) { return dates(englishText(text)); }
+  function englishText(text) {
     if (messages[text]) return messages[text];
     return text
+      .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
+      .replace(/^(\d+)건 처리$/, (_, n) => `Process ${items(n)}`)
+      .replace(/^정보 (\d+)건 처리됨$/, (_, n) => `${items(n)} handled`)
+      .replace(/^정보 (\d+)건 처리$/, (_, n) => `${items(n)} handled`)
+      .replace(/^앱 연동 (\d+)개 끔$/, (_, n) => `${n} app connection${n === '1' ? '' : 's'} off`)
+      .replace(/^Gemini 채팅, (.+)$/, 'Gemini chat, $1')
       .replace(/^(Memory|Gmail|Calendar) (\d+)건$/, '$1 · $2 items')
       .replace(/^(\d+)개 세션을 받았어요.*$/, '$1 sessions downloaded (use startedAt to tell repeated codes apart)')
       .replace(/^· (\d+)건$/, '· $1 items')
@@ -605,7 +644,10 @@
     }
     const input = document.getElementById('pidInput');
     input.placeholder = t('예: P03');
-    const b1 = document.getElementById('b1Input'); if (b1) b1.placeholder = t('Gemini에게 물어보기');
+    document.querySelectorAll('input[placeholder]:not(#pidInput)').forEach(el => {
+      if (!el.dataset.ph) el.dataset.ph = el.getAttribute('placeholder');
+      el.placeholder = t(el.dataset.ph);
+    });
     document.documentElement.lang = language;
     document.querySelectorAll('[data-label]').forEach(el => {
       el.setAttribute('aria-label', t(el.dataset.label)); el.title = t(el.dataset.label);

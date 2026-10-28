@@ -499,11 +499,11 @@
   var A_TOPICS = { jm: '정민', taste: '식당 취향' };
   var A_ITEMS = {   // var: 초기화 중 먼저 그려도 안전하게
     a_gm_tolo:    { topic:'jm', src:'gmail', label:'톨로 비스트로 예약', text:'[톨로 비스트로] 예약이 확정되었습니다', meta:'2025.3.15 19:00, 2명', why:'같은 날 Calendar 일정 "정민과 저녁"' },
-    a_cal_dinner: { topic:'jm', src:'calendar', label:'정민과 저녁 일정', text:'일정 "정민과 저녁"', meta:'2025.3.15' },
-    a_cal_bday:   { topic:'jm', src:'calendar', label:'정민 생일 일정', text:'일정 "정민 생일"', meta:'2024.11.2' },
-    a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'Gemini 채팅에서 "정민과 트러플 리조또" 언급', meta:'2025.3.14' },
-    a_mem_jazz:   { topic:'jm', src:'memory', label:'재즈바 메모리', text:'Gemini 채팅에서 "정민이 좋아하던 재즈바" 언급', meta:'2025.1.20' },
-    a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'Gemini 채팅에서 "이탈리안 음식 좋아함" 언급', meta:'2025.2.10' },
+    a_cal_dinner: { topic:'jm', src:'calendar', label:'정민과 저녁 일정', text:'정민과 저녁', meta:'2025.3.15' },
+    a_cal_bday:   { topic:'jm', src:'calendar', label:'정민 생일 일정', text:'정민 생일', meta:'2024.11.2' },
+    a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'"정민과 트러플 리조또"', meta:'Gemini 채팅, 2025.3.14' },
+    a_mem_jazz:   { topic:'jm', src:'memory', label:'재즈바 메모리', text:'"정민이 좋아하던 재즈바"', meta:'Gemini 채팅, 2025.1.20' },
+    a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'"이탈리안 음식 좋아함"', meta:'Gemini 채팅, 2025.2.10' },
     a_gm_saved:   { topic:'taste', src:'gmail', label:'저장한 레스토랑 알림', text:'[캐치테이블] 저장한 송도 레스토랑 3곳 소식', meta:'2025.3.20' },
   };
   var a3Sel = {}, a3Open = {}, a3AppsOpen = false;
@@ -514,7 +514,7 @@
   const aTopicIds = t => Object.keys(A_ITEMS).filter(id => A_ITEMS[id].topic === t);
   const memDeletedN = () => aSrcIds('memory').filter(aDone).length;
   const CHECK_TXT = '✓';
-  const A_SCOPE = { gmail:'끄면 Gmail 연동을 꺼서 답변에 쓰지 않아요. 메일은 그대로예요.', calendar:'끄면 Calendar 연동을 꺼서 답변에 쓰지 않아요. 일정은 그대로예요.', memory:'끄면 메모리를 답변에 쓰지 않아요.' };
+  const A_SCOPE = { gmail:'끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.', calendar:'끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요.', memory:'끄면 메모리 전체를 답변에 쓰지 않아요.' };
   function aIcon(k){
     const src = $(`.screen[data-step="B2"] [data-src="${k}"]`)?.closest('.check-item-head')?.querySelector('.icon-chip');
     if(!src) return '';
@@ -530,7 +530,7 @@
         : `<div class="checkbox${a3Sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!a3Sel[id]}" data-tag="A3 항목 ${id}" onclick="event.stopPropagation(); App.a3Pick('${id}')">${CHECK_TXT}</div>`;
       const right = done ? `<span class="st-chip ${it.src === 'memory' ? 'del' : 'block'}">${esc(I18n.t(it.src === 'memory' ? '삭제됨' : '답변에 안 씀'))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
-      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span>${esc(REF_NAME[it.src])}${it.meta ? ', ' + esc(it.meta) : ''}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div>${right}</div>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
     };
     body.innerHTML = `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
@@ -551,9 +551,9 @@
         <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div><div class="ct-t2">${esc(I18n.t(A_SCOPE[k]))}</div></div>
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
-    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<p class="ct-legend">${esc(I18n.t('Memory는 삭제되고, Gmail과 Calendar는 원본은 그대로 두고 답변에만 쓰지 않아요.'))}</p>
-      <div class="ct-foot"><span class="ct-sel">${esc(I18n.t('선택'))} <b>${n}</b>${esc(I18n.t('건'))}</span>
-      <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${n ? `${n}${esc(I18n.t('건 처리'))}` : esc(I18n.t('선택한 정보 처리'))}</button></div>`;
+    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<p class="ct-legend">${esc(I18n.t('Memory는 삭제돼요. Gmail과 Calendar는 원본은 그대로 두고 답변에만 안 써요.'))}</p>
+      <div class="ct-foot"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>
+      <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
         <div class="ct-apps-body">${apps}</div>
@@ -576,7 +576,7 @@
     a3Sel = {};
     Logger.log('a3_process', { step: current, ids });
     applyMemory(); applyRefs();
-    showSnackbar(`정보 ${ids.length}건 처리됨`);
+    showSnackbar(I18n.t(`정보 ${ids.length}건 처리됨`));
   }
   function deleteMemory(scope, ev){
     if(ev) ev.stopPropagation();
@@ -584,7 +584,7 @@
     if(scope === 'all'){ memState.all = true; memState.used = true; refState.memory = false; }
     applyMemory(); applyRefs();
     Logger.log('delete', { step: current, target: 'memory', scope });
-    showSnackbar('메모리 전체 삭제됨');
+    showSnackbar(I18n.t('메모리 전체 삭제됨'));
   }
 
   function undoDelete(){
@@ -647,11 +647,12 @@
     const bar = $('#snackbar');
     bar.querySelector('.snackbar-msg').textContent = msg;
     $('#snackUndo').hidden = false;
+    const a3Bar = $('#sheetOverlay.active #a3Bar');
+    bar.style.bottom = a3Bar ? `${a3Bar.offsetHeight + 12}px` : '';
     bar.classList.add('show');
-    $('#sheetOverlay').classList.add('snack-lift');
     undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 8000);
   }
-  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#sheetOverlay').classList.remove('snack-lift'); $('#snackUndo').hidden = false; }
+  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#snackUndo').hidden = false; }
   // 실행취소 없이 잠깐 보이는 안내
   function showToast(msg){
     showSnackbar(msg); lastUndo = null; $('#snackUndo').hidden = true;
