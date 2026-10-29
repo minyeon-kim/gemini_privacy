@@ -31,7 +31,7 @@
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, Enter로도 전송)."},
     B2:{phase:'b', script:"[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 목록은 20건(Memory 3 · Gmail 8 · Calendar 9)이고, 이름이 안 보이는 항목엔 포함 이유가 한 줄 붙어 있어요이고 출처별로 접혀 있어요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 펼쳤는지, '더보기'를 눌렀는지, 체크를 바꿨는지, 양이 많다는 반응이 있는지 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'",
-      indicators:[2], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 출처별 <b>체크박스</b>(출처 단위로 선택), 펼친 뒤 <b>'+N건 더보기'</b>, <b>선택 항목 처리/취소</b>. 그룹 라벨 '삭제돼요'/'답변에만 안 써요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성."},
+      indicators:[2], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 출처별 <b>체크박스</b>(출처 단위로 선택), 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리/취소</b>. 그룹 라벨 '삭제돼요'/'답변에만 안 써요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성."},
     B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 확인하지 않아도 실패는 아니에요. [이해 확인 · 끝났다고 한 뒤] ① '방금 무엇이 처리됐나요?' ② 'Gmail과 Calendar의 정민 정보는 지금 어떤 상태일까요?' ③ (Memory를 지웠다면) '지운 정보는 어떻게 됐을까요?' 결과 줄 아래 보관 안내를 읽었는지가 이해 판정 기준이에요.", indicators:[3,4], interact:"클릭 가능: 되돌리기, 입력창"},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면에서 무엇을 알 수 있나요?' → '정민 관련 정보 중 아직 남아 있는 건 무엇일까요?' 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
@@ -173,7 +173,7 @@
     clearTimeout(responseTimer); responseTimer = null;
     clearTimeout(processTimer); processTimer = null;
     const process = $('#b2ProcessBtn');
-    process.classList.remove('busy'); process.textContent = '선택 항목 처리';
+    process.classList.remove('busy'); process.textContent = b2ProcessLabel();
     process.setAttribute('aria-busy', 'false');
     b2Boxes().forEach(box => box.removeAttribute('aria-disabled'));
     const card = $('.screen[data-step="B2"] .ai-card');
@@ -755,8 +755,14 @@
       if(sub) sub.textContent = n === its.length ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
     const picked = items.filter(b => b.classList.contains('checked')).length;
-    $('#selectionCount').innerHTML = `${esc(I18n.t('처리할 정보'))} <b>${picked}</b><span class="sc-total">/ ${B2_TOTAL}건</span>`;
+    $('#selectionCount').textContent = I18n.t(`선택 ${picked}건`);
+    $('#b2ProcessBtn').textContent = b2ProcessLabel();
     $('#b2ProcessBtn').disabled = !any;
+  }
+  // 과제 1 처리 줄과 같은 문구: 'N건 처리', 아무것도 안 골랐으면 '선택한 정보 처리'
+  function b2ProcessLabel(){
+    const n = b2Items().filter(b => b.classList.contains('checked')).length;
+    return I18n.t(n ? `${n}건 처리` : '선택한 정보 처리');
   }
 
   function processB2(){
@@ -769,7 +775,7 @@
     b2Items().forEach(box => box.setAttribute('aria-disabled', 'true'));
     Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState() });
     processTimer = setTimeout(() => {
-      btn.classList.remove('busy'); btn.textContent = '선택 항목 처리';
+      btn.classList.remove('busy'); btn.textContent = b2ProcessLabel();
       if(current !== 'B2') return;
       b2Result = sel;
       renderB3B4();
@@ -788,7 +794,6 @@
     gmail:   { name:'Gmail',    count:8,  del:false },
     calendar:{ name:'Calendar', count:9,  del:false },
   };
-  const B2_TOTAL = Object.values(SRC).reduce((a, s) => a + s.count, 0);
   // 펼친 그룹 안에서 '+N건 더보기'로 추가 항목을 보여줘요.
   function renderMoreToggles(){
     $$('.more-toggle').forEach(t => {
