@@ -989,6 +989,11 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .gd-sec.first .gd-label, .gd-sec.after .gd-label{ color:#0b57d0; }
 .gd-sec.first .gd-line, .gd-sec.say .gd-line{ font-weight:600; }
 .gd-sec.help .gd-label{ color:#b06000; }
+.gd-sec.open{ background:#fff7e0; border-radius:8px; padding:6px 8px; }
+.gd-sec.open .gd-label{ color:#8a5a00; }
+.gd-sec.probe .gd-label{ color:#5f6368; }
+.gd-sec.sec{ background:#ede7f6; border-radius:8px; padding:6px 8px; }
+.gd-sec.sec .gd-label{ color:#5e35b1; }
 
 /* ===== 과제 C ===== */
 .screen.c-loading .c-answer, .screen.c-loading .a2-notice, .screen.c-loading #cThread{ display:none; }
