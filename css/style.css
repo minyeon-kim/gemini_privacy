@@ -1228,3 +1228,9 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 #a3Bar .ct-legend{ margin:8px 0; font-size:13px; }
 #a3Bar .ct-foot{ position:static; box-shadow:none; margin:0; padding:0; display:flex; align-items:center; justify-content:space-between; gap:12px; background:none; }
 #a3Bar .ct-sel{ font-size:14px; color:#444746; }
+
+/* v30: 결과 카드 줄 맞춤 — 표시(칩)는 항상 이름 오른쪽, 이름이 길면 이름 쪽이 줄바꿈 */
+.b3-head{ flex-wrap:nowrap; align-items:flex-start; }
+.b3-name{ white-space:normal !important; min-width:0; }
+.b3-count{ white-space:nowrap; }
+.b3-head .st-chip{ flex:0 0 auto; white-space:nowrap; }

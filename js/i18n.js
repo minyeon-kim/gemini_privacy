@@ -41,7 +41,7 @@
   "분위기 좋은 이탈리안 레스토랑을 찾고 계신다면 송도 센트럴파크 인근에 위치한 신상 맛집을 추천해 드립니다.": "If you are looking for an Italian restaurant with a lovely atmosphere, I recommend this new spot near Songdo Central Park.",
   "톨로 비스트로": "Tolo Bistro",
   "🍝 이탈리아 음식점": "🍝 Italian restaurant",
-  "는 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.": "— An Italian restaurant with a clean white and wood interior and panoramic Central Park views through floor-to-ceiling windows.",
+  "는 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.": " is an Italian restaurant with a clean white and wood interior and panoramic Central Park views through floor-to-ceiling windows.",
   "시그니처 메뉴: 쫄깃한 도우와 향긋한 바질, 탱글한 새우가 어우러진 '바질 새우 피자'": "Signature dish: basil shrimp pizza with chewy dough, fragrant basil, and juicy shrimp",
   "인기 메뉴: 꾸덕한 크림소스에 진한 풍미가 더해진 '트러플 뇨끼'": "Popular dish: truffle gnocchi in a rich, creamy sauce",
   "작년 봄에": "When you visited with",
