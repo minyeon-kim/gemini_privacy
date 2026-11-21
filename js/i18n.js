@@ -651,6 +651,19 @@
   // A4 목록 항목(일정 제목 · 메모리 주제 · 메일 제목)
   const LIST_TITLES = {"팀 주간 회의": "Weekly team meeting", "치과 정기 검진": "Dental checkup", "헬스 PT": "Gym PT session", "엄마 생신": "Mom's birthday", "프로젝트 마감": "Project deadline", "대학 동기 모임": "College friends meetup", "정민이랑 영화": "Movie with Jeongmin", "자동차 정기 점검": "Car service", "독서 모임": "Book club", "치과 예약": "Dentist appointment", "정민과 저녁": "Dinner with Jeongmin", "정민과 트러플 리조또": "truffle risotto with Jeongmin", "주말 등산 코스": "weekend hiking trail", "회사 근처 필라테스": "Pilates near work", "정민이 좋아하던 재즈바": "the jazz bar Jeongmin liked", "부모님 결혼기념일 선물": "gift for parents' anniversary", "연말 제주 여행 일정": "year-end Jeju trip plan", "고양이 사료 브랜드": "cat food brand", "이직 준비 포트폴리오": "portfolio for a job change", "할로윈 파티 의상": "Halloween party costume", "가을 캠핑 장비": "fall camping gear", "추석 기차표 예매": "Chuseok train tickets"};
   Object.assign(messages, {"[쿠팡] 주문하신 상품이 배송 완료되었습니다": "[Coupang] Your order has been delivered", "[카카오뱅크] 이번 달 카드 이용 내역 안내": "[KakaoBank] Your card statement for this month", "[무신사] 주문이 접수되었습니다": "[Musinsa] Your order was received", "[CGV] 예매가 완료되었습니다": "[CGV] Your booking is complete", "[배달의민족] 주문하신 음식이 출발했어요": "[Baemin] Your food is on the way", "[네이버페이] 결제가 완료되었습니다": "[Naver Pay] Payment complete", "[인터파크] 공연 예매 확인": "[Interpark] Show booking confirmed", "[SRT] 승차권 예매 내역": "[SRT] Train ticket booking", "[올리브영] 주문 상품 발송 안내": "[Olive Young] Your order has shipped", "[당근] 거래 후기가 도착했어요": "[Karrot] You got a trade review", "[야놀자] 숙소 예약이 확정되었습니다": "[Yanolja] Your stay is confirmed"});
+  // 진행자 질문 대기 화면
+  if (!messages["과제를 마쳤어요"]) messages["과제를 마쳤어요"] = "Task finished";
+  if (!messages["설문 전에 진행자가 질문을 하나 드릴 거예요"]) messages["설문 전에 진행자가 질문을 하나 드릴 거예요"] = "Before the survey, the moderator will ask you a question";
+  if (!messages["답하신 뒤 '계속'을 눌러 주세요."]) messages["답하신 뒤 '계속'을 눌러 주세요."] = "After you answer, tap 'Continue'.";
+  if (!messages["설문을 마쳤어요"]) messages["설문을 마쳤어요"] = "Survey finished";
+  if (!messages["진행자가 몇 가지 질문을 드릴 거예요"]) messages["진행자가 몇 가지 질문을 드릴 거예요"] = "The moderator will ask you a few questions";
+  if (!messages["다 답하신 뒤 '계속'을 눌러 주세요."]) messages["다 답하신 뒤 '계속'을 눌러 주세요."] = "When you've answered, tap 'Continue'.";
+  if (!messages["거의 끝났어요"]) messages["거의 끝났어요"] = "Almost done";
+  if (!messages["마지막으로 진행자가 몇 가지 여쭤볼게요"]) messages["마지막으로 진행자가 몇 가지 여쭤볼게요"] = "Finally, the moderator has a few questions";
+  if (!messages["계속"]) messages["계속"] = "Continue";
+  if (!messages["잠깐만요"]) messages["잠깐만요"] = "One moment";
+  if (!messages["진행자가 질문을 드릴 거예요"]) messages["진행자가 질문을 드릴 거예요"] = "The moderator will ask you a question";
+  if (!messages["참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기"]) messages["참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기"] = "Participant's screen is paused · ask these now, one at a time";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {

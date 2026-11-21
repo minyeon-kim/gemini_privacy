@@ -349,7 +349,7 @@
     const startT = phase === 'A' ? M.aStart : phase === 'B' ? M.bStart : M.cStart;
     Logger.log('task_done', { step: current, phase, how: how || 'in-app', taskMs: startT ? Math.round(performance.now() - startT) : null });
     M['done' + phase] = true;
-    go('Q' + phase, 'task-done');
+    holdThen('post-task', phase, 'Q' + phase, 'task-done');
   }
 
   // 테스트를 모두 마쳤을 때만 축하 효과(과제 중에는 정답 신호가 되지 않도록 쓰지 않아요).
@@ -951,6 +951,7 @@
       c: window.TaskC ? TaskC.snapshot() : null,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
+      hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next } : null,
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
     };
   }
@@ -980,6 +981,7 @@
     const open = s.open || [];
     openables().forEach((el, i) => el.classList.toggle('open', open.includes(i)));
     window.Interactions?.sync();
+    remoteHold = s.hold || null; renderHold(remoteHold);
     const bar = $('#snackbar');
     if(s.snack) bar.querySelector('.snackbar-msg').textContent = s.snack;
     bar.classList.toggle('show', !!s.snack);
@@ -1156,7 +1158,9 @@
     survey[k] = Object.fromEntries(SURVEY[k].items.map(it => [it.id, svDraft[it.id]]));
     Logger.log('survey', { step: current, key: k, answers: survey[k] });
     const next = k === 'W' ? 'END' : k === 'S' ? 'QW' : k === FIRST ? firstStep(SECOND) : k === SECOND ? (WITH_SUS ? 'QS' : 'QW') : (WITH_SUS ? 'QS' : 'QW');
-    go(next, 'survey');
+    if(k === 'W') holdThen('wrap', 'W', next, 'survey');
+    else if(k === 'A' || k === 'B') holdThen('post-survey', k, next, 'survey');
+    else go(next, 'survey');
   }
   buildSurveys();
 
@@ -1262,6 +1266,52 @@
     updateLink(true);
   })();
 
+
+  /* ---------------- 진행자 질문 대기 화면 (참가자 모드) ----------------
+     화면이 다음으로 바로 넘어가면 진행자가 말로 물을 틈이 없어서, 그 사이에 잠깐 멈춰요.
+     과제 완료 직후(설문 전 질문), 과제 설문 직후(이해 질문·다음 과제 전 질문), 마지막 질문 직후(주관식). */
+  const HOLD_TEXT = {
+    'post-task':   { badge:'과제를 마쳤어요', title:'설문 전에 진행자가 질문을 하나 드릴 거예요', desc:"답하신 뒤 '계속'을 눌러 주세요." },
+    'post-survey': { badge:'설문을 마쳤어요', title:'진행자가 몇 가지 질문을 드릴 거예요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
+    'wrap':        { badge:'거의 끝났어요', title:'마지막으로 진행자가 몇 가지 여쭤볼게요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
+  };
+  let hold = null;   // { kind, phase, next, why }
+  function holdThen(kind, phase, next, why){
+    if(MODE !== 'participant'){ go(next, why); return; }
+    hold = { kind, phase, next, why };
+    renderHold();
+    Logger.log('hold_show', { step: current, kind, phase, next });
+  }
+  function holdContinue(){
+    if(!hold) return;
+    const h = hold; hold = null;
+    Logger.log('hold_continue', { step: current, kind: h.kind, phase: h.phase });
+    renderHold();
+    go(h.next, h.why);
+  }
+  function renderHold(view){
+    const h = view !== undefined ? view : hold;
+    const box = $('#holdScreen'); if(!box) return;
+    box.hidden = !h;
+    document.body.classList.toggle('holding', !!h);
+    if(h){
+      const t = HOLD_TEXT[h.kind];
+      $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+    }
+    renderGuide();
+  }
+  // 진행자 패널: 참가자 화면이 멈춰 있을 때 지금 물을 질문
+  function holdQuestions(h){
+    if(!h) return [];
+    if(h.kind === 'post-task') return (GUIDE['Q' + h.phase] || {}).first || [];
+    if(h.kind === 'wrap') return (GUIDE.QW || {}).open || [];
+    const g = GUIDE['Q' + h.phase] || {};
+    let list = (g.post || []).concat(g.probe || []);
+    if(h.next === 'SB') list = list.concat((GUIDE.SB || {}).first || []);
+    if(h.next === 'SA') list = list.concat((GUIDE.SA || {}).first || []);
+    return list;
+  }
+
   /* ---------------- 진행자 패널 렌더 ---------------- */
   // 진행자 안내 카드: 화면이 바뀔 때마다 지금 할 말과 질문을 짧게 보여 줘요(자세한 내용은 아래 스크립트).
   const GUIDE = {
@@ -1314,13 +1364,15 @@
            bye:['(디브리핑) 오늘 본 이름·일정은 모두 가상이었어요. 참여해 주셔서 감사합니다.'] },
   };
   let guideStep = null;
+  let remoteHold = null;   // 실시간 보기: 참가자 화면의 대기 상태
   function renderGuide(){
     const box = $('#guideBox'); if(!box) return;
-    const g = GUIDE[current];
+    const g = GUIDE[current] || (hold || remoteHold ? {} : null);
     if(!g){ box.innerHTML = ''; box.hidden = true; return; }
     box.hidden = false;
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
-    box.innerHTML = sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye);
+    const hq = holdQuestions(hold || remoteHold);
+    box.innerHTML = (hq.length ? sec('first', '참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }
 
@@ -1495,6 +1547,11 @@
       $('#taskLabel').textContent = I18n.t(phase === FIRST ? '과제 1 / 2' : '과제 2 / 2');
       if(M.flash){
         M.flash = false;
+        if(window.innerWidth <= 520){
+          bar.classList.add('peek'); clearTimeout(bar._pt);
+          bar._pt = setTimeout(() => { if(bar.dataset.step === current) bar.classList.remove('peek'); }, 8000);
+          Logger.log('task_peek', { step: current, open: true, auto: true });
+        }
         bar.classList.remove('flash'); void bar.offsetWidth; bar.classList.add('flash');
         clearTimeout(bar._ft); bar._ft = setTimeout(() => bar.classList.remove('flash'), 6000);
       }
@@ -1518,7 +1575,7 @@
 
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
-    closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete,
+    closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
     toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
