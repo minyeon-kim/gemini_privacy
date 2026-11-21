@@ -1251,3 +1251,9 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 /* 출처 시트 하단 '개인 인텔리전스에서 전체 관리' 링크를 잘 보이게 */
 .a3-pi-link .text-link{ display:inline-block; font-size:14px; font-weight:500; color:#0b57d0; text-decoration:none; padding:10px 16px; border-radius:20px; }
 .a3-pi-link .text-link:hover, .a3-pi-link .text-link:focus-visible{ background:rgba(11,87,208,.08); }
+
+/* 진행자 질문 대기 화면 (참가자 모드) */
+.hold-screen{ position:absolute; inset:0; z-index:45; background:#fff; display:flex; flex-direction:column; }
+.hold-screen[hidden]{ display:none; }
+.hold-desc{ font-size:16px; color:#444746; line-height:1.55; margin:0 0 10px; }
+body.holding .taskbar{ display:none !important; }
