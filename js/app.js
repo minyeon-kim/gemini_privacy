@@ -418,7 +418,8 @@
   }
 
   // A3에서 바꾼 내용을 A2 답변 아래에 알려줘요 (출처 시트를 닫고 돌아왔을 때 변화가 보이도록).
-  const REF_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };
+  const LOG_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };   // 기록 파일 값은 이전 세션과 같게 유지
+  const REF_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', photos:'Google 포토' };
   const RETENTION = '품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요';
   // 답변 아래에는 무엇이 바뀌었는지만 한 줄로 알려줘요.
   // 답변 아래: 바뀐 내용을 칩 하나로 보여 주고, 누르면 출처 화면에서 자세히 볼 수 있어요.
@@ -456,7 +457,7 @@
   function jmAnswer(src, task){
     const li = [];
     if(src.memory) li.push('예전 대화에서 정민 님과 트러플 리조또를 드신 이야기를 기억하고 있어요.');
-    if(src.calendar) li.push("Calendar에 '정민과 저녁', '정민 생일' 같은 일정이 있어요.");
+    if(src.calendar) li.push("캘린더에 '정민과 저녁', '정민 생일' 같은 일정이 있어요.");
     if(src.gmail && task === 'b') li.push('Gmail에 정민 님이 함께한 항공 예약, 송금 메일이 있어요.');
     return li.length ? `<p>정민 님에 대해 지금 참고할 수 있는 정보예요.</p><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul>`
       : '<p>정민 님에 대해 참고할 수 있는 정보가 없어요.</p>';
@@ -498,7 +499,7 @@
   // A3 출처 화면(최종안): 주제별로 묶고 항목마다 골라 처리. Memory는 삭제, Gmail·Calendar는 이 항목만 참조 차단.
   var A_TOPICS = { jm: '정민', taste: '식당 취향' };
   var A_ITEMS = {   // var: 초기화 중 먼저 그려도 안전하게
-    a_gm_tolo:    { topic:'jm', src:'gmail', label:'톨로 비스트로 예약', text:'[톨로 비스트로] 예약이 확정되었습니다', meta:'2025.3.15 19:00, 2명', why:'같은 날 Calendar 일정 "정민과 저녁"' },
+    a_gm_tolo:    { topic:'jm', src:'gmail', label:'톨로 비스트로 예약', text:'[톨로 비스트로] 예약이 확정되었습니다', meta:'2025.3.15 19:00, 2명', why:'같은 날 캘린더 일정 "정민과 저녁"' },
     a_cal_dinner: { topic:'jm', src:'calendar', label:'정민과 저녁 일정', text:'정민과 저녁', meta:'2025.3.15' },
     a_cal_bday:   { topic:'jm', src:'calendar', label:'정민 생일 일정', text:'정민 생일', meta:'2024.11.2' },
     a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'"정민과 트러플 리조또"', meta:'Gemini 채팅, 2025.3.14' },
@@ -514,7 +515,7 @@
   const aTopicIds = t => Object.keys(A_ITEMS).filter(id => A_ITEMS[id].topic === t);
   const memDeletedN = () => aSrcIds('memory').filter(aDone).length;
   const CHECK_TXT = '✓';
-  const A_SCOPE = { gmail:'끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.', calendar:'끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요.', memory:'끄면 메모리 전체를 답변에 쓰지 않아요.' };
+  const A_SCOPE = { gmail:'끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.', calendar:'끄면 캘린더 전체를 답변에 쓰지 않아요. 일정은 그대로예요.', memory:'끄면 메모리 전체를 답변에 쓰지 않아요.' };
   function aIcon(k){
     const src = $(`.screen[data-step="B2"] [data-src="${k}"]`)?.closest('.check-item-head')?.querySelector('.icon-chip');
     if(!src) return '';
@@ -551,7 +552,7 @@
         <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div><div class="ct-t2">${esc(I18n.t(A_SCOPE[k]))}</div></div>
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
-    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<p class="ct-legend">${esc(I18n.t('Memory는 삭제돼요. Gmail과 Calendar는 원본은 그대로 두고 답변에만 안 써요.'))}</p>
+    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<p class="ct-legend">${esc(I18n.t('메모리는 삭제돼요. Gmail과 캘린더는 원본은 그대로 두고 답변에만 안 써요.'))}</p>
       <div class="ct-foot"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
@@ -790,9 +791,9 @@
   }
 
   const SRC = {
-    memory:  { name:'Memory',   count:3,  del:true },
+    memory:  { name:'메모리',   count:3,  del:true },
     gmail:   { name:'Gmail',    count:8,  del:false },
-    calendar:{ name:'Calendar', count:9,  del:false },
+    calendar:{ name:'캘린더', count:9,  del:false },
   };
   // 펼친 그룹 안에서 '+N건 더보기'로 추가 항목을 보여줘요.
   function renderMoreToggles(){
@@ -1012,10 +1013,10 @@
     const done = p => ev.find(e => e.type === 'task_done' && e.phase === p);
     out.A_taskSec = done('A') && done('A').taskMs != null ? +(done('A').taskMs / 1000).toFixed(1) : null;
     out.B_taskSec = done('B') && done('B').taskMs != null ? +(done('B').taskMs / 1000).toFixed(1) : null;
-    const offA = ['gmail', 'calendar', 'memory', 'photos'].filter(k => !refState[k]).map(k => REF_NAME[k] + ' 끔');
+    const offA = ['gmail', 'calendar', 'memory', 'photos'].filter(k => !refState[k]).map(k => LOG_NAME[k] + ' 끔');
     const memA = (memState.all ? ['Memory 전체 삭제'] : []).concat(Object.keys(memState.done || {}).map(id => `${A_ITEMS[id].label} ${A_ITEMS[id].src === 'memory' ? '삭제' : '차단'}`));
     out.A_action = memA.concat(offA).join(' · ') || '변경 없음';
-    out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => `${SRC[k].name} ${sel[k]}/${SRC[k].count}건 ${SRC[k].del ? '삭제' : '차단'}`).join(', ') || '선택 없음') : '처리 안 함';
+    out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => `${LOG_NAME[k]} ${sel[k]}/${SRC[k].count}건 ${SRC[k].del ? '삭제' : '차단'}`).join(', ') || '선택 없음') : '처리 안 함';
     out.viewport = Logger.active ? Logger.session.meta.viewport : null;
     out.resizes = ev.filter(e => e.type === 'resize').map(e => e.viewport);
     // 마지막 화면 체류 시간도 지금까지로 채워요.
