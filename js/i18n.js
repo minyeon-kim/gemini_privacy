@@ -665,6 +665,9 @@
   if (!messages["잠깐만요"]) messages["잠깐만요"] = "One moment";
   if (!messages["진행자가 질문을 드릴 거예요"]) messages["진행자가 질문을 드릴 거예요"] = "The moderator will ask you a question";
   if (!messages["참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기"]) messages["참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기"] = "Participant's screen is paused · ask these now, one at a time";
+  // 보안 종사자 질문 삭제 후 안내 문장
+  messages["[마지막 질문] 사용성 설문(SUS) 다음에 나오는 닫힌 질문 3개예요(W-01~03, 자동 기록). 참가자가 답하면 화면에서 고른 이유를 묻고(W-04), 이어서 W-05~W-07을 하나씩 하세요. 화면에서 이미 고른 질문은 말로 다시 묻지 않아요."] = "[Final questions] Three closed questions shown after the SUS (W-01–03, logged automatically). After they answer, ask why they chose those answers (W-04), then W-05–W-07 one at a time. Don't ask aloud again what they already answered on screen.";
+  messages["세션 종료 화면이에요(사용성 설문(SUS)와 마무리 질문까지 끝난 상태). 디브리핑을 진행한 뒤, 패널의 '기록 받기(JSON)/기록 받기(CSV)'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요."] = "This is the session end screen (SUS and wrap-up questions are done). Debrief, save the log with 'Download log (JSON)/Download log (CSV)' in the panel, and press 'Start with new participant' for the next participant.";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
