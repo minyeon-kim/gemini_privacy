@@ -596,6 +596,21 @@
     .replace(/\b(20\d\d)\.(\d{1,2})\.(\d{1,2})\b/g, (_, y, m, d) => `${MONTHS[m - 1]} ${+d}, ${y}`)
     .replace(/\b(20\d\d)\.(\d{1,2})\b(?!\.\d)/g, (_, y, m) => `${MONTHS[m - 1]} ${y}`);
   const items = n => `${n} item${n === '1' ? '' : 's'}`;
+  // 진행자 패널 화면 이름 · 버튼
+  Object.assign(messages, { "기록 받기(JSON)":"Download log (JSON)", "기록 받기(CSV)":"Download log (CSV)", "결과 받기(엑셀용)":"Results CSV (for Excel)",
+    "과제 3 · 통합(출처 확인+관리, 채팅)":"Task 3 · Combined (sources + manage, chat)", "시작":"Start", "종료":"End",
+    "상황 1 카드":"Scenario 1 card", "첫 화면":"Home", "질문 입력":"Question input", "답변 생성 중":"Generating", "답변":"Response", "출처 시트":"Sources sheet",
+    "개인 인텔리전스":"Personal Intelligence", "상황 2 카드":"Scenario 2 card", "채팅 요청":"Chat request", "정리 목록":"Cleanup list", "처리 결과":"Result",
+    "확인 화면":"Check screen", "과제 종료":"Task end", "과제 1 설문":"Task 1 survey", "과제 2 설문":"Task 2 survey", "마지막 질문":"Final questions",
+    "사용성 설문":"SUS", "상황 3 카드":"Scenario 3 card", "처리 목록":"Processing list", "과제 3 설문":"Task 3 survey" });
+  // 진행자 패널 한글화(메모리·캘린더·사용성 설문 등) 이후 문장의 영어 번역
+  messages["클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 켜기/끄기는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>메모리는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·캘린더는 참조 차단만 가능. <b>닫기(X)</b>·바깥 영역으로 닫기, 하단 <b>'개인 인텔리전스에서 전체 관리 →'</b> 링크."] = "Expand source names to read data. Toggles control use of the entire app, although this panel shows only 2 items. Expanding Memory reveals deletion of the 2 memories used here, with 4 seconds to undo. Gmail and Calendar can only be blocked. Close with X or the backdrop, or manage everything in Personal Intelligence.";
+  messages["참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 이 화면엔 정민 관련 메모리만 골라 지우는 기능이 없고 '메모리 전체 삭제'뿐이에요. 이때의 반응은 디자인 제약에서 나온 발견으로 기록하세요. [과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요."] = "Observe only if the participant navigates here independently. Ask what this screen shows and watch their actions. This screen supports deleting all memories, not selectively deleting those about Jeongmin; record reactions to this limitation. When the participant finishes, run the post-task survey on ease, perceived completion, confidence, and amount of information.";
+  messages["클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>메모리는 펼쳤을 때만</b> '메모리 전체 삭제' 링크(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."] = "Expand items to read details. App toggles are shared with A3. Expanding Memory reveals Delete all memories. Deleting 2 in A3 reduces the total from 11 to 9. Back returns to the source panel.";
+  messages["클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."] = "Free text input. Send activates when text is entered; Enter also sends.";
+  messages["[과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 사용성 설문(SUS)까지 끝난 뒤 마지막 질문 화면에서 해요."] = "[Phase 종료] 참가자가 끝났다고 하면(Participant mode는 '과제 완료') 사후 설문(SEQ·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 SUS까지 끝난 뒤 마지막 질문 화면에서 해요.";
+  messages["[마지막 질문] 사용성 설문(SUS) 다음에 나오는 닫힌 질문 3개예요(W-01~03, 자동 기록). 참가자가 답하면 이어서 말로 마무리 주관식 질문을 하나씩 하세요(W-04~W-07). 보안 종사자 질문은 그다음 종료 화면에서 해요."] = "[마지막 질문] SUS 다음에 나오는 닫힌 질문 3 events예요(W-01~03, 자동 기록). 참가자가 답하면 이어서 말로 마무리 주관식 질문을 하나씩 하세요(W-04~W-07). 보안 종사자 질문은 그다음 종료 화면에서 해요.";
+  messages["[사용성 설문(SUS)] 마지막 상황의 설문 다음에 항상 나오는 화면이에요. 참가자가 10문항에 직접 답하게 두세요. 마무리 질문은 이 화면을 마친 뒤 말로 진행하세요."] = "[SUS] Always shown after the final scenario’s survey. Let the participant answer all 10 items. Run the wrap-up questions aloud after this screen.";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -606,6 +621,8 @@
     if (messages[text]) return messages[text];
     const old = legacy(text);
     if (messages[old]) return messages[old];
+    const step = old.match(/^([A-Z]{1,2}[0-9]?[A-Z]?) (.+)$/);
+    if (step && messages[step[2]]) return `${step[1]} ${messages[step[2]]}`;
     return old
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
       .replace(/^(\d+)건 처리$/, (_, n) => `Process ${items(n)}`)
