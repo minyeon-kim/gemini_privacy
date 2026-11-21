@@ -599,7 +599,7 @@
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
-    return text.replace(/개인 맞춤 정보/g, 'Personal Intelligence').replace(/Google 캘린더/g, 'Google Calendar')
+    return text.replace(/개인 인텔리전스/g, 'Personal Intelligence').replace(/Google 캘린더/g, 'Google Calendar')
       .replace(/Google 포토/g, 'Google Photos').replace(/메모리/g, 'Memory').replace(/캘린더/g, 'Calendar');
   }
   function englishText(text) {
