@@ -12,7 +12,7 @@ A self-initiated concept that redesigns how Gemini shows and controls the person
 
 ## Data
 
-During a test session the prototype records taps and survey answers under a participant code, never a name. Outside test sessions the study database is closed, so nothing is stored; a visitor's own browser may keep a local copy of their session.
+During a test session the prototype records taps and survey answers under a participant code, never a name. Only sessions opened from a participant link (with a code) are saved; opening the prototype without one saves nothing to the study database. Outside test sessions the study database is closed, so nothing is stored; a visitor's own browser may keep a local copy of their session.
 
 The Gemini sparkle is the official symbol used on [gemini.google.com](https://gemini.google.com/), shown because this is a revamp concept of that product.
 
@@ -25,4 +25,4 @@ The Gemini sparkle is the official symbol used on [gemini.google.com](https://ge
 - **써 보기:** [참가자 화면](https://minyeon-kim.github.io/gemini_privacy/?mode=participant) (`&lang=en`을 붙이면 영어)
 - **케이스 스터디:** [포트폴리오](https://minyeon-kim.github.io/portfolio/ko/work/gemini-privacy/)
 
-테스트 세션 중에는 참가자 코드로 탭과 설문 응답만 기록하고, 이름은 기록하지 않습니다. 세션이 아닐 때는 연구용 데이터베이스가 닫혀 있어 아무것도 저장되지 않습니다.
+테스트 세션 중에는 참가자 코드로 탭과 설문 응답만 기록하고, 이름은 기록하지 않습니다. 코드가 담긴 참가자 링크로 연 세션만 저장되고, 코드 없이 열면 연구용 데이터베이스에 아무것도 저장되지 않습니다. 세션이 아닐 때는 연구용 데이터베이스가 닫혀 있어 아무것도 저장되지 않습니다.

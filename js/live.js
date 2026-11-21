@@ -56,6 +56,8 @@
 
     function begin(){
       const m = Logger.session.meta;
+      // 참가자 링크(?pid=)로 연 세션만 저장해요. 포트폴리오 방문이나 자동 캡처처럼 코드 없이 연 화면은 기록을 올리지 않아요.
+      if(m.mode === 'participant' && !m.pidFromLink){ sid = null; return; }
       sid = (m.participant || 'P').replace(/[^A-Za-z0-9_-]/g, '_') + '_' + Date.now().toString(36);
       const meta = {
         participant: m.participant, startedAt: m.startedAt, studyId: m.studyId, mode: m.mode, order: m.order, consentAt: m.consent ? m.consent.at : '',
@@ -70,8 +72,10 @@
     // Firebase 연결 전에 이미 시작했다면 지금까지의 기록부터 올려요.
     if(Logger.active){
       begin();
-      Logger.session.events.forEach(ev => db.ref('live/' + sid + '/events').push(clean(ev)));
-      schedule();
+      if(sid){
+        Logger.session.events.forEach(ev => db.ref('live/' + sid + '/events').push(clean(ev)));
+        schedule();
+      }
     }
 
     Logger.onEvent(ev => {
