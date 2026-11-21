@@ -25,8 +25,8 @@
       indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
     A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 출처 시트는 주제(정민, 식당 취향)별로 묶여 있고, 항목마다 골라 처리하거나 아래 '앱 연동 설정'에서 앱을 통째로 끌 수 있어요. 조작하기 전에 '어떻게 하실 생각이세요?'로 의도를 들어 두세요(A-05). 정민만 고르는지, 식당 취향까지 막는지는 A-19, A-20에 자동 기록돼요. [이해 질문은 과제 뒤] 조작하는 동안에는 묻지 마세요. 토글 범위(A-09)와 삭제·답변에 안 씀 차이(A-10)는 '과제 완료'를 누른 뒤 화면 설문을 마치고 나서 조건에 맞을 때만 물어요(과제 1 설문 화면 안내 참고).",
       indicators:[1,2,4], interact:"클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 켜기/끄기는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>메모리는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·캘린더는 참조 차단만 가능. <b>닫기(X)</b>·바깥 영역으로 닫기, 하단 <b>'개인 인텔리전스에서 전체 관리 →'</b> 링크."},
-    A4:{phase:'a', script:"참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 이 화면엔 정민 관련 메모리만 골라 지우는 기능이 없고 '메모리 전체 삭제'뿐이에요. 이때의 반응은 디자인 제약에서 나온 발견으로 기록하세요. [과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요.",
-      indicators:[1,5], interact:"클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>메모리는 펼쳤을 때만</b> '메모리 전체 삭제' 링크(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."},
+    A4:{phase:'a', script:"참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 메모리는 월별로 묶여 있고 항목마다 휴지통 버튼으로 한 건씩 지울 수 있어요(정민 메모리를 지우면 출처 시트에도 '삭제됨'으로 반영). 맨 아래 '메모리 전체 삭제'도 있어요. 한 건씩 지우는지, 전체 삭제를 고르는지 지켜보세요(A-07은 v30 문구 패치부터 '없는 기능 시도'가 아니라 관찰 메모로 기록). [과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요.",
+      indicators:[1,5], interact:"클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>메모리는 펼쳤을 때</b> 항목마다 휴지통(한 건 삭제, 실행취소 가능)과 '메모리 전체 삭제' 링크. 목록은 월별로 묶임(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."},
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."},
@@ -85,7 +85,7 @@
 
   function resetState(){
     refState = { memory:true, gmail:true, calendar:true, photos:true };
-    memState = { used:false, all:false, done:{} };
+    memState = { used:false, all:false, done:{}, a4:{} };
     b2Result = null;
     lastUndo = null;
     b1Text = '';
@@ -420,7 +420,7 @@
   // A3에서 바꾼 내용을 A2 답변 아래에 알려줘요 (출처 시트를 닫고 돌아왔을 때 변화가 보이도록).
   const LOG_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };   // 기록 파일 값은 이전 세션과 같게 유지
   const REF_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', photos:'Google 포토' };
-  const RETENTION = '품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요';
+  const RETENTION = '지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요';
   // 답변 아래에는 무엇이 바뀌었는지만 한 줄로 알려줘요.
   // 답변 아래: 바뀐 내용을 칩 하나로 보여 주고, 누르면 출처 화면에서 자세히 볼 수 있어요.
   const NT_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
@@ -588,6 +588,17 @@
     showSnackbar(I18n.t('메모리 전체 삭제됨'));
   }
 
+  // A4에서 메모리 한 건만 지우기(정민 메모리는 출처 시트 처리 상태와 같게 맞춰요)
+  function deleteMemoryItem(id, ev){
+    if(ev) ev.stopPropagation();
+    if(memState.all || memGone(id)) return;
+    lastUndo = { mem: JSON.parse(JSON.stringify(memState)), ref: refState.memory };
+    if(A_ITEMS[id]) memState.done[id] = true; else { memState.a4 = memState.a4 || {}; memState.a4[id] = true; }
+    memState.used = true;
+    applyMemory(); applyRefs();
+    Logger.log('delete', { step: current, target: 'memory', scope: 'item', id });
+    showSnackbar(I18n.t('메모리 1건 삭제됨'));
+  }
   function undoDelete(){
     if(!lastUndo) return;
     memState = lastUndo.mem; refState.memory = lastUndo.ref;
@@ -601,44 +612,62 @@
     const a4Mem = $('#a4MemCount').closest('.conn-wrap');
     a4Mem.classList.toggle('deleted', memState.all);
     if(memState.all) a4Mem.classList.remove('open');
-    $('#a4MemCount').textContent = memState.all ? '' : `${11 - memDeletedN()}건`;
+    $('#a4MemCount').textContent = memState.all ? '' : `${11 - memDeletedN() - Object.keys(memState.a4 || {}).length}건`;
     renderA4More();
-    $$('[data-mem="used"]').forEach(el => el.classList.toggle('gone', aDone('a_mem_truffle')));
     renderA3();
     renderA2Notice();
     window.Interactions?.sync();
   }
 
-  // A4 '+N건 더보기': 10건씩 실제로 펼쳐요.
+  // A4 목록: 월별로 묶어 보여 주고 '+N건 더보기'로 10건씩 펼쳐요. 메모리는 항목마다 지울 수 있어요.
+  const A4_MEM = [
+    ['a_mem_truffle', '2025.3.14 Gemini 채팅에서 "정민과 트러플 리조또" 언급'], ['m_hike', '2025.2.8 Gemini 채팅에서 "주말 등산 코스" 언급'],
+    ['m_pilates', '2025.2.1 Gemini 채팅에서 "회사 근처 필라테스" 언급'], ['a_mem_jazz', '2025.1.20 Gemini 채팅에서 "정민이 좋아하던 재즈바" 언급'],
+    ['m_gift', '2025.1.12 Gemini 채팅에서 "부모님 결혼기념일 선물" 언급'], ['m_jeju', '2024.12.24 Gemini 채팅에서 "연말 제주 여행 일정" 언급'],
+    ['m_cat', '2024.12.3 Gemini 채팅에서 "고양이 사료 브랜드" 언급'], ['m_job', '2024.11.18 Gemini 채팅에서 "이직 준비 포트폴리오" 언급'],
+    ['m_halloween', '2024.10.30 Gemini 채팅에서 "할로윈 파티 의상" 언급'], ['m_camp', '2024.10.2 Gemini 채팅에서 "가을 캠핑 장비" 언급'],
+    ['m_train', '2024.9.14 Gemini 채팅에서 "추석 기차표 예매" 언급'] ];
+  const memGone = id => (A_ITEMS[id] ? aDone(id) : !!(memState.a4 && memState.a4[id]));
   const A4_POOL = {
-    memory: () => (aDone('a_mem_jazz') ? [] : ['2025.1.20 Gemini 채팅에서 "정민이 좋아하던 재즈바" 언급']).concat([
-      '2025.2.1 Gemini 채팅에서 "회사 근처 필라테스" 언급', '2025.1.12 Gemini 채팅에서 "부모님 결혼기념일 선물" 언급', '2024.12.24 Gemini 채팅에서 "연말 제주 여행 일정" 언급',
-      '2024.12.3 Gemini 채팅에서 "고양이 사료 브랜드" 언급', '2024.11.18 Gemini 채팅에서 "이직 준비 포트폴리오" 언급', '2024.10.30 Gemini 채팅에서 "할로윈 파티 의상" 언급',
-      '2024.10.2 Gemini 채팅에서 "가을 캠핑 장비" 언급', '2024.9.14 Gemini 채팅에서 "추석 기차표 예매" 언급']),
+    memory: () => A4_MEM.filter(([id]) => !memGone(id)).map(([id, text]) => ({ id, text })),
     gmail: () => {
       const t = ['[쿠팡] 주문하신 상품이 배송 완료되었습니다', '[카카오뱅크] 이번 달 카드 이용 내역 안내', '[무신사] 주문이 접수되었습니다', '[CGV] 예매가 완료되었습니다',
         '[스시타로] 오마카세 예약 확인', '[배달의민족] 주문하신 음식이 출발했어요', '[네이버페이] 결제가 완료되었습니다', '[인터파크] 공연 예매 확인',
         '[SRT] 승차권 예매 내역', '[올리브영] 주문 상품 발송 안내', '[당근] 거래 후기가 도착했어요', '[야놀자] 숙소 예약이 확정되었습니다'];
-      return Array.from({ length: 128 }, (_, n) => { const d = new Date(2025, 2, 12 - n * 3); return [t[n % t.length], `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`]; });
+      const gen = Array.from({ length: 128 }, (_, n) => { const d = new Date(2025, 2, 12 - n * 3); return { text: t[n % t.length], dt: `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}` }; });
+      return [{ text:'[톨로 비스트로] 예약이 확정되었습니다', dt:'2025.3.15 19:00, 2명' }].concat(gen.slice(0, 7), [{ text:'[대한항공] 예약이 확정되었습니다', dt:'2025.2.20 인천→제주' }], gen.slice(7));
     },
     calendar: () => {
       const t = ['팀 주간 회의', '치과 정기 검진', '헬스 PT', '엄마 생신', '프로젝트 마감', '대학 동기 모임', '정민이랑 영화', '자동차 정기 점검', '독서 모임'];
-      return Array.from({ length: 34 }, (_, n) => { const d = new Date(2025, 2, 18 - n * 9); return `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} 일정 "${t[n % t.length]}"`; });
+      const gen = Array.from({ length: 34 }, (_, n) => { const d = new Date(2025, 2, 18 - n * 9); return { text: `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()} 일정 "${t[n % t.length]}"` }; });
+      return [{ text:'2025.3.20 일정 "치과 예약"' }, gen[0], { text:'2025.3.15 일정 "정민과 저녁"' }].concat(gen.slice(1));
     },
   };
-  function a4Rest(btn){ return A4_POOL[btn.dataset.src]().length - (+btn.dataset.shown || 0); }
+  const A4_FIRST = 2;   // 펼쳤을 때 처음 보이는 건수
+  const monthOf = it => { const m = (it.dt || it.text).match(/^(\d{4})\.(\d{1,2})/); return m ? `${m[1]}년 ${+m[2]}월` : ''; };
+  const TRASH = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
+  function a4Rest(btn){ return A4_POOL[btn.dataset.src]().length - Math.max(A4_FIRST, +btn.dataset.shown || 0); }
   function renderA4More(){
     $$('.screen[data-step="A4"] .chip-more[data-src]').forEach(btn => {
-      const list = A4_POOL[btn.dataset.src](), shown = Math.min(+btn.dataset.shown || 0, list.length);
-      btn.parentElement.querySelectorAll('.data-chip.gen').forEach(el => el.remove());
-      list.slice(0, shown).forEach(txt => { const d = document.createElement('div'); d.className = 'data-chip gen'; d.innerHTML = Array.isArray(txt) ? `<span>${esc(txt[0])}<span class="dt">${esc(txt[1])}</span></span>` : `<span>${esc(txt)}</span>`; btn.before(d); });
+      const src = btn.dataset.src, list = A4_POOL[src](), shown = Math.min(Math.max(A4_FIRST, +btn.dataset.shown || 0), list.length);
+      btn.parentElement.querySelectorAll('.data-chip.gen, .a4-month').forEach(el => el.remove());
+      let month = '';
+      list.slice(0, shown).forEach(it => {
+        const m = monthOf(it);
+        if(m && m !== month){ month = m; const h = document.createElement('div'); h.className = 'a4-month'; h.textContent = m; btn.before(h); }
+        const d = document.createElement('div'); d.className = 'data-chip gen' + (src === 'memory' ? ' mem-row' : '');
+        d.innerHTML = `<span>${esc(it.text)}${it.dt ? `<span class="dt">${esc(it.dt)}</span>` : ''}</span>`
+          + (src === 'memory' ? `<button type="button" class="mem-del hot" data-tag="A4 메모리 1건 삭제 ${it.id}" data-label="이 메모리 삭제" onclick="App.deleteMemoryItem('${it.id}', event)">${TRASH}</button>` : '');
+        btn.before(d);
+      });
       const rest = list.length - shown;
+      btn.hidden = list.length <= A4_FIRST;
       btn.textContent = rest > 0 ? I18n.t(`+ ${rest}건 더보기`) : I18n.t('접기');
     });
   }
   function a4More(btn){
     const rest = a4Rest(btn);
-    btn.dataset.shown = rest > 0 ? (+btn.dataset.shown || 0) + 10 : 0;
+    btn.dataset.shown = rest > 0 ? Math.max(A4_FIRST, +btn.dataset.shown || 0) + 10 : 0;
     renderA4More();
     Logger.log('more', { step: current, src: btn.dataset.src, open: rest > 0, shown: +btn.dataset.shown });
   }
@@ -930,7 +959,7 @@
     if(!s) return;
     clearFx();
     refState = Object.assign({ memory:true, gmail:true, calendar:true, photos:true }, s.ref);
-    memState = Object.assign({ used:false, all:false, done:{} }, s.mem); memState.done = Object.assign({}, memState.done);
+    memState = Object.assign({ used:false, all:false, done:{}, a4:{} }, s.mem); memState.done = Object.assign({}, memState.done); memState.a4 = Object.assign({}, memState.a4);
     b2Result = s.b2 || null;
     if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; b1Asks = (s.b1.asks || []).slice(); syncB1(); renderB1Thread(); }
     if(s.more){ $$('.b2-more').forEach((el, i) => el.hidden = !s.more[i]); renderMoreToggles(); }
@@ -989,6 +1018,7 @@
       A_visitedA4: ev.some(e => e.type === 'step' && e.step === 'A4'),
       A_memoryDeleted: memState.all ? 'all' : memDeletedN() ? `used(${memDeletedN()})` : 'none',
       A_itemsProcessed: Object.keys(memState.done || {}),
+      A_a4MemDeleted: Object.keys(memState.a4 || {}),
       A_jmResult: (n => n === 5 ? '5건 모두' : n ? `일부(${n}건)` : '없음')(aTopicIds('jm').filter(aHandled).length),
       A_otherState: aTopicIds('taste').some(aHandled) ? '함께 막힘' : '그대로',
       A_refsFinal: Object.assign({}, refState),
@@ -1014,7 +1044,7 @@
     out.A_taskSec = done('A') && done('A').taskMs != null ? +(done('A').taskMs / 1000).toFixed(1) : null;
     out.B_taskSec = done('B') && done('B').taskMs != null ? +(done('B').taskMs / 1000).toFixed(1) : null;
     const offA = ['gmail', 'calendar', 'memory', 'photos'].filter(k => !refState[k]).map(k => LOG_NAME[k] + ' 끔');
-    const memA = (memState.all ? ['Memory 전체 삭제'] : []).concat(Object.keys(memState.done || {}).map(id => `${A_ITEMS[id].label} ${A_ITEMS[id].src === 'memory' ? '삭제' : '차단'}`));
+    const memA = (memState.all ? ['Memory 전체 삭제'] : []).concat(Object.keys(memState.a4 || {}).map(id => `A4 메모리 ${id} 삭제`)).concat(Object.keys(memState.done || {}).map(id => `${A_ITEMS[id].label} ${A_ITEMS[id].src === 'memory' ? '삭제' : '차단'}`));
     out.A_action = memA.concat(offA).join(' · ') || '변경 없음';
     out.B_action = sel ? (Object.keys(SRC).filter(k => sel[k]).map(k => `${LOG_NAME[k]} ${sel[k]}/${SRC[k].count}건 ${SRC[k].del ? '삭제' : '차단'}`).join(', ') || '선택 없음') : '처리 안 함';
     out.viewport = Logger.active ? Logger.session.meta.viewport : null;
@@ -1488,7 +1518,7 @@
 
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
-    closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, undoDelete,
+    closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete,
     toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,

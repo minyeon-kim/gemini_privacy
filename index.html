@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=36">
+<link rel="stylesheet" href="css/style.css?v=37">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -250,8 +250,6 @@
               <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
             </div>
             <div class="conn-detail">
-              <div class="data-chip" data-mem="used"><span>2025.3.14 Gemini 채팅에서 "정민과 트러플 리조또" 언급</span></div>
-              <div class="data-chip"><span>2025.2.8 Gemini 채팅에서 "주말 등산 코스" 언급</span></div>
               <div class="chip-more hot" id="a4MemMore" data-src="memory" data-tag="A4 Memory 더보기" onclick="App.a4More(this)">+ 9건 더보기</div>
               <div class="mem-delete-trigger hot" data-tag="A4 Memory 전체 삭제" onclick="App.deleteMemory('all', event)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M10 11v6"/><path d="M14 11v6"/></svg><span>메모리 전체 삭제</span></div>
             </div>
@@ -272,8 +270,6 @@
               <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
             </div>
             <div class="conn-detail">
-              <div class="data-chip"><span>[톨로 비스트로] 예약이 확정되었습니다<span class="dt">2025.3.15 19:00, 2명</span></span></div>
-              <div class="data-chip"><span>[대한항공] 예약이 확정되었습니다<span class="dt">2025.2.20 인천→제주</span></span></div>
               <div class="chip-more hot" data-src="gmail" data-tag="A4 Gmail 더보기" onclick="App.a4More(this)">+ 128건 더보기</div>
             </div>
           </div>
@@ -288,8 +284,6 @@
               <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
             </div>
             <div class="conn-detail">
-              <div class="data-chip"><span>2025.3 일정 제목 "정민과 저녁"</span></div>
-              <div class="data-chip"><span>2025.3.20 일정 제목 "치과 예약"</span></div>
               <div class="chip-more hot" data-src="calendar" data-tag="A4 Calendar 더보기" onclick="App.a4More(this)">+ 34건 더보기</div>
             </div>
           </div>
@@ -450,7 +444,7 @@
           <p class="b3-sub">아래 정보는 앞으로 답변에 쓰지 않아요</p>
           <div class="b3-lines" id="b3Lines">
           </div>
-          <div class="retention-note" id="b3Note">ⓘ 품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)</div>
+          <div class="retention-note" id="b3Note">ⓘ 지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)</div>
           <div class="btn-row-h">
             <div class="ghost-btn hot" data-tag="B3 되돌리기" onclick="App.undoB2()">되돌리기</div>
           </div>
@@ -480,7 +474,7 @@
           <p class="b3-sub">아래 정보는 앞으로 답변에 쓰지 않아요</p>
           <div class="b3-lines" id="b5Lines">
           </div>
-          <div class="retention-note" id="b5Note">ⓘ 품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)</div>
+          <div class="retention-note" id="b5Note">ⓘ 지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)</div>
           <div class="verified-row">✓ 처리 결과를 확인했어요</div>
         </div>
         <div class="msg-ai b5-reply">다른 도움이 필요하시면 언제든 말씀해 주세요.</div>
@@ -532,7 +526,7 @@
           </div>
         </div>
 
-        <div class="retention-note" id="b4Note">ⓘ 품질 개선을 위해 사람이 검토한 대화는 내 계정과 연결을 끊은 채 최대 3년간 보관될 수 있어요 (Gemini 개인정보 보호 정책)</div>
+        <div class="retention-note" id="b4Note">ⓘ 지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)</div>
         <div class="primary-btn hot" data-tag="채팅으로 돌아가기" onclick="App.go('B5')">채팅으로 돌아가기</div>
       </div>
     </div>
@@ -749,12 +743,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=36"></script>
-<script src="js/i18n.js?v=36"></script>
-<script src="js/logger.js?v=36"></script>
-<script src="js/taskc.js?v=36"></script>
-<script src="js/app.js?v=36"></script>
-<script src="js/interactions.js?v=36"></script>
-<script src="js/live.js?v=36"></script>
+<script src="js/config.js?v=37"></script>
+<script src="js/i18n.js?v=37"></script>
+<script src="js/logger.js?v=37"></script>
+<script src="js/taskc.js?v=37"></script>
+<script src="js/app.js?v=37"></script>
+<script src="js/interactions.js?v=37"></script>
+<script src="js/live.js?v=37"></script>
 </body>
 </html>

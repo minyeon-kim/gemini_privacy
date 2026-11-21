@@ -640,6 +640,17 @@
   messages["[과제 직후 설문 · 채팅 삭제 상황] 설문 화면을 보여주기 전에 먼저 말로 물어보세요: '지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?'(B-09, 진행자 기록) 그다음 참가자가 화면의 설문 5문항에 직접 답하고 '다음'을 누르게 두세요. 설문을 마친 뒤 이해 질문(B-08)과 점수 이유를 하나씩 물어요."] = "[Post-task survey · chat deletion scenario] Before showing the survey, ask aloud first: 'Of the information about Jeongmin, what is gone now and what remains?' (B-09, moderator records) Then let the participant answer the 5 on-screen questions and press 'Next' themselves. After the survey, ask the comprehension question (B-08) and the reasons for their scores, one at a time.";
   messages["쉬움 점수를 그렇게 주신 이유는요?"] = "Why did you give that ease score?";
   messages["점수를 그렇게 주신 이유는요?"] = "Why did you give those scores?";
+  // 보관 안내 새 문구 · A4 메모리 한 건 삭제 · 월별 묶음(11/21)
+  messages["지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요"] = "Of what you deleted, chats a person already reviewed for quality may stay for up to 3 years, not linked to your account";
+  messages["ⓘ 지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)"] = "ⓘ Of what you deleted, chats a person already reviewed for quality may stay for up to 3 years, not linked to your account (Gemini Privacy Policy)";
+  messages["메모리 1건 삭제됨"] = "1 memory deleted";
+  messages["이 메모리 삭제"] = "Delete this memory";
+  // A4 진행자 안내(메모리 한 건 삭제 · 월별 묶음)
+  messages["참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 메모리는 월별로 묶여 있고 항목마다 휴지통 버튼으로 한 건씩 지울 수 있어요(정민 메모리를 지우면 출처 시트에도 '삭제됨'으로 반영). 맨 아래 '메모리 전체 삭제'도 있어요. 한 건씩 지우는지, 전체 삭제를 고르는지 지켜보세요(A-07은 v30 문구 패치부터 '없는 기능 시도'가 아니라 관찰 메모로 기록). [과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요."] = "Proceed only if the participant came here on their own (the visit itself is an observation, so the moderator doesn't move them here). 'What do you think this screen shows?' → watch what they try to do. Memories are grouped by month, and each item can be deleted one at a time with its trash button (deleting a Jeongmin memory also shows as 'Deleted' in the sources sheet). 'Delete all memory' is at the bottom. Watch whether they delete items one by one or choose delete all (from the v30 copy patch, A-07 is recorded as an observation note, not as 'tried a missing feature'). [Task end] When the participant says they're done (in participant mode, 'Finish task'), run the post-task survey (ease · completion · confidence · amount of information).";
+  messages["클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>메모리는 펼쳤을 때</b> 항목마다 휴지통(한 건 삭제, 실행취소 가능)과 '메모리 전체 삭제' 링크. 목록은 월별로 묶임(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."] = "Clickable — name = <b>expand to view data (read-only)</b>; app toggles are synced with A3. <b>When memory is expanded</b>, each item has a trash button (deletes one, can be undone) plus the 'Delete all memory' link. The list is grouped by month (if 2 items were deleted in A3, 11→9). ← returns to the sources panel.";
+  // A4 목록 항목(일정 제목 · 메모리 주제 · 메일 제목)
+  const LIST_TITLES = {"팀 주간 회의": "Weekly team meeting", "치과 정기 검진": "Dental checkup", "헬스 PT": "Gym PT session", "엄마 생신": "Mom's birthday", "프로젝트 마감": "Project deadline", "대학 동기 모임": "College friends meetup", "정민이랑 영화": "Movie with Jeongmin", "자동차 정기 점검": "Car service", "독서 모임": "Book club", "치과 예약": "Dentist appointment", "정민과 저녁": "Dinner with Jeongmin", "정민과 트러플 리조또": "truffle risotto with Jeongmin", "주말 등산 코스": "weekend hiking trail", "회사 근처 필라테스": "Pilates near work", "정민이 좋아하던 재즈바": "the jazz bar Jeongmin liked", "부모님 결혼기념일 선물": "gift for parents' anniversary", "연말 제주 여행 일정": "year-end Jeju trip plan", "고양이 사료 브랜드": "cat food brand", "이직 준비 포트폴리오": "portfolio for a job change", "할로윈 파티 의상": "Halloween party costume", "가을 캠핑 장비": "fall camping gear", "추석 기차표 예매": "Chuseok train tickets"};
+  Object.assign(messages, {"[쿠팡] 주문하신 상품이 배송 완료되었습니다": "[Coupang] Your order has been delivered", "[카카오뱅크] 이번 달 카드 이용 내역 안내": "[KakaoBank] Your card statement for this month", "[무신사] 주문이 접수되었습니다": "[Musinsa] Your order was received", "[CGV] 예매가 완료되었습니다": "[CGV] Your booking is complete", "[배달의민족] 주문하신 음식이 출발했어요": "[Baemin] Your food is on the way", "[네이버페이] 결제가 완료되었습니다": "[Naver Pay] Payment complete", "[인터파크] 공연 예매 확인": "[Interpark] Show booking confirmed", "[SRT] 승차권 예매 내역": "[SRT] Train ticket booking", "[올리브영] 주문 상품 발송 안내": "[Olive Young] Your order has shipped", "[당근] 거래 후기가 도착했어요": "[Karrot] You got a trade review", "[야놀자] 숙소 예약이 확정되었습니다": "[Yanolja] Your stay is confirmed"});
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -650,6 +661,12 @@
     if (messages[text]) return messages[text];
     const old = legacy(text);
     if (messages[old]) return messages[old];
+    const event = old.match(/^(\S+) 일정 "(.+)"$/);
+    if (event && LIST_TITLES[event[2]]) return `${event[1]} event “${LIST_TITLES[event[2]]}”`;
+    const mention = old.match(/^(\S+) Gemini 채팅에서 "(.+)" 언급$/);
+    if (mention && LIST_TITLES[mention[2]]) return `${mention[1]} chat — mentioned “${LIST_TITLES[mention[2]]}”`;
+    const month = old.match(/^(\d{4})년 (\d{1,2})월$/);
+    if (month) return `${['January','February','March','April','May','June','July','August','September','October','November','December'][+month[2] - 1]} ${month[1]}`;
     const step = old.match(/^([A-Z]{1,2}[0-9]?[A-Z]?) (.+)$/);
     if (step && messages[step[2]]) return `${step[1]} ${messages[step[2]]}`;
     return old
