@@ -6,6 +6,7 @@
   const handle = sheet.querySelector('.handle');
   let toastTimer, speaking = false;
   const t = text => I18n.t(text);
+  const LABEL_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', photos:'Google 포토' };
   const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function toast(message){
@@ -25,7 +26,7 @@
       el.setAttribute('role', role);
       if(el.matches('.toggle, .checkbox')) {
         el.setAttribute('aria-checked', el.classList.contains('mixed') ? 'mixed' : String(el.classList.contains('on') || el.classList.contains('checked')));
-        el.dataset.label = el.dataset.ref || el.dataset.src || '전체 선택';
+        el.dataset.label = LABEL_NAME[el.dataset.ref || el.dataset.src] || el.dataset.ref || el.dataset.src || '전체 선택';
       }
     });
     phone.querySelectorAll('.source-item, .conn-wrap, .check-item').forEach((wrap, i) => {

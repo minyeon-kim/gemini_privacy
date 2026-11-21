@@ -8,6 +8,8 @@
   "UX 리서치 · 사용성 테스트": "UX research · Usability test",
   "Gemini 프라이버시 컨트롤": "Gemini Privacy Controls",
   "Revamp 컨셉 테스트": "Revamp concept test",
+  "리뱀프 컨셉 테스트": "Revamp concept test",
+  "영업 중 · 오후 10:00에 영업 종료": "Open · Closes 10:00 PM",
   "이 화면은": "This is a",
   "UX 리서치용으로 만든 Revamp 컨셉 프로토타입": "revamp concept prototype for UX research",
   "이며, Google의 실제 제품이나 공식 화면이 아닙니다.": ", and is not an actual Google product or official interface.",
@@ -595,9 +597,16 @@
     .replace(/\b(20\d\d)\.(\d{1,2})\b(?!\.\d)/g, (_, y, m) => `${MONTHS[m - 1]} ${y}`);
   const items = n => `${n} item${n === '1' ? '' : 's'}`;
   function english(text) { return dates(englishText(text)); }
+  // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
+  function legacy(text) {
+    return text.replace(/개인 맞춤 정보/g, 'Personal Intelligence').replace(/Google 캘린더/g, 'Google Calendar')
+      .replace(/Google 포토/g, 'Google Photos').replace(/메모리/g, 'Memory').replace(/캘린더/g, 'Calendar');
+  }
   function englishText(text) {
     if (messages[text]) return messages[text];
-    return text
+    const old = legacy(text);
+    if (messages[old]) return messages[old];
+    return old
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
       .replace(/^(\d+)건 처리$/, (_, n) => `Process ${items(n)}`)
       .replace(/^정보 (\d+)건 처리됨$/, (_, n) => `${items(n)} handled`)

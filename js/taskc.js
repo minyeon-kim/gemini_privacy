@@ -16,10 +16,10 @@
     gm_yoga:    { topic:'gym',  src:'gmail', label:'요가 예약',     text:'[요가스튜디오 숨] 토요일 클래스 예약 확정', date:'2025.9.27 10:00' },
   };
   const TOPICS = { move: { name:'이사 준비' }, gym: { name:'운동' } };
-  const SRC_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar' };
+  const SRC_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더' };
   const SRC_SCOPE = {
     gmail: '끄면 Gmail 연동을 꺼서 답변에 쓰지 않아요. 메일은 그대로예요.',
-    calendar: '끄면 Calendar 연동을 꺼서 답변에 쓰지 않아요. 일정은 그대로예요.',
+    calendar: '끄면 캘린더 연동을 꺼서 답변에 쓰지 않아요. 일정은 그대로예요.',
     memory: '끄면 메모리를 답변에 쓰지 않아요.',
   };
   const TARGET = /이사|집\s?보|전세|투룸|망원|부동산|매물|대출|moving|apartment|lease/i;
@@ -88,7 +88,7 @@
         <div class="toggle${S.refs[k] ? ' on' : ''} hot" data-cref="${k}" data-tag="C ${k} 전체 차단" role="switch" aria-checked="${S.refs[k]}" onclick="TaskC.toggle('${k}')"><div class="knob"></div></div>
       </div>`).join('');
     box.innerHTML = `<div class="ct-list">${groups}</div>
-      <p class="ct-legend">${esc(t('Memory는 삭제되고, Gmail과 Calendar는 원본은 그대로 두고 답변에만 쓰지 않아요.'))}</p>
+      <p class="ct-legend">${esc(t('메모리는 삭제되고, Gmail과 캘린더는 원본은 그대로 두고 답변에만 쓰지 않아요.'))}</p>
       <div class="ct-foot"><span class="ct-sel">${esc(t('선택'))} <b>${n}</b>${esc(t('건'))}</span>
         <button class="btn-del hot" id="cSheetProcess" data-tag="C 시트 처리" onclick="TaskC.processSheet()" ${n ? '' : 'disabled'}>${n ? `${n}${esc(t('건 처리'))}` : esc(t('선택한 정보 처리'))}</button></div>
       <div class="ct-apps${S.appsOpen ? ' open' : ''}">
@@ -155,7 +155,7 @@
     const mem = ids.filter(isDel), apps = ids.filter(id => !isDel(id));
     const picked = ids.filter(id => S.checks[id] && !handled(id)).length;
     box.innerHTML = `<div class="c-card-title">'${esc(t('이사 준비'))}' ${esc(t('관련 정보'))} ${ids.length}${esc(t('건을 찾았어요'))}</div>
-      ${mem.length ? `<div class="check-group-head"><span class="check-group-title">Memory</span><span class="check-group-desc">${esc(t('삭제돼요'))}</span></div><div class="c-list">${mem.map(row).join('')}</div>` : ''}
+      ${mem.length ? `<div class="check-group-head"><span class="check-group-title">메모리</span><span class="check-group-desc">${esc(t('삭제돼요'))}</span></div><div class="c-list">${mem.map(row).join('')}</div>` : ''}
       ${apps.length ? `<div class="check-group-head"><span class="check-group-title">${esc(t('연결된 앱'))}</span><span class="check-group-desc">${esc(t('답변에만 안 써요'))}</span></div><div class="c-list">${apps.map(row).join('')}</div>` : ''}
       <div class="selection-count">${esc(t('처리할 정보'))} <b>${picked}</b><span class="sc-total">/ ${ids.length}건</span></div>
       <div class="card-btn-row">
@@ -253,7 +253,7 @@
     if(['gmail', 'calendar', 'memory'].some(k => !S.refs[k]) || Object.values(S.done).includes('source')) changedBy.push('source');
     if(Object.values(S.done).includes('chat')) changedBy.push('chat');
     const act = [];
-    ['gmail', 'calendar', 'memory'].filter(k => !S.refs[k]).forEach(k => act.push(SRC_NAME[k] + ' 전체 끔'));
+    ['gmail', 'calendar', 'memory'].filter(k => !S.refs[k]).forEach(k => act.push({ memory:'Memory', gmail:'Gmail', calendar:'Calendar' }[k] + ' 전체 끔'));
     Object.keys(S.done).forEach(id => act.push(`${ITEMS[id].label} ${isDel(id) ? '삭제' : '차단'}`));
     return {
       C_firstPath: S.paths[0] || '없음', C_paths: S.paths.slice(), C_moveResult: moveResult, C_otherState: otherState, C_changedBy: changedBy,
