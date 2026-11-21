@@ -1257,3 +1257,8 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .hold-screen[hidden]{ display:none; }
 .hold-desc{ font-size:16px; color:#444746; line-height:1.55; margin:0 0 10px; }
 body.holding .taskbar{ display:none !important; }
+
+/* 진행자 안내: 선택 질문은 접어 둠 */
+.gd-opt{ margin-top:10px; border-top:1px dashed #d7d7d7; padding-top:8px; font-size:12.5px; color:#5e5e5e; }
+.gd-opt summary{ cursor:pointer; font-weight:500; color:#444746; }
+.gd-opt .gd-line{ margin-top:6px; }
