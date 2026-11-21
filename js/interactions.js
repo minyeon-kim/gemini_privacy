@@ -48,6 +48,9 @@
     if(!phone.querySelector('.screen[data-step="A2"].active') && speaking) stopSpeaking();
   }
 
+  // 시트를 스크롤하면 고정된 상단 아래에 경계선을 보여요.
+  document.querySelectorAll('.sheet').forEach(el => el.addEventListener('scroll', () => el.classList.toggle('scrolled', el.scrollTop > 2), {passive:true}));
+
   // Space and Enter work on the existing prototype's non-native buttons.
   phone.addEventListener('keydown', event => {
     if(event.key !== 'Enter' && event.key !== ' ') return;

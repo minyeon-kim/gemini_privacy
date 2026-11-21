@@ -1235,3 +1235,19 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .b3-name{ white-space:normal !important; min-width:0; }
 .b3-count{ white-space:nowrap; }
 .b3-head .st-chip{ flex:0 0 auto; white-space:nowrap; }
+
+/* 시트 상단(핸들·제목·닫기)은 고정하고 목록만 스크롤 · 스크롤하면 아래 경계선 */
+.sheet-head{ position:sticky; top:-10px; z-index:3; display:flex; flex-direction:column; gap:12px; margin:-10px -20px 0; padding:10px 20px 6px; background:#fff; transition:box-shadow .15s; }
+#sheetOverlay .sheet-head{ margin:-10px -16px 0; padding:10px 16px 6px; }
+.sheet.scrolled .sheet-head{ box-shadow:0 1px 0 #e3e3e3; }
+
+/* 개인 인텔리전스(A4): 월별 묶음 · 메모리 한 건씩 지우기 */
+.s-card .conn-detail .a4-month{ padding:12px 2px 4px 46px; font-size:12px; font-weight:500; color:#5e5e5e; }
+.s-card .conn-detail .a4-month + .data-chip{ border-top:none; }
+.s-card .data-chip.mem-row{ justify-content:space-between; padding-right:0 !important; }
+.mem-del{ flex:0 0 auto; width:36px; height:36px; margin:-8px 0; border:0; border-radius:50%; background:none; color:#444746; display:grid; place-items:center; cursor:pointer; }
+.mem-del:hover, .mem-del:focus-visible{ background:rgba(68,71,70,.08); }
+
+/* 출처 시트 하단 '개인 인텔리전스에서 전체 관리' 링크를 잘 보이게 */
+.a3-pi-link .text-link{ display:inline-block; font-size:14px; font-weight:500; color:#0b57d0; text-decoration:none; padding:10px 16px; border-radius:20px; }
+.a3-pi-link .text-link:hover, .a3-pi-link .text-link:focus-visible{ background:rgba(11,87,208,.08); }
