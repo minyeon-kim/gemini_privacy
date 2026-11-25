@@ -9,7 +9,7 @@
     --border:#e0e2e5;
     --good-bg:#e6f4ea; --good-fg:#1e8e3e;
     --risk-bg:#fce8e6; --risk-fg:#c5221f;
-    font-family:'Google Sans Flex','Google Sans',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Segoe UI',Roboto,sans-serif;
+    font-family:'Google Sans Flex','Noto Sans KR',sans-serif;
   }
   *{box-sizing:border-box;}
   body{
@@ -593,8 +593,6 @@ button:not(:disabled):active,.response-action:active,.r-photo .save:active{trans
 .topbar .brand span{ color:#747775; font-weight:400; }
 .topbar .brand .tb-chev{ margin-left:4px; margin-top:1px; }
 .empty-hero .headline{ font-size:24px; font-weight:400; letter-spacing:-.3px; }
-.sb-battery{ background:#000 !important; }
-.sb-battery .sb-level{ display:none; }
 .statusbar .sb-time{ font-size:16.5px; font-weight:600; }
 .phone:has(.screen.grad.active) .statusbar{ background:#f8f8f9; }
 
@@ -1664,3 +1662,11 @@ body.holding .taskbar{ display:none !important; }
 .taskbar-text{ gap:6px !important; }
 .taskbar .tk-main, .taskbar .tk-steps{ font-size:16px !important; line-height:23px !important; }
 .taskbar .tk-foot{ font-size:12px !important; color:#747775 !important; }
+
+/* 상태바: 실제 iOS(다이내믹 아일랜드) 배치. 시간과 아이콘을 아일랜드 양쪽 영역 가운데에 두고, 세로는 아일랜드 중심에 맞춤.
+   iPhone 15 Pro(393pt) 값을 이 프레임(375pt)에 맞게 줄였어요. 상태바만 iOS처럼 시스템 글꼴(SF Pro)을 써요. */
+.statusbar{ display:grid !important; grid-template-columns:1fr 120px 1fr; align-items:center; height:52px !important; flex:0 0 52px !important; padding:5px 0 0 !important; color:#000; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro',system-ui,sans-serif !important; }
+.statusbar .sb-time{ grid-column:1; justify-self:center; transform:translateX(-6px); width:auto !important; font-size:16.5px !important; font-weight:600 !important; letter-spacing:-.3px !important; line-height:20px; font-variant-numeric:tabular-nums; }
+.statusbar .sb-island{ top:11px !important; width:120px !important; height:35px !important; border-radius:18px !important; }
+.statusbar .icons{ grid-column:3; justify-self:center; gap:6.5px !important; }
+.statusbar .icons svg{ display:block; flex:0 0 auto; }
