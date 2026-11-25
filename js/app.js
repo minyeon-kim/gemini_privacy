@@ -941,7 +941,7 @@
     if(blkN) rows.push(fxRow('block', blkN, done ? '답변에만 안 씀' : '답변에만 안 써요', blockSub(g), done));
     let html = rows.length ? `<div class="fxg">${rows.join('<span class="fxg-div"></span>')}</div>` : '';
     if(done && g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
-    if(leftN) html += `<div class="fxg-keep">${fxRow('keep', leftN, done ? '남겨 둠' : '남겨 둬요',
+    if(leftN) html += `<div class="fxg-keep"><div class="fxg-label">${esc(I18n.t('남겨 둘 것'))}</div>${fxRow('keep', leftN, done ? '남겨 둠' : '남겨 둬요',
       holdOnly ? (done ? '송금·입금 메일은 그대로 뒀어요' : '송금·입금 메일은 돈이 오간 기록이에요') : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done,
       done && holdOnly ? `<button type="button" class="text-btn fxr-act hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">${esc(I18n.t('답변에 안 쓰기'))}</button>` : '')}</div>`;
     return html;

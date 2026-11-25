@@ -1808,3 +1808,21 @@ html[lang="en"] .sv-full{ display:block; }
 /* 처리한 주제: 이름 옆에 효과 칩(처리 후 규칙과 같음) */
 #sheetOverlay .ct-name{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
 #sheetOverlay .ct-name .ct-count{ margin:0 !important; }
+/* 과제 2 카드: 카드 안에 상자를 또 넣지 않음 — 한 컨테이너 안에서 구분선 + 섹션 라벨로 나눔 (Gemini 답변 카드 · Material 3) */
+.screen[data-step="B2"] .ai-card.detail .b2-summary{ display:none !important; }
+.fxg{ background:none !important; padding:0 !important; border-radius:0 !important; }
+.fxg-keep{ border:0 !important; border-top:1px solid #e3e3e3 !important; border-radius:0 !important; padding:10px 0 0 !important; margin-top:12px !important; }
+.fxg-label{ font-size:12px; line-height:16px; font-weight:500; color:#747775; margin-bottom:8px; }
+.b2-detail .check-item{ background:none !important; border-radius:0 !important; box-shadow:none !important; border:0 !important; border-top:1px solid #e3e3e3 !important; }
+.b2-detail .select-all-row + .check-group .check-item:first-of-type, .b2-detail .check-group:not(.hold-group):first-of-type .check-item:first-of-type{ border-top:0 !important; }
+.b2-detail .check-group, .b2-detail .check-group + .check-group{ gap:0 !important; margin-top:0 !important; }
+.b2-detail .hold-group{ border-top:1px solid #e3e3e3; margin-top:0 !important; padding-top:12px; }
+.b2-detail .hold-group .check-item{ border:0 !important; }
+.screen[data-step="B2"] .check-item-head{ padding-left:0 !important; padding-right:0 !important; }
+.screen[data-step="B2"] .ai-card.detail #b2Summary{ display:none !important; }
+/* 펼친 항목의 체크박스는 묶음 머리의 앱 아이콘 열에 맞춤(한 단계 들여쓰기) */
+.screen[data-step="B2"] .check-item-expand{ padding:0 0 4px 36px !important; }
+/* B3 결과 카드도 B2 요약 카드와 같은 회색 답변 카드 */
+.screen[data-step="B3"] .complete-card, .screen[data-step="B5"] .complete-card{ background:#f2f0f0 !important; border:0 !important; box-shadow:none !important; border-radius:24px !important; padding:16px !important; }
+.screen[data-step="B2"] .check-item-expand{ padding-left:33px !important; }
+.screen[data-step="B2"] .check-item-expand .ctext-detail{ padding:6px 0 !important; }

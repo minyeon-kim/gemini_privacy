@@ -853,6 +853,7 @@
   messages["채팅으로 정리한 상황"] = 'Cleaning up via chat';
   messages["이사 정보 정리"] = 'Moving info';
   messages["이 문장에 얼마나 동의하세요?"] = 'How much do you agree?';
+  messages["남겨 둘 것"] = "To keep";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
