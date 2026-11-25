@@ -932,7 +932,7 @@
     const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
     return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
   }
-  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널처럼 두 칸, 남길 정보는 한 줄, 승인 전 외곽선 칩 → 처리 후 색 채운 칩
+  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널처럼 두 칸, 남길 정보는 안내 한 줄(버튼 없음 · 바꾸려면 '다시 고르기'), 승인 전 외곽선 칩 → 처리 후 색 채운 칩
   function fxGroups(g, done){
     const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
@@ -946,7 +946,7 @@
     if(leftN){
       const txt = holdOnly ? (done ? `송금·입금 메일 ${leftN}건은 남겨 뒀어요` : `송금·입금 메일 ${leftN}건은 남겨 둬요 · 돈이 오간 기록`)
         : (done ? `고르지 않은 ${leftN}건은 남겨 뒀어요 · 계속 답변에 쓰일 수 있어요` : `고르지 않은 ${leftN}건은 남겨 둬요 · 계속 답변에 쓰일 수 있어요`);
-      html += `<div class="fxk"><span class="fxk-t">${esc(I18n.t(txt))}</span>${done && holdOnly ? `<button type="button" class="text-btn fxr-act hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">${esc(I18n.t('답변에 안 쓰기'))}</button>` : ''}</div>`;
+      html += `<div class="fxk"><span class="fxk-t">${esc(I18n.t(txt))}</span></div>`;
     }
     return html;
   }
