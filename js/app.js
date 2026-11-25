@@ -643,7 +643,7 @@
       const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
       const fxTag = done || off ? '' : `<span class="li-dot">·</span><span class="li-fx ${FX[fxOf(id)].cls}">${esc(I18n.t(FX[fxOf(id)].todo))}</span>`;
-      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div></div>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div></div>`;
     };
     const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('메모리는 삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('Gmail·캘린더는 답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로예요'))}</span></div></div>` : '';
     body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
@@ -661,7 +661,7 @@
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
-          <div class="ct-rows">${ids.map(row).join('')}</div>
+          <div class="ct-rows">${['memory', 'gmail', 'calendar'].map(k => { const g = ids.filter(id => A_ITEMS[id].src === k); return g.length ? `<div class="li-src"><span class="li-app">${aIcon(k)}</span><span>${esc(REF_NAME[k])}</span><span class="li-src-n">${g.length}</span></div>` + g.map(row).join('') : ''; }).join('')}</div>
         </div>
       </div>`;
     }).join('') + `</div>`;
@@ -1063,7 +1063,7 @@
     const names = (ks, on) => ks.map(k => `${B_NAME[k]} <span class="b3-count">${on ? g[k].on : g[k].all - g[k].on}건</span>`).join('<span class="b3-sep"> · </span>');
     const line = (cls, nameHtml, chip, desc, extra) => `<div class="b3-line${cls ? ' ' + cls : ''}"><div class="b3-main"><div class="b3-head"><span class="b3-name">${nameHtml}</span>${chip}</div><div class="b3-desc">${desc}</div>${extra || ''}</div></div>`;
     // 효과별 한 줄씩: 이름 + 상태 칩 / 설명 한 줄
-    const lines = () => (g.memory && g.memory.on ? line('', names(['memory'], true), `<span class="st-chip del">${ICON_DEL}삭제됨</span>`, '다시 볼 수 없어요', `<div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`) : '')
+    const lines = () => (g.memory && g.memory.on ? line('', names(['memory'], true), `<span class="st-chip del">${ICON_DEL}삭제됨</span>`, '다시 볼 수 없어요', `<div class="b3-desc muted">${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`) : '')
       + (blk.length ? line('', names(blk, true), `<span class="st-chip block">${ICON_BLOCK}답변에만 안 씀</span>`, '원본은 각 앱에 그대로예요') : '')
       + (left.length ? line('kept', names(left, false), `<span class="st-chip keep">남겨 둠</span>`, holdOnly ? '돈이 오간 기록이라 남겨 뒀어요' : '계속 답변에 쓰일 수 있어요',
           holdOnly ? `<div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>` : '') : '');
@@ -1183,8 +1183,8 @@
     const open = s.open || [];
     openables().forEach((el, i) => el.classList.toggle('open', open.includes(i)));
     window.Interactions?.sync();
-    remoteHold = s.hold || null; renderHold(remoteHold);
     remoteAsk = s.ask || null; renderAskBanner(remoteAsk);
+    remoteHold = s.hold || null; renderHold(remoteHold);
     const bar = $('#snackbar');
     if(s.snack) bar.querySelector('.snackbar-msg').textContent = s.snack;
     bar.classList.toggle('show', !!s.snack);
