@@ -1955,8 +1955,8 @@
     if(phase){
       const t = TASK_TEXT[key];
       const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
-      // 상황 카드와 같은 덩어리: 상황(회색 상자) → 할 일(라벨 + 굵은 문장)
-      $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx-box"><div class="tk-sec">${esc(I18n.t('상황'))}</div><div class="tk-ctx">${esc(I18n.t(t.ctx))}</div></div>` : '') + `<div class="tk-sec">${esc(I18n.t('할 일'))}</div>` + steps
+      // 상황 카드와 같은 덩어리: 상황(회색 상자) → 할 일(테두리 상자: 라벨 + 굵은 문장)
+      $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx-box"><div class="tk-sec">${esc(I18n.t('상황'))}</div><div class="tk-ctx">${esc(I18n.t(t.ctx))}</div></div>` : '') + `<div class="tk-todo-box"><div class="tk-sec">${esc(I18n.t('할 일'))}</div>${steps}</div>`
         + `<div class="tk-oneline"><span class="tk-sec">${esc(I18n.t('할 일'))}</span><span class="tk-one">${esc(I18n.t(TASK_BRIEF[key] || t.steps.join(' ')))}</span></div>`;
       $('#taskLabel').textContent = I18n.t(phase === FIRST ? '과제 1 / 2' : '과제 2 / 2');
       if(M.flash){

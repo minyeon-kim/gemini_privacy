@@ -11,7 +11,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/gemini-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=81">
+<link rel="stylesheet" href="css/style.css?v=82">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -79,13 +79,17 @@
         <div class="intro-badge">상황 1</div>
         <h1>저녁 약속 장소 찾기</h1>
         <p class="order-note intro-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <div class="sc-context"><div class="sc-label">상황</div><p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요</p></div>
-        <div class="sc-label">할 일</div>
-        <ol class="sc-steps">
-          <li><span>입력창을 누르고, 미리 입력된 질문을 <b>그대로 보내 주세요</b></span></li>
-          <li><span><b>답변을 살펴봐 주세요</b></span></li>
-        </ol>
-        <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
+        <div class="sc-boxes">
+          <div class="sc-context"><div class="sc-label">상황</div><p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요</p></div>
+          <div class="sc-todo">
+            <div class="sc-label">할 일</div>
+            <ol class="sc-steps">
+              <li><span>입력창을 누르고, 미리 입력된 질문을 <b>그대로 보내 주세요</b></span></li>
+              <li><span><b>답변을 살펴봐 주세요</b></span></li>
+            </ol>
+            <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
+          </div>
+        </div>
         <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
       </div>
     </div>
@@ -94,13 +98,17 @@
         <div class="intro-badge">상황 2</div>
         <h1>채팅으로 정보 지우기</h1>
         <p class="order-note intro-note">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <div class="sc-context"><div class="sc-label">상황</div><p>Gemini가 정민과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요</p></div>
-        <div class="sc-label">할 일</div>
-        <ol class="sc-steps">
-          <li><span><b>채팅으로 Gemini에게 요청해서</b>, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요</span></li>
-          <li><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요</span></li>
-        </ol>
-        <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
+        <div class="sc-boxes">
+          <div class="sc-context"><div class="sc-label">상황</div><p>Gemini가 정민과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요</p></div>
+          <div class="sc-todo">
+            <div class="sc-label">할 일</div>
+            <ol class="sc-steps">
+              <li><span><b>채팅으로 Gemini에게 요청해서</b>, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요</span></li>
+              <li><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요</span></li>
+            </ol>
+            <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
+          </div>
+        </div>
         <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
       </div>
     </div>
@@ -779,12 +787,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=81"></script>
-<script src="js/i18n.js?v=81"></script>
-<script src="js/logger.js?v=81"></script>
-<script src="js/taskc.js?v=81"></script>
-<script src="js/app.js?v=81"></script>
-<script src="js/interactions.js?v=81"></script>
-<script src="js/live.js?v=81"></script>
+<script src="js/config.js?v=82"></script>
+<script src="js/i18n.js?v=82"></script>
+<script src="js/logger.js?v=82"></script>
+<script src="js/taskc.js?v=82"></script>
+<script src="js/app.js?v=82"></script>
+<script src="js/interactions.js?v=82"></script>
+<script src="js/live.js?v=82"></script>
 </body>
 </html>
