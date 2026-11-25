@@ -11,7 +11,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/gemini-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=70">
+<link rel="stylesheet" href="css/style.css?v=72">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -79,12 +79,13 @@
         <div class="intro-badge">상황 1</div>
         <h1>저녁 약속 장소 찾기</h1>
         <p class="order-note intro-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <p class="intro-lead">퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p>
-        <ul class="intro-points">
-          <li><span class="ip-ic">1</span><span>입력창을 누르면 질문이 미리 입력돼 있어요. 그대로 보내 주세요.</span></li>
-          <li><span class="ip-ic">2</span><span>답변을 살펴봐 주세요.</span></li>
-          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><span>생각나는 것을 소리 내어 말해 주세요.</span></li>
-        </ul>
+        <div class="sc-context"><div class="sc-label">상황</div><p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p></div>
+        <div class="sc-label">할 일</div>
+        <ol class="sc-steps">
+          <li><span>입력창을 누르고, 미리 입력된 질문을 <b>그대로 보내 주세요.</b></span></li>
+          <li><span><b>답변을 살펴봐 주세요.</b></span></li>
+        </ol>
+        <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
         <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
       </div>
     </div>
@@ -93,12 +94,13 @@
         <div class="intro-badge">상황 2</div>
         <h1>채팅으로 정보 지우기</h1>
         <p class="order-note intro-note">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <p class="intro-lead">Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.</p>
-        <ul class="intro-points">
-          <li><span class="ip-ic">1</span><span>채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.</span></li>
-          <li><span class="ip-ic">2</span><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요.</span></li>
-          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><span>생각나는 것을 소리 내어 말해 주세요.</span></li>
-        </ul>
+        <div class="sc-context"><div class="sc-label">상황</div><p>Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.</p></div>
+        <div class="sc-label">할 일</div>
+        <ol class="sc-steps">
+          <li><span><b>채팅으로 Gemini에게 요청해서</b>, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.</span></li>
+          <li><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요.</span></li>
+        </ol>
+        <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
         <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
       </div>
     </div>
@@ -107,7 +109,6 @@
         <div class="end-mark"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></div>
         <h1 class="end-title">테스트가 끝났어요</h1>
         <p class="end-lead">참여해 주셔서 감사합니다</p>
-        <p class="end-sub">모든 질문이 끝났어요.</p>
         <div class="end-actions" id="endActions">
           <button class="ghost-btn" onclick="Logger.download('json')">기록 파일 받기 (JSON)</button>
           <button class="ghost-btn" onclick="Logger.copy()">기록 복사하기</button>
@@ -455,8 +456,8 @@
 
           <div class="selection-count" id="selectionCount" role="status" aria-live="polite"></div>
           </div>
+          <button type="button" class="text-btn b2-toggle-link hot" id="b2DetailBtn" data-tag="B2 자세히 고르기" onclick="App.toggleB2Detail()">항목 직접 고르기</button>
           <div class="card-btn-row">
-            <button class="btn-cancel hot" id="b2DetailBtn" data-tag="B2 자세히 고르기" onclick="App.toggleB2Detail()">자세히 고르기</button>
             <button class="btn-del hot" id="b2ProcessBtn" data-tag="B2 선택 처리" onclick="App.processB2()">18건 처리</button>
           </div>
         </div>
@@ -486,7 +487,7 @@
           </div>
           <div class="retention-note" id="b3Note">ⓘ 사람이 품질 검토한 대화 사본은 계정과 분리돼 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)</div>
           <div class="btn-row-h">
-            <div class="ghost-btn hot" data-tag="B3 자세히 고르기" onclick="App.openB2Detail()">자세히 고르기</div>
+            <div class="ghost-btn hot" data-tag="B3 자세히 고르기" onclick="App.openB2Detail()">다시 고르기</div>
             <div class="ghost-btn hot" data-tag="B3 되돌리기" onclick="App.undoB2()">되돌리기</div>
           </div>
         </div>
@@ -785,12 +786,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=70"></script>
-<script src="js/i18n.js?v=70"></script>
-<script src="js/logger.js?v=70"></script>
-<script src="js/taskc.js?v=70"></script>
-<script src="js/app.js?v=70"></script>
-<script src="js/interactions.js?v=70"></script>
-<script src="js/live.js?v=70"></script>
+<script src="js/config.js?v=72"></script>
+<script src="js/i18n.js?v=72"></script>
+<script src="js/logger.js?v=72"></script>
+<script src="js/taskc.js?v=72"></script>
+<script src="js/app.js?v=72"></script>
+<script src="js/interactions.js?v=72"></script>
+<script src="js/live.js?v=72"></script>
 </body>
 </html>
