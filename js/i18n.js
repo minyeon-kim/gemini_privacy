@@ -778,6 +778,8 @@
   messages["처리가 됐는지 확인하고 싶다면 어떻게 하실 것 같으세요?"] = "If you wanted to check it was handled, what would you do?";
   messages["실제 Gemini에 이 기능이 있다면, 어떤 상황에서 쓰실 것 같으세요?"] = "If the real Gemini had this feature, in what situations would you use it?";
   messages["쉬운 정도 점수를 그렇게 주신 이유는요?"] = "Why did you give that ease score?";
+  messages["AI 챗봇에 다른 사람 이야기나 약속처럼 개인적인 내용을 말해 본 적이 있나요? 있다면 어떤 내용이었나요?"] = "Have you ever told an AI chatbot something personal, like about another person or a plan? If so, what was it about?";
+  messages["AI에게 그런 이야기를 할 때 신경 쓰이는 점이 있나요? 있다면 무엇인가요?"] = "When you tell an AI things like that, is there anything that concerns you? If so, what?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
