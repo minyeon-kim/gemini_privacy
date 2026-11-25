@@ -1614,3 +1614,29 @@ body.holding .taskbar{ display:none !important; }
 #sheetOverlay .ct-items .li-row{ padding:var(--ds-s2) 0 !important; }
 /* 펼치면 앱별 묶음이 건수를 보여 주므로 머리 줄 건수는 접혀 있을 때만 */
 #sheetOverlay .ct-group.open .ct-head .ct-t2{ display:none !important; }
+
+/* 상황 카드: 상황(회색 상자) → 할 일(번호) → 작은 메모 순서로 읽히게 */
+.intro-screen .sc-label{ font-size:var(--ds-cap); line-height:var(--ds-cap-lh); font-weight:600; color:var(--ds-ink3); margin:0; }
+.intro-screen .sc-context{ background:var(--g-surface); border-radius:16px; padding:var(--ds-s3) var(--ds-s4); display:flex; flex-direction:column; gap:var(--ds-s1); }
+.intro-screen .sc-context p{ margin:0; font-size:var(--ds-body); line-height:22px; color:var(--ds-ink1); }
+.intro-screen .sc-steps{ list-style:none; counter-reset:sc; margin:calc(-1 * var(--ds-s1)) 0 0; padding:0; display:flex; flex-direction:column; gap:var(--ds-s3); }
+.intro-screen .sc-steps li{ counter-increment:sc; display:flex; gap:var(--ds-s3); font-size:16px; line-height:24px; color:var(--ds-ink1); }
+.intro-screen .sc-steps li::before{ content:counter(sc); flex:0 0 24px; height:24px; border-radius:50%; background:#d3e3fd; color:#0842a0; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.intro-screen .sc-steps b{ font-weight:600; }
+.intro-screen .sc-note{ display:flex; align-items:center; gap:var(--ds-s2); margin:0; font-size:var(--ds-meta); line-height:var(--ds-meta-lh); color:var(--ds-ink3); }
+.intro-screen .sc-note svg{ flex:0 0 auto; }
+.intro-screen .intro-note{ margin:calc(-1 * var(--ds-s2)) 0 0 !important; font-size:var(--ds-meta) !important; color:var(--ds-ink3) !important; }
+/* 과제 2 카드: 처리 버튼 하나 + 목록 열고 닫는 글자 링크 */
+.screen[data-step="B2"] .b2-toggle-link{ align-self:flex-start; margin:var(--ds-s1) 0 0 -12px !important; font-size:var(--ds-meta) !important; }
+.screen[data-step="B2"] .b2-toggle-link::after{ content:' ›'; }
+.screen[data-step="B2"] .ai-card.detail .b2-toggle-link::after{ content:''; }
+.screen[data-step="B2"] .card-btn-row{ justify-content:flex-end; margin-top:var(--ds-s2) !important; }
+/* 출처 시트: 설명(본문) > 범례(보조 한 줄, 아이콘만 색) > 카드 · 앱 연동 설정 제목은 주제 이름과 같은 크기 */
+#sheetOverlay .sheet-desc{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; color:var(--ds-ink1) !important; }
+.fx-leg{ color:var(--ds-ink3) !important; }
+.fx-leg.del svg{ color:#b3261e; } .fx-leg.block svg{ color:#0842a0; }
+.fx-legend{ margin:0 0 var(--ds-s4) !important; }
+#sheetOverlay .ct-apps-head{ font-size:var(--ds-title) !important; line-height:var(--ds-title-lh) !important; padding:var(--ds-s3) 0 !important; }
+.ct-apps-note{ margin:var(--ds-s3) 0 var(--ds-s1) !important; color:var(--ds-ink3) !important; }
+#sheetOverlay .ct-app{ padding:var(--ds-s2) 0 !important; }
+.intro-screen .intro-note{ background:none !important; padding:0 !important; border-radius:0 !important; font-weight:400 !important; }

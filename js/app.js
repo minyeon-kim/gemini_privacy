@@ -645,7 +645,7 @@
       const fxTag = done || off ? '' : `<span class="li-dot">·</span><span class="li-fx ${FX[fxOf(id)].cls}">${esc(I18n.t(FX[fxOf(id)].todo))}</span>`;
       return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div></div>`;
     };
-    const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('메모리는 삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('Gmail·캘린더는 답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로예요'))}</span></div></div>` : '';
+    const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<span>${esc(I18n.t('메모리는 삭제돼요. 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<span>${esc(I18n.t('Gmail·캘린더는 답변에만 안 써요. 원본은 그대로예요'))}</span></div></div>` : '';
     body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
       const handled = ids.filter(aHandled);
@@ -885,7 +885,7 @@
   function renderB2View(){
     const card = $('.screen[data-step="B2"] .ai-card'); if(!card) return;
     card.classList.toggle('detail', b2View === 'detail');
-    const btn = $('#b2DetailBtn'); if(btn) btn.textContent = I18n.t(b2View === 'detail' ? '요약만 보기' : '자세히 고르기');
+    const btn = $('#b2DetailBtn'); if(btn) btn.textContent = I18n.t(b2View === 'detail' ? '목록 접기' : '항목 직접 고르기');
   }
   function toggleB2Detail(){ b2View = b2View === 'detail' ? 'summary' : 'detail'; renderB2View(); Logger.log('b2_view', { step: current, view: b2View }); }
   // 지금 체크 상태를 효과별로 묶어요: memory(삭제) / gmail·calendar·hold(답변에만 안 씀)

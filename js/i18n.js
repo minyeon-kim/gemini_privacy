@@ -795,6 +795,22 @@
   messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요."] = "Memory is deleted; Gmail and Calendar are only kept out of answers.";
   messages["돈이 오간 기록이라 따로 뒀어요"] = "Kept aside because these are money records";
   messages["검토용 사본은 최대 3년 남을 수 있어요"] = "Copies kept for review may stay up to 3 years";
+  messages["상황"] = "Situation";
+  messages["할 일"] = "To do";
+  messages["퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요."] = "After work, you're on the sofa and open Gemini to find a place for dinner this week.";
+  messages["입력창을 누르고, 미리 입력된 질문을"] = "Tap the input box and";
+  messages["그대로 보내 주세요."] = "send the pre-filled question as is.";
+  messages["답변을 살펴봐 주세요."] = "Look through the answer.";
+  messages["생각나는 것을 소리 내어 말해 주세요"] = "Think out loud as you go";
+  messages["Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요."] = "Gemini remembers information about 'Jeongmin'. You're no longer in touch with Jeongmin.";
+  messages["채팅으로 Gemini에게 요청해서"] = "Ask Gemini in chat";
+  messages[", 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요."] = " so that Jeongmin info isn't used in future answers.";
+  messages["요청 문장은 평소 말하듯 자유롭게 입력하면 돼요."] = "Type the request however you'd normally say it.";
+  messages["항목 직접 고르기"] = "Pick items myself";
+  messages["목록 접기"] = "Hide list";
+  messages["다시 고르기"] = "Pick again";
+  messages["메모리는 삭제돼요. 다시 볼 수 없어요"] = "Memory is deleted and can't be seen again";
+  messages["Gmail·캘린더는 답변에만 안 써요. 원본은 그대로예요"] = "Gmail and Calendar are only kept out of answers; originals stay";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
