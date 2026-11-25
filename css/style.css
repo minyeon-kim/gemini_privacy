@@ -1670,3 +1670,141 @@ body.holding .taskbar{ display:none !important; }
 .statusbar .sb-island{ top:11px !important; width:120px !important; height:35px !important; border-radius:18px !important; }
 .statusbar .icons{ grid-column:3; justify-self:center; gap:6.5px !important; }
 .statusbar .icons svg{ display:block; flex:0 0 auto; }
+
+/* ===================== v32 · Figma v31 페이지와 맞춤 ===================== */
+/* 꺼진 주 버튼은 회색(켜짐 = 파랑과 확실히 구분) */
+.primary-btn:disabled, .survey-body .primary-btn:disabled, #startBtn:disabled{ background:#e9eaeb !important; color:#747775 !important; opacity:1 !important; box-shadow:none !important; }
+/* 아이콘 크기 단계: 14 · 16 · 18 · 20 · 24 */
+.response-action svg{ width:20px; height:20px; }
+.chat-input .mic svg{ width:20px; height:20px; }
+.round-btn.send svg{ width:16px; height:16px; }
+.sheet-close svg{ width:16px; height:16px; }
+.tb-pen svg{ width:20px; height:20px; }
+.backbtn svg{ width:24px; height:24px; }
+.intro-points .ip-ic svg{ width:18px; height:18px; }
+#sheetOverlay .li-app .icon-chip svg{ width:14px; height:14px; }
+.end-mark{ background:#146c2e !important; }
+
+/* 상황 카드 · 과제 카드: '상황'도 '할 일'처럼 라벨 + 내용(상자 없음) */
+.intro-screen .sc-context{ background:none !important; padding:0 !important; border-radius:0 !important; gap:8px !important; }
+.intro-screen .sc-context p{ font-size:16px !important; line-height:24px !important; }
+.taskbar .tk-ctx-box{ background:none !important; padding:0 !important; border-radius:0 !important; gap:8px !important; }
+.taskbar .tk-oneline, .tk-askmark, .ask-help{ display:none; }
+.ask-help{ margin-top:6px; font-size:13px; line-height:18px; color:#747775; font-weight:400; }
+/* 진행자 질문이 떠 있는 동안: 과제 카드 전체가 질문 카드(파랑 한 겹), 버튼은 '답했어요' 하나, 할 일은 맨 아래 한 줄 */
+@media (min-width: 521px){
+  body.participant .taskbar.show.asking{ flex-direction:column !important; flex-wrap:nowrap !important; align-items:stretch !important; gap:12px !important; background:#eef3fd !important; border-color:#c9d9f8 !important; }
+  .taskbar.asking .tk-head{ order:1; }
+  .taskbar.asking .ask-banner{ order:2; background:none !important; border:0 !important; padding:0 !important; box-shadow:none !important; animation:none !important; gap:12px !important; }
+  .taskbar.asking .taskbar-text{ order:3; flex:none !important; border-top:1px solid #c9d9f8; padding-top:12px; }
+  .taskbar.asking .tk-new, .taskbar.asking #taskDoneBtn, .taskbar.asking .tk-foot, .taskbar.asking .ask-badge{ display:none !important; }
+  .taskbar.asking .tk-askmark{ display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; color:#0842a0; }
+  .taskbar.asking .tk-askmark::before{ content:'·'; color:#747775; font-weight:400; }
+  .taskbar.asking .taskbar-text > *:not(.tk-oneline){ display:none !important; }
+  .taskbar.asking .tk-oneline{ display:flex; gap:8px; align-items:baseline; min-width:0; }
+  .taskbar.asking .tk-oneline .tk-sec{ flex:0 0 auto; margin:0 !important; }
+  .taskbar.asking .tk-one{ font-size:13px; line-height:18px; color:#444746; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  .taskbar.asking .ask-text{ font-size:16px !important; font-weight:600 !important; line-height:24px !important; }
+  .taskbar.asking .ask-help{ display:block; }
+  .taskbar.asking .ask-done{ background:#0b57d0 !important; color:#fff !important; border-radius:999px !important; }
+  .taskbar.asking .ask-done:disabled{ background:#e9eaeb !important; color:#747775 !important; }
+}
+
+/* A3 · 효과 패널(범례 + 변경 내역을 한 자리로): 바탕은 늘 같은 회색, 처리 후에는 아이콘이 개수 칩으로 바뀜 */
+.fx-panel{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:16px; background:#f2f0f0; margin:0 0 16px; }
+.fx-panel.flash{ animation:fxFlash .9s ease both; }
+@keyframes fxFlash{ 0%, 40%{ background:#eef3fd; box-shadow:inset 0 0 0 1px #c9d9f8; } 100%{ background:#f2f0f0; box-shadow:inset 0 0 0 1px rgba(201,217,248,0); } }
+.fxp-div{ align-self:stretch; width:1px; background:#e3e3e3; flex:0 0 1px; }
+.fxp-cell{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.fxp-h{ display:flex; align-items:center; gap:6px; font-size:14px; line-height:20px; }
+.fxp-h b{ font-weight:500; color:#1f1f1f; }
+.fxp-ic{ display:inline-flex; width:16px; height:16px; flex:0 0 16px; }
+.fxp-ic svg{ width:16px; height:16px; }
+.fxp-cell.del .fxp-ic{ color:#b3261e; } .fxp-cell.block .fxp-ic{ color:#0b57d0; }
+.fxp-sub{ font-size:12px; line-height:16px; color:#444746; }
+.fxp-note{ margin:-8px 2px 16px; font-size:12px; line-height:16px; color:#747775; }
+/* 효과 칩: 아이콘 + 개수 하나로. 승인 전 = 외곽선, 처리 후 = 효과 색으로 채움 */
+.fx-chip2{ display:inline-flex; align-items:center; gap:4px; padding:2px 8px 2px 6px; border-radius:999px; font-size:12px; line-height:16px; font-weight:500; background:#fff; color:#444746; box-shadow:inset 0 0 0 1px #e3e3e3; white-space:nowrap; flex:0 0 auto; }
+.fx-chip2 svg{ width:14px; height:14px; }
+.fx-chip2.del svg{ color:#b3261e; } .fx-chip2.block svg{ color:#0b57d0; }
+.fx-chip2.done{ box-shadow:none; color:#fff; }
+.fx-chip2.done.del{ background:#b3261e; } .fx-chip2.done.block{ background:#0b57d0; } .fx-chip2.done.keep{ background:#747775; }
+.fx-chip2.done svg{ color:#fff !important; }
+.fx-chip2 .keep-dot{ display:inline-block; width:10px; height:10px; border-radius:50%; background:none !important; box-shadow:inset 0 0 0 1.6px #747775; }
+.fx-chip2.done .keep-dot{ box-shadow:inset 0 0 0 1.6px #fff; }
+.ct-sel-fx .fx-n{ font-weight:600; } .ct-sel-fx .fx-n.del{ color:#b3261e; } .ct-sel-fx .fx-n.block{ color:#0b57d0; }
+.ct-notice-msg{ font-weight:500; }
+#sheetOverlay .ct-items{ padding-left:30px !important; }
+
+/* A4 · 개인 인텔리전스: 섹션 제목은 카드 밖, 행 오른쪽은 토글 하나, 펼치기는 제목 아래 글자 링크 */
+.screen[data-step="A4"] .pi-sec{ margin:16px 4px 12px; font-size:14px; line-height:20px; font-weight:500; color:#444746; }
+.screen[data-step="A4"] .pi-sec-desc{ margin:-8px 4px 12px; font-size:13px; line-height:18px; color:#747775; }
+.screen[data-step="A4"] .settings-body > .pi-sec:first-child{ margin-top:0; }
+.screen[data-step="A4"] .conn-item .meta{ flex-direction:column !important; align-items:flex-start !important; justify-content:center !important; gap:2px !important; }
+.screen[data-step="A4"] .pi-sub{ display:flex; align-items:center; gap:2px; font-size:13px; line-height:18px; color:#747775; }
+.screen[data-step="A4"] .pi-sub .used-dot{ font-size:13px !important; line-height:18px !important; color:#747775 !important; margin:0 !important; padding:0 !important; background:none !important; }
+.screen[data-step="A4"] .pi-sub .used-dot::before{ content:none !important; }
+.screen[data-step="A4"] .pi-link{ display:inline-flex; align-items:center; gap:2px; color:#0b57d0; font-weight:500; }
+.screen[data-step="A4"] .pi-link::before{ content:'·'; color:#747775; margin:0 4px 0 4px; font-weight:400; }
+.screen[data-step="A4"] .pi-chev{ display:inline-block; font-size:13px; line-height:1; transition:transform .2s; }
+.screen[data-step="A4"] .conn-wrap.open .pi-chev{ transform:rotate(180deg); }
+.screen[data-step="A4"] .s-card .conn-detail .a4-month, .screen[data-step="A4"] .s-card .data-chip, .screen[data-step="A4"] .chip-more, .screen[data-step="A4"] .mem-delete-trigger{ padding-left:30px !important; }
+.screen[data-step="A4"] .mem-delete-trigger{ border-top:1px solid #e3e3e3; margin-top:8px !important; padding-top:12px !important; }
+
+/* 과제 2 카드: '처리할 것(처리함)' 흰 묶음 + '남겨 둘 것' 점선 예외 + 버튼 한 줄 */
+.fxg{ background:#fff; border-radius:16px; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.fxg-div{ height:1px; background:#e3e3e3; }
+.fxr{ display:flex; align-items:center; gap:10px; }
+.fxr-text{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.fxr-h{ display:flex; align-items:center; gap:6px; font-size:14px; line-height:20px; }
+.fxr-h b{ font-weight:500; color:#1f1f1f; }
+.fxr-sub{ font-size:12px; line-height:16px; color:#444746; }
+.fxg-keep{ border:1px dashed #d0d0d0; border-radius:16px; padding:12px; margin-top:12px; }
+.fxg-foot{ display:flex; align-items:center; gap:6px; margin:8px 4px 0; font-size:12px; line-height:16px; color:#747775; }
+.fxr-act{ flex:0 0 auto; padding:6px 0 6px 8px !important; margin:0 !important; font-size:14px !important; font-weight:500 !important; color:#0b57d0 !important; }
+#b2Summary.fx-lines, .b3-lines{ display:block !important; gap:0 !important; }
+.screen[data-step="B2"] .card-foot{ display:flex !important; justify-content:space-between !important; align-items:center !important; margin-top:12px !important; }
+.screen[data-step="B2"] .card-foot .b2-toggle-link{ margin:0 !important; padding:8px 0 !important; font-size:14px !important; font-weight:500 !important; }
+.screen[data-step="B2"] .b2-toggle-link::after{ content:'' !important; }
+.screen[data-step="B2"] .ctext-name .item-count{ display:inline-flex; align-items:center; margin-left:6px; padding:1px 7px; border-radius:999px; box-shadow:inset 0 0 0 1px #e3e3e3; background:#fff; font-size:12px; line-height:16px; font-weight:500; color:#444746; vertical-align:middle; }
+.complete-card .check-row > svg{ display:none; }
+.complete-card .btn-row-h{ display:flex !important; justify-content:space-between !important; gap:8px; margin-top:4px; }
+.complete-card .btn-row-h .ghost-btn{ border:0 !important; background:none !important; padding:8px 0 !important; color:#0b57d0 !important; font-weight:500 !important; font-size:14px !important; min-height:0 !important; flex:0 0 auto !important; box-shadow:none !important; }
+
+/* 설문: 상황 이름 + 문항 수만큼 나뉜 막대, 맥락(회색) + 핵심 질문, 붙은 큰 버튼 척도, 라디오 목록 */
+.sv-progress{ display:none !important; }
+.sv-seg{ display:flex; gap:4px; margin:10px 0 0; }
+.sv-seg i{ flex:1; height:4px; border-radius:2px; background:#e3e3e3; }
+.sv-seg i.on{ background:#0b57d0; }
+.sv-title{ font-size:14px !important; font-weight:500 !important; color:#444746 !important; }
+.sv-q{ display:flex; flex-direction:column; gap:8px; font-size:22px !important; font-weight:500 !important; line-height:30px !important; letter-spacing:0 !important; color:#1f1f1f; }
+.sv-ctx{ font-size:15px; line-height:22px; font-weight:400; color:#444746; }
+.sv-full{ display:none; }
+html[lang="en"] .sv-ctx, html[lang="en"] .sv-core{ display:none; }
+html[lang="en"] .sv-full{ display:block; }
+.sv-scale{ display:flex !important; gap:0 !important; border-radius:16px; box-shadow:inset 0 0 0 1px #e3e3e3; background:#fff; overflow:hidden; }
+.sv-scale .sv-opt{ flex:1 1 0 !important; min-width:0; height:52px !important; border:0 !important; border-radius:0 !important; background:none !important; box-shadow:none !important; font-size:16px !important; font-weight:400 !important; color:#1f1f1f !important; }
+.sv-scale .sv-opt + .sv-opt{ border-left:1px solid #e3e3e3 !important; }
+.sv-scale .sv-opt.on{ background:#0b57d0 !important; color:#fff !important; font-weight:600 !important; }
+.sv-ends{ margin-top:2px !important; font-size:13px !important; color:#444746 !important; }
+.sv-ends span:first-child::before{ content:'← '; }
+.sv-ends span:last-child::after{ content:' →'; }
+.sv-choices .sv-opt{ display:flex !important; align-items:center; gap:12px; height:auto !important; min-height:56px; padding:0 16px !important; border-radius:16px !important; border:1px solid #e3e3e3 !important; background:#fff !important; box-shadow:none !important; font-size:16px !important; font-weight:400 !important; color:#1f1f1f !important; text-align:left; }
+.sv-choices .sv-opt::before{ content:''; flex:0 0 20px; height:20px; border-radius:50%; box-shadow:inset 0 0 0 2px #747775; }
+.sv-choices .sv-opt.on{ background:#eef3fd !important; border:2px solid #0b57d0 !important; font-weight:500 !important; padding:0 15px !important; }
+.sv-choices .sv-opt.on::before{ background:#0b57d0; box-shadow:inset 0 0 0 2px #0b57d0, inset 0 0 0 5px #fff; }
+.sv-nav .primary-btn{ flex:1 1 auto; }
+/* 좁은 폭(375pt 프레임)에서도 효과 패널 두 줄 유지 */
+.fx-panel{ padding:12px !important; gap:10px !important; }
+.fxp-sub, .fxr-sub{ letter-spacing:-.2px; }
+.fxp-h, .fxr-h{ letter-spacing:-.1px; }
+.sv-prev[style*="hidden"]{ display:none !important; }
+/* 휴대폰(실기기)에서는 가짜 상태바를 숨겨요 — 위 상태바 규칙(display:grid !important)보다 우선 */
+@media (max-width: 520px){ body.participant .statusbar{ display:none !important; } }
+/* 정렬 규칙: 작은 컨트롤(체크박스 · 번호 · 아이콘)은 첫 줄 글자 가운데에 */
+#sheetOverlay .li-row .cb-done{ margin-top:1.5px !important; }
+#sheetOverlay .ct-head{ align-items:flex-start !important; }
+.taskbar .tk-steps li::before{ margin-top:0 !important; }
+/* 처리한 주제: 이름 옆에 효과 칩(처리 후 규칙과 같음) */
+#sheetOverlay .ct-name{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+#sheetOverlay .ct-name .ct-count{ margin:0 !important; }

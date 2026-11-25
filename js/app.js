@@ -72,6 +72,7 @@
     B:  { ctx:'정민은 지금은 연락하지 않는 사람이에요', steps:['채팅으로 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 하기'] },
     C:  { ctx:'이사는 안 가기로 했어요', steps:['앞으로 이사 관련 정보가 답변에 쓰이지 않게 하기'] },
   };
+  const TASK_BRIEF = { A2:'정민 이야기가 왜 나왔는지 알아보고, 앞으로 답변에 쓰이지 않게 하기' };
   // 두 번째로 하는 상황 카드에만 '앞의 상황과는 별개' 문구를 보여요.
   document.querySelectorAll('.screen[data-step="SA"] .order-note').forEach(el => el.style.display = SEQ === 'BA' ? '' : 'none');
   document.querySelectorAll('.screen[data-step="SB"] .order-note').forEach(el => el.style.display = SEQ === 'AB' ? '' : 'none');
@@ -633,6 +634,32 @@
     const rows = ['sheet', 'pi'].map(w => groups[w].map(([k, t]) => `<div class="ch-row ${k}"><span class="fx-ic">${k === 'del' ? ICON_DEL : ICON_BLOCK}</span><span>${esc(I18n.t(t))}</span>${w === 'pi' ? `<span class="ch-where">${esc(I18n.t('개인 인텔리전스에서'))}</span>` : ''}</div>`).join('')).join('');
     return rows ? `<div class="ch-log"><div class="ch-title">${esc(I18n.t('변경 내역'))}</div>${rows}</div>` : '';
   }
+  // 효과 패널: 처리 전에는 '무엇이 어떻게 되는지', 처리 후에는 같은 자리에서 개수 칩 + 과거형(출처 확인 · 개인 인텔리전스 처리 합산)
+  let fxSig = '';
+  const fxChip = (kind, n, done) => `<span class="fx-chip2 ${kind}${done ? ' done' : ''}">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}${n ? `<span>${esc(n)}</span>` : ''}</span>`;
+  function effectPanel(){
+    const via = memState.via || {}, a4n = Object.keys(memState.a4 || {}).length;
+    const done = Object.keys(memState.done || {}).filter(id => A_ITEMS[id]);
+    const del = done.filter(id => fxOf(id) === 'del').length + a4n, blk = done.filter(id => fxOf(id) === 'block').length;
+    const off = Object.keys(refState).filter(k => !refState[k] && REF_NAME[k] && !(k === 'memory' && memState.all));
+    const fromPi = done.some(id => via[id] === 'pi') || a4n || memState.all || off.some(k => refVia[k] === 'pi');
+    const any = memState.all || del || blk;
+    const sig = [memState.all ? 'all' : del, blk].join('/'), flash = !!any && fxSig !== sig; fxSig = sig;
+    const cell = (kind, todo, doneTxt, n, sub) => `<div class="fxp-cell ${kind}"><div class="fxp-h">${n ? fxChip(kind, n, true) : `<span class="fxp-ic">${kind === 'del' ? ICON_DEL : ICON_BLOCK}</span>`}<b>${esc(I18n.t(n ? doneTxt : todo))}</b></div><div class="fxp-sub">${esc(I18n.t(sub))}</div></div>`;
+    const notes = off.map(k => I18n.t(`${REF_NAME[k]} 연동 끔`)).concat(fromPi ? [I18n.t('개인 인텔리전스에서 한 처리 포함')] : []);
+    return `<div class="fx-panel${any ? ' after' : ''}${flash ? ' flash' : ''}">`
+      + cell('del', '삭제돼요', '삭제됨', memState.all ? I18n.t('전체') : del ? I18n.t(`${del}건`) : '', '메모리는 다시 볼 수 없어요')
+      + '<span class="fxp-div"></span>'
+      + cell('block', '답변에만 안 써요', '답변에만 안 씀', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로')
+      + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
+  }
+  // 고른 것의 효과: '2건 삭제 · 3건 답변에만 안 씀' (개수만 효과 색)
+  function fxCounts(ids){
+    const d = ids.filter(id => fxOf(id) === 'del').length, b = ids.length - d, out = [];
+    if(d) out.push(`<b class="fx-n del">${esc(I18n.t(`${d}건`))}</b> ${esc(I18n.t('삭제'))}`);
+    if(b) out.push(`<b class="fx-n block">${esc(I18n.t(`${b}건`))}</b> ${esc(I18n.t('답변에만 안 씀'))}`);
+    return out.join(' · ');
+  }
   function renderA3(){
     if(!memState || !refState) return;
     const body = $('#a3Body'), foot = $('#a3Foot'); if(!body || !foot) return;
@@ -646,9 +673,11 @@
       return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div></div>`;
     };
     const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<span>${esc(I18n.t('메모리는 삭제돼요. 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<span>${esc(I18n.t('Gmail·캘린더는 답변에만 안 써요. 원본은 그대로예요'))}</span></div></div>` : '';
-    body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
+    body.innerHTML = effectPanel() + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
       const handled = ids.filter(aHandled);
+      // 처리한 것은 '처리함' 글자 대신 효과 패널·과제 2 결과와 같은 색 채운 효과 칩으로
+      const dN = handled.filter(id => aDone(id) && fxOf(id) === 'del').length, bN = handled.length - dN;
       const st = picked && picked === open.length ? 'checked' : picked ? 'mixed' : '';
       const left = !open.length ? '<span class="cb-done" aria-hidden="true"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
@@ -657,7 +686,7 @@
       const fx = chip('del', open.filter(id => fxOf(id) === 'del')) + chip('block', open.filter(id => fxOf(id) === 'block'));
       return `<div class="ct-group${a3Open[t] ? ' open' : ''}${a3Detail[t] ? ' detail' : ''}">
         <div class="ct-head hot" data-tag="A3 주제 펼치기 ${t}" onclick="App.a3Expand('${t}')">${left}
-          <div class="ct-text"><div class="ct-name">${esc(I18n.t(A_TOPICS[t]))} <span class="ct-count">${ids.length}건</span>${!open.length ? `<span class="ct-alldone">${esc(I18n.t('처리함'))}</span>` : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
+          <div class="ct-text"><div class="ct-name"><span>${esc(I18n.t(A_TOPICS[t]))}</span>${open.length ? `<span class="ct-count">${esc(I18n.t(`${open.length}건`))}</span>` : ''}${dN ? fxChip('del', I18n.t(`${dN}건`), true) : ''}${bN ? fxChip('block', I18n.t(`${bN}건`), true) : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
@@ -677,11 +706,11 @@
     const bar = $('#a3Bar');
     if(bar) bar.hidden = !a3Notice && allDone;
     if(bar) bar.innerHTML = a3Notice ? `<div class="ct-foot ct-foot-notice"><span class="ct-notice-msg">${esc(a3Notice)}</span><button type="button" class="text-btn ct-undo hot" data-tag="A3 되돌리기" onclick="App.undoDelete()">${esc(I18n.t('되돌리기'))}</button></div>`
-      : allDone ? '' : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
+      : allDone ? '' : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${fxCounts(selIds)}</span>` : ''}</div>
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
-        <div class="ct-apps-body"><p class="ct-apps-note">${esc(I18n.t('끄면 그 앱의 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요.'))}</p>${apps}</div>
+        <div class="ct-apps-body"><p class="ct-apps-note">${esc(I18n.t('끄면 그 앱 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요'))}</p>${apps}</div>
       </div>`;
   }
   function a3DetailToggle(t){ a3Detail[t] = !a3Detail[t]; Logger.log('a3_detail', { step: current, topic: t, open: a3Detail[t] }); renderA3(); }
@@ -704,7 +733,7 @@
     Logger.log('a3_process', { step: current, ids });
     applyMemory(); applyRefs();
     // v31 D1: 무엇이 지워졌고 무엇이 답변에서만 빠졌는지 알림에서도 나눠서 보여 줘요.
-    showSnackbar(effectText(ids, true));
+    showSnackbar(I18n.t(`${ids.length}건을 처리했어요`));
   }
   function deleteMemory(scope, ev){
     if(ev) ev.stopPropagation();
@@ -895,16 +924,31 @@
     return g;
   }
   const B_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', hold:'송금·입금 메일' };
+  // 과제 2 카드 공통: '처리할 것(처리함)' 묶음 + '남겨 둘 것' 예외. 개수는 효과 칩(승인 전 외곽선, 처리 후 색 채움)
+  function fxRow(kind, n, label, sub, done, action){
+    return `<div class="fxr ${kind}"><div class="fxr-text"><div class="fxr-h">${fxChip(kind, I18n.t(`${n}건`), done)}<b>${esc(I18n.t(label))}</b></div><div class="fxr-sub">${esc(I18n.t(sub))}</div></div>${action || ''}</div>`;
+  }
+  function blockSub(g){
+    const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
+    return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
+  }
+  function fxGroups(g, done){
+    const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
+    const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
+    const leftN = left.reduce((s, k) => s + g[k].all - g[k].on, 0), holdOnly = left.length === 1 && left[0] === 'hold';
+    const rows = [];
+    if(g.memory && g.memory.on) rows.push(fxRow('del', g.memory.on, done ? '삭제됨' : '삭제돼요', '메모리는 다시 볼 수 없어요', done));
+    if(blkN) rows.push(fxRow('block', blkN, done ? '답변에만 안 씀' : '답변에만 안 써요', blockSub(g), done));
+    let html = rows.length ? `<div class="fxg">${rows.join('<span class="fxg-div"></span>')}</div>` : '';
+    if(done && g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
+    if(leftN) html += `<div class="fxg-keep">${fxRow('keep', leftN, done ? '남겨 둠' : '남겨 둬요',
+      holdOnly ? (done ? '송금·입금 메일은 그대로 뒀어요' : '송금·입금 메일은 돈이 오간 기록이에요') : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done,
+      done && holdOnly ? `<button type="button" class="text-btn fxr-act hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">${esc(I18n.t('답변에 안 쓰기'))}</button>` : '')}</div>`;
+    return html;
+  }
   function renderB2Summary(){
     const box = $('#b2Summary'); if(!box) return;
-    const g = groupState(b2ItemState());
-    const blk = ['gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on).map(k => `${B_NAME[k]} ${g[k].on}`).join(' · ');
-    const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
-    const line = (cls, icon, label, src, t2) => `<div class="fx-line ${cls}"><span class="fx-ic">${icon}</span><div class="fx-text"><div class="fx-t1"><b>${esc(I18n.t(label))}</b><span class="fx-src">${esc(I18n.t(src))}</span></div><div class="fx-t2">${esc(I18n.t(t2))}</div></div></div>`;
-    box.innerHTML = (g.memory && g.memory.on ? line('del', ICON_DEL, '삭제돼요', `메모리 ${g.memory.on}`, '지우면 다시 볼 수 없어요') : '')
-      + (blk ? line('block', ICON_BLOCK, '답변에만 안 써요', blk, '원본은 각 앱에 그대로 둬요') : '')
-      + (left.length ? line('keep', '<span class="keep-dot"></span>', '남겨 둬요', left.map(k => `${B_NAME[k]} ${g[k].all - g[k].on}`).join(' · '),
-          left.length === 1 && left[0] === 'hold' ? '돈이 오간 기록이라 따로 뒀어요' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요') : '');
+    box.innerHTML = fxGroups(groupState(b2ItemState()), false);
   }
   // 기본 선택: 확인이 필요한 정보(data-hold)는 빼고 모두
   function setDefaultChecks(){ b2Items().forEach(cb => cb.classList.toggle('checked', !cb.dataset.hold)); syncSelectAll(); }
@@ -1056,23 +1100,12 @@
     // v31: 줄은 항목 단위 선택으로 계산해요(송금·입금 메일은 따로 한 줄).
     const st = b2Detail || b2ItemState(), g = groupState(st);
     const total = Object.values(g).reduce((a, x) => a + x.on, 0);
-    // 리뷰 반영: 같은 설명을 출처마다 반복하지 않게 효과별로 한 줄씩(삭제 / 답변에만 안 씀 / 남겨 둠)
-    const blk = ['gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on);
-    const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
-    const holdOnly = left.length === 1 && left[0] === 'hold';
-    const names = (ks, on) => ks.map(k => `${B_NAME[k]} <span class="b3-count">${on ? g[k].on : g[k].all - g[k].on}건</span>`).join('<span class="b3-sep"> · </span>');
-    const line = (cls, nameHtml, chip, desc, extra) => `<div class="b3-line${cls ? ' ' + cls : ''}"><div class="b3-main"><div class="b3-head"><span class="b3-name">${nameHtml}</span>${chip}</div><div class="b3-desc">${desc}</div>${extra || ''}</div></div>`;
-    // 효과별 한 줄씩: 이름 + 상태 칩 / 설명 한 줄
-    const lines = () => (g.memory && g.memory.on ? line('', names(['memory'], true), `<span class="st-chip del">${ICON_DEL}삭제됨</span>`, '다시 볼 수 없어요', `<div class="b3-desc muted">${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`) : '')
-      + (blk.length ? line('', names(blk, true), `<span class="st-chip block">${ICON_BLOCK}답변에만 안 씀</span>`, '원본은 각 앱에 그대로예요') : '')
-      + (left.length ? line('kept', names(left, false), `<span class="st-chip keep">남겨 둠</span>`, holdOnly ? '돈이 오간 기록이라 남겨 뒀어요' : '계속 답변에 쓰일 수 있어요',
-          holdOnly ? `<div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>` : '') : '');
-    $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines();
+    $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = fxGroups(g, true);
     const nDel = g.memory && g.memory.on ? 1 : 0;
     ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
     { const n = $('#b4Note'); if(n) n.hidden = !nDel; }
     const all = Object.values(g).reduce((a, x) => a + x.all, 0);
-    $('#b3Title').textContent = $('#b5Title').textContent = I18n.t(total < all ? `정민 관련 정보 ${all}건 중 ${total}건을 처리했어요` : `정민 관련 정보 ${total}건을 처리했어요`);
+    $('#b3Title').textContent = $('#b5Title').textContent = I18n.t(`정민 관련 정보 ${total}건을 처리했어요`);
 
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
@@ -1093,7 +1126,7 @@
     if($('.sv-opt')) renderSurvey();
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
     $$('.chip-more[data-src]').forEach(b => b.dataset.shown = 0); renderA4More();
-    applyRefs(); applyMemory();
+    applyRefs(); fxSig = ''; applyMemory();
     setDefaultChecks();
     $$('.open').forEach(el => el.classList.remove('open'));
     hideSnackbar();
@@ -1302,6 +1335,26 @@
       { id:'W-03', q:'오늘 해 본 두 방법 중 더 편했던 것은 무엇인가요?', choices:['출처 확인 화면에서 고르기', '채팅으로 요청하기', '비슷해요'] },
     ]},
   };
+  const SV_SECTION = { A:'저녁 약속 상황', B:'채팅으로 정리한 상황', C:'이사 정보 정리', S:'기능 전체에 대한 설문', W:'마지막 질문' };
+  // 문항 단어는 그대로 두고 화면에서만 '맥락(회색) + 핵심 질문(굵게)'으로 나눠 보여 줘요(기록·엑셀은 전체 문장 q).
+  const SV_SPLIT = {
+    'A-13':['정민 이야기가 나온 이유를 알아보고, 앞으로 쓰이지 않게 하는 과정은', '얼마나 어렵거나 쉬웠나요?'],
+    'A-14':['정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고', '생각하시나요?'],
+    'A-15':['앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고', '얼마나 확신하시나요?'],
+    'A-16':["'이 답변에 사용된 정보' 화면에서 보여준 정보의 양은", '어땠나요?'],
+    'B-10':['채팅으로 요청해서 정민 관련 정보를 처리하는 과정은', '얼마나 어렵거나 쉬웠나요?'],
+    'B-11':['정민 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고', '생각하시나요?'],
+    'B-12':['앞으로 Gemini 답변에 정민 관련 정보가 나오지 않을 거라고', '얼마나 확신하시나요?'],
+    'B-13':['Gemini가 보여준 정민 관련 정보 목록과 처리 결과의 정보 양은', '어땠나요?'],
+    'B-14':['처리하기 전에 무엇이 처리될지 확인하는 과정은', '얼마나 번거롭거나 수월했나요?'],
+    'C-10':['이사 관련 정보를 골라서 앞으로 쓰이지 않게 하는 과정은', '얼마나 어렵거나 쉬웠나요?'],
+    'C-11':['이사 관련 정보가 앞으로 답변에 쓰이지 않게 됐다고', '생각하시나요?'],
+    'C-12':['방금 처리로 무엇이 지워지거나 막혔고 무엇이 남았는지,', '얼마나 확실히 아시나요?'],
+    'W-01':['오늘 써 본 기능들이 실제 Gemini에 있다면,', 'Gemini가 내 정보를 답변에 쓰는 것이 지금보다 어떻게 느껴질 것 같나요?'],
+    'W-02':['오늘 전에,', 'AI가 메모리나 다른 앱 정보를 답변에 쓴다는 걸 알고 계셨나요?'],
+  };
+  const svQ = it => { const sp = SV_SPLIT[it.id] || (/^S-/.test(it.id) ? ['이 문장에 얼마나 동의하세요?', it.q] : [null, it.q]);
+    return `<div class="sv-q"><span class="sv-full">${esc(it.q)}</span>${sp[0] ? `<span class="sv-ctx">${esc(sp[0])}</span>` : ''}<span class="sv-core">${esc(sp[1])}</span></div>`; };
   function buildSurveys(){
     const end = $('.screen[data-step="END"]');
     Object.keys(SURVEY).forEach(k => {
@@ -1310,9 +1363,9 @@
       el.className = 'screen intro-screen survey-screen'; el.dataset.step = 'Q' + k;
       const total = sv.items.length;
       el.innerHTML = `<div class="survey-body">
-        <div class="sv-top"><span class="sv-title">${esc(sv.title)}</span><span class="sv-count" id="svCount${k}">1 / ${total}</span></div>
-        <div class="sv-progress"><i id="svBar${k}"></i></div>
-        ${sv.items.map((it, n) => `<div class="sv-item" data-sv="${k}" data-n="${n}"><div class="sv-q">${esc(it.q)}</div>
+        <div class="sv-top"><span class="sv-title">${esc(SV_SECTION[k] || sv.title)}</span><span class="sv-count" id="svCount${k}">1 / ${total}</span></div>
+        <div class="sv-seg" id="svSeg${k}">${sv.items.map(() => '<i></i>').join('')}</div>
+        ${sv.items.map((it, n) => `<div class="sv-item" data-sv="${k}" data-n="${n}">${svQ(it)}
           ${it.scale ? `<div class="sv-scale">${it.scale.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${v}" onclick="App.pickSurvey('${it.id}', ${v})">${v}</button>`).join('')}</div>
             <div class="sv-ends"><span>${esc(it.lo)}</span>${it.mid ? `<span>${esc(it.mid)}</span>` : ''}<span>${esc(it.hi)}</span></div>`
           : `<div class="sv-choices">${it.choices.map(v => `<button type="button" class="sv-opt hot" data-tag="설문 ${it.id}=${v}" data-id="${it.id}" data-v="${esc(v)}" onclick="App.pickSurvey('${it.id}', '${esc(v)}')">${esc(v)}</button>`).join('')}</div>`}
@@ -1337,7 +1390,7 @@
       const i = svIdx[k];
       $$(`.sv-item[data-sv="${k}"]`).forEach(el => el.classList.toggle('cur', +el.dataset.n === i));
       const cnt = $('#svCount' + k); if(cnt) cnt.textContent = `${i + 1} / ${total}`;
-      const bar = $('#svBar' + k); if(bar) bar.style.width = `${(i + 1) / total * 100}%`;
+      $$(`#svSeg${k} i`).forEach((s, n) => s.classList.toggle('on', n <= i));
       const prev = $('#svPrev' + k); if(prev) prev.style.visibility = i ? 'visible' : 'hidden';
       const btn = $('#svNext' + k);
       if(btn){ btn.disabled = svDraft[items[i].id] === undefined; btn.textContent = I18n.t(i === total - 1 ? '완료' : '다음'); }
@@ -1497,14 +1550,14 @@
     ],
     'a-first': [{ id:'A-01', q:'방금 답변을 보고 어떤 생각이 드세요?', m:'첫 반응만 듣고 넘어가기 · A-17 메모' }],
     'a-sheet': [{ id:'A-05', q:'이 화면을 보고, 어떻게 하실 생각이세요?', m:'조작 전 의도 · 이후 조작 중에는 묻지 않기 (A-05, A-06)' }],
-    'post-task-A': [{ id:'A-12', q:'지금 정민과 관련된 정보는 어떻게 됐을 것 같나요? 생각나는 대로 말씀해 주세요.', m:'지워진 것 / 그대로 있는 것을 스스로 나눠 말하는지' }],
+    'post-task-A': [{ id:'A-12', q:'지금 정민과 관련된 정보는 어떻게 됐을 것 같나요?', m:'지워진 것 / 그대로 있는 것을 스스로 나눠 말하는지' }],
     'post-survey-A': [
       { id:'A-08', q:'처음 답변에 정민 이야기가 왜 나왔다고 생각하세요?' },
       { id:'A-09', when: () => offApps().length > 0, q: () => `아까 ${offApps().join(', ')} 스위치를 끄셨어요. 끄면 어떤 정보가 답변에 안 쓰이게 될까요?`, m:'정답: 앱 전체 · 스위치를 안 껐으면 이 질문은 안 나오고 "토글 안 씀"' },
       { id:'A-10', when: () => Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length > 0, q:"'삭제'로 처리한 것과 '답변에만 안 씀'으로 처리한 것은 어떻게 다를까요?", m:'정답: 삭제는 사라짐 · 답변에만 안 씀은 원본은 남고 답변에만 안 쓰임' },
     ],
     'pre-B': [{ id:'B-00', q:'실제 Gemini에서 정민 관련 정보가 앞으로 답변에 안 나오게 하고 싶다면, 어떻게 해 보실 것 같으세요?', m:'채팅 요청을 스스로 떠올리는지' }],
-    'post-task-B': [{ id:'B-09', q:'지금 정민과 관련된 정보는 어떻게 됐을 것 같나요? 생각나는 대로 말씀해 주세요.', m:'지워진 것 / 그대로 있는 것을 스스로 나눠 말하는지' }],
+    'post-task-B': [{ id:'B-09', q:'지금 정민과 관련된 정보는 어떻게 됐을 것 같나요?', m:'지워진 것 / 그대로 있는 것을 스스로 나눠 말하는지' }],
     'post-survey-B': [{ id:'B-08', q:'Gmail과 캘린더에 있던 정민 관련 메일과 일정은 지금 어떻게 됐을 것 같나요?', m:'정답: 원본은 남고 답변에만 안 쓰임' }],
     wrap: [
       // 고른 답 두 개를 한 번에 묻지 않고 하나씩
@@ -1562,6 +1615,9 @@
     const a = view !== undefined ? view : askCur, box = $('#askBanner'); if(!box) return;
     box.hidden = !a;
     const block = $('#askBlock'); if(block) block.hidden = !(a && a.gate);
+    // 질문이 떠 있는 동안 과제 카드 전체가 질문 카드가 돼요(버튼은 '답했어요' 하나, 할 일은 한 줄로 접힘)
+    const tb = $('#taskbar'); if(tb) tb.classList.toggle('asking', !!a);
+    const mark = $('#taskAskMark'); if(mark && a) mark.textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문');
     if(a){ $('#askBadge').textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문'); $('#askText').textContent = I18n.t(a.q); }
   }
   // 답하기 전에 프로토타입을 누르면 질문 상자를 깜빡여 알려 줘요
@@ -1615,7 +1671,7 @@
         $('#holdBadge').textContent = I18n.t(qs.length > 1 ? `진행자 질문 ${(h.i || 0) + 1} / ${qs.length}` : '진행자 질문');
         $('#holdBadge').hidden = false;
         $('#holdTitle').textContent = I18n.t(q.q);
-        $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요.');
+        $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요');
         // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요. 그동안 남은 초를 보여 줘요.
         const btn = $('#holdBtn'), key = `${h.kind}:${h.i || 0}`, label = I18n.t(last ? '계속' : '다음 질문');
         if(view === undefined && btn.dataset.qk !== key){
@@ -1893,7 +1949,8 @@
       const t = TASK_TEXT[key];
       const steps = t.steps.length > 1 ? `<ol class="tk-steps">${t.steps.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ol>` : `<div class="tk-main">${esc(I18n.t(t.steps[0]))}</div>`;
       // 상황 카드와 같은 덩어리: 상황(회색 상자) → 할 일(라벨 + 굵은 문장)
-      $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx-box"><div class="tk-sec">${esc(I18n.t('상황'))}</div><div class="tk-ctx">${esc(I18n.t(t.ctx))}</div></div>` : '') + `<div class="tk-sec">${esc(I18n.t('할 일'))}</div>` + steps;
+      $('#taskText').innerHTML = (t.ctx ? `<div class="tk-ctx-box"><div class="tk-sec">${esc(I18n.t('상황'))}</div><div class="tk-ctx">${esc(I18n.t(t.ctx))}</div></div>` : '') + `<div class="tk-sec">${esc(I18n.t('할 일'))}</div>` + steps
+        + `<div class="tk-oneline"><span class="tk-sec">${esc(I18n.t('할 일'))}</span><span class="tk-one">${esc(I18n.t(TASK_BRIEF[key] || t.steps.join(' ')))}</span></div>`;
       $('#taskLabel').textContent = I18n.t(phase === FIRST ? '과제 1 / 2' : '과제 2 / 2');
       if(M.flash){
         M.flash = false;

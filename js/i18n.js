@@ -811,6 +811,48 @@
   messages["다시 고르기"] = "Pick again";
   messages["메모리는 삭제돼요. 다시 볼 수 없어요"] = "Memory is deleted and can't be seen again";
   messages["Gmail·캘린더는 답변에만 안 써요. 원본은 그대로예요"] = "Gmail and Calendar are only kept out of answers; originals stay";
+  messages["개선 컨셉 테스트"] = 'Improvement concept test';
+  messages["실제 서비스가 아닌 연구용 화면이에요"] = 'This is a research screen, not a real service';
+  messages["이름·일정은 모두 가상이에요"] = 'All names and events are fictional';
+  messages["정답은 없어요. 평소처럼 써 주세요"] = 'There are no right answers. Use it as you normally would';
+  messages["화면과 목소리를 녹화해요"] = 'Your screen and voice are recorded';
+  messages["누른 곳 · 입력 · 응답이 기록돼요"] = 'Taps, typing and answers are logged';
+  messages["언제든 중단할 수 있어요"] = 'You can stop at any time';
+  messages["위 내용에 동의해요"] = 'I agree to the above';
+  messages["퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요"] = "After work, you're on the sofa and open Gemini to find a place for dinner this week";
+  messages["그대로 보내 주세요"] = 'send the pre-filled question as is';
+  messages["답변을 살펴봐 주세요"] = 'Look through the answer';
+  messages["Gemini가 정민과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요"] = "Gemini remembers information about Jeongmin. You're no longer in touch with Jeongmin";
+  messages[", 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요"] = " so that Jeongmin info isn't used in future answers";
+  messages["요청 문장은 평소 말하듯 자유롭게 입력하면 돼요"] = "Type the request however you'd normally say it";
+  messages["앞으로 답변에 쓰지 않을 정보를 골라 주세요"] = "Choose the info you don't want used in future answers";
+  messages["말로 답한 뒤 아래 버튼을 눌러 주세요"] = 'Answer out loud, then tap the button below';
+  messages["진행자 질문 · 힌트"] = 'Moderator question · hint';
+  messages["정민 이야기가 왜 나왔는지 알아보고, 앞으로 답변에 쓰이지 않게 하기"] = 'Find out why Jeongmin came up and keep it out of future answers';
+  messages["메모리는 다시 볼 수 없어요"] = "Memory can't be seen again";
+  messages["Gmail·캘린더는 원본 그대로"] = 'Gmail & Calendar originals stay';
+  messages["Gmail은 원본 그대로"] = 'Gmail originals stay';
+  messages["캘린더는 원본 그대로"] = 'Calendar originals stay';
+  messages["개인 인텔리전스에서 한 처리 포함"] = 'Includes changes made in Personal Intelligence';
+  messages["전체"] = 'All';
+  messages["송금·입금 메일은 돈이 오간 기록이에요"] = 'Payment emails are money records';
+  messages["송금·입금 메일은 그대로 뒀어요"] = 'Payment emails were kept';
+  messages["답변에 안 쓰기"] = 'Keep out of answers';
+  messages["Gemini가 기억하는 정보"] = 'What Gemini remembers';
+  messages["끄면 그 앱 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요"] = 'When off, nothing from that app is used in answers. Mail and events stay as they are';
+  messages["항목 보기"] = 'View items';
+  messages["보기"] = 'View';
+  messages["메일 130건"] = '130 emails';
+  messages["일정 36건"] = '36 events';
+  messages["이 답변엔 쓰이지 않았어요"] = 'Not used in this answer';
+  messages["정민 관련 정보 20건을 찾았어요"] = 'Found 20 items related to Jeongmin';
+  messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요"] = 'Memory is deleted; Gmail and Calendar are only kept out of answers';
+  messages["지금 정민과 관련된 정보는 어떻게 됐을 것 같나요?"] = 'What do you think has happened to the information about Jeongmin?';
+  messages["생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요"] = 'Answer out loud in your own words, then tap the button below';
+  messages["저녁 약속 상황"] = 'Dinner plans';
+  messages["채팅으로 정리한 상황"] = 'Cleaning up via chat';
+  messages["이사 정보 정리"] = 'Moving info';
+  messages["이 문장에 얼마나 동의하세요?"] = 'How much do you agree?';
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -838,6 +880,9 @@
       .replace(/^(\d+)건 답변에만? 안 씀$/, (_, n) => `${items(n)} kept out of answers`)
       .replace(/^정민 관련 정보 (\d+)건 중 (\d+)건을 처리했어요$/, (_, a, n) => `Handled ${n} of ${a} items about Jeongmin`)
       .replace(/^(\d+)초 뒤에 누를 수 있어요$/, 'Available in $1s')
+      .replace(/^(\d+)건을 처리했어요$/, (_, n) => `Handled ${items(n)}`)
+      .replace(/^(\d+)건$/, '$1')
+      .replace(/^(\S+) 연동 끔$/, '$1 turned off')
       .replace(/^항목 (\d+)건 보기$/, (_, n) => `Show ${items(n)}`)
       .replace(/^(.+) 연동 끔$/, '$1 disconnected')
       .replace(/^(.+) 답변에만? 안 씀$/, '$1 · kept out of answers')
