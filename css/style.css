@@ -1826,3 +1826,26 @@ html[lang="en"] .sv-full{ display:block; }
 .screen[data-step="B3"] .complete-card, .screen[data-step="B5"] .complete-card{ background:#f2f0f0 !important; border:0 !important; box-shadow:none !important; border-radius:24px !important; padding:16px !important; }
 .screen[data-step="B2"] .check-item-expand{ padding-left:33px !important; }
 .screen[data-step="B2"] .check-item-expand .ctext-detail{ padding:6px 0 !important; }
+/* 과제 2 카드 더 가볍게: 두 칸(출처 시트 효과 패널과 같은 구조) + 남길 정보 한 줄 + 버튼 오른쪽에 모음(높이 40) */
+.fxc{ display:flex; align-items:stretch; gap:12px; }
+.fxc-cell{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
+.fxc-cell b{ font-size:14px; line-height:20px; font-weight:500; color:#1f1f1f; margin-top:0; }
+.fxc-sub{ font-size:12px; line-height:16px; color:#444746; letter-spacing:-.2px; margin-top:-4px; }
+.fxc-div{ flex:0 0 1px; width:1px; background:#e3e3e3; }
+.fxk{ display:flex; align-items:center; gap:8px; border-top:1px solid #e3e3e3; padding-top:12px; margin-top:12px; }
+.fxk-t{ flex:1; min-width:0; font-size:13px; line-height:18px; color:#444746; }
+.fxk .fxr-act{ padding:10px 0 10px 8px !important; }
+.screen[data-step="B2"] .card-foot{ justify-content:flex-end !important; gap:8px !important; }
+.screen[data-step="B2"] .card-foot .b2-toggle-link{ padding:10px 12px !important; }
+.screen[data-step="B2"] #b2ProcessBtn{ height:40px !important; min-height:0 !important; padding:0 24px !important; font-size:14px !important; border-radius:999px !important; }
+.complete-card .btn-row-h{ justify-content:flex-end !important; gap:8px !important; }
+.complete-card .btn-row-h .ghost-btn{ padding:10px 12px !important; }
+/* Gemini 답변 카드처럼 채팅 폭을 꽉 채움 → 두 칸 설명이 한 줄에 들어가게 */
+.screen[data-step="B2"] .ai-card, .screen[data-step="B3"] .complete-card, .screen[data-step="B5"] .complete-card{ max-width:100% !important; width:100% !important; align-self:stretch !important; box-sizing:border-box; }
+.fxc{ gap:10px; }
+.fxc-sub{ display:block !important; line-height:16px !important; white-space:normal; }
+.fxc-cell b{ display:block; line-height:20px !important; }
+.fxk-t{ line-height:18px !important; }
+.fxc{ gap:8px !important; }
+.fxc-sub{ letter-spacing:-.3px !important; }
+.fxc-sub{ white-space:nowrap !important; }

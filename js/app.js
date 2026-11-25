@@ -932,18 +932,22 @@
     const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
     return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
   }
+  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널처럼 두 칸, 남길 정보는 한 줄, 승인 전 외곽선 칩 → 처리 후 색 채운 칩
   function fxGroups(g, done){
     const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
     const leftN = left.reduce((s, k) => s + g[k].all - g[k].on, 0), holdOnly = left.length === 1 && left[0] === 'hold';
-    const rows = [];
-    if(g.memory && g.memory.on) rows.push(fxRow('del', g.memory.on, done ? '삭제됨' : '삭제돼요', '메모리는 다시 볼 수 없어요', done));
-    if(blkN) rows.push(fxRow('block', blkN, done ? '답변에만 안 씀' : '답변에만 안 써요', blockSub(g), done));
-    let html = rows.length ? `<div class="fxg">${rows.join('<span class="fxg-div"></span>')}</div>` : '';
+    const cell = (kind, n, label, sub) => `<div class="fxc-cell ${kind}">${fxChip(kind, I18n.t(`${n}건`), done)}<b>${esc(I18n.t(label))}</b><span class="fxc-sub">${esc(I18n.t(sub))}</span></div>`;
+    const cells = [];
+    if(g.memory && g.memory.on) cells.push(cell('del', g.memory.on, done ? '삭제됨' : '삭제돼요', '메모리는 다시 볼 수 없어요'));
+    if(blkN) cells.push(cell('block', blkN, done ? '답변에만 안 씀' : '답변에만 안 써요', blockSub(g)));
+    let html = cells.length ? `<div class="fxc">${cells.join('<span class="fxc-div"></span>')}</div>` : '';
     if(done && g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
-    if(leftN) html += `<div class="fxg-keep"><div class="fxg-label">${esc(I18n.t('남겨 둘 것'))}</div>${fxRow('keep', leftN, done ? '남겨 둠' : '남겨 둬요',
-      holdOnly ? (done ? '송금·입금 메일은 그대로 뒀어요' : '송금·입금 메일은 돈이 오간 기록이에요') : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done,
-      done && holdOnly ? `<button type="button" class="text-btn fxr-act hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">${esc(I18n.t('답변에 안 쓰기'))}</button>` : '')}</div>`;
+    if(leftN){
+      const txt = holdOnly ? (done ? `송금·입금 메일 ${leftN}건은 남겨 뒀어요` : `송금·입금 메일 ${leftN}건은 남겨 둬요 · 돈이 오간 기록`)
+        : (done ? `고르지 않은 ${leftN}건은 남겨 뒀어요 · 계속 답변에 쓰일 수 있어요` : `고르지 않은 ${leftN}건은 남겨 둬요 · 계속 답변에 쓰일 수 있어요`);
+      html += `<div class="fxk"><span class="fxk-t">${esc(I18n.t(txt))}</span>${done && holdOnly ? `<button type="button" class="text-btn fxr-act hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">${esc(I18n.t('답변에 안 쓰기'))}</button>` : ''}</div>`;
+    }
     return html;
   }
   function renderB2Summary(){
