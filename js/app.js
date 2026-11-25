@@ -278,10 +278,10 @@
             if(!M.sourceFoundMs && current === 'A2' && !hold){ M.hintA = performance.now(); askBanner('A-04', '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?', { hint: true }); }
           }, 60000));
         };
-        // A-01: 답변을 읽을 시간(8초)을 준 뒤 화면을 막지 않는 배너로 묻고, '답했어요'를 누르면 과제 목표를 보여 줘요.
+        // A-01: 답변이 끝나고 2.5초 뒤 과제 안내 카드 안에 묻고(화면은 안 가림), '답했어요'를 누르면 과제 목표를 보여 줘요.
         if(MODE === 'participant' && ASK_INTASK && !M.askedA01){
           M.askedA01 = true;
-          askTimers.push(setTimeout(() => { if(current === 'A2' && !M.aGoal) askBanner('A-01', '방금 답변을 보고 어떤 생각이 드세요?', { after: goalThenHint }); else if(!M.aGoal) goalThenHint(); }, 8000));
+          askTimers.push(setTimeout(() => { if(current === 'A2' && !M.aGoal) askBanner('A-01', '방금 답변을 보고 어떤 생각이 드세요?', { after: goalThenHint }); else if(!M.aGoal) goalThenHint(); }, 2500));
         }else goalThenHint();
       }
     }
@@ -1474,7 +1474,11 @@
   // 질문 문구 원칙: 한 번에 하나만 묻기 · 무엇을 답하면 되는지 분명하게 · 전제 깔지 않기 · 화면에 없는 말(토글·연동) 대신 참가자가 본 말 쓰기
   const offApps = () => Object.keys(refState).filter(k => !refState[k]).map(k => REF_NAME[k]);
   const ASK = {
-    intro:  [{ id:'I-02', q:'AI 챗봇에 다른 사람 이야기나 약속처럼 개인적인 내용을 말해 본 적이 있나요? 있다면, 그때 어떤 생각이 들었나요?', m:'경험 유무 → 그때 느낌 (없으면 "없다"로 넘어가기)' }],
+    // '어떤 생각이 들었나요?'는 무엇을 답할지 막막해서, 경험(무엇을 말했나)과 신경 쓰이는 점(민감도)으로 나눠 구체적으로 물어요.
+    intro:  [
+      { id:'I-02', q:'AI 챗봇에 다른 사람 이야기나 약속처럼 개인적인 내용을 말해 본 적이 있나요? 있다면 어떤 내용이었나요?', m:'경험 유무와 내용 (없으면 "없다"로 넘어가기)' },
+      { id:'I-02b', q:'AI에게 그런 이야기를 할 때 신경 쓰이는 점이 있나요? 있다면 무엇인가요?', m:'민감도 기준선 · 말해 본 적 없어도 답할 수 있게 현재형' },
+    ],
     'a-first': [{ id:'A-01', q:'방금 답변을 보고 어떤 생각이 드세요?', m:'첫 반응만 듣고 넘어가기 · A-17 메모' }],
     'a-sheet': [{ id:'A-05', q:'이 화면을 보고, 어떻게 하실 생각이세요?', m:'조작 전 의도 · 이후 조작 중에는 묻지 않기 (A-05, A-06)' }],
     'post-task-A': [{ id:'A-12', q:'지금 정민과 관련된 정보는 어떻게 됐을 것 같나요? 생각나는 대로 말씀해 주세요.', m:'지워진 것 / 그대로 있는 것을 스스로 나눠 말하는지' }],
@@ -1639,12 +1643,12 @@
     A1B: { watch:["참가자가 질문을 보내게 두기"] },
     A1C: { watch:["기다리는 동안의 반응"] },
     A2: { now: ASK_INTASK ? null : ["(필수 · 답변을 다 읽은 걸 확인한 뒤, 목표를 주기 전에) 방금 답변을 보고 어떤 생각이 드세요? (A-01)"],
-          auto: ASK_INTASK ? ["A-01은 답변이 끝나고 8초 뒤, A-04 힌트는 목표 뒤 60초 동안 못 찾으면 화면 위쪽 배너로 자동 표시"] : null,
+          auto: ASK_INTASK ? ["A-01은 답변이 끝나고 2.5초 뒤, A-04 힌트는 목표 뒤 60초 동안 못 찾으면 과제 안내 카드 안에 자동 표시"] : null,
           say:["참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 알아보고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요."],
           watch:["'출처 확인'을 스스로 찾는지 (A-02)"],
           help:["60초 막히면 한 번: 이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요? (A-04)"] },
     A3: { now: ASK_INTASK ? null : ["(필수 · 시트를 열면 바로, 조작하기 전에) 어떻게 하실 생각이세요? (A-05)"],
-          auto: ASK_INTASK ? ["A-05는 시트를 처음 열면 화면 위쪽 배너로 자동 표시 · 조작하는 동안에는 더 묻지 않기"] : null,
+          auto: ASK_INTASK ? ["A-05는 시트를 처음 열면 과제 안내 카드 안에 자동 표시 · 조작하는 동안에는 더 묻지 않기"] : null,
           watch:["조작하는 동안에는 묻지 않기 · 이해 질문(A-08~A-10)은 과제 완료 뒤 설문 다음에"] },
     A4: { first:["(스스로 들어왔을 때만) 이 화면은 무엇을 보여 주는 것 같으세요? (A-07)"] },
     QA: { first:["(설문 전) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요? (A-12)"],
@@ -1693,7 +1697,7 @@
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
     const hq = holdQuestions(hold || remoteHold);
     const ab = askCur || remoteAsk;
-    if(ab) hq.unshift(`▶ ${ab.id} ${ab.q} (화면 위쪽 배너${ab.hint ? ' · 힌트 = 도움으로 기록' : ''})`);
+    if(ab) hq.unshift(`▶ ${ab.id} ${ab.q} (과제 안내 카드${ab.hint ? ' · 힌트 = 도움으로 기록' : ''})`);
     box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('now', '지금 말로 묻기 (필수)', g.now) + sec('watch', '화면에 자동으로 뜨는 질문', g.auto) + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }

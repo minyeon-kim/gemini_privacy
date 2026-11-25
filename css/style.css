@@ -1433,3 +1433,15 @@ body.holding .taskbar{ display:none !important; }
   -webkit-mask-image:linear-gradient(to bottom, #000 62%, transparent); mask-image:linear-gradient(to bottom, #000 62%, transparent); }
 .chat-screen.grad::before{ background:linear-gradient(to bottom, rgba(248,248,249,.94) 0%, rgba(248,248,249,.86) 55%, rgba(248,248,249,0) 100%); }
 .ask-banner{ top:calc(var(--sb) + 8px); }
+/* 과제 도중 진행자 질문: 휴대폰 화면 밖, 과제 안내 카드 안 (화면을 전혀 가리지 않음) */
+.taskbar .ask-banner{ position:static !important; z-index:auto; flex-direction:column; align-items:stretch; gap:10px; padding:14px; border-radius:16px; background:#fef7e0; color:#1f1f1f; box-shadow:none; border:1px solid #fbe3a3; animation:tkFlash 1.2s ease 0s 2; }
+.taskbar .ask-banner[hidden]{ display:none !important; }
+.taskbar .ask-badge{ color:#b06000; font-size:12.5px; font-weight:700; }
+.taskbar .ask-text{ font-size:16px; font-weight:600; line-height:1.45; }
+.taskbar .ask-done{ width:100%; min-height:44px; background:#1f1f1f; color:#fff; }
+.taskbar .ask-done:disabled{ background:#e3e3e3; color:#747775; }
+@media (max-width: 520px){
+  body.participant .taskbar .ask-banner{ position:absolute !important; left:0; right:0; top:100%; z-index:71; border-radius:0 0 16px 16px; flex-direction:row; align-items:center; padding:12px 14px; }
+  body.participant .taskbar .ask-done{ width:auto; padding:0 16px; }
+  body.participant .taskbar .ask-text{ font-size:15px; }
+}
