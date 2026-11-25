@@ -714,6 +714,21 @@
   messages["Gmail에 정민 님이 함께한 항공 예약, 송금 메일이 있어요."] = "Gmail has a flight booking with Jeongmin and payment emails.";
   messages["네, 좋아요. 조금 더 자세히 알려 주시면 도와드릴게요."] = "Sure. Tell me a bit more and I'll help.";
   messages["정민 님 관련 정보는 이미 정리했어요. 지금은 답변에 쓰지 않아요."] = "Jeongmin info has already been handled. It isn't used in answers now.";
+  messages["잠깐 질문"] = "Quick question";
+  messages["다음 질문"] = "Next question";
+  messages["생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요."] = "Answer out loud in your own words. When you're done, tap the button below.";
+  messages["AI에게 사람이나 일정 같은 개인적인 이야기를 해 본 적 있으세요? 그때 어떠셨어요?"] = "Have you ever told an AI something personal, like about a person or your schedule? How did that feel?";
+  messages["방금 답변을 보고 어떤 생각이 드세요?"] = "What do you think about the answer you just saw?";
+  messages["이 화면을 보고, 어떻게 하실 생각이세요?"] = "Looking at this screen, what are you planning to do?";
+  messages["지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?"] = "Of the Jeongmin info, what do you think is gone now and what is still there?";
+  messages["이 답변에 정민 이야기가 왜 나왔는지 설명해 주실 수 있나요?"] = "Can you explain why Jeongmin came up in that answer?";
+  messages["앱 연동 토글을 끄면 어떤 정보가 영향을 받을까요?"] = "When you turn off an app connection toggle, what info is affected?";
+  messages["지운 것과 '답변에 안 씀'으로 처리한 것은 각각 어떻게 될까요?"] = "What happens to what you deleted, and to what you set to 'Not used in answers'?";
+  messages["정민 관련 정보를 앞으로 답변에 안 쓰이게 하고 싶다면, 평소라면 어떻게 하실 것 같으세요?"] = "If you wanted Jeongmin info kept out of future answers, how would you normally go about it?";
+  messages["Gmail과 캘린더의 정민 정보는 지금 어떤 상태일까요?"] = "What state is the Jeongmin info in Gmail and Calendar in now?";
+  messages["방금 고르신 답을 그렇게 고르신 이유는 무엇인가요?"] = "Why did you choose the answers you just picked?";
+  messages["오늘 가장 헷갈리거나 불편했던 순간은 언제였나요?"] = "What was the most confusing or uncomfortable moment today?";
+  messages["하나만 바꿀 수 있다면 무엇을 바꾸고 싶으세요?"] = "If you could change just one thing, what would it be?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -742,6 +757,8 @@
       .replace(/^(.+) 답변에 안 씀$/, '$1 · not used in answers')
       .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
       .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
+      .replace(/^질문 (\d+) \/ (\d+)$/, 'Question $1 / $2')
+      .replace(/^방금 '(.+)', '(.+)'를 고르셨어요\. 그렇게 고르신 이유는 무엇인가요\?$/, 'You just picked "$1" and "$2". Why did you choose those?')
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
       .replace(/^(\d+)건 처리$/, (_, n) => `Process ${items(n)}`)
       .replace(/^정보 (\d+)건 처리됨$/, (_, n) => `${items(n)} handled`)

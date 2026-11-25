@@ -160,6 +160,11 @@
     const d = STEPS[step];
     if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END'){ onEnd(); celebrate(); }
+    // v31: 출처 시트를 처음 열면, 조작하기 전에 의도 질문(A-05)을 시트 위에 띄워요.
+    if(step === 'A3' && MODE === 'participant' && !M.askedA05){
+      M.askedA05 = true;
+      setTimeout(() => { if(current === 'A3' && !hold) holdThen('a-sheet', 'A', null, 'sheet-open', { overlay: true }); }, 700);
+    }
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
@@ -252,7 +257,12 @@
     if(responseVisible < parts.length) responseTimer = setTimeout(advanceResponse, REVEAL_MS / Math.max(1, parts.length - 1));
     else {
       M.a2Enter = performance.now(); Logger.log('response_complete', {step:current});
-      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); }
+      if(!M.aGoal){
+        const showGoal = () => { M.aGoal = true; M.a2Enter = performance.now(); if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); };
+        // v31: 참가자 모드에서는 첫 반응 질문(A-01)을 먼저 띄우고, 닫으면 과제 목표를 보여 줘요(출처 확인 발견 시간도 이때부터).
+        if(MODE === 'participant' && !M.askedA01){ M.askedA01 = true; holdThen('a-first', 'A', null, 'response', { overlay: true, after: showGoal }); }
+        else showGoal();
+      }
     }
   }
 
@@ -322,6 +332,7 @@
     stepEnteredAt = performance.now();
     renderSession();
     go(firstStep(FIRST), 'start');
+    holdThen('intro', '-', null, 'start');   // 참가자 모드: 도입 질문(I-02)
   }
 
   function newSession(){
@@ -1065,7 +1076,7 @@
       c: window.TaskC ? TaskC.snapshot() : null,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
-      hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next } : null,
+      hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next, qs: hold.qs, i: hold.i, overlay: hold.overlay } : null,
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
     };
   }
@@ -1395,34 +1406,95 @@
     'post-survey': { badge:'설문을 마쳤어요', title:'진행자가 몇 가지 질문을 드릴 거예요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
     'wrap':        { badge:'거의 끝났어요', title:'마지막으로 진행자가 몇 가지 여쭤볼게요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
   };
-  let hold = null;   // { kind, phase, next, why }
-  function holdThen(kind, phase, next, why){
-    if(MODE !== 'participant'){ go(next, why); return; }
-    hold = { kind, phase, next, why };
+  /* v31: 필수 질문을 참가자 화면에 순서대로 하나씩 띄워요(프로토콜 '진행' 시트의 필수 질문과 같은 순서).
+     참가자는 말로 답하고 '다음'을 눌러요. 진행자는 패널에서 지금 질문을 보고 필요하면 더 물어요.
+     q = 참가자 화면 문장, m = 진행자 패널에만 보이는 메모(정답 · 기록 칸). when = 조건이 맞을 때만 물어요. */
+  const ASK = {
+    intro:  [{ id:'I-02', q:'AI에게 사람이나 일정 같은 개인적인 이야기를 해 본 적 있으세요? 그때 어떠셨어요?' }],
+    'a-first': [{ id:'A-01', q:'방금 답변을 보고 어떤 생각이 드세요?', m:'첫 반응만 듣고 넘어가기 · A-17 메모' }],
+    'a-sheet': [{ id:'A-05', q:'이 화면을 보고, 어떻게 하실 생각이세요?', m:'조작 전 의도 · 이후 조작 중에는 묻지 않기 (A-05, A-06)' }],
+    'post-task-A': [{ id:'A-12', q:'지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' }],
+    'post-survey-A': [
+      { id:'A-08', q:'이 답변에 정민 이야기가 왜 나왔는지 설명해 주실 수 있나요?' },
+      { id:'A-09', when: () => Object.keys(refState).some(k => !refState[k]), q:'앱 연동 토글을 끄면 어떤 정보가 영향을 받을까요?', m:'정답: 앱 전체 · 토글을 안 껐으면 이 질문은 안 나오고 "토글 안 씀"' },
+      { id:'A-10', when: () => Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length > 0, q:"지운 것과 '답변에 안 씀'으로 처리한 것은 각각 어떻게 될까요?", m:'정답: 지운 것은 사라짐 · 답변에 안 씀은 원본은 남고 답변에만 안 쓰임' },
+    ],
+    'pre-B': [{ id:'B-00', q:'정민 관련 정보를 앞으로 답변에 안 쓰이게 하고 싶다면, 평소라면 어떻게 하실 것 같으세요?', m:'채팅 요청을 스스로 떠올리는지' }],
+    'post-task-B': [{ id:'B-09', q:'지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' }],
+    'post-survey-B': [{ id:'B-08', q:'Gmail과 캘린더의 정민 정보는 지금 어떤 상태일까요?', m:'정답: 원본은 남고 답변에만 안 쓰임' }],
+    wrap: [
+      { id:'W-04', q: () => { const w = survey.W || {}; return w['W-01'] && w['W-03'] ? `방금 '${w['W-01']}', '${w['W-03']}'를 고르셨어요. 그렇게 고르신 이유는 무엇인가요?` : '방금 고르신 답을 그렇게 고르신 이유는 무엇인가요?'; } },
+      { id:'W-05', q:'오늘 가장 헷갈리거나 불편했던 순간은 언제였나요?' },
+      { id:'W-07', q:'하나만 바꿀 수 있다면 무엇을 바꾸고 싶으세요?' },
+    ],
+  };
+  function askList(kind, phase, next){
+    const key = kind === 'post-task' || kind === 'post-survey' ? `${kind}-${phase}` : kind;
+    let list = (ASK[key] || []).slice();
+    if(kind === 'post-survey' && next === firstStep('B')) list = list.concat(ASK['pre-B']);   // 과제 2를 시작하기 전에 B-00
+    return list.filter(it => !it.when || it.when()).map(it => ({ id: it.id, q: typeof it.q === 'function' ? it.q() : it.q, m: it.m || '' }));
+  }
+  let hold = null;   // { kind, phase, next, why, qs, i, overlay }
+  let holdAfter = null;   // 질문이 끝난 뒤 할 일(이 기기에서만)
+  let holdWaitTimer = null;
+  function holdThen(kind, phase, next, why, opts){
+    opts = opts || {};
+    if(MODE !== 'participant'){ if(next) go(next, why); else if(opts.after) opts.after(); return; }
+    const qs = askList(kind, phase, next);
+    if(!qs.length && !HOLD_TEXT[kind]){ if(next) go(next, why); else if(opts.after) opts.after(); return; }
+    hold = { kind, phase, next, why, qs, i: 0, overlay: !!opts.overlay };
+    holdAfter = opts.after || null;
     renderHold();
-    Logger.log('hold_show', { step: current, kind, phase, next });
+    Logger.log('hold_show', { step: current, kind, phase, next, questions: qs.map(x => x.id) });
+    if(qs.length) Logger.log('ask_show', { step: current, id: qs[0].id, n: 1, of: qs.length });
   }
   function holdContinue(){
-    if(!hold) return;
-    const h = hold; hold = null;
+    if(!hold || $('#holdBtn').disabled) return;
+    if(hold.qs.length && hold.i < hold.qs.length - 1){
+      Logger.log('ask_next', { step: current, id: hold.qs[hold.i].id });
+      hold.i++;
+      renderHold();
+      Logger.log('ask_show', { step: current, id: hold.qs[hold.i].id, n: hold.i + 1, of: hold.qs.length });
+      return;
+    }
+    const h = hold, after = holdAfter; hold = null; holdAfter = null;
+    if(h.qs.length) Logger.log('ask_next', { step: current, id: h.qs[h.i].id });
     Logger.log('hold_continue', { step: current, kind: h.kind, phase: h.phase });
     renderHold();
-    go(h.next, h.why);
+    if(h.next) go(h.next, h.why); else { if(after) after(); renderPanel(); }
   }
   function renderHold(view){
     const h = view !== undefined ? view : hold;
     const box = $('#holdScreen'); if(!box) return;
     box.hidden = !h;
+    box.classList.toggle('overlay', !!(h && h.overlay));
     document.body.classList.toggle('holding', !!h);
     if(h){
-      const t = HOLD_TEXT[h.kind];
-      $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+      const qs = h.qs || [], q = qs[h.i || 0];
+      if(q){
+        const last = (h.i || 0) >= qs.length - 1;
+        $('#holdBadge').textContent = qs.length > 1 ? I18n.t(`질문 ${(h.i || 0) + 1} / ${qs.length}`) : I18n.t('잠깐 질문');
+        $('#holdTitle').textContent = I18n.t(q.q);
+        $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요.');
+        $('#holdBtn').textContent = I18n.t(last ? '계속' : '다음 질문');
+        // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요(실시간 보기에서는 바로).
+        const btn = $('#holdBtn'), key = `${h.kind}:${h.i || 0}`;
+        if(view === undefined && btn.dataset.qk !== key){
+          btn.dataset.qk = key; btn.disabled = true; clearTimeout(holdWaitTimer);
+          holdWaitTimer = setTimeout(() => { btn.disabled = false; }, 3000);
+        }
+      }else{
+        const t = HOLD_TEXT[h.kind];
+        $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+        $('#holdBtn').textContent = I18n.t('계속'); $('#holdBtn').disabled = false; delete $('#holdBtn').dataset.qk;
+      }
     }
     renderGuide();
   }
-  // 진행자 패널: 참가자 화면이 멈춰 있을 때 지금 물을 질문
+  // 진행자 패널: 참가자 화면에 지금 떠 있는 질문(▶)과 남은 질문
   function holdQuestions(h){
     if(!h) return [];
+    if(h.qs && h.qs.length) return h.qs.map((x, i) => `${i === (h.i || 0) ? '▶ ' : i < (h.i || 0) ? '✓ ' : ''}${x.id} ${x.q}${x.m ? ` (${x.m})` : ''}`);
     if(h.kind === 'post-task') return (GUIDE['Q' + h.phase] || {}).first || [];
     if(h.kind === 'wrap') return (GUIDE.QW || {}).open || [];
     const g = GUIDE['Q' + h.phase] || {};
@@ -1495,7 +1567,7 @@
     box.hidden = false;
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
     const hq = holdQuestions(hold || remoteHold);
-    box.innerHTML = (hq.length ? sec('first', '참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
+    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }
 

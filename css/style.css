@@ -1318,3 +1318,10 @@ body.holding .taskbar{ display:none !important; }
 .msg-ai.reask .chat-src{ align-self:flex-start; width:auto; }
 #b3Thread{ display:flex; flex-direction:column; gap:14px; margin-top:14px; }
 #b3Thread:empty{ display:none; }
+/* v31: 참가자 화면에 뜨는 필수 질문 */
+#holdTitle{ font-size:24px; line-height:1.4; word-break:keep-all; }
+/* 과제 중 질문(A-01, A-05)은 화면이 보이게 아래 카드로 띄워요 */
+.hold-screen.overlay{ z-index:60; background:rgba(0,0,0,.28); justify-content:flex-end; }
+.hold-screen.overlay .intro-body{ flex:0 0 auto; background:#fff; border-radius:28px 28px 0 0; padding:24px 24px 28px; gap:12px; box-shadow:0 -6px 24px rgba(0,0,0,.18); }
+.hold-screen.overlay #holdTitle{ font-size:20px; margin:0; }
+.hold-screen.overlay .hold-desc{ font-size:14px; margin:0 0 4px; }
