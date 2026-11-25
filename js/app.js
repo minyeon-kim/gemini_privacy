@@ -618,22 +618,23 @@
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
       return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
     };
-    body.innerHTML = changeLog() + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
+    const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로 두고 답변에만 안 써요'))}</span></div></div>` : '';
+    body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
       const handled = ids.filter(aHandled);
       const st = picked && picked === open.length ? 'checked' : picked ? 'mixed' : '';
       const left = !open.length ? '<span class="ct-spacer"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
-      // v31 D2: 주제를 펼치면 먼저 요약(무엇이 어떻게 처리되는지)만 보이고, 항목 목록은 '항목 N건 보기'로 접어 둬요.
-      // 처리한 것은 맨 위 '변경 내역'과 항목 칩에 나오니, 여기서는 아직 남은 것만 요약해요(리뷰: 같은 정보 반복 줄이기).
-      const fx = fxLine('del', open.filter(id => fxOf(id) === 'del'), false) + fxLine('block', open.filter(id => fxOf(id) === 'block'), false);
+      // v31 D2: 주제를 펼치면 '무엇이 어떻게 되는지'를 칩 한 줄로만 보여 줘요. 긴 설명은 시트 맨 위에 한 번만.
+      const chip = (kind, ids) => ids.length ? `<span class="fx-chip ${FX[kind].cls}">${FX[kind].icon()}<b>${esc(I18n.t(kind === 'del' ? '삭제' : '답변에만 안 씀'))}</b> ${esc(I18n.t(srcCounts(ids)))}</span>` : '';
+      const fx = chip('del', open.filter(id => fxOf(id) === 'del')) + chip('block', open.filter(id => fxOf(id) === 'block'));
       return `<div class="ct-group${a3Open[t] ? ' open' : ''}${a3Detail[t] ? ' detail' : ''}">
         <div class="ct-head hot" data-tag="A3 주제 펼치기 ${t}" onclick="App.a3Expand('${t}')">${left}
           <div class="ct-text"><div class="ct-name">${esc(I18n.t(A_TOPICS[t]))} <span class="ct-count">${ids.length}건</span>${!open.length ? `<span class="ct-alldone">${esc(I18n.t('처리함'))}</span>` : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
-          ${fx ? `<div class="fx-lines">${fx}</div>` : ''}
+          ${fx ? `<div class="fx-chips">${fx}</div>` : ''}
           <div class="ct-detail-toggle hot" data-tag="A3 항목 보기 ${t}" onclick="App.a3Detail('${t}')"><span>${esc(I18n.t(a3Detail[t] ? '항목 접기' : `항목 ${ids.length}건 보기`))}</span><span class="chevron"></span></div>
           <div class="ct-rows">${ids.map(row).join('')}</div>
         </div>
@@ -914,6 +915,8 @@
       const sub = b.closest('.check-item-head')?.querySelector('.item-count');
       if(sub) sub.textContent = n === its.length || !n ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
+    const holdSub = $('#holdSub');
+    if(holdSub){ const on = items.some(b => b.dataset.hold && b.classList.contains('checked')); holdSub.className = 'ctext-sub ' + (on ? 'fx-block' : 'fx-keep'); holdSub.textContent = I18n.t(on ? '답변에만 안 써요 · 원본은 Gmail에 그대로' : '남겨 둬요 · 돈이 오간 기록'); }
     const holdChip = $('.hold-group .check-group-head .st-chip');
     if(holdChip){
       const on = items.some(b => b.dataset.hold && b.classList.contains('checked'));
