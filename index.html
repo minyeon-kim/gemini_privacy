@@ -11,7 +11,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/gemini-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=76">
+<link rel="stylesheet" href="css/style.css?v=77">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -27,11 +27,11 @@
 <div class="phone-wrap">
   <!-- 참가자 모드 전용 과제 바 (휴대폰 화면 바깥, 기록 대상 아님) -->
   <div class="taskbar" id="taskbar">
-    <div class="tk-head" onclick="App.toggleTaskPeek()"><span class="tk-label" id="taskLabel">과제</span><span class="tk-new" id="taskNew">새 과제</span><span class="tk-peek">과제 보기</span></div>
+    <div class="tk-head" onclick="App.toggleTaskPeek()"><span class="tk-label" id="taskLabel">과제</span><span class="tk-askmark" id="taskAskMark">진행자 질문</span><span class="tk-new" id="taskNew">새 과제</span><span class="tk-peek">과제 보기</span></div>
     <div class="taskbar-text" id="taskText"></div>
     <!-- 과제 도중 진행자 질문: 휴대폰 화면 밖, 과제 안내 카드 안에 표시 (참가자 모드) -->
     <div class="ask-banner" id="askBanner" role="status" aria-live="polite" hidden>
-      <div class="ask-text-wrap"><span class="ask-badge" id="askBadge">진행자 질문</span><div class="ask-text" id="askText"></div></div>
+      <div class="ask-text-wrap"><span class="ask-badge" id="askBadge">진행자 질문</span><div class="ask-text" id="askText"></div><div class="ask-help">말로 답한 뒤 아래 버튼을 눌러 주세요</div></div>
       <button type="button" class="ask-done hot" id="askDone" data-tag="진행자 질문 배너 답했어요" onclick="App.askDone()">답했어요</button>
     </div>
     <button class="taskbar-btn" id="taskDoneBtn" onclick="App.taskDone()">과제 완료</button>
@@ -42,19 +42,19 @@
     <div class="screen active intro-screen" data-step="START">
       <div class="intro-body">
         <div class="intro-badge">UX 리서치 · 사용성 테스트</div>
-        <h1>Gemini 프라이버시 컨트롤<br>리뱀프 컨셉 테스트</h1>
+        <h1>Gemini 프라이버시 컨트롤<br>개선 컨셉 테스트</h1>
         <ul class="intro-points">
-          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></span><span>연구용 컨셉 화면이에요. 실제 Google 서비스가 아니에요.</span></li>
-          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span>이름·일정은 모두 가상이에요.</span></li>
-          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg></span><span>정답은 없어요. 평소처럼 써 주세요.</span></li>
+          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16.5"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></span><span>실제 서비스가 아닌 연구용 화면이에요</span></li>
+          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span>이름·일정은 모두 가상이에요</span></li>
+          <li><span class="ip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg></span><span>정답은 없어요. 평소처럼 써 주세요</span></li>
         </ul>
         <div class="consent" id="consentBox">
           <ul class="consent-list">
-            <li>화면과 목소리를 녹화하고, 생각을 소리 내어 말하며 진행해요</li>
-            <li>누른 위치와 시간, 입력한 문장, 설문 응답이 기록돼요</li>
-            <li>원할 때 언제든 중단할 수 있어요</li>
+            <li>화면과 목소리를 녹화해요</li>
+            <li>누른 곳 · 입력 · 응답이 기록돼요</li>
+            <li>언제든 중단할 수 있어요</li>
           </ul>
-          <label class="consent-item consent-all"><input type="checkbox" data-consent="all" onchange="App.syncConsent()"><span>위 내용을 확인했고 동의해요</span></label>
+          <label class="consent-item consent-all"><input type="checkbox" data-consent="all" onchange="App.syncConsent()"><span>위 내용에 동의해요</span></label>
         </div>
         <label class="intro-label" for="pidInput">참가자 코드</label>
         <input class="intro-input" id="pidInput" placeholder="예: P03" autocomplete="off" autocapitalize="characters">
@@ -79,11 +79,11 @@
         <div class="intro-badge">상황 1</div>
         <h1>저녁 약속 장소 찾기</h1>
         <p class="order-note intro-note" style="display:none;">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <div class="sc-context"><div class="sc-label">상황</div><p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요.</p></div>
+        <div class="sc-context"><div class="sc-label">상황</div><p>퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요</p></div>
         <div class="sc-label">할 일</div>
         <ol class="sc-steps">
-          <li><span>입력창을 누르고, 미리 입력된 질문을 <b>그대로 보내 주세요.</b></span></li>
-          <li><span><b>답변을 살펴봐 주세요.</b></span></li>
+          <li><span>입력창을 누르고, 미리 입력된 질문을 <b>그대로 보내 주세요</b></span></li>
+          <li><span><b>답변을 살펴봐 주세요</b></span></li>
         </ol>
         <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
         <button class="primary-btn" data-tag="상황1 시작" onclick="App.go('A1')">시작하기</button>
@@ -94,11 +94,11 @@
         <div class="intro-badge">상황 2</div>
         <h1>채팅으로 정보 지우기</h1>
         <p class="order-note intro-note">앞의 상황과는 별개인 새로운 상황이에요</p>
-        <div class="sc-context"><div class="sc-label">상황</div><p>Gemini가 '정민'과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요.</p></div>
+        <div class="sc-context"><div class="sc-label">상황</div><p>Gemini가 정민과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요</p></div>
         <div class="sc-label">할 일</div>
         <ol class="sc-steps">
-          <li><span><b>채팅으로 Gemini에게 요청해서</b>, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.</span></li>
-          <li><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요.</span></li>
+          <li><span><b>채팅으로 Gemini에게 요청해서</b>, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요</span></li>
+          <li><span>요청 문장은 평소 말하듯 자유롭게 입력하면 돼요</span></li>
         </ol>
         <p class="sc-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg><span>생각나는 것을 소리 내어 말해 주세요</span></p>
         <button class="primary-btn" data-tag="상황2 시작" onclick="App.go('B1')">시작하기</button>
@@ -258,13 +258,13 @@
         <p>나와 내 주변에 관한 정보를 바탕으로 더 유용한 답변과 추천을 받아 보세요</p>
       </div>
       <div class="settings-body">
+        <p class="pi-sec">Gemini가 기억하는 정보</p>
         <div class="s-card">
           <div class="conn-wrap">
             <div class="conn-item">
               <div class="icon-chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.8-6.3"/><polyline points="3.2 3.5 3.2 8 7.7 8"/><polyline points="12 8 12 12.5 15.5 14.5"/></svg></div>
               <div class="meta hot" data-tag="Memory 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">메모리 <span class="used-dot" id="a4MemCount">11건</span><span class="deleted-badge">삭제됨</span><span class="ref-off-badge">연동 끔</span></div>
-                <span class="chevron">⌄</span>
+                <div class="name">메모리<span class="deleted-badge">삭제됨</span><span class="ref-off-badge">연동 끔</span></div><div class="pi-sub"><span class="used-dot" id="a4MemCount">11건</span><span class="pi-link">항목 보기<span class="pi-chev">⌄</span></span></div>
               </div>
               <div class="toggle on hot" data-ref="memory" data-tag="Memory 차단" onclick="event.stopPropagation(); App.toggleRef('memory')"><div class="knob"></div></div>
             </div>
@@ -275,16 +275,15 @@
           </div>
         </div>
 
+        <p class="pi-sec">연결된 앱</p>
+        <p class="pi-sec-desc">끄면 그 앱 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요</p>
         <div class="s-card">
-          <p class="title" style="margin-bottom:2px;">연결된 앱</p>
-          <p class="desc" style="margin-bottom:10px;">토글을 끄면 그 앱의 정보 전체를 답변에 쓰지 않아요. 메일과 일정 원본은 그대로예요.</p>
 
           <div class="conn-wrap">
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="gmL1" x1="4" y1="6" x2="4" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF63A0"/><stop offset="25%" stop-color="#FC413D"/><stop offset="100%" stop-color="#FC413D"/></linearGradient><linearGradient id="gmR1" x1="20" y1="6" x2="20" y2="19" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FECA02"/><stop offset="32%" stop-color="#0DBA6A"/><stop offset="62%" stop-color="#03A8BE"/><stop offset="100%" stop-color="#348AFF"/></linearGradient></defs><path d="M4 6l8 9 8-9" stroke="#FC413D" stroke-width="5" stroke-linecap="round" stroke-linejoin="miter"/><path d="M4 6v13" stroke="url(#gmL1)" stroke-width="4.6" stroke-linecap="round"/><path d="M20 6v13" stroke="url(#gmR1)" stroke-width="4.6" stroke-linecap="round"/></svg></div>
               <div class="meta hot" data-tag="Gmail 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Gmail <span class="used-dot">130건</span><span class="ref-off-badge">연동 끔</span></div>
-                <span class="chevron">⌄</span>
+                <div class="name">Gmail<span class="ref-off-badge">연동 끔</span></div><div class="pi-sub"><span class="used-dot">메일 130건</span><span class="pi-link">보기<span class="pi-chev">⌄</span></span></div>
               </div>
               <div class="toggle on hot" data-ref="gmail" data-tag="Gmail 차단" onclick="event.stopPropagation(); App.toggleRef('gmail')"><div class="knob"></div></div>
             </div>
@@ -297,8 +296,7 @@
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="calG1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B5D3FF"/><stop offset="20%" stop-color="#99A4FF"/><stop offset="100%" stop-color="#338AFF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#calG1)"/><text x="12" y="16.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Arial,sans-serif">31</text></svg></div>
               <div class="meta hot" data-tag="Calendar 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">캘린더 <span class="used-dot">36건</span><span class="ref-off-badge">연동 끔</span></div>
-                <span class="chevron">⌄</span>
+                <div class="name">캘린더<span class="ref-off-badge">연동 끔</span></div><div class="pi-sub"><span class="used-dot">일정 36건</span><span class="pi-link">보기<span class="pi-chev">⌄</span></span></div>
               </div>
               <div class="toggle on hot" data-ref="calendar" data-tag="Calendar 차단" onclick="event.stopPropagation(); App.toggleRef('calendar')"><div class="knob"></div></div>
             </div>
@@ -310,15 +308,11 @@
           <div class="conn-wrap">
             <div class="conn-item">
               <div class="icon-chip" style="background:#fff;"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0 10 10A10 10 0 0 0 12 2z" fill="#4285F4"/><path d="M2 12A10 10 0 0 0 12 22 10 10 0 0 0 2 12z" fill="#EA4335"/><path d="M12 2A10 10 0 0 0 2 12 10 10 0 0 0 12 2z" fill="#34A853"/><path d="M22 12A10 10 0 0 0 12 22 10 10 0 0 0 22 12z" fill="#FBBC05"/></svg></div>
-              <div class="meta hot" data-tag="Photos 펼치기" onclick="App.expand(this,'.conn-wrap')">
-                <div class="name">Google 포토<span class="ref-off-badge">연동 끔</span></div>
-                <span class="chevron">⌄</span>
+              <div class="meta"><div class="name">Google 포토<span class="ref-off-badge">연동 끔</span></div><div class="pi-sub"><span class="used-dot">이 답변엔 쓰이지 않았어요</span></div>
               </div>
               <div class="toggle on hot" data-ref="photos" data-tag="Photos 차단" onclick="event.stopPropagation(); App.toggleRef('photos')"><div class="knob"></div></div>
             </div>
-            <div class="conn-detail">
-              <div class="data-chip">이 답변엔 사용되지 않았어요</div>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -362,12 +356,11 @@
         <div class="typing-dots b2-dots"><i></i><i></i><i></i></div>
         <div class="ai-card">
           <div class="card-head-row">
-            <h3>'정민' 관련 정보 20건을 찾았어요</h3>
+            <h3>정민 관련 정보 20건을 찾았어요</h3>
           </div>
-          <p class="b2-hint b2-hint-sum">이렇게 처리할게요. 처리하기 전에 확인해 주세요.</p>
-          <div class="b2-summary fx-lines" id="b2Summary"></div>
+                    <div class="b2-summary fx-lines" id="b2Summary"></div>
           <div class="b2-detail">
-          <p class="b2-hint b2-hint-detail">메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요.</p>
+          <p class="b2-hint b2-hint-detail">메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요</p>
           <div class="select-all-row">
             <div class="checkbox checked sm hot" data-tag="전체 선택" onclick="App.toggleSelectAll(this)">✓</div>
             <span>전체 선택</span>
@@ -456,8 +449,8 @@
 
           <div class="selection-count" id="selectionCount" role="status" aria-live="polite"></div>
           </div>
-          <button type="button" class="text-btn b2-toggle-link hot" id="b2DetailBtn" data-tag="B2 자세히 고르기" onclick="App.toggleB2Detail()">항목 직접 고르기</button>
-          <div class="card-btn-row">
+          <div class="card-btn-row card-foot">
+            <button type="button" class="text-btn b2-toggle-link hot" id="b2DetailBtn" data-tag="B2 자세히 고르기" onclick="App.toggleB2Detail()">항목 직접 고르기</button>
             <button class="btn-del hot" id="b2ProcessBtn" data-tag="B2 선택 처리" onclick="App.processB2()">18건 처리</button>
           </div>
         </div>
@@ -714,7 +707,7 @@
             <div class="sheet-close hot" data-tag="시트 닫기" onclick="App.closeSheet('X 버튼')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></div>
           </div>
         </div>
-        <p class="sheet-desc">앞으로 답변에 쓰지 않을 정보를 골라 주세요.</p>
+        <p class="sheet-desc">앞으로 답변에 쓰지 않을 정보를 골라 주세요</p>
         <div id="a3Body"></div>
         <div id="a3Foot"></div>
         <div class="a3-pi-link">
@@ -786,12 +779,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=76"></script>
-<script src="js/i18n.js?v=76"></script>
-<script src="js/logger.js?v=76"></script>
-<script src="js/taskc.js?v=76"></script>
-<script src="js/app.js?v=76"></script>
-<script src="js/interactions.js?v=76"></script>
-<script src="js/live.js?v=76"></script>
+<script src="js/config.js?v=77"></script>
+<script src="js/i18n.js?v=77"></script>
+<script src="js/logger.js?v=77"></script>
+<script src="js/taskc.js?v=77"></script>
+<script src="js/app.js?v=77"></script>
+<script src="js/interactions.js?v=77"></script>
+<script src="js/live.js?v=77"></script>
 </body>
 </html>
