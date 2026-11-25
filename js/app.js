@@ -904,7 +904,7 @@
     box.innerHTML = (g.memory && g.memory.on ? line('del', ICON_DEL, '삭제돼요', `메모리 ${g.memory.on}`, '지우면 다시 볼 수 없어요') : '')
       + (blk ? line('block', ICON_BLOCK, '답변에만 안 써요', blk, '원본은 각 앱에 그대로 둬요') : '')
       + (left.length ? line('keep', '<span class="keep-dot"></span>', '남겨 둬요', left.map(k => `${B_NAME[k]} ${g[k].all - g[k].on}`).join(' · '),
-          left.length === 1 && left[0] === 'hold' ? '돈이 오간 기록이라 따로 뒀어요. 함께 처리하려면 자세히 고르기' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요') : '');
+          left.length === 1 && left[0] === 'hold' ? '돈이 오간 기록이라 따로 뒀어요' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요') : '');
   }
   // 기본 선택: 확인이 필요한 정보(data-hold)는 빼고 모두
   function setDefaultChecks(){ b2Items().forEach(cb => cb.classList.toggle('checked', !cb.dataset.hold)); syncSelectAll(); }
