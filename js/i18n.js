@@ -789,6 +789,10 @@
   messages["다시 볼 수 없어요"] = "Can't be seen again";
   messages["원본은 각 앱에 그대로예요"] = "Originals stay in each app";
   messages["돈이 오간 기록이라 남겨 뒀어요"] = "Kept because these are money records";
+  messages["메모리는 삭제"] = "Memory: deleted";
+  messages["Gmail·캘린더는 답변에만 안 씀"] = "Gmail & Calendar: kept out of answers";
+  messages["원본은 그대로예요"] = "Originals stay";
+  messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요."] = "Memory is deleted; Gmail and Calendar are only kept out of answers.";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {

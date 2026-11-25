@@ -1555,3 +1555,7 @@ body.holding .taskbar{ display:none !important; }
 .s-card .data-chip .a4-t{ display:block; font-size:var(--ds-body); line-height:var(--ds-body-lh); color:var(--ds-ink1); }
 .s-card .data-chip .a4-t .dt{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh); color:var(--ds-ink3); margin-top:2px; }
 .s-card .conn-detail .a4-month{ font-size:var(--ds-cap) !important; line-height:var(--ds-cap-lh); color:var(--ds-ink3) !important; padding:var(--ds-s3) 0 var(--ds-s1) 46px !important; }
+
+/* 같은 설명을 항목마다 반복하지 않기: 출처마다의 효과 줄은 숨기고 목록 위 한 줄로 */
+.screen[data-step="B2"] .b2-detail .ctext-sub{ display:none !important; }
+.screen[data-step="B2"] .b2-detail .b2-hint-detail{ display:block !important; }
