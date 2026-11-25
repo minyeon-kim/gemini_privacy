@@ -643,9 +643,9 @@
       const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
       const fxTag = done || off ? '' : `<span class="li-dot">·</span><span class="li-fx ${FX[fxOf(id)].cls}">${esc(I18n.t(FX[fxOf(id)].todo))}</span>`;
-      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span>${fxTag}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}</div></div>`;
     };
-    const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로 두고 답변에만 안 써요'))}</span></div></div>` : '';
+    const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('메모리는 삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('Gmail·캘린더는 답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로예요'))}</span></div></div>` : '';
     body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
       const handled = ids.filter(aHandled);
