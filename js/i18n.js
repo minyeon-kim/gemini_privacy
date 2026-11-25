@@ -749,6 +749,11 @@
   messages["계속 답변에 쓰일 수 있어요"] = "May still be used in answers";
   messages["돈이 오간 기록이라 처리하지 않았어요."] = "Not handled because these are money records.";
   messages["진행자 질문"] = "Moderator question";
+  messages["삭제"] = "Delete";
+  messages["삭제돼요 · 다시 볼 수 없어요"] = "Deleted · can't be seen again";
+  messages["답변에만 안 써요 · 원본은 그대로"] = "Kept out of answers · originals stay";
+  messages["남겨 둬요 · 돈이 오간 기록"] = "Kept · money records";
+  messages["답변에만 안 써요 · 원본은 Gmail에 그대로"] = "Kept out of answers · originals stay in Gmail";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
