@@ -1466,3 +1466,9 @@ body.holding .taskbar{ display:none !important; }
 .taskbar .ask-done:disabled{ background:#e3e3e3 !important; color:#747775 !important; }
 /* '과제 완료' 버튼이 없을 때(답변 보기 단계)는 그 아래 안내 문장도 숨김 */
 .taskbar:has(#taskDoneBtn[hidden]) .tk-foot{ display:none !important; }
+/* 출처 시트: 칩 없이 펼치면 항목이 바로 · 항목마다 효과를 작은 색 글자로 · 머리 줄 건수는 펼쳐도 보임 */
+#sheetOverlay .ct-group.open .ct-head .ct-t2{ display:block !important; }
+#sheetOverlay .ct-rows{ display:block !important; border-top:none !important; }
+.li-fx{ font-weight:500; }
+.li-fx.del{ color:#b3261e; }
+.li-fx.block{ color:#0842a0; }
