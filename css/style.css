@@ -1559,3 +1559,30 @@ body.holding .taskbar{ display:none !important; }
 /* 같은 설명을 항목마다 반복하지 않기: 출처마다의 효과 줄은 숨기고 목록 위 한 줄로 */
 .screen[data-step="B2"] .b2-detail .ctext-sub{ display:none !important; }
 .screen[data-step="B2"] .b2-detail .b2-hint-detail{ display:block !important; }
+
+/* 개인 인텔리전스: 디자인 시스템 간격으로 (카드 16 · 모서리 20 · 줄 12/8 · 들여쓰기는 이름 글자 선 44) */
+.screen[data-step="A4"] .settings-head{ padding:var(--ds-s4) var(--ds-s4) var(--ds-s2) !important; }
+.screen[data-step="A4"] .pi-title{ font-size:28px !important; line-height:34px !important; margin:var(--ds-s1) 0 var(--ds-s2) !important; }
+.screen[data-step="A4"] .settings-head p{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink2) !important; margin:0 !important; }
+.screen[data-step="A4"] .settings-body{ padding:var(--ds-s2) var(--ds-s4) var(--ds-s6) !important; gap:var(--ds-s2) !important; }
+.screen[data-step="A4"] .s-card{ border-radius:20px !important; padding:var(--ds-s1) var(--ds-s4) !important; }
+.screen[data-step="A4"] .s-card .title{ font-size:var(--ds-title) !important; line-height:var(--ds-title-lh) !important; font-weight:500 !important; margin:var(--ds-s3) 0 0 !important; }
+.screen[data-step="A4"] .s-card .desc{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; margin:2px 0 var(--ds-s2) !important; }
+.screen[data-step="A4"] .s-card .conn-wrap{ padding:0 !important; }
+.screen[data-step="A4"] .conn-item{ padding:var(--ds-s3) 0 !important; gap:var(--ds-s3) !important; }
+.screen[data-step="A4"] .conn-item .meta .name{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; gap:var(--ds-s2) !important; }
+.screen[data-step="A4"] .conn-wrap.open .conn-detail{ padding:0 0 var(--ds-s2) !important; gap:0 !important; }
+.screen[data-step="A4"] .s-card .conn-detail .a4-month{ padding:var(--ds-s2) 0 0 44px !important; }
+.screen[data-step="A4"] .s-card .data-chip{ padding:var(--ds-s2) 0 var(--ds-s2) 44px !important; border-top:none !important; }
+.screen[data-step="A4"] .s-card .data-chip.mem-row{ padding-right:0 !important; }
+.screen[data-step="A4"] .chip-more{ display:flex !important; align-items:center; min-height:36px; padding:0 0 0 44px !important; font-size:var(--ds-meta) !important; font-weight:500; }
+.screen[data-step="A4"] .mem-delete-trigger{ padding:var(--ds-s2) 0 var(--ds-s2) 44px !important; margin:0 !important; font-size:var(--ds-meta) !important; }
+.screen[data-step="A4"] .data-chip:not(.mem-row) .a4-t{ font-size:var(--ds-body); }
+/* 클릭할 때 생기는 파란 포커스 테두리는 키보드 이동 때만 */
+.phone .hot:focus:not(:focus-visible), .phone [tabindex]:focus:not(:focus-visible){ outline:none !important; box-shadow:none; }
+
+/* 개인 인텔리전스: 항목 · 월 · 더보기 · 전체 삭제를 이름 글자 선(40px)에 */
+.screen[data-step="A4"] .s-card .conn-detail .a4-month, .screen[data-step="A4"] .s-card .data-chip, .screen[data-step="A4"] .chip-more, .screen[data-step="A4"] .mem-delete-trigger{ padding-left:40px !important; }
+/* 과제 2 자세히 고르기: 출처 시트처럼 항목 체크박스는 위 줄 체크박스와 같은 열(들여쓰기 줄임) */
+.screen[data-step="B2"] .check-item-expand{ padding:0 var(--ds-s4) !important; }
+.screen[data-step="B2"] .more-toggle{ margin-left:36px !important; }
