@@ -1357,3 +1357,25 @@ body.holding .taskbar{ display:none !important; }
 .hold-screen.overlay .intro-body{ padding:18px 24px calc(20px + env(safe-area-inset-bottom, 0px)); }
 .hold-screen.overlay .hold-desc{ display:none; }
 #holdBtn:disabled{ background:#e3e3e3; color:#444746; opacity:1; cursor:default; }
+/* ===== v31 사용자 피드백 반영 ===== */
+/* 앱 연동 설정: 공통 설명 한 줄 */
+.ct-apps-note{ margin:10px 0 2px; font-size:13px; line-height:1.5; color:#444746; }
+/* 과제 2: 요약 카드(승인 한 번) ↔ 자세히 고르기 목록 */
+.screen[data-step="B2"] .ai-card .b2-detail{ display:none; }
+.screen[data-step="B2"] .ai-card.detail .b2-detail{ display:block; }
+.screen[data-step="B2"] .ai-card.detail .b2-summary, .screen[data-step="B2"] .ai-card.detail .b2-hint-sum{ display:none; }
+.b2-summary{ padding:4px 0 2px !important; }
+.b2-detail .check-group-line, .b2-detail .ctext-sub{ display:none; }
+.b2-detail .select-all-row{ margin:4px 0; }
+.fx-line.keep .fx-t1 b{ color:#444746; }
+.keep-dot{ display:inline-block; width:10px; height:10px; margin:3px; border-radius:50%; border:2px solid #747775; box-sizing:border-box; }
+/* 결과 카드: 효과별 아이콘 */
+.b3-ic.fx-ic-del{ background:#fce8e6 !important; color:#b3261e; }
+.b3-ic.fx-ic-block{ background:#d3e3fd !important; color:#0842a0; }
+.b3-ic.fx-ic-keep{ background:#e9eef6 !important; color:#444746; }
+.b3-ic svg{ width:18px; height:18px; }
+.b3-sep{ color:#9aa0a6; font-weight:400; }
+/* 질문 카드: 전체 화면은 가운데에 크게 */
+.hold-screen:not(.overlay) .intro-body{ justify-content:center !important; padding-bottom:36px; }
+/* 진행자 패널: 지금 말로 물을 필수 질문 강조 */
+.gd-sec.now{ background:#fff4e5; border-left:3px solid #e37400; border-radius:0 8px 8px 0; padding:8px 10px; }

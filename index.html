@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=45">
+<link rel="stylesheet" href="css/style.css?v=47">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -355,7 +355,10 @@
           <div class="card-head-row">
             <h3>'정민' 관련 정보 20건을 찾았어요</h3>
           </div>
-          <p class="b2-hint">출처별로 묶었어요. 펼치면 항목을 하나씩 고를 수 있어요.</p>
+          <p class="b2-hint b2-hint-sum">이렇게 처리할게요. 처리하기 전에 확인해 주세요.</p>
+          <div class="b2-summary fx-lines" id="b2Summary"></div>
+          <div class="b2-detail">
+          <p class="b2-hint">항목을 하나씩 고를 수 있어요.</p>
           <div class="select-all-row">
             <div class="checkbox checked sm hot" data-tag="전체 선택" onclick="App.toggleSelectAll(this)">✓</div>
             <span>전체 선택</span>
@@ -443,8 +446,9 @@
           </div>
 
           <div class="selection-count" id="selectionCount" role="status" aria-live="polite"></div>
+          </div>
           <div class="card-btn-row">
-            <button class="btn-cancel hot" data-tag="B2 취소" onclick="App.cancelB2()">취소</button>
+            <button class="btn-cancel hot" id="b2DetailBtn" data-tag="B2 자세히 고르기" onclick="App.toggleB2Detail()">자세히 고르기</button>
             <button class="btn-del hot" id="b2ProcessBtn" data-tag="B2 선택 처리" onclick="App.processB2()">18건 처리</button>
           </div>
         </div>
@@ -474,7 +478,7 @@
           </div>
           <div class="retention-note" id="b3Note">ⓘ 지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)</div>
           <div class="btn-row-h">
-            <div class="ghost-btn hot" data-tag="B3 자세히 고르기" onclick="App.go('B2', 'b3-detail')">자세히 고르기</div>
+            <div class="ghost-btn hot" data-tag="B3 자세히 고르기" onclick="App.openB2Detail()">자세히 고르기</div>
             <div class="ghost-btn hot" data-tag="B3 되돌리기" onclick="App.undoB2()">되돌리기</div>
           </div>
         </div>
@@ -771,12 +775,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=45"></script>
-<script src="js/i18n.js?v=45"></script>
-<script src="js/logger.js?v=45"></script>
-<script src="js/taskc.js?v=45"></script>
-<script src="js/app.js?v=45"></script>
-<script src="js/interactions.js?v=45"></script>
-<script src="js/live.js?v=45"></script>
+<script src="js/config.js?v=47"></script>
+<script src="js/i18n.js?v=47"></script>
+<script src="js/logger.js?v=47"></script>
+<script src="js/taskc.js?v=47"></script>
+<script src="js/app.js?v=47"></script>
+<script src="js/interactions.js?v=47"></script>
+<script src="js/live.js?v=47"></script>
 </body>
 </html>

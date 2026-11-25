@@ -736,6 +736,19 @@
   messages["지운 것과 '답변에만 안 씀'으로 처리한 것은 각각 어떻게 될까요?"] = "What happens to what you deleted, and to what you set to 'Only kept out of answers'?";
   messages["오늘 써 보면서 막히거나 헷갈린 순간이 있었나요? 있었다면 언제였나요?"] = "Was there a moment today when you got stuck or confused? If so, when?";
   messages["오늘 써 본 것 중 가장 좋았던 부분과, 가장 덜 쓸 것 같은 부분은 어디였나요? 왜 그런가요?"] = "What did you like most today, and what would you use least? Why?";
+  messages["끄면 그 앱의 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요."] = "When off, nothing from that app is used in answers. Your emails and events stay.";
+  messages["이렇게 처리할게요. 처리하기 전에 확인해 주세요."] = "Here's what will happen. Please check before processing.";
+  messages["항목을 하나씩 고를 수 있어요."] = "You can pick items one by one.";
+  messages["자세히 고르기"] = "Choose in detail";
+  messages["요약만 보기"] = "Show summary";
+  messages["남겨 둬요"] = "Kept";
+  messages["원본은 각 앱에 그대로 둬요"] = "Originals stay in each app";
+  messages["원본은 각 앱에 그대로 있어요. 답변에만 안 써요"] = "Originals stay in each app; only kept out of answers";
+  messages["돈이 오간 기록이라 따로 뒀어요. 함께 처리하려면 자세히 고르기"] = "These are money records, so they're kept aside. To handle them too, choose in detail";
+  messages["고르지 않은 정보는 계속 답변에 쓰일 수 있어요"] = "Info you didn't pick may still be used in answers";
+  messages["계속 답변에 쓰일 수 있어요"] = "May still be used in answers";
+  messages["돈이 오간 기록이라 처리하지 않았어요."] = "Not handled because these are money records.";
+  messages["진행자 질문"] = "Moderator question";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -766,6 +779,7 @@
       .replace(/^(.+) 답변에만? 안 씀$/, '$1 · kept out of answers')
       .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
       .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
+      .replace(/^진행자 질문 (\d+) \/ (\d+)$/, 'Moderator question $1 / $2')
       .replace(/^질문 (\d+) \/ (\d+)$/, 'Question $1 / $2')
       .replace(/^방금 '(.+)', '(.+)'를 고르셨어요\. 그렇게 고르신 이유는 무엇인가요\?$/, 'You just picked "$1" and "$2". Why did you choose those?')
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
