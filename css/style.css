@@ -1640,3 +1640,27 @@ body.holding .taskbar{ display:none !important; }
 .ct-apps-note{ margin:var(--ds-s3) 0 var(--ds-s1) !important; color:var(--ds-ink3) !important; }
 #sheetOverlay .ct-app{ padding:var(--ds-s2) 0 !important; }
 .intro-screen .intro-note{ background:none !important; padding:0 !important; border-radius:0 !important; font-weight:400 !important; }
+
+/* 상황 카드 간격: 4의 배수로 일정하게 (배지 8 · 제목 16 · 상황 상자 24 · 할 일 라벨 8 · 단계 12 · 메모 16 · 버튼 24) */
+.intro-screen[data-step="SA"] .intro-body, .intro-screen[data-step="SB"] .intro-body{ gap:0 !important; }
+.intro-screen[data-step="SA"] .intro-body > *, .intro-screen[data-step="SB"] .intro-body > *{ margin:0 !important; }
+.intro-screen .intro-badge + h1{ margin-top:var(--ds-s2) !important; }
+.intro-screen h1 + .intro-note, .intro-screen h1 + .sc-context{ margin-top:var(--ds-s4) !important; }
+.intro-screen .intro-note + .sc-context{ margin-top:var(--ds-s3) !important; }
+.intro-screen .sc-context + .sc-label{ margin-top:var(--ds-s6) !important; }
+.intro-screen .sc-label + .sc-steps{ margin-top:var(--ds-s2) !important; }
+.intro-screen .sc-steps + .sc-note{ margin-top:var(--ds-s4) !important; }
+.intro-screen .sc-note + .primary-btn{ margin-top:var(--ds-s6) !important; }
+.intro-screen h1{ font-size:22px !important; line-height:30px !important; }
+/* 하위 항목: 체크박스 크기는 그대로(18), 한 단계 들여써서 부모 이름 시작선 아래에 */
+#sheetOverlay .ct-items{ padding-left:36px; }
+.screen[data-step="B2"] .check-item-expand{ padding-left:calc(var(--ds-s4) + 36px) !important; }
+.screen[data-step="B2"] .more-toggle{ margin-left:36px !important; }
+/* 과제 안내 카드: 상황(회색 상자) → 할 일(라벨 + 굵은 문장) → 버튼 → 작은 안내 */
+.taskbar .tk-ctx-box{ background:var(--g-surface); border-radius:14px; padding:10px 12px; display:flex; flex-direction:column; gap:2px; }
+.taskbar .tk-sec{ font-size:12px; line-height:16px; font-weight:600; color:#747775; }
+.taskbar .tk-ctx-box .tk-ctx{ font-size:14px !important; line-height:20px; color:#1f1f1f !important; }
+.taskbar .tk-ctx-box + .tk-sec{ margin-top:6px; }
+.taskbar-text{ gap:6px !important; }
+.taskbar .tk-main, .taskbar .tk-steps{ font-size:16px !important; line-height:23px !important; }
+.taskbar .tk-foot{ font-size:12px !important; color:#747775 !important; }
