@@ -754,6 +754,19 @@
   messages["답변에만 안 써요 · 원본은 그대로"] = "Kept out of answers · originals stay";
   messages["남겨 둬요 · 돈이 오간 기록"] = "Kept · money records";
   messages["답변에만 안 써요 · 원본은 Gmail에 그대로"] = "Kept out of answers · originals stay in Gmail";
+  messages["AI 챗봇에 다른 사람 이야기나 약속처럼 개인적인 내용을 말해 본 적이 있나요? 있다면, 그때 어떤 생각이 들었나요?"] = "Have you ever told an AI chatbot something personal, like about another person or a plan? If so, what went through your mind?";
+  messages["지금 정민과 관련된 정보는 어떻게 됐을 것 같나요? 생각나는 대로 말씀해 주세요."] = "What do you think has happened to the Jeongmin info now? Say whatever comes to mind.";
+  messages["처음 답변에 정민 이야기가 왜 나왔다고 생각하세요?"] = "Why do you think Jeongmin came up in the first answer?";
+  messages["'삭제'로 처리한 것과 '답변에만 안 씀'으로 처리한 것은 어떻게 다를까요?"] = "How is what you set to 'Delete' different from what you set to 'Only kept out of answers'?";
+  messages["실제 Gemini에서 정민 관련 정보가 앞으로 답변에 안 나오게 하고 싶다면, 어떻게 해 보실 것 같으세요?"] = "In the real Gemini, if you wanted Jeongmin info kept out of future answers, what would you try?";
+  messages["Gmail과 캘린더에 있던 정민 관련 메일과 일정은 지금 어떻게 됐을 것 같나요?"] = "What do you think has happened to the Jeongmin emails and events in Gmail and Calendar?";
+  messages["방금 고르신 첫 번째 답은 왜 그렇게 고르셨나요?"] = "Why did you choose your first answer?";
+  messages["두 방법이 비슷하다고 고르셨어요. 어떤 점에서 그렇게 느끼셨나요?"] = "You said the two methods felt similar. In what way?";
+  messages["더 편했던 방법은 어떤 점이 편했나요?"] = "What made the easier method easier?";
+  messages["오늘 써 본 것 중 가장 좋았던 부분은 어디였나요? 왜 그런가요?"] = "What did you like most today? Why?";
+  messages["반대로, 실제로는 잘 안 쓸 것 같은 부분이 있었나요? 있다면 왜 그런가요?"] = "On the other hand, was there anything you probably wouldn't use? If so, why?";
+  messages["처리하기 전에 무엇이 처리될지 확인하는 과정은 얼마나 번거롭거나 수월했나요?"] = "How cumbersome or easy was checking what would be handled before processing?";
+  messages["오늘 써 본 기능들이 실제 Gemini에 있다면, Gemini가 내 정보를 답변에 쓰는 것이 지금보다 어떻게 느껴질 것 같나요?"] = "If today's features were in the real Gemini, how would Gemini using your info in answers feel compared to now?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -785,6 +798,9 @@
       .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
       .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
       .replace(/^진행자 질문 (\d+) \/ (\d+)$/, 'Moderator question $1 / $2')
+      .replace(/^아까 (.+) 스위치를 끄셨어요\. 끄면 어떤 정보가 답변에 안 쓰이게 될까요\?$/, 'Earlier you turned off the $1 switch. What info is no longer used in answers when it is off?')
+      .replace(/^방금 '(.+)'를 고르셨어요\. 왜 그렇게 느끼셨나요\?$/, 'You just picked "$1". Why do you feel that way?')
+      .replace(/^'(.+)'가 더 편하다고 고르셨어요\. 어떤 점이 더 편했나요\?$/, 'You said "$1" was easier. What made it easier?')
       .replace(/^질문 (\d+) \/ (\d+)$/, 'Question $1 / $2')
       .replace(/^방금 '(.+)', '(.+)'를 고르셨어요\. 그렇게 고르신 이유는 무엇인가요\?$/, 'You just picked "$1" and "$2". Why did you choose those?')
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
