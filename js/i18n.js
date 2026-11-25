@@ -734,6 +734,8 @@
   messages["이 메일도 답변에 안 쓰기"] = "Keep these emails out of answers too";
   messages["지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요"] = "Deleted. Unless you undo now, you can't see it again";
   messages["지운 것과 '답변에만 안 씀'으로 처리한 것은 각각 어떻게 될까요?"] = "What happens to what you deleted, and to what you set to 'Only kept out of answers'?";
+  messages["오늘 써 보면서 막히거나 헷갈린 순간이 있었나요? 있었다면 언제였나요?"] = "Was there a moment today when you got stuck or confused? If so, when?";
+  messages["오늘 써 본 것 중 가장 좋았던 부분과, 가장 덜 쓸 것 같은 부분은 어디였나요? 왜 그런가요?"] = "What did you like most today, and what would you use least? Why?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
