@@ -1605,3 +1605,12 @@ body.holding .taskbar{ display:none !important; }
 .backbtn{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; margin-left:-10px; }
 .screen[data-step="A4"] .settings-head{ padding-left:20px !important; padding-right:20px !important; }
 .screen[data-step="A4"] .settings-body{ padding-left:20px !important; padding-right:20px !important; }
+
+/* 출처 시트: 주제 안에서 메모리 · Gmail · 캘린더별로 묶음 (작은 머리 줄 + 항목은 제목만) */
+#sheetOverlay .li-src{ display:flex; align-items:center; gap:var(--ds-s1); padding:var(--ds-s3) 0 var(--ds-s1); font-size:var(--ds-cap); line-height:var(--ds-cap-lh); color:var(--ds-ink3); font-weight:500; }
+#sheetOverlay .li-src + .li-row{ border-top:none !important; }
+#sheetOverlay .li-src:not(:first-child){ border-top:1px solid var(--ds-line); margin-top:var(--ds-s1); }
+#sheetOverlay .li-src-n{ margin-left:2px; font-weight:400; }
+#sheetOverlay .ct-items .li-row{ padding:var(--ds-s2) 0 !important; }
+/* 펼치면 앱별 묶음이 건수를 보여 주므로 머리 줄 건수는 접혀 있을 때만 */
+#sheetOverlay .ct-group.open .ct-head .ct-t2{ display:none !important; }

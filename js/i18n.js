@@ -794,6 +794,7 @@
   messages["원본은 그대로예요"] = "Originals stay";
   messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요."] = "Memory is deleted; Gmail and Calendar are only kept out of answers.";
   messages["돈이 오간 기록이라 따로 뒀어요"] = "Kept aside because these are money records";
+  messages["검토용 사본은 최대 3년 남을 수 있어요"] = "Copies kept for review may stay up to 3 years";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
