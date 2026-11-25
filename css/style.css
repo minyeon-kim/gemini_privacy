@@ -1857,3 +1857,8 @@ html[lang="en"] .sv-full{ display:block; }
 .intro-screen .sc-todo .sc-steps + .sc-note{ margin-top:var(--ds-s3) !important; padding-top:var(--ds-s3); border-top:1px solid var(--ds-line); }
 .intro-screen .intro-body .intro-note + .sc-boxes{ margin-top:var(--ds-s6) !important; }
 .intro-screen .intro-body .sc-boxes + .primary-btn{ margin-top:var(--ds-s6) !important; }
+/* 과제 카드(폰 왼쪽): 상황 카드와 같은 상자 — 상황(회색 상자) + 할 일(테두리 상자). 상자 안쪽 12, 모서리 12, 상자 사이 12 */
+.taskbar .taskbar-text .tk-ctx-box{ background:var(--g-surface) !important; border-radius:12px !important; padding:12px !important; gap:4px !important; }
+.taskbar .tk-todo-box{ display:flex; flex-direction:column; gap:8px; background:#fff; border:1px solid var(--ds-line); border-radius:12px; padding:12px; }
+.taskbar .tk-todo-box .tk-sec{ margin:0 !important; }
+body.participant .taskbar .taskbar-text{ gap:12px !important; }
