@@ -668,6 +668,52 @@
   // 보안 종사자 질문 삭제 후 안내 문장
   messages["[마지막 질문] 사용성 설문(SUS) 다음에 나오는 닫힌 질문 3개예요(W-01~03, 자동 기록). 참가자가 답하면 화면에서 고른 이유를 묻고(W-04), 이어서 W-05~W-07을 하나씩 하세요. 화면에서 이미 고른 질문은 말로 다시 묻지 않아요."] = "[Final questions] Three closed questions shown after the SUS (W-01–03, logged automatically). After they answer, ask why they chose those answers (W-04), then W-05–W-07 one at a time. Don't ask aloud again what they already answered on screen.";
   messages["세션 종료 화면이에요(사용성 설문(SUS)와 마무리 질문까지 끝난 상태). 디브리핑을 진행한 뒤, 패널의 '기록 받기(JSON)/기록 받기(CSV)'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요."] = "This is the session end screen (SUS and wrap-up questions are done). Debrief, save the log with 'Download log (JSON)/Download log (CSV)' in the panel, and press 'Start with new participant' for the next participant.";
+
+  // v31 (P03·P04 이터레이션) 새 문구
+  messages["삭제돼요"] = "Will be deleted";
+  messages["삭제됨"] = "Deleted";
+  messages["지우면 다시 볼 수 없어요"] = "Once deleted, you can't see it again";
+  messages["원본은 그대로 두고 답변에만 안 써요"] = "Originals stay; only left out of answers";
+  messages["항목 접기"] = "Hide items";
+  messages["변경 내역"] = "Change history";
+  messages["출처 확인에서"] = "In Sources";
+  messages["개인 인텔리전스에서"] = "In Personal Intelligence";
+  messages["메모리 전체 삭제됨"] = "All memories deleted";
+  messages["출처 확인"] = "Sources";
+  messages["이 답변에 쓰인 정민 관련 정보예요. 여기서 골라 지우거나, 답변에만 안 쓰게 할 수 있어요."] = "This is the Jeongmin info used in this answer. Pick items here to delete them or keep them out of answers.";
+  messages["정민 님 관련 정보는 이미 정리했어요. 앞으로 답변에 쓰지 않아요."] = "Jeongmin info has already been handled. It won't be used in answers.";
+  messages["정민 님 이야기는 아래 정보를 참고해서 나왔어요."] = "Jeongmin came up because of this info:";
+  messages["예전 Gemini 채팅에서 정민 님과 트러플 리조또를 드신 이야기(메모리)"] = "A past Gemini chat about truffle risotto with Jeongmin (memory)";
+  messages["캘린더 일정 '정민과 저녁'"] = "Calendar event 'Dinner with Jeongmin'";
+  messages["Gmail의 톨로 비스트로 예약 메일"] = "The Tolo Bistro booking email in Gmail";
+  messages["지금은 정민 님 관련 정보를 답변에 쓰지 않아요."] = "Jeongmin info isn't used in answers now.";
+  messages["답변에 쓰지 않으려면 여기서 고를 수 있어요."] = "To keep it out of answers, pick it here.";
+  messages["출처별로 묶었어요. 펼치면 항목을 하나씩 고를 수 있어요."] = "Grouped by source. Expand to pick items one by one.";
+  messages["원본은 Gmail·캘린더에 그대로 두고 답변에만 안 써요"] = "Originals stay in Gmail and Calendar; only left out of answers";
+  messages["확인이 필요한 정보"] = "Needs your check";
+  messages["남겨 둬요"] = "Kept";
+  messages["돈이 오간 기록이라 따로 묶었어요. 함께 처리하려면 골라 주세요"] = "These are money records, so they're grouped separately. Select them to handle them too";
+  messages["송금·입금 메일"] = "Payment emails";
+  messages["고르면 원본은 Gmail에 그대로, 답변에만 안 써요"] = "If selected, originals stay in Gmail; only left out of answers";
+  messages["[카카오페이] 정민님에게 송금 완료"] = "[KakaoPay] Money sent to Jeongmin";
+  messages["[토스] 정민님이 보낸 돈이 도착했어요"] = "[Toss] Money from Jeongmin arrived";
+  messages["남겨 둠"] = "Kept";
+  messages["지웠어요. 다시 볼 수 없어요"] = "Deleted. You can't see it again";
+  messages["돈이 오간 기록이라 처리하지 않았어요. 계속 답변에 쓰일 수 있어요"] = "Not handled because these are money records. They may still be used in answers";
+  messages["함께 처리"] = "Handle these too";
+  messages["자세히 고르기"] = "Choose in detail";
+  messages["Gmail에 정민 님과 주고받은 송금·입금 메일 2건이 남아 있어요."] = "2 payment emails with Jeongmin remain in Gmail.";
+  messages["평소 이탈리안을 좋아하신다고 하셔서 골라 봤어요. 송도 센트럴파크 인근의"] = "You said you like Italian food, so I picked this. Near Songdo Central Park, I recommend";
+  messages["송도 센트럴파크 인근의"] = "Near Songdo Central Park, I recommend";
+  messages["를 추천해 드려요. 통창으로 공원 뷰를 즐길 수 있고, '바질 새우 피자'와 '트러플 뇨끼'가 인기 메뉴예요."] = ". It has big windows with a park view, and its popular dishes are basil shrimp pizza and truffle gnocchi.";
+  messages["지난봄에 다녀오신 톨로 비스트로도 다시 가 보셔도 좋겠어요."] = "You could also go back to Tolo Bistro, where you went last spring.";
+  messages["정민 님에 대해 지금 참고할 수 있는 정보예요."] = "Here's what I can refer to about Jeongmin right now.";
+  messages["정민 님에 대해 참고할 수 있는 정보가 없어요."] = "There's no information about Jeongmin I can refer to.";
+  messages["예전 대화에서 정민 님과 트러플 리조또를 드신 이야기를 기억하고 있어요."] = "I remember a past chat about having truffle risotto with Jeongmin.";
+  messages["캘린더에 '정민과 저녁', '정민 생일' 같은 일정이 있어요."] = "Your calendar has events like 'Dinner with Jeongmin' and 'Jeongmin's birthday'.";
+  messages["Gmail에 정민 님이 함께한 항공 예약, 송금 메일이 있어요."] = "Gmail has a flight booking with Jeongmin and payment emails.";
+  messages["네, 좋아요. 조금 더 자세히 알려 주시면 도와드릴게요."] = "Sure. Tell me a bit more and I'll help.";
+  messages["정민 님 관련 정보는 이미 정리했어요. 지금은 답변에 쓰지 않아요."] = "Jeongmin info has already been handled. It isn't used in answers now.";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -687,6 +733,15 @@
     const step = old.match(/^([A-Z]{1,2}[0-9]?[A-Z]?) (.+)$/);
     if (step && messages[step[2]]) return `${step[1]} ${messages[step[2]]}`;
     return old
+      .replace(/^정민 관련 정보 (\d+)건을 처리했어요$/, (_, n) => `Handled ${items(n)} about Jeongmin`)
+      .replace(/^Memory (\d+)건 삭제됨$/, (_, n) => `${items(n)} deleted from Memory`)
+      .replace(/^Memory (\d+)건 삭제$/, (_, n) => `Delete ${items(n)} from Memory`)
+      .replace(/^(\d+)건 답변에 안 씀$/, (_, n) => `${items(n)} not used in answers`)
+      .replace(/^항목 (\d+)건 보기$/, (_, n) => `Show ${items(n)}`)
+      .replace(/^(.+) 연동 끔$/, '$1 disconnected')
+      .replace(/^(.+) 답변에 안 씀$/, '$1 · not used in answers')
+      .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
+      .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
       .replace(/^선택 (\d+)건$/, (_, n) => `${n} selected`)
       .replace(/^(\d+)건 처리$/, (_, n) => `Process ${items(n)}`)
       .replace(/^정보 (\d+)건 처리됨$/, (_, n) => `${items(n)} handled`)

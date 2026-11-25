@@ -1262,3 +1262,59 @@ body.holding .taskbar{ display:none !important; }
 .gd-opt{ margin-top:10px; border-top:1px dashed #d7d7d7; padding-top:8px; font-size:12.5px; color:#5e5e5e; }
 .gd-opt summary{ cursor:pointer; font-weight:500; color:#444746; }
 .gd-opt .gd-line{ margin-top:6px; }
+
+/* ===== v31 (P03·P04 이터레이션) ===== */
+/* D1: 삭제 / 답변에만 안 씀 — 처리 전·후 같은 아이콘·색·한 줄 설명 */
+.fx-lines{ display:flex; flex-direction:column; gap:8px; padding:12px 0 4px; }
+.fx-line{ display:flex; align-items:flex-start; gap:10px; border-radius:14px; padding:10px 12px; }
+.fx-line.del{ background:#fce8e6; color:#8c1d18; }
+.fx-line.block{ background:#d3e3fd; color:#0842a0; }
+.fx-line.is-done{ opacity:.75; }
+.fx-ic{ flex:0 0 auto; display:inline-flex; margin-top:2px; }
+.fx-ic svg{ width:16px; height:16px; }
+.fx-text{ flex:1; min-width:0; }
+.fx-t1{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; font-size:14px; line-height:1.4; }
+.fx-t1 b{ font-weight:600; }
+.fx-src{ font-size:13px; opacity:.85; }
+.fx-t2{ font-size:13px; line-height:1.45; margin-top:2px; color:#444746; }
+/* D2: 항목 목록은 '항목 N건 보기'로 접어 둠 */
+#sheetOverlay .ct-detail-toggle{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; font-size:14px; color:#0b57d0; font-weight:500; cursor:pointer; }
+#sheetOverlay .ct-detail-toggle .chevron{ background:#0b57d0; }
+#sheetOverlay .ct-group.detail .ct-detail-toggle .chevron{ transform:rotate(180deg); }
+#sheetOverlay .ct-rows{ display:none; border-top:1px solid #e3e3e3; }
+#sheetOverlay .ct-group.detail .ct-rows{ display:block; }
+/* 처리 줄: 고른 것이 어떻게 되는지 미리 보기 */
+#a3Bar{ padding-top:10px; }
+.ct-sel-wrap{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.ct-sel-fx{ font-size:12.5px; color:#5e5e5e; line-height:1.35; }
+/* D7: 변경 내역 — 출처 확인과 개인 인텔리전스에서 바꾼 것을 한곳에 */
+.ch-log{ background:#fff; border:1px solid #e3e3e3; border-radius:20px; padding:12px 16px; margin:4px 0 10px; }
+.ch-title{ font-size:14px; font-weight:600; color:#1f1f1f; }
+.ch-where{ font-size:12.5px; color:#5e5e5e; margin:8px 0 2px; }
+.ch-row{ display:flex; align-items:center; gap:8px; font-size:14px; line-height:1.45; color:#1f1f1f; padding:2px 0; }
+.ch-row .fx-ic{ margin-top:0; }
+.ch-row.del .fx-ic{ color:#b3261e; }
+.ch-row.block .fx-ic, .ch-row.off .fx-ic{ color:#0842a0; }
+/* D3·D4: 다시 물어본 답변의 배지, 채팅 안내 버튼 */
+.msg-ai.reask .reask-icons{ display:flex; align-items:center; margin:6px 0 0 -3px; }
+.msg-ai.reask .chat-src{ display:inline-flex; align-items:center; gap:6px; border:0; border-radius:18px; padding:8px 14px; font:inherit; font-size:14px; cursor:pointer; margin:4px 0 0; }
+/* D5: 채팅 요청 → 바로 처리 결과 카드 (응답 대기 후 등장) */
+.b3-dots{ display:none; }
+.screen[data-step="B3"].loading .b3-dots{ display:flex; }
+.screen[data-step="B3"].loading .complete-card, .screen[data-step="B3"].loading #b3Thread{ display:none; }
+.screen[data-step="B3"]:not(.loading) .complete-card{ animation:streamIn .3s ease-out; }
+.complete-card .btn-row-h{ display:flex; gap:8px; }
+.complete-card .btn-row-h .ghost-btn{ flex:1; }
+/* D1: 목록 묶음 이름 옆 효과 칩 + 한 줄 설명 */
+.check-group-head{ align-items:center !important; }
+.check-group-line{ margin:-2px 2px 6px; font-size:13px; line-height:1.45; color:#5e5e5e; }
+/* D6: 확인이 필요한 정보(송금·입금) */
+.hold-group .check-item{ border:1px dashed #c4c7c5; }
+.b3-line.kept .b3-name{ color:#444746; }
+.b3-act{ margin-top:4px; }
+.text-btn{ display:inline-block; font-size:14px; font-weight:500; color:#0b57d0; padding:6px 12px; margin-left:-12px; border-radius:16px; cursor:pointer; }
+.text-btn:hover, .text-btn:focus-visible{ background:rgba(11,87,208,.08); }
+/* v31: 채팅 안내 버튼은 내용 너비만, 과제 2 다시 묻기 말풍선도 오른쪽 정렬 */
+.msg-ai.reask .chat-src{ align-self:flex-start; width:auto; }
+#b3Thread{ display:flex; flex-direction:column; gap:14px; margin-top:14px; }
+#b3Thread:empty{ display:none; }
