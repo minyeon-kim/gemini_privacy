@@ -56,7 +56,7 @@
     C5:{phase:'c', script:"처리 목록이에요. 체크를 바꾸는지, '삭제돼요/답변에만 안 써요'를 알아차리는지 보세요.", indicators:[3,4,5], interact:"클릭 가능: 항목 체크, 취소, 선택 항목 처리"},
     C6:{phase:'c', script:"처리 결과예요. '같은 질문 다시 하기'로 처리된 정보가 빠진 답변을 직접 확인하는지 보세요(C-07). '되돌리기'는 방금 처리한 것만 원래대로 돌려요. 참가자가 끝났다고 하면 '과제 완료'를 누르게 두세요.", indicators:[3], interact:"클릭 가능: 되돌리기, 같은 질문 다시 하기"},
     QC:{phase:'-', script:"[과제 직후 설문 · 이사 상황] 설문 전에 먼저 말로: '지금 이사 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' 그다음 화면 설문(3문항)에 답하게 두세요.", indicators:[3,5], interact:"클릭 가능: 문항별 보기, 다음"},
-    END:{phase:'-', script:"세션 종료 화면이에요(SUS와 마무리 질문 W-04~W-07이 화면에서 모두 끝난 상태라 더 물을 필수 질문은 없어요). 화면에 '이름·일정·메일은 모두 가상'이라는 안내가 나와요. 짧게 감사 인사를 하고 녹화를 멈춘 뒤, 패널의 '기록 받기(JSON)/기록 받기(CSV)'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
+    END:{phase:'-', script:"세션 종료 화면이에요(SUS와 마무리 질문 W-04~W-07이 화면에서 모두 끝난 상태라 더 물을 필수 질문은 없어요). 짧게 감사 인사를 하고(필요하면 오늘 본 이름·일정은 모두 가상이었다고 말로 안내) 녹화를 멈춘 뒤, 패널의 '기록 받기(JSON)/기록 받기(CSV)'로 기록을 저장하고 다음 참가자는 '새 참가자로 시작'을 누르세요.", indicators:[], interact:"참가자 모드에서는 이 화면에 기록 받기/복사 버튼이 보입니다(자동 전송 설정 시 자동 전송)."},
   };
   const PHASE_A = ['A1','A1B','A1C','A2','A3','A4'];
   const PHASE_B = ['B1','B2','B3'];
@@ -643,7 +643,8 @@
         : `<div class="checkbox${a3Sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!a3Sel[id]}" data-tag="A3 항목 ${id}" onclick="event.stopPropagation(); App.a3Pick('${id}')">${CHECK_TXT}</div>`;
       const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
-      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
+      const fxTag = done || off ? '' : `<span class="li-dot">·</span><span class="li-fx ${FX[fxOf(id)].cls}">${esc(I18n.t(FX[fxOf(id)].todo))}</span>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span>${fxTag}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
     };
     const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로 두고 답변에만 안 써요'))}</span></div></div>` : '';
     body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
@@ -661,8 +662,6 @@
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
-          ${fx ? `<div class="fx-chips">${fx}</div>` : ''}
-          <div class="ct-detail-toggle hot" data-tag="A3 항목 보기 ${t}" onclick="App.a3Detail('${t}')"><span>${esc(I18n.t(a3Detail[t] ? '항목 접기' : `항목 ${ids.length}건 보기`))}</span><span class="chevron"></span></div>
           <div class="ct-rows">${ids.map(row).join('')}</div>
         </div>
       </div>`;
