@@ -11,6 +11,8 @@
   const WITH_SUS = true;
   // v31 D5: 채팅 요청은 기본으로 바로 처리하고 결과를 보고해요. 예전처럼 목록에서 먼저 고르게 하려면 ?b=confirm
   // v31: 채팅 요청 → 요약 카드에서 한 번 승인(기본). ?b=direct 바로 처리 · ?b=list 목록부터(v30 방식)
+  // v31: 과제 도중 질문(A-01 · A-04 힌트 · A-05 · A-07 · B-02)을 화면 위쪽 배너로 자동 표시. 끄려면 ?ask=boundary
+  const ASK_INTASK = (params.get('ask') || '').toLowerCase() !== 'boundary';
   const B_MODE = ({ direct:'direct', list:'list' })[(params.get('b') || '').toLowerCase()] || 'summary';
 
   /* ---------------- 단계 정의 (진행자 스크립트) ----------------
@@ -152,6 +154,7 @@
     stepEnteredAt = performance.now();
     enterEffects(step, prev);
     if(prev !== step) Logger.log('step', { step, from: prev, prevDwellMs: dwell, via: why || '' });
+    if(askCur && !['A2', 'A3', 'A4'].includes(step) && !(askCur.id === 'B-02' && step === 'B2')){ const after = askAfter; Logger.log('ask_next', { step, id: askCur.id, mode: 'banner', how: 'left-screen' }); askCur = null; askAfter = null; renderAskBanner(); if(after) after(); }
     markMilestones(step);
 
     renderPanel();
@@ -161,7 +164,19 @@
     const d = STEPS[step];
     if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END'){ onEnd(); celebrate(); }
-    // A-05(조작 전 의도)는 과제 도중이라 참가자 화면에 띄우지 않고, 진행자 패널에 '지금 묻기'로 보여 줘요(유도·흐름 끊김 방지).
+    // 과제 도중 질문은 화면을 막지 않는 위쪽 배너로(조작은 그대로 가능)
+    if(MODE === 'participant' && ASK_INTASK){
+      if(step === 'A3' && !M.askedA05){ M.askedA05 = true; askTimers.push(setTimeout(() => { if(current === 'A3') askBanner('A-05', '이 화면을 보고, 어떻게 하실 생각이세요?'); }, 500)); }
+      if(step === 'A4' && !M.askedA07){ M.askedA07 = true; askTimers.push(setTimeout(() => { if(current === 'A4') askBanner('A-07', '이 화면은 무엇을 보여 주는 것 같으세요?'); }, 500)); }
+      if(step === 'B2' && !M.askedB02 && !b2Result){
+        const enteredAt = M.lastClick = performance.now();
+        askTimers.push(setTimeout(function idle(){
+          if(current !== 'B2' || M.askedB02 || b2Result) return;
+          if(performance.now() - (M.lastClick || enteredAt) >= 20000){ M.askedB02 = true; askBanner('B-02', '여기 나온 정리 범위는 생각하셨던 것과 비교하면 어떤가요?'); }
+          else askTimers.push(setTimeout(idle, 2000));
+        }, 20000));
+      }
+    }
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
@@ -256,8 +271,18 @@
       M.a2Enter = performance.now(); Logger.log('response_complete', {step:current});
       if(!M.aGoal){
         const showGoal = () => { M.aGoal = true; M.a2Enter = performance.now(); if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); };
-        // A-01(첫 반응)은 과제 도중이라 참가자 화면에 띄우지 않아요. 진행자가 다 읽은 걸 보고 말로 묻고, 목표는 v30처럼 바로 보여 줘요.
-        showGoal();
+        const goalThenHint = () => {
+          showGoal();
+          // A-04: 목표가 나오고 60초 동안 출처 확인을 못 찾으면 스크립트 문장 그대로 힌트 한 번(진행자마다 말이 달라지지 않게)
+          if(MODE === 'participant' && ASK_INTASK) askTimers.push(setTimeout(() => {
+            if(!M.sourceFoundMs && current === 'A2' && !hold){ M.hintA = performance.now(); askBanner('A-04', '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?', { hint: true }); }
+          }, 60000));
+        };
+        // A-01: 답변을 읽을 시간(8초)을 준 뒤 화면을 막지 않는 배너로 묻고, '답했어요'를 누르면 과제 목표를 보여 줘요.
+        if(MODE === 'participant' && ASK_INTASK && !M.askedA01){
+          M.askedA01 = true;
+          askTimers.push(setTimeout(() => { if(current === 'A2' && !M.aGoal) askBanner('A-01', '방금 답변을 보고 어떤 생각이 드세요?', { after: goalThenHint }); else if(!M.aGoal) goalThenHint(); }, 8000));
+        }else goalThenHint();
       }
     }
   }
@@ -318,6 +343,8 @@
     if(!pid){ $('#pidError').classList.add('show'); input.focus(); return; }
     $('#pidError').classList.remove('show');
     Object.keys(M).forEach(k => delete M[k]);
+    clearAsk();
+    M.sessionStart = performance.now();
     resetState(); applyAll();
     window.Interactions?.reset();
     const consentAt = new Date().toISOString();
@@ -335,6 +362,7 @@
     if(Logger.active && !confirm(I18n.t('현재 세션 기록을 보관함에 저장하고 새 참가자로 시작할까요?'))) return;
     if(Logger.active) Logger.archive(summary());
     Object.keys(M).forEach(k => delete M[k]);
+    clearAsk();
     resetState(); applyAll();
     window.Interactions?.reset();
     $('#pidInput').value = '';
@@ -1076,7 +1104,7 @@
     const hit = e.target.closest('[data-tag], button, input, .hot');
     if(hit){
       const tag = hit.dataset.tag || (hit.textContent || '').trim().slice(0, 24) || hit.id || hit.tagName.toLowerCase();
-      Logger.log('click', { step: current, tag, x, y });
+      Logger.log('click', { step: current, tag, x, y }); M.lastClick = performance.now();
       // v31: 답변 배지 외에 다시 물어본 답변의 배지, 채팅 안내 버튼으로도 출처 확인을 열 수 있어요. 처음 연 경로를 같이 남겨요.
       if(/^출처 확인/.test(tag) && M.a2Enter && !M.sourceFoundMs){ M.sourceFoundMs = Math.max(0, Math.round(performance.now() - M.a2Enter)); M.sourcePath = tag; }
     }else{
@@ -1107,6 +1135,7 @@
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
       hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next, qs: hold.qs, i: hold.i, overlay: hold.overlay } : null,
+      ask: askCur,
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
     };
   }
@@ -1139,6 +1168,7 @@
     openables().forEach((el, i) => el.classList.toggle('open', open.includes(i)));
     window.Interactions?.sync();
     remoteHold = s.hold || null; renderHold(remoteHold);
+    remoteAsk = s.ask || null; renderAskBanner(remoteAsk);
     const bar = $('#snackbar');
     if(s.snack) bar.querySelector('.snackbar-msg').textContent = s.snack;
     bar.classList.toggle('show', !!s.snack);
@@ -1175,6 +1205,8 @@
       A_sourceBadgeFound: !!M.sourceFoundMs,
       A_sourceBadgeFoundSec: M.sourceFoundMs ? +(M.sourceFoundMs / 1000).toFixed(1) : null,
       A_sourcePath: M.sourcePath || null,
+      A_hintShown: !!M.hintA,
+      A_foundAfterHint: !!(M.hintA && M.sourceFoundMs && M.a2Enter && (M.a2Enter + M.sourceFoundMs) > M.hintA),
       A_visitedA4: ev.some(e => e.type === 'step' && e.step === 'A4'),
       A_memoryDeleted: memState.all ? 'all' : memDeletedN() ? `used(${memDeletedN()})` : 'none',
       A_itemsProcessed: Object.keys(memState.done || {}),
@@ -1465,12 +1497,53 @@
       { id:'W-07b', q:'반대로, 실제로는 잘 안 쓸 것 같은 부분이 있었나요? 있다면 왜 그런가요?' },
     ],
   };
+  // 시간 남으면 묻는 선택 질문: 세션 시작부터 지난 시간이 기준보다 짧을 때만 붙여요(진행자 패널에 '(선택)')
+  const mins = () => M.sessionStart ? (performance.now() - M.sessionStart) / 60000 : 0;
+  const ASK_OPT = {
+    intro: { within: 99, items: [{ id:'I-01', q:'평소 AI 챗봇을 어떤 일에 주로 쓰세요?' }] },
+    'post-survey-A': { within: 25, items: [
+      { id:'A-opt1', q: () => { const v = (survey.A || {})['A-13']; return v ? `방금 '얼마나 쉬웠나요' 질문에 ${v}점을 주셨어요. 그렇게 주신 이유는요?` : '쉬운 정도 점수를 그렇게 주신 이유는요?'; } },
+      { id:'A-opt2', q:'처리하면서 확신이 덜 든 부분이 있었나요? 있었다면 어디였나요?' },
+    ] },
+    'post-survey-B': { within: 42, items: [
+      { id:'B-opt1', q: () => { const v = (survey.B || {})['B-10']; return v ? `방금 '얼마나 쉬웠나요' 질문에 ${v}점을 주셨어요. 그렇게 주신 이유는요?` : '쉬운 정도 점수를 그렇게 주신 이유는요?'; } },
+      { id:'B-15', q:'요청하신 범위와 실제로 처리된 범위를 비교하면 어땠나요?' },
+      { id:'B-15b', when: () => !chat.b3.length, q:'처리가 됐는지 확인하고 싶다면 어떻게 하실 것 같으세요?', m:'스스로 다시 묻지 않았을 때만 · 안 떠오르면 진행자가 다시 물어보기 · 되돌리기를 보여 주고 반응 듣기(도움 아님)' },
+    ] },
+    wrap: { within: 50, items: [{ id:'W-06', q:'실제 Gemini에 이 기능이 있다면, 어떤 상황에서 쓰실 것 같으세요?' }] },
+  };
   function askList(kind, phase, next){
     const key = kind === 'post-task' || kind === 'post-survey' ? `${kind}-${phase}` : kind;
     let list = (ASK[key] || []).slice();
+    const opt = ASK_OPT[key];
+    if(opt && mins() < opt.within) list = key === 'intro' ? opt.items.map(it => Object.assign({ m:'선택' }, it)).concat(list) : list.concat(opt.items.map(it => Object.assign({}, it, { m: '선택' + (it.m ? ' · ' + it.m : '') })));
     if(kind === 'post-survey' && next === firstStep('B')) list = list.concat(ASK['pre-B']);   // 과제 2를 시작하기 전에 B-00
     return list.filter(it => !it.when || it.when()).map(it => ({ id: it.id, q: typeof it.q === 'function' ? it.q() : it.q, m: it.m || '' }));
   }
+  /* 과제 도중 질문 배너: 화면을 막지 않고 위쪽에 떠요. 참가자는 말로 답하고 '답했어요'(2초 뒤 눌림) */
+  let askCur = null, askAfter = null, askTimers = [];
+  function askBanner(id, q, opts){
+    opts = opts || {};
+    if(askCur) return;
+    askCur = { id, q, hint: !!opts.hint }; askAfter = opts.after || null;
+    Logger.log('ask_show', { step: current, id, mode: 'banner', hint: !!opts.hint });
+    renderAskBanner();
+    const btn = $('#askDone'); if(btn){ btn.disabled = true; setTimeout(() => { btn.disabled = false; }, 2000); }
+    renderGuide();
+  }
+  function askDone(){
+    if(!askCur || $('#askDone').disabled) return;
+    Logger.log('ask_next', { step: current, id: askCur.id, mode: 'banner' });
+    const after = askAfter; askCur = null; askAfter = null;
+    renderAskBanner(); renderGuide();
+    if(after) after();
+  }
+  function renderAskBanner(view){
+    const a = view !== undefined ? view : askCur, box = $('#askBanner'); if(!box) return;
+    box.hidden = !a;
+    if(a){ $('#askBadge').textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문'); $('#askText').textContent = I18n.t(a.q); }
+  }
+  function clearAsk(){ askTimers.forEach(clearTimeout); askTimers = []; askCur = null; askAfter = null; renderAskBanner(); }
   let hold = null;   // { kind, phase, next, why, qs, i, overlay }
   let holdAfter = null;   // 질문이 끝난 뒤 할 일(이 기기에서만)
   let holdWaitTimer = null;
@@ -1565,11 +1638,13 @@
     A1: { watch:["상황 카드를 읽고 참가자가 질문을 보내게 두기"] },
     A1B: { watch:["참가자가 질문을 보내게 두기"] },
     A1C: { watch:["기다리는 동안의 반응"] },
-    A2: { now:["(필수 · 답변을 다 읽은 걸 확인한 뒤, 목표를 주기 전에) 방금 답변을 보고 어떤 생각이 드세요? (A-01)"],
+    A2: { now: ASK_INTASK ? null : ["(필수 · 답변을 다 읽은 걸 확인한 뒤, 목표를 주기 전에) 방금 답변을 보고 어떤 생각이 드세요? (A-01)"],
+          auto: ASK_INTASK ? ["A-01은 답변이 끝나고 8초 뒤, A-04 힌트는 목표 뒤 60초 동안 못 찾으면 화면 위쪽 배너로 자동 표시"] : null,
           say:["참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 알아보고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요."],
           watch:["'출처 확인'을 스스로 찾는지 (A-02)"],
           help:["60초 막히면 한 번: 이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요? (A-04)"] },
-    A3: { now:["(필수 · 시트를 열면 바로, 조작하기 전에) 어떻게 하실 생각이세요? (A-05)"],
+    A3: { now: ASK_INTASK ? null : ["(필수 · 시트를 열면 바로, 조작하기 전에) 어떻게 하실 생각이세요? (A-05)"],
+          auto: ASK_INTASK ? ["A-05는 시트를 처음 열면 화면 위쪽 배너로 자동 표시 · 조작하는 동안에는 더 묻지 않기"] : null,
           watch:["조작하는 동안에는 묻지 않기 · 이해 질문(A-08~A-10)은 과제 완료 뒤 설문 다음에"] },
     A4: { first:["(스스로 들어왔을 때만) 이 화면은 무엇을 보여 주는 것 같으세요? (A-07)"] },
     QA: { first:["(설문 전) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요? (A-12)"],
@@ -1606,6 +1681,7 @@
   };
   let guideStep = null;
   let remoteHold = null;   // 실시간 보기: 참가자 화면의 대기 상태
+  let remoteAsk = null;    // 실시간 보기: 참가자 화면의 질문 배너
   function renderGuide(){
     const box = $('#guideBox'); if(!box) return;
     const g = GUIDE[current] || (hold || remoteHold ? {} : null);
@@ -1616,7 +1692,9 @@
     box.hidden = false;
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
     const hq = holdQuestions(hold || remoteHold);
-    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('now', '지금 말로 묻기 (필수)', g.now) + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
+    const ab = askCur || remoteAsk;
+    if(ab) hq.unshift(`▶ ${ab.id} ${ab.q} (화면 위쪽 배너${ab.hint ? ' · 힌트 = 도움으로 기록' : ''})`);
+    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('now', '지금 말로 묻기 (필수)', g.now) + sec('watch', '화면에 자동으로 뜨는 질문', g.auto) + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }
 
@@ -1820,7 +1898,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
-    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, askDone, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){

@@ -767,6 +767,17 @@
   messages["반대로, 실제로는 잘 안 쓸 것 같은 부분이 있었나요? 있다면 왜 그런가요?"] = "On the other hand, was there anything you probably wouldn't use? If so, why?";
   messages["처리하기 전에 무엇이 처리될지 확인하는 과정은 얼마나 번거롭거나 수월했나요?"] = "How cumbersome or easy was checking what would be handled before processing?";
   messages["오늘 써 본 기능들이 실제 Gemini에 있다면, Gemini가 내 정보를 답변에 쓰는 것이 지금보다 어떻게 느껴질 것 같나요?"] = "If today's features were in the real Gemini, how would Gemini using your info in answers feel compared to now?";
+  messages["진행자 질문 · 힌트"] = "Moderator question · hint";
+  messages["답했어요"] = "Done answering";
+  messages["이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?"] = "Is there a way to find out why this answer came out this way?";
+  messages["이 화면은 무엇을 보여 주는 것 같으세요?"] = "What do you think this screen is showing?";
+  messages["여기 나온 정리 범위는 생각하셨던 것과 비교하면 어떤가요?"] = "How does the scope shown here compare to what you had in mind?";
+  messages["평소 AI 챗봇을 어떤 일에 주로 쓰세요?"] = "What do you usually use AI chatbots for?";
+  messages["처리하면서 확신이 덜 든 부분이 있었나요? 있었다면 어디였나요?"] = "Was there any part you felt less sure about? If so, where?";
+  messages["요청하신 범위와 실제로 처리된 범위를 비교하면 어땠나요?"] = "How did what you asked for compare to what was actually handled?";
+  messages["처리가 됐는지 확인하고 싶다면 어떻게 하실 것 같으세요?"] = "If you wanted to check it was handled, what would you do?";
+  messages["실제 Gemini에 이 기능이 있다면, 어떤 상황에서 쓰실 것 같으세요?"] = "If the real Gemini had this feature, in what situations would you use it?";
+  messages["쉬운 정도 점수를 그렇게 주신 이유는요?"] = "Why did you give that ease score?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -798,6 +809,7 @@
       .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
       .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
       .replace(/^진행자 질문 (\d+) \/ (\d+)$/, 'Moderator question $1 / $2')
+      .replace(/^방금 '얼마나 쉬웠나요' 질문에 (\d+)점을 주셨어요\. 그렇게 주신 이유는요\?$/, 'You gave $1 points for how easy it was. Why that score?')
       .replace(/^아까 (.+) 스위치를 끄셨어요\. 끄면 어떤 정보가 답변에 안 쓰이게 될까요\?$/, 'Earlier you turned off the $1 switch. What info is no longer used in answers when it is off?')
       .replace(/^방금 '(.+)'를 고르셨어요\. 왜 그렇게 느끼셨나요\?$/, 'You just picked "$1". Why do you feel that way?')
       .replace(/^'(.+)'가 더 편하다고 고르셨어요\. 어떤 점이 더 편했나요\?$/, 'You said "$1" was easier. What made it easier?')

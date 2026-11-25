@@ -11,7 +11,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/gemini-logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=49">
+<link rel="stylesheet" href="css/style.css?v=51">
 </head>
 <body>
 <div class="language-control" data-no-translate>
@@ -718,6 +718,11 @@
       </div>
     </div>
 
+    <!-- 과제 도중 진행자 질문 배너 (참가자 모드 · 화면을 막지 않음) -->
+    <div class="ask-banner" id="askBanner" role="status" aria-live="polite" hidden>
+      <div class="ask-text-wrap"><span class="ask-badge" id="askBadge">진행자 질문</span><div class="ask-text" id="askText"></div></div>
+      <button type="button" class="ask-done hot" id="askDone" data-tag="진행자 질문 배너 답했어요" onclick="App.askDone()">답했어요</button>
+    </div>
     <div class="interaction-toast" id="interactionToast" role="status" aria-live="polite"></div>
     <div class="snackbar" id="snackbar" role="status" aria-live="polite">
       <span class="snackbar-msg">삭제됨</span>
@@ -778,12 +783,12 @@
   </details>
 </div>
 
-<script src="js/config.js?v=49"></script>
-<script src="js/i18n.js?v=49"></script>
-<script src="js/logger.js?v=49"></script>
-<script src="js/taskc.js?v=49"></script>
-<script src="js/app.js?v=49"></script>
-<script src="js/interactions.js?v=49"></script>
-<script src="js/live.js?v=49"></script>
+<script src="js/config.js?v=51"></script>
+<script src="js/i18n.js?v=51"></script>
+<script src="js/logger.js?v=51"></script>
+<script src="js/taskc.js?v=51"></script>
+<script src="js/app.js?v=51"></script>
+<script src="js/interactions.js?v=51"></script>
+<script src="js/live.js?v=51"></script>
 </body>
 </html>
