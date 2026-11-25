@@ -9,7 +9,7 @@
     --border:#e0e2e5;
     --good-bg:#e6f4ea; --good-fg:#1e8e3e;
     --risk-bg:#fce8e6; --risk-fg:#c5221f;
-    font-family:'Google Sans Flex','Google Sans','Noto Sans KR','Apple SD Gothic Neo','Segoe UI',Roboto,-apple-system,BlinkMacSystemFont,sans-serif;
+    font-family:'Google Sans Flex','Google Sans',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Segoe UI',Roboto,sans-serif;
   }
   *{box-sizing:border-box;}
   body{
