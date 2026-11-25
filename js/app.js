@@ -518,7 +518,8 @@
   function renderChat(){
     // v31 D3: 다시 물어본 답변에도 출처 확인 배지를 붙여서, 위로 올라가 첫 답변을 찾지 않아도 되게 해요.
     const badge = `<div class="msg-icons reask-icons"><span class="src-badge hot" data-tag="출처 확인 · 다시 물어본 답변" onclick="App.go('A3', 'reask-badge')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg><span>출처 확인</span></span></div>`;
-    const draw = (id, list, withBadge) => { const box = $('#' + id); if(box) box.innerHTML = list.map(m => `<div class="msg-user" data-no-translate>${esc(m.q)}</div><div class="msg-ai reask">${m.html}${withBadge && m.badge ? badge : ''}</div>`).join(''); };
+    // 한 화면에 '출처 확인'이 여러 번 보이지 않게, 다시 물어본 답변 중 마지막 것에만 붙여요.
+    const draw = (id, list, withBadge) => { const box = $('#' + id); if(box) box.innerHTML = list.map((m, i) => `<div class="msg-user" data-no-translate>${esc(m.q)}</div><div class="msg-ai reask">${m.html}${withBadge && m.badge && i === list.length - 1 ? badge : ''}</div>`).join(''); };
     draw('a2Thread', chat.a2, true); draw('b3Thread', chat.b3, false);
     ['a2', 'b3'].forEach(k => syncChatSend(k));
   }
@@ -571,7 +572,7 @@
   // v31 D1: '삭제'와 '답변에만 안 씀'을 처리 전·후 모두 같은 아이콘·색·한 줄 설명으로 보여 줘요.
   const FX = {
     del:   { cls:'del',   icon:() => ICON_DEL,   todo:'삭제돼요',       done:'삭제됨',       line:'지우면 다시 볼 수 없어요' },
-    block: { cls:'block', icon:() => ICON_BLOCK, todo:'답변에만 안 써요', done:'답변에 안 씀', line:'원본은 그대로 두고 답변에만 안 써요' },
+    block: { cls:'block', icon:() => ICON_BLOCK, todo:'답변에만 안 써요', done:'답변에만 안 씀', line:'원본은 그대로 두고 답변에만 안 써요' },
   };
   const fxOf = id => A_ITEMS[id].src === 'memory' ? 'del' : 'block';
   // 출처별 건수 요약: '메모리 2 · Gmail 1 · 캘린더 2'
@@ -579,11 +580,11 @@
     const n = {}; ids.forEach(id => { const k = A_ITEMS[id].src; n[k] = (n[k] || 0) + 1; });
     return ['memory', 'gmail', 'calendar'].filter(k => n[k]).map(k => `${REF_NAME[k]} ${n[k]}`).join(' · ');
   }
-  // 고른 항목을 처리하면 어떻게 되는지 한 줄로: '메모리 2건 삭제 · 3건 답변에 안 씀'
+  // 고른 항목을 처리하면 어떻게 되는지 한 줄로: '메모리 2건 삭제 · 3건 답변에만 안 씀'
   function effectText(ids, done){
     const d = ids.filter(id => fxOf(id) === 'del').length, b = ids.length - d, out = [];
     if(d) out.push(I18n.t(`메모리 ${d}건 ${done ? '삭제됨' : '삭제'}`));
-    if(b) out.push(I18n.t(`${b}건 답변에 안 씀`));
+    if(b) out.push(I18n.t(`${b}건 답변에만 안 씀`));
     return out.join(' · ');
   }
   function fxLine(kind, ids, done){
@@ -601,7 +602,7 @@
       const blk = ids.filter(id => fxOf(id) === 'block');
       if(w === 'pi' && memState.all) groups.pi.push(['del', '메모리 전체 삭제됨']);
       else if(del) groups[w].push(['del', `메모리 ${del}건 삭제됨`]);
-      if(blk.length) groups[w].push(['block', `${srcCounts(blk)} 답변에 안 씀`]);
+      if(blk.length) groups[w].push(['block', `${srcCounts(blk)} 답변에만 안 씀`]);
       Object.keys(refState).filter(k => !refState[k] && (refVia[k] || 'sheet') === w && !(k === 'memory' && memState.all)).forEach(k => groups[w].push(['off', `${REF_NAME[k]} 연동 끔`]));
     });
     const where = { sheet:'출처 확인에서', pi:'개인 인텔리전스에서' };
@@ -627,15 +628,15 @@
       const left = !open.length ? '<span class="ct-spacer"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
       // v31 D2: 주제를 펼치면 먼저 요약(무엇이 어떻게 처리되는지)만 보이고, 항목 목록은 '항목 N건 보기'로 접어 둬요.
-      const fx = fxLine('del', open.filter(id => fxOf(id) === 'del'), false) + fxLine('block', open.filter(id => fxOf(id) === 'block'), false)
-        + fxLine('del', handled.filter(id => aDone(id) && fxOf(id) === 'del'), true) + fxLine('block', handled.filter(id => aDone(id) && fxOf(id) === 'block'), true);
+      // 처리한 것은 맨 위 '변경 내역'과 항목 칩에 나오니, 여기서는 아직 남은 것만 요약해요(리뷰: 같은 정보 반복 줄이기).
+      const fx = fxLine('del', open.filter(id => fxOf(id) === 'del'), false) + fxLine('block', open.filter(id => fxOf(id) === 'block'), false);
       return `<div class="ct-group${a3Open[t] ? ' open' : ''}${a3Detail[t] ? ' detail' : ''}">
         <div class="ct-head hot" data-tag="A3 주제 펼치기 ${t}" onclick="App.a3Expand('${t}')">${left}
           <div class="ct-text"><div class="ct-name">${esc(I18n.t(A_TOPICS[t]))} <span class="ct-count">${ids.length}건</span>${!open.length ? `<span class="ct-alldone">${esc(I18n.t('처리함'))}</span>` : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
-          <div class="fx-lines">${fx}</div>
+          ${fx ? `<div class="fx-lines">${fx}</div>` : ''}
           <div class="ct-detail-toggle hot" data-tag="A3 항목 보기 ${t}" onclick="App.a3Detail('${t}')"><span>${esc(I18n.t(a3Detail[t] ? '항목 접기' : `항목 ${ids.length}건 보기`))}</span><span class="chevron"></span></div>
           <div class="ct-rows">${ids.map(row).join('')}</div>
         </div>
@@ -647,7 +648,8 @@
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
     // 처리 버튼 옆에 '고른 것이 어떻게 되는지'를 미리 보여 줘요(D1).
-    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
+    const allDone = Object.keys(A_ITEMS).every(aHandled);
+    const bar = $('#a3Bar'); if(bar) bar.innerHTML = allDone ? `<div class="ct-foot ct-foot-done">${esc(I18n.t('이 답변에 쓰인 정보를 모두 처리했어요'))}</div>` : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
@@ -890,6 +892,12 @@
       const sub = b.closest('.check-item-head')?.querySelector('.item-count');
       if(sub) sub.textContent = n === its.length || !n ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
+    const holdChip = $('.hold-group .check-group-head .st-chip');
+    if(holdChip){
+      const on = items.some(b => b.dataset.hold && b.classList.contains('checked'));
+      holdChip.className = 'st-chip ' + (on ? 'block' : 'keep');
+      holdChip.innerHTML = on ? ICON_BLOCK + esc(I18n.t('답변에만 안 써요')) : esc(I18n.t('남겨 둬요'));
+    }
     const picked = items.filter(b => b.classList.contains('checked')).length;
     $('#selectionCount').textContent = I18n.t(`선택 ${picked}건`);
     $('#b2ProcessBtn').textContent = b2ProcessLabel();
@@ -985,11 +993,11 @@
     const lines = sfx => ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && (g[k].on || k === 'hold')).map(k => {
       const n = g[k], hold = k === 'hold', del = k === 'memory', name = hold ? '송금·입금 메일' : SRC[k].name, part = n.on < n.all;
       const chip = hold && !n.on ? `<span class="st-chip keep">남겨 둠</span>`
-        : `<span class="st-chip ${del ? 'del' : 'block'}">${del ? ICON_DEL : ICON_BLOCK}${del ? '삭제됨' : '답변에 안 씀'}</span>`;
+        : `<span class="st-chip ${del ? 'del' : 'block'}">${del ? ICON_DEL : ICON_BLOCK}${del ? '삭제됨' : '답변에만 안 씀'}</span>`;
       const head = `<div class="b3-head"><span class="b3-name">${name} <span class="b3-count">${part && n.on ? `${n.all}건 중 ${n.on}건` : `${n.all}건`}</span></span>${chip}</div>`;
       // D1: 무엇이 지워졌고 무엇이 원본에 남는지 한 줄로
-      const desc = hold && !n.on ? `<div class="b3-desc">돈이 오간 기록이라 처리하지 않았어요. 계속 답변에 쓰일 수 있어요</div><div class="b3-act"><span class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">함께 처리</span></div>`
-        : del ? `<div class="b3-desc">지웠어요. 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
+      const desc = hold && !n.on ? `<div class="b3-desc">돈이 오간 기록이라 처리하지 않았어요. 계속 답변에 쓰일 수 있어요</div><div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>`
+        : del ? `<div class="b3-desc">지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
         : `<div class="b3-desc">원본은 ${hold ? 'Gmail' : SRC[k].name}에 그대로 있어요. 답변에만 안 써요</div>`;
       const rest = part && n.on ? `<div class="b3-desc muted">고르지 않은 ${n.all - n.on}건은 계속 답변에 쓰일 수 있어요</div>` : '';
       return `<div class="b3-line${hold && !n.on ? ' kept' : ''}">${srcIcon(k === 'hold' ? 'gmail' : k, sfx)}<div class="b3-main">${head}${desc}${rest}</div></div>`;
@@ -998,7 +1006,8 @@
     const nDel = g.memory && g.memory.on ? 1 : 0;
     ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
     { const n = $('#b4Note'); if(n) n.hidden = !nDel; }
-    $('#b3Title').textContent = $('#b5Title').textContent = I18n.t(`정민 관련 정보 ${total}건을 처리했어요`);
+    const all = Object.values(g).reduce((a, x) => a + x.all, 0);
+    $('#b3Title').textContent = $('#b5Title').textContent = I18n.t(total < all ? `정민 관련 정보 ${all}건 중 ${total}건을 처리했어요` : `정민 관련 정보 ${total}건을 처리했어요`);
 
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
@@ -1417,7 +1426,7 @@
     'post-survey-A': [
       { id:'A-08', q:'이 답변에 정민 이야기가 왜 나왔는지 설명해 주실 수 있나요?' },
       { id:'A-09', when: () => Object.keys(refState).some(k => !refState[k]), q:'앱 연동 토글을 끄면 어떤 정보가 영향을 받을까요?', m:'정답: 앱 전체 · 토글을 안 껐으면 이 질문은 안 나오고 "토글 안 씀"' },
-      { id:'A-10', when: () => Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length > 0, q:"지운 것과 '답변에 안 씀'으로 처리한 것은 각각 어떻게 될까요?", m:'정답: 지운 것은 사라짐 · 답변에 안 씀은 원본은 남고 답변에만 안 쓰임' },
+      { id:'A-10', when: () => Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length > 0, q:"지운 것과 '답변에만 안 씀'으로 처리한 것은 각각 어떻게 될까요?", m:'정답: 지운 것은 사라짐 · 답변에 안 씀은 원본은 남고 답변에만 안 쓰임' },
     ],
     'pre-B': [{ id:'B-00', q:'정민 관련 정보를 앞으로 답변에 안 쓰이게 하고 싶다면, 평소라면 어떻게 하실 것 같으세요?', m:'채팅 요청을 스스로 떠올리는지' }],
     'post-task-B': [{ id:'B-09', q:'지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' }],
@@ -1461,6 +1470,7 @@
     if(h.qs.length) Logger.log('ask_next', { step: current, id: h.qs[h.i].id });
     Logger.log('hold_continue', { step: current, kind: h.kind, phase: h.phase });
     renderHold();
+    $$('.chat-body').forEach(b => b.style.paddingBottom = '');
     if(h.next) go(h.next, h.why); else { if(after) after(); renderPanel(); }
   }
   function renderHold(view){
@@ -1473,19 +1483,29 @@
       const qs = h.qs || [], q = qs[h.i || 0];
       if(q){
         const last = (h.i || 0) >= qs.length - 1;
-        $('#holdBadge').textContent = qs.length > 1 ? I18n.t(`질문 ${(h.i || 0) + 1} / ${qs.length}`) : I18n.t('잠깐 질문');
+        $('#holdBadge').textContent = qs.length > 1 ? I18n.t(`질문 ${(h.i || 0) + 1} / ${qs.length}`) : '';
+        $('#holdBadge').hidden = qs.length <= 1;
         $('#holdTitle').textContent = I18n.t(q.q);
         $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요.');
-        $('#holdBtn').textContent = I18n.t(last ? '계속' : '다음 질문');
-        // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요(실시간 보기에서는 바로).
-        const btn = $('#holdBtn'), key = `${h.kind}:${h.i || 0}`;
+        // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요. 그동안 남은 초를 보여 줘요.
+        const btn = $('#holdBtn'), key = `${h.kind}:${h.i || 0}`, label = I18n.t(last ? '계속' : '다음 질문');
         if(view === undefined && btn.dataset.qk !== key){
-          btn.dataset.qk = key; btn.disabled = true; clearTimeout(holdWaitTimer);
-          holdWaitTimer = setTimeout(() => { btn.disabled = false; }, 3000);
+          btn.dataset.qk = key; btn.disabled = true; clearInterval(holdWaitTimer);
+          let left = 3;
+          const tick = () => { if(left <= 0){ clearInterval(holdWaitTimer); btn.disabled = false; btn.textContent = label; } else btn.textContent = I18n.t(`${left}초 뒤에 누를 수 있어요`); left--; };
+          tick(); holdWaitTimer = setInterval(tick, 1000);
+        }else if(!btn.disabled) btn.textContent = label;
+        if(h.overlay && view === undefined){
+          // 아래 카드가 답변 끝을 가리지 않게, 카드 높이만큼 여백을 두고 맨 아래로 내려요.
+          requestAnimationFrame(() => {
+            const card = $('#holdScreen .intro-body'), body = $('.screen.active .chat-body');
+            if(card && body && current === 'A2'){ body.style.paddingBottom = card.offsetHeight + 'px'; body.scrollTop = body.scrollHeight; }
+          });
         }
       }else{
         const t = HOLD_TEXT[h.kind];
         $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+        $('#holdBadge').hidden = false;
         $('#holdBtn').textContent = I18n.t('계속'); $('#holdBtn').disabled = false; delete $('#holdBtn').dataset.qk;
       }
     }

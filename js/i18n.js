@@ -729,6 +729,11 @@
   messages["방금 고르신 답을 그렇게 고르신 이유는 무엇인가요?"] = "Why did you choose the answers you just picked?";
   messages["오늘 가장 헷갈리거나 불편했던 순간은 언제였나요?"] = "What was the most confusing or uncomfortable moment today?";
   messages["하나만 바꿀 수 있다면 무엇을 바꾸고 싶으세요?"] = "If you could change just one thing, what would it be?";
+  messages["답변에만 안 씀"] = "Only kept out of answers";
+  messages["이 답변에 쓰인 정보를 모두 처리했어요"] = "All info used in this answer has been handled";
+  messages["이 메일도 답변에 안 쓰기"] = "Keep these emails out of answers too";
+  messages["지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요"] = "Deleted. Unless you undo now, you can't see it again";
+  messages["지운 것과 '답변에만 안 씀'으로 처리한 것은 각각 어떻게 될까요?"] = "What happens to what you deleted, and to what you set to 'Only kept out of answers'?";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {
@@ -751,10 +756,12 @@
       .replace(/^정민 관련 정보 (\d+)건을 처리했어요$/, (_, n) => `Handled ${items(n)} about Jeongmin`)
       .replace(/^Memory (\d+)건 삭제됨$/, (_, n) => `${items(n)} deleted from Memory`)
       .replace(/^Memory (\d+)건 삭제$/, (_, n) => `Delete ${items(n)} from Memory`)
-      .replace(/^(\d+)건 답변에 안 씀$/, (_, n) => `${items(n)} not used in answers`)
+      .replace(/^(\d+)건 답변에만? 안 씀$/, (_, n) => `${items(n)} kept out of answers`)
+      .replace(/^정민 관련 정보 (\d+)건 중 (\d+)건을 처리했어요$/, (_, a, n) => `Handled ${n} of ${a} items about Jeongmin`)
+      .replace(/^(\d+)초 뒤에 누를 수 있어요$/, 'Available in $1s')
       .replace(/^항목 (\d+)건 보기$/, (_, n) => `Show ${items(n)}`)
       .replace(/^(.+) 연동 끔$/, '$1 disconnected')
-      .replace(/^(.+) 답변에 안 씀$/, '$1 · not used in answers')
+      .replace(/^(.+) 답변에만? 안 씀$/, '$1 · kept out of answers')
       .replace(/^원본은 (\w+)에 그대로 있어요\. 답변에만 안 써요$/, 'Originals stay in $1; only left out of answers')
       .replace(/^고르지 않은 (\d+)건은 계속 답변에 쓰일 수 있어요$/, (_, n) => `The ${items(n)} you didn't pick may still be used in answers`)
       .replace(/^질문 (\d+) \/ (\d+)$/, 'Question $1 / $2')
