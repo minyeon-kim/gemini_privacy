@@ -1490,3 +1490,68 @@ body.holding .taskbar{ display:none !important; }
 .cb-done::after{ content:''; position:absolute; inset:0; background:#fff; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 16.2 5.8 12.5l-1.4 1.4 5.1 5.1L20 8.5l-1.4-1.4z'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 16.2 5.8 12.5l-1.4 1.4 5.1 5.1L20 8.5l-1.4-1.4z'/%3E%3C/svg%3E") center/16px no-repeat; }
 /* 변경 내역: 장소 라벨 없이, 개인 인텔리전스에서 바꾼 줄만 작은 회색 메모 */
 .ch-row .ch-where{ margin:0 0 0 auto; padding-left:8px; font-size:12px; color:#747775; white-space:nowrap; }
+
+/* ===================================================================
+   v31 디자인 시스템 (새 화면에만 적용 · Gemini 채팅 화면 자체는 그대로)
+   글자: 제목 16/24 · 본문 15/21 · 보조 13/18 · 캡션 12/16 (Google Sans, M3 · iOS Dynamic Type 비율)
+   간격: 4의 배수 (4 · 8 · 12 · 16 · 24) · 모서리: 카드 20 · 칩 8
+   글자색: 1차 #1f1f1f · 2차 #444746 · 3차 #747775 · 선 #e3e3e3
+   =================================================================== */
+:root{ --ds-title:16px; --ds-title-lh:24px; --ds-body:15px; --ds-body-lh:21px; --ds-meta:13px; --ds-meta-lh:18px; --ds-cap:12px; --ds-cap-lh:16px;
+  --ds-ink1:#1f1f1f; --ds-ink2:#444746; --ds-ink3:#747775; --ds-line:#e3e3e3; --ds-s1:4px; --ds-s2:8px; --ds-s3:12px; --ds-s4:16px; --ds-s6:24px; }
+
+/* 출처 시트 */
+#sheetOverlay .sheet-desc{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink2) !important; margin:0 0 var(--ds-s2) !important; }
+.fx-legend{ gap:var(--ds-s1) !important; margin:0 0 var(--ds-s3) !important; }
+.fx-leg{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; }
+#sheetOverlay .ct-list{ gap:var(--ds-s2) !important; }
+#sheetOverlay .ct-group{ border-radius:20px !important; padding:0 var(--ds-s4) !important; }
+#sheetOverlay .ct-head{ padding:var(--ds-s3) 0 !important; gap:var(--ds-s3) !important; }
+#sheetOverlay .ct-name{ font-size:var(--ds-title) !important; line-height:var(--ds-title-lh) !important; font-weight:500 !important; gap:var(--ds-s2) !important; }
+#sheetOverlay .ct-count{ font-size:var(--ds-meta) !important; font-weight:400 !important; color:var(--ds-ink3) !important; }
+#sheetOverlay .ct-t2{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; margin-top:0 !important; }
+#sheetOverlay .ct-items{ border-top:1px solid var(--ds-line) !important; }
+#sheetOverlay .ct-items .li-row{ padding:var(--ds-s3) 0 !important; gap:var(--ds-s3) !important; }
+#sheetOverlay .li-row + .li-row{ border-top:1px solid var(--ds-line) !important; }
+#sheetOverlay .li-t1{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; color:var(--ds-ink1) !important; }
+#sheetOverlay .li-row.done .li-t1{ color:var(--ds-ink3) !important; }
+#sheetOverlay .li-t2{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; margin-top:2px !important; gap:var(--ds-s1) !important; }
+#sheetOverlay .li-row .why{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; margin-top:2px !important; }
+#sheetOverlay .li-status{ margin-top:var(--ds-s1) !important; }
+.ch-log{ padding:var(--ds-s3) var(--ds-s4) !important; margin:0 0 var(--ds-s3) !important; }
+.ch-title{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; font-weight:500 !important; margin-bottom:var(--ds-s1); }
+.ch-row{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink2) !important; padding:2px 0 !important; }
+#a3Bar .ct-sel{ font-size:var(--ds-body) !important; color:var(--ds-ink1) !important; }
+.ct-sel-fx{ font-size:var(--ds-cap) !important; line-height:var(--ds-cap-lh) !important; color:var(--ds-ink3) !important; }
+#sheetOverlay .ct-apps-head{ font-size:var(--ds-body) !important; }
+#sheetOverlay .ct-app .ct-t1{ font-size:var(--ds-body) !important; }
+
+/* 과제 2 정리 카드 · 결과 카드 */
+.screen[data-step="B2"] .ai-card h3, .complete-card h3{ font-size:var(--ds-title) !important; line-height:var(--ds-title-lh) !important; font-weight:500 !important; }
+.screen[data-step="B2"] .b2-hint{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; margin:var(--ds-s1) 0 var(--ds-s2) !important; }
+.fx-t1{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; }
+.fx-src{ font-size:var(--ds-meta) !important; }
+.fx-t2{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink3) !important; }
+.screen[data-step="B2"] .check-item-head{ padding:var(--ds-s3) var(--ds-s4) !important; gap:var(--ds-s3) !important; }
+.screen[data-step="B2"] .ctext-name{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; font-weight:500 !important; }
+.screen[data-step="B2"] .ctext-sub{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; margin-top:0 !important; }
+.screen[data-step="B2"] .check-item-expand{ padding:0 var(--ds-s4) 0 56px !important; }
+.screen[data-step="B2"] .b2-item{ padding:var(--ds-s3) 0 !important; gap:var(--ds-s3) !important; }
+.screen[data-step="B2"] .b2-item-text{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; }
+.screen[data-step="B2"] .b2-item-text .dt, .screen[data-step="B2"] .b2-item-text .why{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; margin-top:2px !important; }
+.screen[data-step="B2"] .more-toggle{ margin-left:30px !important; font-size:var(--ds-meta) !important; }
+.b3-lines{ margin-top:var(--ds-s1); }
+.b3-line{ padding:var(--ds-s3) 0 !important; gap:0 !important; }
+.b3-main{ gap:2px !important; }
+.b3-head{ gap:var(--ds-s2) !important; align-items:center !important; }
+.b3-name{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; font-weight:500 !important; white-space:normal !important; }
+.b3-count{ font-weight:400 !important; color:var(--ds-ink3) !important; }
+.b3-desc{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh) !important; color:var(--ds-ink2) !important; }
+.b3-desc.muted{ font-size:var(--ds-cap) !important; line-height:var(--ds-cap-lh) !important; color:var(--ds-ink3) !important; margin-top:2px; }
+.complete-card .btn-row-h{ margin-top:var(--ds-s3); }
+.complete-card .check-row{ gap:var(--ds-s2) !important; align-items:center; }
+
+/* 개인 인텔리전스 목록: 제목 + 회색 한 줄 */
+.s-card .data-chip .a4-t{ display:block; font-size:var(--ds-body); line-height:var(--ds-body-lh); color:var(--ds-ink1); }
+.s-card .data-chip .a4-t .dt{ font-size:var(--ds-meta) !important; line-height:var(--ds-meta-lh); color:var(--ds-ink3); margin-top:2px; }
+.s-card .conn-detail .a4-month{ font-size:var(--ds-cap) !important; line-height:var(--ds-cap-lh); color:var(--ds-ink3) !important; padding:var(--ds-s3) 0 var(--ds-s1) 46px !important; }
