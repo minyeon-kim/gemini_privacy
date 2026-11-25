@@ -10,7 +10,8 @@
   // SUS는 모든 참가자가 마지막 상황의 설문 다음에 답해요.
   const WITH_SUS = true;
   // v31 D5: 채팅 요청은 기본으로 바로 처리하고 결과를 보고해요. 예전처럼 목록에서 먼저 고르게 하려면 ?b=confirm
-  const B_MODE = (params.get('b') || '').toLowerCase() === 'confirm' ? 'confirm' : 'direct';
+  // v31: 채팅 요청 → 요약 카드에서 한 번 승인(기본). ?b=direct 바로 처리 · ?b=list 목록부터(v30 방식)
+  const B_MODE = ({ direct:'direct', list:'list' })[(params.get('b') || '').toLowerCase()] || 'summary';
 
   /* ---------------- 단계 정의 (진행자 스크립트) ----------------
      진행 원칙: ① 목표만 제시 → ② 참가자가 직접 시도(진행자는 설명·힌트 없이 관찰) → ③ 설명 없이 이해 확인 → ④ 과제 직후 설문 → ⑤ 그다음 심층 질문.
@@ -32,9 +33,9 @@
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."},
-    B2:{phase:'b', script:"[자세히 고르기] v31에서는 채팅 요청을 바로 처리하고 결과 카드(B3)를 먼저 보여 줘요. 이 목록은 결과 카드의 '자세히 고르기'나 '되돌리기'로 들어와요(주소에 ?b=confirm을 붙이면 예전처럼 요청 직후 이 목록이 먼저 나와요). 목록은 메모리 3(삭제돼요) · Gmail 6 · 캘린더 9(답변에만 안 써요)와, 따로 묶은 '확인이 필요한 정보'(송금·입금 메일 2건, 기본으로 안 고름)로 나뉘어 있어요. 체크를 바꾸는지, 송금 메일을 함께 고르는지 관찰하세요.",
+    B2:{phase:'b', script:"[요약 카드 · 승인 한 번] v31: 채팅 요청을 보내면 약 1.2초 뒤 요약 카드가 나와요. '삭제돼요 · 메모리 3'(빨강), '답변에만 안 써요 · Gmail 6 · 캘린더 9'(파랑), '남겨 둬요 · 송금·입금 메일 2'(회색) 세 줄과 'N건 처리' / '자세히 고르기' 버튼이에요. '자세히 고르기'를 누르면 같은 카드에서 출처별 목록이 펼쳐져요(주소에 ?b=direct면 바로 처리, ?b=list면 목록부터). 요약만 보고 바로 처리하는지, 목록을 여는지, 송금 메일을 함께 고르는지 관찰하세요.",
       indicators:[2], interact:"클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 묶음별 <b>체크박스</b>, 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리</b>(결과 카드로), <b>취소</b>(처리한 결과가 있으면 결과 카드로, 없으면 채팅으로)."},
-    B3:{phase:'b', script:"[관찰만] v31: 요청을 보내면 약 1.2초 뒤 이 결과 카드가 바로 나와요. 메모리는 '삭제됨 · 다시 볼 수 없어요', Gmail·캘린더는 '답변에 안 씀 · 원본은 그대로', 송금·입금 메일 2건은 '남겨 둠'으로 따로 한 줄이에요('함께 처리'로 바로 처리 가능). '자세히 고르기'로 목록에서 고칠 수 있고 '되돌리기'는 모두 원래대로 돌린 뒤 목록을 보여 줘요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). [이해 질문은 과제 뒤] 여기서는 묻지 마세요. 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 함께 처리(송금 메일), 자세히 고르기, 되돌리기, 입력창"},
+    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 효과별로 한 줄씩: 메모리 '삭제됨'(지금 되돌리지 않으면 다시 볼 수 없음), Gmail·캘린더 '답변에만 안 씀'(원본은 각 앱에), 고르지 않은 것 '남겨 둠'(송금 메일만 남았으면 '이 메일도 답변에 안 쓰기' 버튼). '자세히 고르기'는 목록을 펼친 요약 카드로, '되돌리기'는 모두 원래대로 돌리고 요약 카드로 가요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 이해 질문은 과제 뒤 화면에 자동으로 떠요(B-09, B-08). 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 함께 처리(송금 메일), 자세히 고르기, 되돌리기, 입력창"},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면은 무엇을 보여 주는 것 같으세요?' 보관 안내를 읽는지는 묻지 말고 관찰만 하세요(B-18). 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
     B5:{phase:'b', script:"[과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 사용성 설문(SUS)까지 끝난 뒤 마지막 질문 화면에서 해요.",
@@ -82,7 +83,7 @@
   let stepEnteredAt = 0;
   let devMode = false;
   let sheetBefore = null;
-  let refState, refVia = {}, memState, b2Result, b2Detail = null, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
+  let refState, refVia = {}, memState, b2Result, b2Detail = null, b2View = 'summary', lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
@@ -160,11 +161,7 @@
     const d = STEPS[step];
     if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END'){ onEnd(); celebrate(); }
-    // v31: 출처 시트를 처음 열면, 조작하기 전에 의도 질문(A-05)을 시트 위에 띄워요.
-    if(step === 'A3' && MODE === 'participant' && !M.askedA05){
-      M.askedA05 = true;
-      setTimeout(() => { if(current === 'A3' && !hold) holdThen('a-sheet', 'A', null, 'sheet-open', { overlay: true }); }, 700);
-    }
+    // A-05(조작 전 의도)는 과제 도중이라 참가자 화면에 띄우지 않고, 진행자 패널에 '지금 묻기'로 보여 줘요(유도·흐름 끊김 방지).
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
@@ -644,7 +641,7 @@
     }).join('') + `</div>`;
     const selIds = Object.keys(a3Sel).filter(id => a3Sel[id] && !aHandled(id)), n = selIds.length;
     const apps = ['gmail', 'calendar', 'memory'].map(k => `<div class="ct-app${refState[k] ? '' : ' ref-off'}">${aIcon(k)}
-        <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div><div class="ct-t2">${esc(I18n.t(A_SCOPE[k]))}</div></div>
+        <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div></div>
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
     // 처리 버튼 옆에 '고른 것이 어떻게 되는지'를 미리 보여 줘요(D1).
@@ -653,7 +650,7 @@
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
-        <div class="ct-apps-body">${apps}</div>
+        <div class="ct-apps-body"><p class="ct-apps-note">${esc(I18n.t('끄면 그 앱의 정보 전체를 답변에 쓰지 않아요. 메일·일정 원본은 그대로예요.'))}</p>${apps}</div>
       </div>`;
   }
   function a3DetailToggle(t){ a3Detail[t] = !a3Detail[t]; Logger.log('a3_detail', { step: current, topic: t, open: a3Detail[t] }); renderA3(); }
@@ -835,13 +832,38 @@
     Logger.log('b1_request', { step: current, text, clarifiedBefore: b1Asks.length, mode: B_MODE });
     syncB1();
     b1Input.blur();
-    if(B_MODE === 'confirm'){ go('B2', 'b1-send'); return; }
+    if(B_MODE !== 'direct'){ setDefaultChecks(); b2View = B_MODE === 'list' ? 'detail' : 'summary'; renderB2View(); go('B2', 'b1-send'); return; }
     // 바로 처리: 확인이 필요한 정보(송금·입금)만 빼고 처리한 뒤 결과를 보여 줘요. 고치려면 결과 카드의 '자세히 고르기'.
     setDefaultChecks();
     b2Result = currentSelection(); b2Detail = b2ItemState();
     Logger.log('b2_process', { step: current, selected: b2Result, items: b2Detail, how: 'direct' });
     renderB3B4();
     go('B3', 'b1-direct');
+  }
+  // 요약 카드 ↔ 자세히 고르기 목록
+  function renderB2View(){
+    const card = $('.screen[data-step="B2"] .ai-card'); if(!card) return;
+    card.classList.toggle('detail', b2View === 'detail');
+    const btn = $('#b2DetailBtn'); if(btn) btn.textContent = I18n.t(b2View === 'detail' ? '요약만 보기' : '자세히 고르기');
+  }
+  function toggleB2Detail(){ b2View = b2View === 'detail' ? 'summary' : 'detail'; renderB2View(); Logger.log('b2_view', { step: current, view: b2View }); }
+  // 지금 체크 상태를 효과별로 묶어요: memory(삭제) / gmail·calendar·hold(답변에만 안 씀)
+  function groupState(st){
+    const g = {};
+    b2Items().forEach((cb, i) => { const k = cb.dataset.hold ? 'hold' : cb.dataset.isrc; g[k] = g[k] || { on:0, all:0 }; g[k].all++; if(st[i]) g[k].on++; });
+    return g;
+  }
+  const B_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', hold:'송금·입금 메일' };
+  function renderB2Summary(){
+    const box = $('#b2Summary'); if(!box) return;
+    const g = groupState(b2ItemState());
+    const blk = ['gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on).map(k => `${B_NAME[k]} ${g[k].on}`).join(' · ');
+    const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
+    const line = (cls, icon, label, src, t2) => `<div class="fx-line ${cls}"><span class="fx-ic">${icon}</span><div class="fx-text"><div class="fx-t1"><b>${esc(I18n.t(label))}</b><span class="fx-src">${esc(I18n.t(src))}</span></div><div class="fx-t2">${esc(I18n.t(t2))}</div></div></div>`;
+    box.innerHTML = (g.memory && g.memory.on ? line('del', ICON_DEL, '삭제돼요', `메모리 ${g.memory.on}`, '지우면 다시 볼 수 없어요') : '')
+      + (blk ? line('block', ICON_BLOCK, '답변에만 안 써요', blk, '원본은 각 앱에 그대로 둬요') : '')
+      + (left.length ? line('keep', '<span class="keep-dot"></span>', '남겨 둬요', left.map(k => `${B_NAME[k]} ${g[k].all - g[k].on}`).join(' · '),
+          left.length === 1 && left[0] === 'hold' ? '돈이 오간 기록이라 따로 뒀어요. 함께 처리하려면 자세히 고르기' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요') : '');
   }
   // 기본 선택: 확인이 필요한 정보(data-hold)는 빼고 모두
   function setDefaultChecks(){ b2Items().forEach(cb => cb.classList.toggle('checked', !cb.dataset.hold)); syncSelectAll(); }
@@ -900,6 +922,7 @@
     }
     const picked = items.filter(b => b.classList.contains('checked')).length;
     $('#selectionCount').textContent = I18n.t(`선택 ${picked}건`);
+    renderB2Summary();
     $('#b2ProcessBtn').textContent = b2ProcessLabel();
     $('#b2ProcessBtn').disabled = !any;
   }
@@ -937,9 +960,10 @@
   function undoB2(){
     Logger.log('b3_cancel', { step: current, selected: b2Result });
     b2Result = null; b2Detail = null;
-    setDefaultChecks();
+    setDefaultChecks(); b2View = 'summary'; renderB2View();
     go('B2', 'b3-cancel');
   }
+  function openB2Detail(){ b2View = 'detail'; renderB2View(); go('B2', 'b3-detail'); }
   // D6: 남겨 둔 송금·입금 메일도 결과 카드에서 바로 함께 처리
   function processHold(){
     b2Items().filter(cb => cb.dataset.hold).forEach(cb => cb.classList.add('checked')); syncSelectAll();
@@ -987,22 +1011,17 @@
   function renderB3B4(){
     const sel = b2Result || currentSelection();
     // v31: 줄은 항목 단위 선택으로 계산해요(송금·입금 메일은 따로 한 줄).
-    const st = b2Detail || b2ItemState(), g = {};
-    b2Items().forEach((cb, i) => { const k = cb.dataset.hold ? 'hold' : cb.dataset.isrc; g[k] = g[k] || { on:0, all:0 }; g[k].all++; if(st[i]) g[k].on++; });
+    const st = b2Detail || b2ItemState(), g = groupState(st);
     const total = Object.values(g).reduce((a, x) => a + x.on, 0);
-    const lines = sfx => ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && (g[k].on || k === 'hold')).map(k => {
-      const n = g[k], hold = k === 'hold', del = k === 'memory', name = hold ? '송금·입금 메일' : SRC[k].name, part = n.on < n.all;
-      const chip = hold && !n.on ? `<span class="st-chip keep">남겨 둠</span>`
-        : `<span class="st-chip ${del ? 'del' : 'block'}">${del ? ICON_DEL : ICON_BLOCK}${del ? '삭제됨' : '답변에만 안 씀'}</span>`;
-      const head = `<div class="b3-head"><span class="b3-name">${name} <span class="b3-count">${part && n.on ? `${n.all}건 중 ${n.on}건` : `${n.all}건`}</span></span>${chip}</div>`;
-      // D1: 무엇이 지워졌고 무엇이 원본에 남는지 한 줄로
-      const desc = hold && !n.on ? `<div class="b3-desc">돈이 오간 기록이라 처리하지 않았어요. 계속 답변에 쓰일 수 있어요</div><div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>`
-        : del ? `<div class="b3-desc">지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
-        : `<div class="b3-desc">원본은 ${hold ? 'Gmail' : SRC[k].name}에 그대로 있어요. 답변에만 안 써요</div>`;
-      const rest = part && n.on ? `<div class="b3-desc muted">고르지 않은 ${n.all - n.on}건은 계속 답변에 쓰일 수 있어요</div>` : '';
-      return `<div class="b3-line${hold && !n.on ? ' kept' : ''}">${srcIcon(k === 'hold' ? 'gmail' : k, sfx)}<div class="b3-main">${head}${desc}${rest}</div></div>`;
-    }).join('');
-    $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
+    // 리뷰 반영: 같은 설명을 출처마다 반복하지 않게 효과별로 한 줄씩(삭제 / 답변에만 안 씀 / 남겨 둠)
+    const fxIc = (cls, ic) => `<div class="icon-chip b3-ic fx-ic-${cls}">${ic}</div>`;
+    const blk = ['gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on);
+    const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
+    const holdOnly = left.length === 1 && left[0] === 'hold';
+    const lines = () => (g.memory && g.memory.on ? `<div class="b3-line">${fxIc('del', ICON_DEL)}<div class="b3-main"><div class="b3-head"><span class="b3-name">메모리 <span class="b3-count">${g.memory.on}건</span></span><span class="st-chip del">${ICON_DEL}삭제됨</span></div><div class="b3-desc">지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div></div></div>` : '')
+      + (blk.length ? `<div class="b3-line">${fxIc('block', ICON_BLOCK)}<div class="b3-main"><div class="b3-head"><span class="b3-name">${blk.map(k => `${B_NAME[k]} <span class="b3-count">${g[k].on}건</span>`).join('<span class="b3-sep"> · </span>')}</span><span class="st-chip block">${ICON_BLOCK}답변에만 안 씀</span></div><div class="b3-desc">원본은 각 앱에 그대로 있어요. 답변에만 안 써요</div></div></div>` : '')
+      + (left.length ? `<div class="b3-line kept">${fxIc('keep', '<span class="keep-dot"></span>')}<div class="b3-main"><div class="b3-head"><span class="b3-name">${left.map(k => `${B_NAME[k]} <span class="b3-count">${g[k].all - g[k].on}건</span>`).join('<span class="b3-sep"> · </span>')}</span><span class="st-chip keep">남겨 둠</span></div><div class="b3-desc">${holdOnly ? '돈이 오간 기록이라 처리하지 않았어요. ' : ''}계속 답변에 쓰일 수 있어요</div>${holdOnly ? `<div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>` : ''}</div></div>` : '');
+    $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines();
     const nDel = g.memory && g.memory.on ? 1 : 0;
     ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
     { const n = $('#b4Note'); if(n) n.hidden = !nDel; }
@@ -1485,8 +1504,9 @@
       const qs = h.qs || [], q = qs[h.i || 0];
       if(q){
         const last = (h.i || 0) >= qs.length - 1;
-        $('#holdBadge').textContent = qs.length > 1 ? I18n.t(`질문 ${(h.i || 0) + 1} / ${qs.length}`) : '';
-        $('#holdBadge').hidden = qs.length <= 1;
+        // 프로토타입 화면이 아니라 연구 질문이라는 걸 분명히: 항상 '진행자 질문' 배지(여러 개면 순서도)
+        $('#holdBadge').textContent = I18n.t(qs.length > 1 ? `진행자 질문 ${(h.i || 0) + 1} / ${qs.length}` : '진행자 질문');
+        $('#holdBadge').hidden = false;
         $('#holdTitle').textContent = I18n.t(q.q);
         $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요.');
         // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요. 그동안 남은 초를 보여 줘요.
@@ -1542,7 +1562,7 @@
           say:["참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 알아보고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요."],
           watch:["'출처 확인'을 스스로 찾는지 (A-02)"],
           help:["60초 막히면 한 번: 이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요? (A-04)"] },
-    A3: { pre:["(조작하기 전) 어떻게 하실 생각이세요? (A-05)"],
+    A3: { now:["(필수 · 시트를 열면 바로, 조작하기 전에) 어떻게 하실 생각이세요? (A-05)"],
           watch:["조작하는 동안에는 묻지 않기 · 이해 질문(A-08~A-10)은 과제 완료 뒤 설문 다음에"] },
     A4: { first:["(스스로 들어왔을 때만) 이 화면은 무엇을 보여 주는 것 같으세요? (A-07)"] },
     QA: { first:["(설문 전) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요? (A-12)"],
@@ -1589,7 +1609,7 @@
     box.hidden = false;
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
     const hq = holdQuestions(hold || remoteHold);
-    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
+    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('now', '지금 말로 묻기 (필수)', g.now) + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }
 
@@ -1793,7 +1813,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
-    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
