@@ -1472,3 +1472,21 @@ body.holding .taskbar{ display:none !important; }
 .li-fx{ font-weight:500; }
 .li-fx.del{ color:#b3261e; }
 .li-fx.block{ color:#0842a0; }
+
+/* 진행자 질문에 답하기 전: 프로토타입은 보이지만 누를 수 없음 */
+.ask-block{ position:absolute; inset:0; z-index:35; background:rgba(255,255,255,0); cursor:not-allowed; }
+.ask-block[hidden]{ display:none; }
+.taskbar .ask-banner.nudge{ animation:askNudge .5s ease 0s 2 !important; }
+@keyframes askNudge{ 0%,100%{ box-shadow:0 0 0 0 rgba(11,87,208,0); } 50%{ box-shadow:0 0 0 4px rgba(11,87,208,.35); } }
+
+/* 출처 시트 처리 직후: 아래 처리 줄이 결과 + 되돌리기로 바뀜(떠 있는 알림 없음) */
+#a3Bar[hidden]{ display:none !important; }
+.ct-foot-notice{ min-height:40px; }
+.ct-notice-msg{ font-size:14px; color:#1f1f1f; line-height:1.4; }
+.ct-undo{ margin:0 -8px 0 0 !important; flex:0 0 auto; }
+
+/* 처리한 주제·항목: 빈자리 대신 회색 체크 상자(왼쪽 선이 다른 줄과 맞음) */
+.cb-done{ position:relative; width:18px; height:18px; flex:0 0 18px; margin:3px; border-radius:2px; background:#c4c7c5; box-sizing:border-box; }
+.cb-done::after{ content:''; position:absolute; inset:0; background:#fff; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 16.2 5.8 12.5l-1.4 1.4 5.1 5.1L20 8.5l-1.4-1.4z'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 16.2 5.8 12.5l-1.4 1.4 5.1 5.1L20 8.5l-1.4-1.4z'/%3E%3C/svg%3E") center/16px no-repeat; }
+/* 변경 내역: 장소 라벨 없이, 개인 인텔리전스에서 바꾼 줄만 작은 회색 메모 */
+.ch-row .ch-where{ margin:0 0 0 auto; padding-left:8px; font-size:12px; color:#747775; white-space:nowrap; }

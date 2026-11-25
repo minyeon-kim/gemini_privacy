@@ -154,7 +154,7 @@
     stepEnteredAt = performance.now();
     enterEffects(step, prev);
     if(prev !== step) Logger.log('step', { step, from: prev, prevDwellMs: dwell, via: why || '' });
-    if(askCur && !['A2', 'A3', 'A4'].includes(step) && !(askCur.id === 'B-02' && step === 'B2')){ const after = askAfter; Logger.log('ask_next', { step, id: askCur.id, mode: 'banner', how: 'left-screen' }); askCur = null; askAfter = null; renderAskBanner(); if(after) after(); }
+    if(askCur && ((!['A2', 'A3', 'A4'].includes(step) && !(askCur.id === 'B-02' && step === 'B2')) || (askCur.id === 'A-07' && step !== 'A4'))){ const after = askAfter; Logger.log('ask_next', { step, id: askCur.id, mode: 'banner', how: 'left-screen' }); askCur = null; askAfter = null; renderAskBanner(); if(after) after(); }
     markMilestones(step);
 
     renderPanel();
@@ -166,8 +166,9 @@
     if(step === 'END'){ onEnd(); celebrate(); }
     // 과제 도중 질문은 화면을 막지 않는 위쪽 배너로(조작은 그대로 가능)
     if(MODE === 'participant' && ASK_INTASK){
-      if(step === 'A3' && !M.askedA05){ M.askedA05 = true; askTimers.push(setTimeout(() => { if(current === 'A3') askBanner('A-05', '이 화면을 보고, 어떻게 하실 생각이세요?'); }, 500)); }
-      if(step === 'A4' && !M.askedA07){ M.askedA07 = true; askTimers.push(setTimeout(() => { if(current === 'A4') askBanner('A-07', '이 화면은 무엇을 보여 주는 것 같으세요?'); }, 500)); }
+      // A-05 · A-07: 화면이 열리면 바로 묻고, 답하기 전에는 조작할 수 없어요(조작 전 의도를 먼저 듣기 위해)
+      if(step === 'A3' && !M.askedA05){ M.askedA05 = true; if(askCur && askCur.id === 'A-01'){ const a = askAfter; askCur = null; askAfter = null; if(a) a(); } askBanner('A-05', '이 화면을 보고, 어떻게 하실 생각이세요?', { gate: true }); }
+      if(step === 'A4' && !M.askedA07){ M.askedA07 = true; askBanner('A-07', '이 화면은 무엇을 보여 주는 것 같으세요?', { gate: true }); }
       if(step === 'B2' && !M.askedB02 && !b2Result){
         const enteredAt = M.lastClick = performance.now();
         askTimers.push(setTimeout(function idle(){
@@ -278,10 +279,10 @@
             if(!M.sourceFoundMs && current === 'A2' && !hold){ M.hintA = performance.now(); askBanner('A-04', '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?', { hint: true }); }
           }, 60000));
         };
-        // A-01: 답변이 끝나고 2.5초 뒤 과제 안내 카드 안에 묻고(화면은 안 가림), '답했어요'를 누르면 과제 목표를 보여 줘요.
+        // A-01: 답변이 끝나면 바로 과제 안내 카드에 묻고, 답하기 전에는 프로토타입을 누를 수 없어요(질문을 건너뛰지 않게). 답하면 과제 목표.
         if(MODE === 'participant' && ASK_INTASK && !M.askedA01){
           M.askedA01 = true;
-          askTimers.push(setTimeout(() => { if(current === 'A2' && !M.aGoal) askBanner('A-01', '방금 답변을 보고 어떤 생각이 드세요?', { after: goalThenHint }); else if(!M.aGoal) goalThenHint(); }, 2500));
+          askBanner('A-01', '방금 답변을 보고 어떤 생각이 드세요?', { after: goalThenHint, gate: true });
         }else goalThenHint();
       }
     }
@@ -629,9 +630,7 @@
       if(blk.length) groups[w].push(['block', `${srcCounts(blk)} 답변에만 안 씀`]);
       Object.keys(refState).filter(k => !refState[k] && (refVia[k] || 'sheet') === w && !(k === 'memory' && memState.all)).forEach(k => groups[w].push(['off', `${REF_NAME[k]} 연동 끔`]));
     });
-    const where = { sheet:'출처 확인에서', pi:'개인 인텔리전스에서' };
-    const rows = ['sheet', 'pi'].filter(w => groups[w].length).map(w => `<div class="ch-where">${esc(I18n.t(where[w]))}</div>`
-      + groups[w].map(([k, t]) => `<div class="ch-row ${k}"><span class="fx-ic">${k === 'del' ? ICON_DEL : ICON_BLOCK}</span><span>${esc(I18n.t(t))}</span></div>`).join('')).join('');
+    const rows = ['sheet', 'pi'].map(w => groups[w].map(([k, t]) => `<div class="ch-row ${k}"><span class="fx-ic">${k === 'del' ? ICON_DEL : ICON_BLOCK}</span><span>${esc(I18n.t(t))}</span>${w === 'pi' ? `<span class="ch-where">${esc(I18n.t('개인 인텔리전스에서'))}</span>` : ''}</div>`).join('')).join('');
     return rows ? `<div class="ch-log"><div class="ch-title">${esc(I18n.t('변경 내역'))}</div>${rows}</div>` : '';
   }
   function renderA3(){
@@ -639,7 +638,7 @@
     const body = $('#a3Body'), foot = $('#a3Foot'); if(!body || !foot) return;
     const row = id => {
       const it = A_ITEMS[id], done = aDone(id), off = !done && aOff(id);
-      const left = done || off ? '<span class="ct-spacer"></span>'
+      const left = done || off ? '<span class="cb-done" aria-hidden="true"></span>'
         : `<div class="checkbox${a3Sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!a3Sel[id]}" data-tag="A3 항목 ${id}" onclick="event.stopPropagation(); App.a3Pick('${id}')">${CHECK_TXT}</div>`;
       const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
@@ -651,7 +650,7 @@
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
       const handled = ids.filter(aHandled);
       const st = picked && picked === open.length ? 'checked' : picked ? 'mixed' : '';
-      const left = !open.length ? '<span class="ct-spacer"></span>'
+      const left = !open.length ? '<span class="cb-done" aria-hidden="true"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
       // v31 D2: 주제를 펼치면 '무엇이 어떻게 되는지'를 칩 한 줄로만 보여 줘요. 긴 설명은 시트 맨 위에 한 번만.
       const chip = (kind, ids) => ids.length ? `<span class="fx-chip ${FX[kind].cls}">${FX[kind].icon()}<b>${esc(I18n.t(kind === 'del' ? '삭제' : '답변에만 안 씀'))}</b> ${esc(I18n.t(srcCounts(ids)))}</span>` : '';
@@ -673,7 +672,12 @@
       </div>`).join('');
     // 처리 버튼 옆에 '고른 것이 어떻게 되는지'를 미리 보여 줘요(D1).
     const allDone = Object.keys(A_ITEMS).every(aHandled);
-    const bar = $('#a3Bar'); if(bar) bar.innerHTML = allDone ? `<div class="ct-foot ct-foot-done">${esc(I18n.t('이 답변에 쓰인 정보를 모두 처리했어요'))}</div>` : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
+    // 처리 직후 8초는 아래 줄이 '무엇이 처리됐는지 + 되돌리기'로 바뀌어요(떠 있는 알림이 시트 내용을 가리지 않게).
+    // 모두 처리한 뒤에는 아래 줄을 숨겨요(결과는 맨 위 '변경 내역'에 있어요).
+    const bar = $('#a3Bar');
+    if(bar) bar.hidden = !a3Notice && allDone;
+    if(bar) bar.innerHTML = a3Notice ? `<div class="ct-foot ct-foot-notice"><span class="ct-notice-msg">${esc(a3Notice)}</span><button type="button" class="text-btn ct-undo hot" data-tag="A3 되돌리기" onclick="App.undoDelete()">${esc(I18n.t('되돌리기'))}</button></div>`
+      : allDone ? '' : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
@@ -795,8 +799,15 @@
     Logger.log('more', { step: current, src: btn.dataset.src, open: rest > 0, shown: +btn.dataset.shown });
   }
 
+  let a3Notice = '';
   function showSnackbar(msg){
     clearTimeout(undoTimer);
+    if($('#sheetOverlay.active') && current === 'A3' && lastUndo){
+      // 출처 시트 안에서는 떠 있는 알림 대신 아래 처리 줄에 보여 줘요
+      a3Notice = msg; renderA3();
+      undoTimer = setTimeout(() => { lastUndo = null; a3Notice = ''; renderA3(); }, 8000);
+      return;
+    }
     const bar = $('#snackbar');
     bar.querySelector('.snackbar-msg').textContent = msg;
     $('#snackUndo').hidden = false;
@@ -805,7 +816,7 @@
     bar.classList.add('show');
     undoTimer = setTimeout(() => { lastUndo = null; hideSnackbar(); }, 8000);
   }
-  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#snackUndo').hidden = false; }
+  function hideSnackbar(){ $('#snackbar').classList.remove('show'); $('#snackUndo').hidden = false; if(a3Notice){ a3Notice = ''; renderA3(); } }
   // 실행취소 없이 잠깐 보이는 안내
   function showToast(msg){
     showSnackbar(msg); lastUndo = null; $('#snackUndo').hidden = true;
@@ -1528,7 +1539,7 @@
   function askBanner(id, q, opts){
     opts = opts || {};
     if(askCur) return;
-    askCur = { id, q, hint: !!opts.hint }; askAfter = opts.after || null;
+    askCur = { id, q, hint: !!opts.hint, gate: !!opts.gate }; askAfter = opts.after || null;
     Logger.log('ask_show', { step: current, id, mode: 'banner', hint: !!opts.hint });
     renderAskBanner();
     const btn = $('#askDone'); if(btn){ btn.disabled = true; setTimeout(() => { btn.disabled = false; }, 2000); }
@@ -1544,7 +1555,14 @@
   function renderAskBanner(view){
     const a = view !== undefined ? view : askCur, box = $('#askBanner'); if(!box) return;
     box.hidden = !a;
+    const block = $('#askBlock'); if(block) block.hidden = !(a && a.gate);
     if(a){ $('#askBadge').textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문'); $('#askText').textContent = I18n.t(a.q); }
+  }
+  // 답하기 전에 프로토타입을 누르면 질문 상자를 깜빡여 알려 줘요
+  function askNudge(){
+    const box = $('#askBanner'); if(!box || box.hidden) return;
+    box.classList.remove('nudge'); void box.offsetWidth; box.classList.add('nudge');
+    const bar = $('#taskbar'); if(bar && !bar.classList.contains('peek') && window.innerWidth <= 520) bar.scrollIntoView?.({ block: 'nearest' });
   }
   function clearAsk(){ askTimers.forEach(clearTimeout); askTimers = []; askCur = null; askAfter = null; renderAskBanner(); }
   let hold = null;   // { kind, phase, next, why, qs, i, overlay }
@@ -1901,7 +1919,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
-    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, askDone, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, askDone, askNudge, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
