@@ -1458,3 +1458,11 @@ body.holding .taskbar{ display:none !important; }
 .screen[data-step="B2"] .b2-item-text .dt{ margin-top:3px; font-size:12.5px; color:#747775; }
 .screen[data-step="B2"] .b2-item-text .why{ margin-top:2px; font-size:12.5px; }
 .screen[data-step="B2"] .more-toggle{ display:flex; align-items:center; min-height:40px; margin-left:32px; font-size:13.5px; font-weight:500; color:#0b57d0; }
+/* 과제 안내 카드 안 진행자 질문: 카드와 같은 파랑 계열로 (노랑·검정 대신) */
+.taskbar .ask-banner{ background:#f0f4f9 !important; border:1px solid #d3e3fd !important; animation:none !important; }
+.taskbar .ask-badge{ color:#0842a0 !important; font-size:12.5px; font-weight:600; }
+.taskbar .ask-text{ color:#1f1f1f; }
+.taskbar .ask-done{ background:#0b57d0 !important; color:#fff !important; font-weight:500 !important; }
+.taskbar .ask-done:disabled{ background:#e3e3e3 !important; color:#747775 !important; }
+/* '과제 완료' 버튼이 없을 때(답변 보기 단계)는 그 아래 안내 문장도 숨김 */
+.taskbar:has(#taskDoneBtn[hidden]) .tk-foot{ display:none !important; }
