@@ -1586,3 +1586,22 @@ body.holding .taskbar{ display:none !important; }
 /* 과제 2 자세히 고르기: 출처 시트처럼 항목 체크박스는 위 줄 체크박스와 같은 열(들여쓰기 줄임) */
 .screen[data-step="B2"] .check-item-expand{ padding:0 var(--ds-s4) !important; }
 .screen[data-step="B2"] .more-toggle{ margin-left:36px !important; }
+
+/* ===== 실제 Gemini iOS 화면에 맞춤 (Figma '참고 (Gemini AS-IS 화면)' IMG_6247 · 6252에서 잰 값) =====
+   토글: 트랙 62×28 캡슐(꺼짐 #bcbabc · 켜짐 #0b57d0) + 흰색 캡슐 손잡이 35×23 · 테두리 없음
+   카드: 배경 #f2f0f0 · 모서리 24 · 화면 배경 #fdfcfc · 카드 제목은 보통 굵기(400) */
+:root{ --g-surface:#f2f0f0; }
+.toggle{ width:62px !important; height:28px !important; flex:0 0 62px !important; border-radius:14px !important; border:0 !important; background:#bcbabc !important; }
+.toggle .knob{ top:50% !important; left:3px !important; width:35px !important; height:23px !important; margin-top:-11.5px !important; border-radius:12px !important; background:#fff !important; box-shadow:0 1px 2px rgba(0,0,0,.12) !important; }
+.toggle.on{ background:#0b57d0 !important; border:0 !important; }
+.toggle.on .knob{ left:24px !important; width:35px !important; height:23px !important; margin-top:-11.5px !important; background:#fff !important; }
+.toggle:active .knob, .toggle.on:active .knob{ width:39px !important; height:23px !important; margin-top:-11.5px !important; }
+.toggle.on:active .knob{ left:20px !important; }
+#sheetOverlay .ct-group, #sheetOverlay .ct-apps, .ch-log, .screen[data-step="A4"] .s-card{ border-radius:24px !important; background:var(--g-surface) !important; }
+.screen[data-step="A4"]{ background:#fdfcfc !important; }
+#sheetOverlay .ct-name, .screen[data-step="A4"] .conn-item .meta .name, .screen[data-step="A4"] .s-card .title, .screen[data-step="B2"] .ctext-name{ font-weight:400 !important; }
+
+/* 실제 Gemini: 뒤로 가기는 꺾쇠(<), 카드는 화면 가장자리에서 20 */
+.backbtn{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; margin-left:-10px; }
+.screen[data-step="A4"] .settings-head{ padding-left:20px !important; padding-right:20px !important; }
+.screen[data-step="A4"] .settings-body{ padding-left:20px !important; padding-right:20px !important; }
