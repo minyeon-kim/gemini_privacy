@@ -1262,3 +1262,98 @@ body.holding .taskbar{ display:none !important; }
 .gd-opt{ margin-top:10px; border-top:1px dashed #d7d7d7; padding-top:8px; font-size:12.5px; color:#5e5e5e; }
 .gd-opt summary{ cursor:pointer; font-weight:500; color:#444746; }
 .gd-opt .gd-line{ margin-top:6px; }
+
+/* ===== v31 (P03·P04 이터레이션) ===== */
+/* D1: 삭제 / 답변에만 안 씀 — 처리 전·후 같은 아이콘·색·한 줄 설명 */
+.fx-lines{ display:flex; flex-direction:column; gap:8px; padding:12px 0 4px; }
+.fx-line{ display:flex; align-items:flex-start; gap:10px; border-radius:14px; padding:10px 12px; }
+.fx-line.del{ background:#fce8e6; color:#8c1d18; }
+.fx-line.block{ background:#d3e3fd; color:#0842a0; }
+.fx-line.is-done{ opacity:.75; }
+.fx-ic{ flex:0 0 auto; display:inline-flex; margin-top:2px; }
+.fx-ic svg{ width:16px; height:16px; }
+.fx-text{ flex:1; min-width:0; }
+.fx-t1{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; font-size:14px; line-height:1.4; }
+.fx-t1 b{ font-weight:600; }
+.fx-src{ font-size:13px; opacity:.85; }
+.fx-t2{ font-size:13px; line-height:1.45; margin-top:2px; color:#444746; }
+/* D2: 항목 목록은 '항목 N건 보기'로 접어 둠 */
+#sheetOverlay .ct-detail-toggle{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; font-size:14px; color:#0b57d0; font-weight:500; cursor:pointer; }
+#sheetOverlay .ct-detail-toggle .chevron{ background:#0b57d0; }
+#sheetOverlay .ct-group.detail .ct-detail-toggle .chevron{ transform:rotate(180deg); }
+#sheetOverlay .ct-rows{ display:none; border-top:1px solid #e3e3e3; }
+#sheetOverlay .ct-group.detail .ct-rows{ display:block; }
+/* 처리 줄: 고른 것이 어떻게 되는지 미리 보기 */
+#a3Bar{ padding-top:10px; }
+.ct-sel-wrap{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.ct-sel-fx{ font-size:12.5px; color:#5e5e5e; line-height:1.35; }
+/* D7: 변경 내역 — 출처 확인과 개인 인텔리전스에서 바꾼 것을 한곳에 */
+.ch-log{ background:#fff; border:1px solid #e3e3e3; border-radius:20px; padding:12px 16px; margin:4px 0 10px; }
+.ch-title{ font-size:14px; font-weight:600; color:#1f1f1f; }
+.ch-where{ font-size:12.5px; color:#5e5e5e; margin:8px 0 2px; }
+.ch-row{ display:flex; align-items:center; gap:8px; font-size:14px; line-height:1.45; color:#1f1f1f; padding:2px 0; }
+.ch-row .fx-ic{ margin-top:0; }
+.ch-row.del .fx-ic{ color:#b3261e; }
+.ch-row.block .fx-ic, .ch-row.off .fx-ic{ color:#0842a0; }
+/* D3·D4: 다시 물어본 답변의 배지, 채팅 안내 버튼 */
+.msg-ai.reask .reask-icons{ display:flex; align-items:center; margin:6px 0 0 -3px; }
+.msg-ai.reask .chat-src{ display:inline-flex; align-items:center; gap:6px; border:0; border-radius:18px; padding:8px 14px; font:inherit; font-size:14px; cursor:pointer; margin:4px 0 0; }
+/* D5: 채팅 요청 → 바로 처리 결과 카드 (응답 대기 후 등장) */
+.b3-dots{ display:none; }
+.screen[data-step="B3"].loading .b3-dots{ display:flex; }
+.screen[data-step="B3"].loading .complete-card, .screen[data-step="B3"].loading #b3Thread{ display:none; }
+.screen[data-step="B3"]:not(.loading) .complete-card{ animation:streamIn .3s ease-out; }
+.complete-card .btn-row-h{ display:flex; gap:8px; }
+.complete-card .btn-row-h .ghost-btn{ flex:1; }
+/* D1: 목록 묶음 이름 옆 효과 칩 + 한 줄 설명 */
+.check-group-head{ align-items:center !important; }
+.check-group-line{ margin:-2px 2px 6px; font-size:13px; line-height:1.45; color:#5e5e5e; }
+/* D6: 확인이 필요한 정보(송금·입금) */
+.hold-group .check-item{ border:1px dashed #c4c7c5; }
+.b3-line.kept .b3-name{ color:#444746; }
+.b3-act{ margin-top:4px; }
+.text-btn{ display:inline-block; font-size:14px; font-weight:500; color:#0b57d0; padding:6px 12px; margin-left:-12px; border-radius:16px; cursor:pointer; }
+.text-btn:hover, .text-btn:focus-visible{ background:rgba(11,87,208,.08); }
+/* v31: 채팅 안내 버튼은 내용 너비만, 과제 2 다시 묻기 말풍선도 오른쪽 정렬 */
+.msg-ai.reask .chat-src{ align-self:flex-start; width:auto; }
+#b3Thread{ display:flex; flex-direction:column; gap:14px; margin-top:14px; }
+#b3Thread:empty{ display:none; }
+/* v31: 참가자 화면에 뜨는 필수 질문 */
+#holdTitle{ font-size:24px; line-height:1.4; word-break:keep-all; }
+/* 과제 중 질문(A-01, A-05)은 화면이 보이게 아래 카드로 띄워요 */
+.hold-screen.overlay{ z-index:60; background:rgba(0,0,0,.28); justify-content:flex-end; }
+.hold-screen.overlay .intro-body{ flex:0 0 auto; background:#fff; border-radius:28px 28px 0 0; padding:24px 24px 28px; gap:12px; box-shadow:0 -6px 24px rgba(0,0,0,.18); }
+.hold-screen.overlay #holdTitle{ font-size:20px; margin:0; }
+.hold-screen.overlay .hold-desc{ font-size:14px; margin:0 0 4px; }
+/* ===== v31 디자인 리뷰 반영 (UI Design · Mobile UI/UX · Impeccable · Taste) ===== */
+/* 터치 영역 44~48px: 보이는 크기는 그대로, 누르는 범위만 넓혀요 */
+#sheetOverlay .ct-head .checkbox, #sheetOverlay .li-row .checkbox, .screen[data-step="B2"] .checkbox{ position:relative; }
+#sheetOverlay .ct-head .checkbox::before, #sheetOverlay .li-row .checkbox::before, .screen[data-step="B2"] .checkbox::before{ content:""; position:absolute; inset:-13px; }
+#sheetOverlay .ct-detail-toggle{ min-height:48px; padding:0; }
+.text-btn{ display:inline-flex; align-items:center; min-height:44px; padding:0 12px; margin:-6px 0 -6px -12px; border:0; background:none; font:inherit; font-size:14px; font-weight:500; color:#0b57d0; }
+.complete-card .btn-row-h .ghost-btn, .msg-ai.reask .chat-src{ position:relative; overflow:visible; }
+.complete-card .btn-row-h .ghost-btn::before, .msg-ai.reask .chat-src::before{ content:""; position:absolute; inset:-6px 0; }
+/* 효과 줄: 상자 안의 상자를 없애고 아이콘·굵은 글자 색으로만 구분 (빨강=삭제, 파랑=답변에만 안 씀) */
+.fx-lines{ gap:4px; padding:8px 0 0; }
+.fx-line{ background:none !important; padding:6px 0; border-radius:0; }
+.fx-line.del .fx-ic, .fx-line.del .fx-t1 b{ color:#b3261e; }
+.fx-line.block .fx-ic, .fx-line.block .fx-t1 b{ color:#0842a0; }
+.fx-src{ color:#444746; opacity:1; }
+.fx-t2, .check-group-line{ font-size:14px; color:#444746; }
+/* 펼친 주제에서는 출처별 건수 줄을 숨겨 같은 정보를 반복하지 않아요 · 남은 회색 글자는 대비 높이기 */
+#sheetOverlay .ct-group.open .ct-head .ct-t2{ display:none; }
+#sheetOverlay .ct-t2, #sheetOverlay .ct-count{ color:#5e5e5e; }
+.ct-sel-fx{ font-size:13px; color:#444746; }
+.ct-foot-done{ justify-content:center !important; min-height:40px; font-size:14px; color:#444746; }
+#a3Bar{ padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+/* 변경 내역: 시트의 다른 카드와 같은 모양 */
+.ch-log{ background:var(--g-surface, #f3f2f2); border:0; border-radius:24px; padding:12px 16px; }
+/* "남겨 둠"은 처리 안 된 상태라 초록(완료)이 아닌 중립색 · 확인 묶음은 실선 */
+.b3-line.kept .st-chip.keep, .hold-group .st-chip.keep{ background:#e9eef6; color:#444746; }
+.hold-group .check-item{ border:1px solid #c4c7c5 !important; }
+/* 질문 카드: 전체 화면은 버튼을 엄지 닿는 아래쪽에, 화면 위 카드는 배경을 거의 어둡게 하지 않고 낮게 */
+.hold-screen:not(.overlay) .intro-body{ justify-content:flex-end; padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px)); }
+.hold-screen.overlay{ background:rgba(0,0,0,.06); }
+.hold-screen.overlay .intro-body{ padding:18px 24px calc(20px + env(safe-area-inset-bottom, 0px)); }
+.hold-screen.overlay .hold-desc{ display:none; }
+#holdBtn:disabled{ background:#e3e3e3; color:#444746; opacity:1; cursor:default; }

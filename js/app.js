@@ -9,6 +9,8 @@
   const PID = (params.get('pid') || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 12);
   // SUS는 모든 참가자가 마지막 상황의 설문 다음에 답해요.
   const WITH_SUS = true;
+  // v31 D5: 채팅 요청은 기본으로 바로 처리하고 결과를 보고해요. 예전처럼 목록에서 먼저 고르게 하려면 ?b=confirm
+  const B_MODE = (params.get('b') || '').toLowerCase() === 'confirm' ? 'confirm' : 'direct';
 
   /* ---------------- 단계 정의 (진행자 스크립트) ----------------
      진행 원칙: ① 목표만 제시 → ② 참가자가 직접 시도(진행자는 설명·힌트 없이 관찰) → ③ 설명 없이 이해 확인 → ④ 과제 직후 설문 → ⑤ 그다음 심층 질문.
@@ -22,17 +24,17 @@
     A1B:{phase:'a', script:"정해진 질문이 입력창에 미리 채워져 있어요(고정 시나리오). 참가자가 전송을 누르게 두세요.", indicators:[], interact:"클릭 가능 — <b>전송 버튼</b>."},
     A1C:{phase:'a', script:"응답 대기 연출입니다. 약 1.2초 뒤 자동으로 다음 화면으로 전환됩니다.", indicators:[], interact:"클릭 지점 없음 — 자동 전환됩니다.", autoNext:'A2', autoDelay:1200},
     A2:{phase:'a', script:"[직접 시도] 답변에 참가자가 언급한 적 없는 '정민'과의 과거 기억이 섞여 나옵니다. 답변이 다 나오면 잠시 기다렸다가 '방금 답변을 보고 어떤 생각이 드세요?'를 먼저 묻고, 첫 반응을 들은 뒤 목표를 주세요: '참고로 정민은 지금은 연락하지 않는 사람이에요. 이 답변에 정민 이야기가 왜 나왔는지 알아보고, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' (지울지, 답변에만 안 쓰게 할지는 참가자가 고르게 두세요.) 조작 위치나 방법, '출처 확인' 배지 위치는 알려주지 마세요(참가자 모드에서는 답변이 다 나오면 왼쪽 과제 패널이 '새 과제'로 바뀌어요). 놀람은 이 시나리오에서 의도된 반응이라 실패로 보지 않아요. [도움 기준] 60초 넘게 막히면 1차: '이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?' 그래도 못 찾으면 바로가기로 A3를 열고 기록지에 '도움 후'로 표시하세요.",
-      indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요. A3에서 참조를 끄거나 메모리를 지우고 돌아오면 답변 아래에 변경 안내가 표시됩니다."},
-    A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. 출처 시트는 주제(정민, 식당 취향)별로 묶여 있고, 항목마다 골라 처리하거나 아래 '앱 연동 설정'에서 앱을 통째로 끌 수 있어요. 조작하기 전에 '어떻게 하실 생각이세요?'로 의도를 들어 두세요(A-05). 정민만 고르는지, 식당 취향까지 막는지는 A-19, A-20에 자동 기록돼요. [이해 질문은 과제 뒤] 조작하는 동안에는 묻지 마세요. 토글 범위(A-09)와 삭제·답변에 안 씀 차이(A-10)는 '과제 완료'를 누른 뒤 화면 설문을 마치고 나서 조건에 맞을 때만 물어요(과제 1 설문 화면 안내 참고).",
+      indicators:[2,4], interact:"관찰 포인트 — 좋아요·싫어요 옆 <b>'출처 확인' 배지</b>를 스스로 찾는지. v31: 입력창에 다시 물어본 답변에도 배지가 붙고, '정민 얘기 하지 마'·'왜 나왔어?'처럼 정리나 이유를 물으면 답변 안에 <b>출처 확인</b> 버튼이 나와요. 처음 연 경로는 A_sourcePath(배지 / 다시 물어본 답변 / 채팅 안내)로 기록돼요. 발견 시간은 <b>답변이 다 표시된 시점부터</b> 자동 기록돼요."},
+    A3:{phase:'a', script:"[직접 시도] 먼저 아무 말 없이 살펴보게 두세요. v31: 주제(정민, 식당 취향)를 펼치면 먼저 요약이 보여요. '삭제돼요 · 메모리 2'(빨강)와 '답변에만 안 써요 · Gmail 1 · 캘린더 2'(파랑)가 한 줄 설명과 함께 나오고, 항목 목록은 '항목 N건 보기'로 접혀 있어요. 고르면 처리 버튼 옆에 '메모리 2건 삭제 · 3건 답변에 안 씀'처럼 결과를 미리 보여 줘요. 바꾼 게 있으면 맨 위 '변경 내역'에 출처 확인과 개인 인텔리전스에서 한 처리가 함께 모여요. 조작하기 전에 '어떻게 하실 생각이세요?'로 의도를 들어 두세요(A-05). 정민만 고르는지, 식당 취향까지 막는지는 A-19, A-20에 자동 기록돼요. [이해 질문은 과제 뒤] 토글 범위(A-09)와 삭제·답변에 안 씀 차이(A-10)는 '과제 완료' 뒤 설문을 마치고 나서 물어요.",
       indicators:[1,2,4], interact:"클릭 가능 — 항목 이름=<b>데이터 펼치기(읽기 전용)</b>, 참조 켜기/끄기는 <b>앱 단위 토글</b>(이 시트엔 2건만 보이지만 끄면 해당 앱 전체 참조가 꺼짐 — 그레이존 핵심 관찰). <b>메모리는 펼쳤을 때만</b> '이 답변에 쓰인 메모리 2건 삭제' 링크가 나타남(바로 삭제 + 4초 실행취소). Gmail·캘린더는 참조 차단만 가능. <b>닫기(X)</b>·바깥 영역으로 닫기, 하단 <b>'개인 인텔리전스에서 전체 관리 →'</b> 링크."},
     A4:{phase:'a', script:"참가자가 스스로 들어온 경우에만 진행하세요(방문 여부 자체가 관찰값이라 진행자가 이동시키지 않아요). '이 화면은 무엇을 보여주는 것 같으세요?' → 참가자가 하려는 걸 지켜보세요. 메모리는 월별로 묶여 있고 항목마다 휴지통 버튼으로 한 건씩 지울 수 있어요(정민 메모리를 지우면 출처 시트에도 '삭제됨'으로 반영). 맨 아래 '메모리 전체 삭제'도 있어요. 한 건씩 지우는지, 전체 삭제를 고르는지 지켜보세요(A-07은 v30 문구 패치부터 '없는 기능 시도'가 아니라 관찰 메모로 기록). [과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요.",
       indicators:[1,5], interact:"클릭 가능 — 이름=<b>펼쳐서 데이터 확인(읽기 전용)</b>, 앱 단위 토글은 A3와 상태 연동. <b>메모리는 펼쳤을 때</b> 항목마다 휴지통(한 건 삭제, 실행취소 가능)과 '메모리 전체 삭제' 링크. 목록은 월별로 묶임(A3에서 2건을 지웠다면 11→9건). ← 로 출처 패널 복귀."},
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."},
-    B2:{phase:'b', script:"[직접 시도] 먼저 묻지 말고 살펴보며 처리하게 두세요. 목록은 20건(메모리 3 · Gmail 8 · 캘린더 9)이고, 이름이 안 보이는 항목엔 포함 이유가 한 줄 붙어 있고, 출처별로 접혀 있어요. 기본값이 '전체 선택'이라 바로 처리를 눌러도 삭제·차단 차이를 이해했다는 근거는 아니에요. 펼쳤는지, '더보기'를 눌렀는지, 체크를 바꿨는지, 양이 많다는 반응이 있는지 관찰하세요. 처리 전에 멈춰서 고민하면 그때 '이 목록이 생각하신 범위와 비교하면 어떤가요?'",
-      indicators:[2], interact:"B1에서 전송하면 약 1.2초 응답 대기 후 카드가 나타납니다. 클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 출처별 <b>체크박스</b>(출처 단위로 선택), 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리/취소</b>. 그룹 라벨 '삭제돼요'/'답변에만 안 써요'를 알아차리는지가 관찰 포인트. 아무것도 선택하지 않으면 처리 버튼 비활성."},
-    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 확인하지 않아도 실패는 아니에요. [이해 질문은 과제 뒤] 여기서는 묻지 마세요. '방금 무엇이 처리됐나요?', 'Gmail과 캘린더의 정민 정보는 지금 어떤 상태일까요?'(B-08), (메모리를 지웠다면) '지운 정보는 어떻게 됐을까요?'는 '과제 완료' 뒤 설문을 마치고 나서 물어요. 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 되돌리기, 입력창"},
+    B2:{phase:'b', script:"[자세히 고르기] v31에서는 채팅 요청을 바로 처리하고 결과 카드(B3)를 먼저 보여 줘요. 이 목록은 결과 카드의 '자세히 고르기'나 '되돌리기'로 들어와요(주소에 ?b=confirm을 붙이면 예전처럼 요청 직후 이 목록이 먼저 나와요). 목록은 메모리 3(삭제돼요) · Gmail 6 · 캘린더 9(답변에만 안 써요)와, 따로 묶은 '확인이 필요한 정보'(송금·입금 메일 2건, 기본으로 안 고름)로 나뉘어 있어요. 체크를 바꾸는지, 송금 메일을 함께 고르는지 관찰하세요.",
+      indicators:[2], interact:"클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 묶음별 <b>체크박스</b>, 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리</b>(결과 카드로), <b>취소</b>(처리한 결과가 있으면 결과 카드로, 없으면 채팅으로)."},
+    B3:{phase:'b', script:"[관찰만] v31: 요청을 보내면 약 1.2초 뒤 이 결과 카드가 바로 나와요. 메모리는 '삭제됨 · 다시 볼 수 없어요', Gmail·캘린더는 '답변에 안 씀 · 원본은 그대로', 송금·입금 메일 2건은 '남겨 둠'으로 따로 한 줄이에요('함께 처리'로 바로 처리 가능). '자세히 고르기'로 목록에서 고칠 수 있고 '되돌리기'는 모두 원래대로 돌린 뒤 목록을 보여 줘요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). [이해 질문은 과제 뒤] 여기서는 묻지 마세요. 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 함께 처리(송금 메일), 자세히 고르기, 되돌리기, 입력창"},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면은 무엇을 보여 주는 것 같으세요?' 보관 안내를 읽는지는 묻지 말고 관찰만 하세요(B-18). 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
     B5:{phase:'b', script:"[과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 사용성 설문(SUS)까지 끝난 뒤 마지막 질문 화면에서 해요.",
@@ -80,13 +82,14 @@
   let stepEnteredAt = 0;
   let devMode = false;
   let sheetBefore = null;
-  let refState, memState, b2Result, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
+  let refState, refVia = {}, memState, b2Result, b2Detail = null, lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
     refState = { memory:true, gmail:true, calendar:true, photos:true };
-    memState = { used:false, all:false, done:{}, a4:{} };
-    b2Result = null;
+    refVia = {};   // v31 D7: 앱 연동을 어디서 껐는지(출처 확인 sheet / 개인 인텔리전스 pi)
+    memState = { used:false, all:false, done:{}, a4:{}, via:{} };
+    b2Result = null; b2Detail = null;
     lastUndo = null;
     b1Text = '';
     b1Asks = [];
@@ -157,6 +160,11 @@
     const d = STEPS[step];
     if(d.autoNext) autoTimer = setTimeout(() => { if(current === step) go(d.autoNext, 'auto'); }, d.autoDelay || 1200);
     if(step === 'END'){ onEnd(); celebrate(); }
+    // v31: 출처 시트를 처음 열면, 조작하기 전에 의도 질문(A-05)을 시트 위에 띄워요.
+    if(step === 'A3' && MODE === 'participant' && !M.askedA05){
+      M.askedA05 = true;
+      setTimeout(() => { if(current === 'A3' && !hold) holdThen('a-sheet', 'A', null, 'sheet-open', { overlay: true }); }, 700);
+    }
   }
 
   /* ---------------- 화면 진입 연출 ---------------- */
@@ -210,6 +218,11 @@
       scr.classList.add('c-loading');
       later(() => { scr.classList.remove('c-loading'); TaskC.markReady(); Logger.log('response_complete', { step:'C2' }); }, 1300);
     }
+    if(step === 'B3' && prev === 'B1'){            // v31 바로 처리: 응답 대기 후 결과 카드 등장
+      const scr = $('.screen[data-step="B3"]');
+      scr.classList.add('loading');
+      later(() => scr.classList.remove('loading'), 1200);
+    }
     if(step === 'B2' && prev === 'B1'){            // 응답 대기 후 카드 등장
       const scr = $('.screen[data-step="B2"]');
       scr.classList.add('loading');
@@ -244,7 +257,12 @@
     if(responseVisible < parts.length) responseTimer = setTimeout(advanceResponse, REVEAL_MS / Math.max(1, parts.length - 1));
     else {
       M.a2Enter = performance.now(); Logger.log('response_complete', {step:current});
-      if(!M.aGoal){ M.aGoal = true; if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); }
+      if(!M.aGoal){
+        const showGoal = () => { M.aGoal = true; M.a2Enter = performance.now(); if(MODE === 'participant'){ Logger.log('task_goal_shown', {step:current}); M.flash = true; } renderTaskbar(); };
+        // v31: 참가자 모드에서는 첫 반응 질문(A-01)을 먼저 띄우고, 닫으면 과제 목표를 보여 줘요(출처 확인 발견 시간도 이때부터).
+        if(MODE === 'participant' && !M.askedA01){ M.askedA01 = true; holdThen('a-first', 'A', null, 'response', { overlay: true, after: showGoal }); }
+        else showGoal();
+      }
     }
   }
 
@@ -314,6 +332,7 @@
     stepEnteredAt = performance.now();
     renderSession();
     go(firstStep(FIRST), 'start');
+    holdThen('intro', '-', null, 'start');   // 참가자 모드: 도입 질문(I-02)
   }
 
   function newSession(){
@@ -402,6 +421,7 @@
 
   function toggleRef(key){
     refState[key] = !refState[key];
+    if(refState[key]) delete refVia[key]; else refVia[key] = current === 'A4' ? 'pi' : 'sheet';
     applyRefs();
     Logger.log('toggle', { step: current, ref: key, on: refState[key] });
   }
@@ -428,7 +448,7 @@
   function renderA2Notice(){
     const el = $('#a2Notice');
     if(!el || !refState || !memState) return;
-    const nItems = Object.keys(memState.done || {}).length;
+    const nItems = Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length;   // v31 D7: 개인 인텔리전스에서 지운 것까지
     const nOff = Object.keys(refState).filter(k => !refState[k]).length;
     const parts = [];
     if(memState.all) parts.push('메모리 전체 삭제');
@@ -446,7 +466,12 @@
   var chat = { a2: [], b3: [] };   // var: 초기화 중 먼저 불려도 안전하게
   const RESTO_Q = /추천|레스토랑|식당|맛집|이탈리안|저녁|약속|어디|restaurant|dinner/i;
   function aSources(){ const live = id => !aHandled(id); return { memory: ['a_mem_truffle', 'a_mem_jazz'].some(live), calendar: ['a_cal_dinner', 'a_cal_bday'].some(live), gmail: live('a_gm_tolo'), taste: ['a_mem_italian', 'a_gm_saved'].some(live) }; }
-  function bSources(){ const sel = b2Result || {}; return { memory: (sel.memory || 0) < SRC.memory.count, calendar: (sel.calendar || 0) < SRC.calendar.count, gmail: (sel.gmail || 0) < SRC.gmail.count }; }
+  function bSources(){
+    const sel = b2Result || {}, st = b2Detail || [];
+    const gmLeft = b2Items().filter((cb, i) => cb.dataset.isrc === 'gmail' && !st[i]);
+    const gmail = !b2Result ? true : !gmLeft.length ? false : gmLeft.every(cb => cb.dataset.hold) ? 'hold' : true;
+    return { memory: (sel.memory || 0) < SRC.memory.count, calendar: (sel.calendar || 0) < SRC.calendar.count, gmail };
+  }
   function restoAnswer(src){
     const tail = src.memory || src.calendar
       ? '<p>작년 봄에 <b>정민</b> 씨와 가셨을 때 트러플 리조또를 좋아하셨었죠. 이번에도 비슷한 메뉴 어떠세요?</p>'
@@ -458,22 +483,44 @@
     const li = [];
     if(src.memory) li.push('예전 대화에서 정민 님과 트러플 리조또를 드신 이야기를 기억하고 있어요.');
     if(src.calendar) li.push("캘린더에 '정민과 저녁', '정민 생일' 같은 일정이 있어요.");
-    if(src.gmail && task === 'b') li.push('Gmail에 정민 님이 함께한 항공 예약, 송금 메일이 있어요.');
+    if(src.gmail === 'hold' && task === 'b') li.push('Gmail에 정민 님과 주고받은 송금·입금 메일 2건이 남아 있어요.');
+    else if(src.gmail && task === 'b') li.push('Gmail에 정민 님이 함께한 항공 예약, 송금 메일이 있어요.');
     return li.length ? `<p>정민 님에 대해 지금 참고할 수 있는 정보예요.</p><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul>`
       : '<p>정민 님에 대해 참고할 수 있는 정보가 없어요.</p>';
+  }
+  // v31 D4: 과제 1에서 채팅으로 정리를 요청하거나 이유를 물으면, 그 자리에서 출처 확인을 열 수 있게 버튼을 붙여요.
+  const A_WHY = /왜|어디서|어떻게\s?알|출처|근거|\bwhy\b|how do you know|where did/i;
+  const SRC_BTN = (tag, label) => `<button type="button" class="src-badge chat-src hot" data-tag="${tag}" onclick="App.go('A3', 'chat-link')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg><span>${label}</span></button>`;
+  function whyAnswer(src){
+    const li = [];
+    if(src.memory) li.push('예전 Gemini 채팅에서 정민 님과 트러플 리조또를 드신 이야기(메모리)');
+    if(src.calendar) li.push("캘린더 일정 '정민과 저녁'");
+    if(src.gmail) li.push('Gmail의 톨로 비스트로 예약 메일');
+    return li.length ? `<p>정민 님 이야기는 아래 정보를 참고해서 나왔어요.</p><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul>` : '<p>지금은 정민 님 관련 정보를 답변에 쓰지 않아요.</p>';
   }
   function chatReply(key, text){
     const task = key === 'a2' ? 'a' : 'b', src = task === 'a' ? aSources() : bSources();
     const target = B1_TARGET.test(text), del = B1_INTENT.test(text);
-    if(del && task === 'a') return { kind:'delete', html:"<p>이 답변에 쓰인 정보는 답변 아래 '출처 확인'에서 끄거나 지울 수 있어요.</p>" };
+    if(task === 'a'){
+      const jmLeft = aTopicIds('jm').some(id => !aHandled(id));
+      const link = jmLeft ? SRC_BTN('출처 확인 · 채팅 안내', '출처 확인') : '';
+      if(del) return { kind:'delete', badge:false, html: jmLeft ? `<p>이 답변에 쓰인 정민 관련 정보예요. 여기서 골라 지우거나, 답변에만 안 쓰게 할 수 있어요.</p>${link}` : '<p>정민 님 관련 정보는 이미 정리했어요. 앞으로 답변에 쓰지 않아요.</p>' };
+      if(target && A_WHY.test(text)) return { kind:'why', badge:false, html: whyAnswer(src) + (jmLeft ? `<p>답변에 쓰지 않으려면 여기서 고를 수 있어요.</p>${link}` : '') };
+      if(target) return { kind:'person', badge:true, html: jmAnswer(src, task) };
+      if(RESTO_Q.test(text)) return { kind:'same', badge:true, html: restoAnswer(src) };
+      return { kind:'other', badge:false, html:'<p>네, 좋아요. 조금 더 자세히 알려 주시면 도와드릴게요.</p>' };
+    }
     if(del) return { kind:'delete', html: Object.values(src).some(Boolean) ? jmAnswer(src, task) : '<p>정민 님 관련 정보는 이미 정리했어요. 지금은 답변에 쓰지 않아요.</p>' };
     if(target) return { kind:'person', html: jmAnswer(src, task) };
     if(RESTO_Q.test(text)) return { kind:'same', html: restoAnswer(src) };
     return { kind:'other', html:'<p>네, 좋아요. 조금 더 자세히 알려 주시면 도와드릴게요.</p>' };
   }
   function renderChat(){
-    const draw = (id, list) => { const box = $('#' + id); if(box) box.innerHTML = list.map(m => `<div class="msg-user" data-no-translate>${esc(m.q)}</div><div class="msg-ai reask">${m.html}</div>`).join(''); };
-    draw('a2Thread', chat.a2); draw('b3Thread', chat.b3);
+    // v31 D3: 다시 물어본 답변에도 출처 확인 배지를 붙여서, 위로 올라가 첫 답변을 찾지 않아도 되게 해요.
+    const badge = `<div class="msg-icons reask-icons"><span class="src-badge hot" data-tag="출처 확인 · 다시 물어본 답변" onclick="App.go('A3', 'reask-badge')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg><span>출처 확인</span></span></div>`;
+    // 한 화면에 '출처 확인'이 여러 번 보이지 않게, 다시 물어본 답변 중 마지막 것에만 붙여요.
+    const draw = (id, list, withBadge) => { const box = $('#' + id); if(box) box.innerHTML = list.map((m, i) => `<div class="msg-user" data-no-translate>${esc(m.q)}</div><div class="msg-ai reask">${m.html}${withBadge && m.badge && i === list.length - 1 ? badge : ''}</div>`).join(''); };
+    draw('a2Thread', chat.a2, true); draw('b3Thread', chat.b3, false);
     ['a2', 'b3'].forEach(k => syncChatSend(k));
   }
   function syncChatSend(k){
@@ -487,7 +534,7 @@
     const key = k === 'a2' ? 'a2' : 'b3';
     if(key === 'b3' && M.b3Enter && !M.verifyMs) M.verifyMs = Math.round(performance.now() - M.b3Enter);
     const r = chatReply(key, text);
-    chat[key].push({ q: text, html: r.html });
+    chat[key].push({ q: text, html: r.html, badge: !!r.badge });
     Logger.log('reask', { step: current, task: key === 'a2' ? 'A' : 'B', text, kind: r.kind, sources: key === 'a2' ? aSources() : bSources() });
     renderChat();
     setTimeout(() => { const b = $(`.screen[data-step="${key === 'a2' ? 'A2' : 'B3'}"] .chat-body`); if(b) b.scrollTop = b.scrollHeight; }, 60);
@@ -507,7 +554,7 @@
     a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'"이탈리안 음식 좋아함"', meta:'Gemini 채팅, 2025.2.10' },
     a_gm_saved:   { topic:'taste', src:'gmail', label:'저장한 레스토랑 알림', text:'[캐치테이블] 저장한 송도 레스토랑 3곳 소식', meta:'2025.3.20' },
   };
-  var a3Sel = {}, a3Open = {}, a3AppsOpen = false;
+  var a3Sel = {}, a3Open = {}, a3Detail = {}, a3AppsOpen = false;
   const aDone = id => !!(memState && memState.done && memState.done[id]);
   const aOff = id => !refState[A_ITEMS[id].src] || (A_ITEMS[id].src === 'memory' && memState.all);
   const aHandled = id => aDone(id) || aOff(id);
@@ -522,6 +569,47 @@
     const sfx = 'a3' + k + Math.random().toString(36).slice(2, 6);
     return src.outerHTML.replace(/id="([^"]+)"/g, `id="$1_${sfx}"`).replace(/url\(#([^)]+)\)/g, `url(#$1_${sfx})`).replace('icon-chip sm', 'icon-chip ct-ic');
   }
+  // v31 D1: '삭제'와 '답변에만 안 씀'을 처리 전·후 모두 같은 아이콘·색·한 줄 설명으로 보여 줘요.
+  const FX = {
+    del:   { cls:'del',   icon:() => ICON_DEL,   todo:'삭제돼요',       done:'삭제됨',       line:'지우면 다시 볼 수 없어요' },
+    block: { cls:'block', icon:() => ICON_BLOCK, todo:'답변에만 안 써요', done:'답변에만 안 씀', line:'원본은 그대로 두고 답변에만 안 써요' },
+  };
+  const fxOf = id => A_ITEMS[id].src === 'memory' ? 'del' : 'block';
+  // 출처별 건수 요약: '메모리 2 · Gmail 1 · 캘린더 2'
+  function srcCounts(ids){
+    const n = {}; ids.forEach(id => { const k = A_ITEMS[id].src; n[k] = (n[k] || 0) + 1; });
+    return ['memory', 'gmail', 'calendar'].filter(k => n[k]).map(k => `${REF_NAME[k]} ${n[k]}`).join(' · ');
+  }
+  // 고른 항목을 처리하면 어떻게 되는지 한 줄로: '메모리 2건 삭제 · 3건 답변에만 안 씀'
+  function effectText(ids, done){
+    const d = ids.filter(id => fxOf(id) === 'del').length, b = ids.length - d, out = [];
+    if(d) out.push(I18n.t(`메모리 ${d}건 ${done ? '삭제됨' : '삭제'}`));
+    if(b) out.push(I18n.t(`${b}건 답변에만 안 씀`));
+    return out.join(' · ');
+  }
+  function fxLine(kind, ids, done){
+    if(!ids.length) return '';
+    const f = FX[kind];
+    return `<div class="fx-line ${f.cls}${done ? ' is-done' : ''}"><span class="fx-ic">${f.icon()}</span><div class="fx-text"><div class="fx-t1"><b>${esc(I18n.t(done ? f.done : f.todo))}</b><span class="fx-src">${esc(I18n.t(srcCounts(ids)))}</span></div><div class="fx-t2">${esc(I18n.t(f.line))}</div></div></div>`;
+  }
+  // v31 D7: 출처 확인과 개인 인텔리전스에서 바꾼 것을 한곳에 모아 보여 줘요.
+  function changeLog(){
+    const via = memState.via || {}, groups = { sheet: [], pi: [] };
+    const done = Object.keys(memState.done || {}).filter(id => A_ITEMS[id]);
+    ['sheet', 'pi'].forEach(w => {
+      const ids = done.filter(id => (via[id] || 'sheet') === w);
+      const del = ids.filter(id => fxOf(id) === 'del').length + (w === 'pi' ? Object.keys(memState.a4 || {}).length : 0);
+      const blk = ids.filter(id => fxOf(id) === 'block');
+      if(w === 'pi' && memState.all) groups.pi.push(['del', '메모리 전체 삭제됨']);
+      else if(del) groups[w].push(['del', `메모리 ${del}건 삭제됨`]);
+      if(blk.length) groups[w].push(['block', `${srcCounts(blk)} 답변에만 안 씀`]);
+      Object.keys(refState).filter(k => !refState[k] && (refVia[k] || 'sheet') === w && !(k === 'memory' && memState.all)).forEach(k => groups[w].push(['off', `${REF_NAME[k]} 연동 끔`]));
+    });
+    const where = { sheet:'출처 확인에서', pi:'개인 인텔리전스에서' };
+    const rows = ['sheet', 'pi'].filter(w => groups[w].length).map(w => `<div class="ch-where">${esc(I18n.t(where[w]))}</div>`
+      + groups[w].map(([k, t]) => `<div class="ch-row ${k}"><span class="fx-ic">${k === 'del' ? ICON_DEL : ICON_BLOCK}</span><span>${esc(I18n.t(t))}</span></div>`).join('')).join('');
+    return rows ? `<div class="ch-log"><div class="ch-title">${esc(I18n.t('변경 내역'))}</div>${rows}</div>` : '';
+  }
   function renderA3(){
     if(!memState || !refState) return;
     const body = $('#a3Body'), foot = $('#a3Foot'); if(!body || !foot) return;
@@ -529,37 +617,46 @@
       const it = A_ITEMS[id], done = aDone(id), off = !done && aOff(id);
       const left = done || off ? '<span class="ct-spacer"></span>'
         : `<div class="checkbox${a3Sel[id] ? ' checked' : ''} hot" role="checkbox" aria-checked="${!!a3Sel[id]}" data-tag="A3 항목 ${id}" onclick="event.stopPropagation(); App.a3Pick('${id}')">${CHECK_TXT}</div>`;
-      const right = done ? `<span class="st-chip ${it.src === 'memory' ? 'del' : 'block'}">${esc(I18n.t(it.src === 'memory' ? '삭제됨' : '답변에 안 씀'))}</span>`
+      const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
       return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span></div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
     };
-    body.innerHTML = `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
+    body.innerHTML = changeLog() + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
       const ids = aTopicIds(t), open = ids.filter(id => !aHandled(id)), picked = open.filter(id => a3Sel[id]).length;
+      const handled = ids.filter(aHandled);
       const st = picked && picked === open.length ? 'checked' : picked ? 'mixed' : '';
-      const srcs = [...new Set(ids.map(id => REF_NAME[A_ITEMS[id].src]))].join(', ');
       const left = !open.length ? '<span class="ct-spacer"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
-      return `<div class="ct-group${a3Open[t] ? ' open' : ''}">
+      // v31 D2: 주제를 펼치면 먼저 요약(무엇이 어떻게 처리되는지)만 보이고, 항목 목록은 '항목 N건 보기'로 접어 둬요.
+      // 처리한 것은 맨 위 '변경 내역'과 항목 칩에 나오니, 여기서는 아직 남은 것만 요약해요(리뷰: 같은 정보 반복 줄이기).
+      const fx = fxLine('del', open.filter(id => fxOf(id) === 'del'), false) + fxLine('block', open.filter(id => fxOf(id) === 'block'), false);
+      return `<div class="ct-group${a3Open[t] ? ' open' : ''}${a3Detail[t] ? ' detail' : ''}">
         <div class="ct-head hot" data-tag="A3 주제 펼치기 ${t}" onclick="App.a3Expand('${t}')">${left}
-          <div class="ct-text"><div class="ct-name">${esc(I18n.t(A_TOPICS[t]))} <span class="ct-count">${ids.length}건</span>${!open.length ? `<span class="ct-alldone">${esc(I18n.t('처리함'))}</span>` : ''}</div><div class="ct-t2">${esc(srcs)}</div></div>
+          <div class="ct-text"><div class="ct-name">${esc(I18n.t(A_TOPICS[t]))} <span class="ct-count">${ids.length}건</span>${!open.length ? `<span class="ct-alldone">${esc(I18n.t('처리함'))}</span>` : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
           <span class="chevron"></span>
         </div>
-        <div class="ct-items">${ids.map(row).join('')}</div>
+        <div class="ct-items">
+          ${fx ? `<div class="fx-lines">${fx}</div>` : ''}
+          <div class="ct-detail-toggle hot" data-tag="A3 항목 보기 ${t}" onclick="App.a3Detail('${t}')"><span>${esc(I18n.t(a3Detail[t] ? '항목 접기' : `항목 ${ids.length}건 보기`))}</span><span class="chevron"></span></div>
+          <div class="ct-rows">${ids.map(row).join('')}</div>
+        </div>
       </div>`;
     }).join('') + `</div>`;
-    const n = Object.keys(a3Sel).filter(id => a3Sel[id] && !aHandled(id)).length;
+    const selIds = Object.keys(a3Sel).filter(id => a3Sel[id] && !aHandled(id)), n = selIds.length;
     const apps = ['gmail', 'calendar', 'memory'].map(k => `<div class="ct-app${refState[k] ? '' : ' ref-off'}">${aIcon(k)}
         <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div><div class="ct-t2">${esc(I18n.t(A_SCOPE[k]))}</div></div>
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
-    const bar = $('#a3Bar'); if(bar) bar.innerHTML = `<p class="ct-legend">${esc(I18n.t('메모리는 삭제돼요. Gmail과 캘린더는 원본은 그대로 두고 답변에만 안 써요.'))}</p>
-      <div class="ct-foot"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>
+    // 처리 버튼 옆에 '고른 것이 어떻게 되는지'를 미리 보여 줘요(D1).
+    const allDone = Object.keys(A_ITEMS).every(aHandled);
+    const bar = $('#a3Bar'); if(bar) bar.innerHTML = allDone ? `<div class="ct-foot ct-foot-done">${esc(I18n.t('이 답변에 쓰인 정보를 모두 처리했어요'))}</div>` : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? `<span class="ct-sel-fx">${esc(effectText(selIds, false))}</span>` : ''}</div>
       <button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '선택한 정보 처리'))}</button></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>
         <div class="ct-apps-body">${apps}</div>
       </div>`;
   }
+  function a3DetailToggle(t){ a3Detail[t] = !a3Detail[t]; Logger.log('a3_detail', { step: current, topic: t, open: a3Detail[t] }); renderA3(); }
   function a3Expand(t){ a3Open[t] = !a3Open[t]; Logger.log('a3_expand', { step: current, topic: t, open: a3Open[t] }); renderA3(); }
   function a3Apps(){ a3AppsOpen = !a3AppsOpen; Logger.log('a3_apps_open', { step: current, open: a3AppsOpen }); renderA3(); }
   function a3PickTopic(t){
@@ -572,17 +669,19 @@
     const ids = Object.keys(a3Sel).filter(id => a3Sel[id] && !aHandled(id));
     if(!ids.length) return;
     lastUndo = { mem: JSON.parse(JSON.stringify(memState)), ref: refState.memory };
-    ids.forEach(id => memState.done[id] = true);
+    memState.via = memState.via || {};
+    ids.forEach(id => { memState.done[id] = true; memState.via[id] = 'sheet'; });
     memState.used = memDeletedN() > 0;
     a3Sel = {};
     Logger.log('a3_process', { step: current, ids });
     applyMemory(); applyRefs();
-    showSnackbar(I18n.t(`정보 ${ids.length}건 처리됨`));
+    // v31 D1: 무엇이 지워졌고 무엇이 답변에서만 빠졌는지 알림에서도 나눠서 보여 줘요.
+    showSnackbar(effectText(ids, true));
   }
   function deleteMemory(scope, ev){
     if(ev) ev.stopPropagation();
     lastUndo = { mem: JSON.parse(JSON.stringify(memState)), ref: refState.memory };
-    if(scope === 'all'){ memState.all = true; memState.used = true; refState.memory = false; }
+    if(scope === 'all'){ memState.all = true; memState.used = true; refState.memory = false; refVia.memory = 'pi'; }
     applyMemory(); applyRefs();
     Logger.log('delete', { step: current, target: 'memory', scope });
     showSnackbar(I18n.t('메모리 전체 삭제됨'));
@@ -593,7 +692,7 @@
     if(ev) ev.stopPropagation();
     if(memState.all || memGone(id)) return;
     lastUndo = { mem: JSON.parse(JSON.stringify(memState)), ref: refState.memory };
-    if(A_ITEMS[id]) memState.done[id] = true; else { memState.a4 = memState.a4 || {}; memState.a4[id] = true; }
+    if(A_ITEMS[id]){ memState.done[id] = true; memState.via = memState.via || {}; memState.via[id] = 'pi'; } else { memState.a4 = memState.a4 || {}; memState.a4[id] = true; }
     memState.used = true;
     applyMemory(); applyRefs();
     Logger.log('delete', { step: current, target: 'memory', scope: 'item', id });
@@ -706,7 +805,7 @@
   }
   // 요청에 정리할 대상(사람·지칭어)이 있어야 정리 목록을 보여줘요. 없으면 되물어요.
   const B1_TARGET = /정민|jeongmin|jungmin|그\s?사람|이\s?사람|그\s?분|이\s?분|걔|그\s?친구|이\s?친구|\bthat person\b|\bthis person\b|\bhim\b|\bher\b|\bthem\b/i;
-  const B1_INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|forget|delete|remove|erase|stop\s+using|don'?t\s+use/i;
+  const B1_INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|하지\s?마|꺼내지|말하지|언급\s?(?:금지|말|안)|얘기\s?(?:하지|말|안|그만)|그만|forget|delete|remove|erase|stop\s+using|don'?t\s+use|don'?t\s+(?:mention|bring\s+up)|stop\s+mentioning/i;
   const B1_REPLY = {
     noTarget: '어떤 정보를 정리할까요? 사람 이름이나 주제를 알려 주세요.',
     noIntent: '정민 님과 관련해서 무엇을 도와드릴까요?',
@@ -733,11 +832,19 @@
       return;
     }
     b1Text = text;
-    Logger.log('b1_request', { step: current, text, clarifiedBefore: b1Asks.length });
+    Logger.log('b1_request', { step: current, text, clarifiedBefore: b1Asks.length, mode: B_MODE });
     syncB1();
     b1Input.blur();
-    go('B2', 'b1-send');
+    if(B_MODE === 'confirm'){ go('B2', 'b1-send'); return; }
+    // 바로 처리: 확인이 필요한 정보(송금·입금)만 빼고 처리한 뒤 결과를 보여 줘요. 고치려면 결과 카드의 '자세히 고르기'.
+    setDefaultChecks();
+    b2Result = currentSelection(); b2Detail = b2ItemState();
+    Logger.log('b2_process', { step: current, selected: b2Result, items: b2Detail, how: 'direct' });
+    renderB3B4();
+    go('B3', 'b1-direct');
   }
+  // 기본 선택: 확인이 필요한 정보(data-hold)는 빼고 모두
+  function setDefaultChecks(){ b2Items().forEach(cb => cb.classList.toggle('checked', !cb.dataset.hold)); syncSelectAll(); }
   b1Input.addEventListener('input', syncB1);
   b1Input.addEventListener('keydown', e => { if(e.key === 'Enter' && !e.isComposing){ e.preventDefault(); sendB1(); } });
 
@@ -745,9 +852,10 @@
   const b2Boxes = () => $$('.screen[data-step="B2"] .check-item .checkbox[data-src]');
 
   const b2Items = k => $$(`.screen[data-step="B2"] .checkbox[data-isrc${k ? `="${k}"` : ''}]`);
+  const headItems = head => $$('.checkbox[data-isrc]', head.closest('.check-item'));   // 출처 체크박스는 자기 묶음만
   function toggleCheckItem(el){
     if($('#b2ProcessBtn').classList.contains('busy')) return;
-    const items = b2Items(el.dataset.src), next = !items.every(b => b.classList.contains('checked'));
+    const items = headItems(el), next = !items.every(b => b.classList.contains('checked'));
     items.forEach(b => b.classList.toggle('checked', next));
     syncSelectAll();
     Logger.log('check', { step: current, src: el.dataset.src, checked: next });
@@ -777,13 +885,19 @@
     selAll.setAttribute('aria-checked', all ? 'true' : any ? 'mixed' : 'false');
     items.forEach(b => { b.textContent = b.classList.contains('checked') ? '✓' : ''; b.setAttribute('aria-checked', String(b.classList.contains('checked'))); });
     b2Boxes().forEach(b => {
-      const its = b2Items(b.dataset.src), n = its.filter(x => x.classList.contains('checked')).length;
+      const its = headItems(b), n = its.filter(x => x.classList.contains('checked')).length;
       b.classList.toggle('checked', n === its.length); b.classList.toggle('mixed', n > 0 && n < its.length);
       b.textContent = n === its.length ? '✓' : '';
       b.setAttribute('aria-checked', n === its.length ? 'true' : n ? 'mixed' : 'false');
       const sub = b.closest('.check-item-head')?.querySelector('.item-count');
-      if(sub) sub.textContent = n === its.length ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
+      if(sub) sub.textContent = n === its.length || !n ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
+    const holdChip = $('.hold-group .check-group-head .st-chip');
+    if(holdChip){
+      const on = items.some(b => b.dataset.hold && b.classList.contains('checked'));
+      holdChip.className = 'st-chip ' + (on ? 'block' : 'keep');
+      holdChip.innerHTML = on ? ICON_BLOCK + esc(I18n.t('답변에만 안 써요')) : esc(I18n.t('남겨 둬요'));
+    }
     const picked = items.filter(b => b.classList.contains('checked')).length;
     $('#selectionCount').textContent = I18n.t(`선택 ${picked}건`);
     $('#b2ProcessBtn').textContent = b2ProcessLabel();
@@ -803,20 +917,35 @@
     btn.setAttribute('aria-busy', 'true');
     $('.screen[data-step="B2"] .ai-card').classList.add('processing');
     b2Items().forEach(box => box.setAttribute('aria-disabled', 'true'));
-    Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState() });
+    Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState(), how: b2Result ? 'detail' : 'list' });
     processTimer = setTimeout(() => {
       btn.classList.remove('busy'); btn.textContent = b2ProcessLabel();
+      $('.screen[data-step="B2"] .ai-card').classList.remove('processing');
+      b2Items().forEach(box => box.removeAttribute('aria-disabled'));
       if(current !== 'B2') return;
-      b2Result = sel;
+      b2Result = sel; b2Detail = b2ItemState();
       renderB3B4();
       go('B3', 'b2-process');
     }, 900);
   }
-
+  // 목록에서 취소: 이미 처리한 결과가 있으면 그 상태로 결과 카드로, 아니면 채팅으로
+  function cancelB2(){
+    if(b2Result){ b2Items().forEach((cb, i) => cb.classList.toggle('checked', !!(b2Detail || [])[i])); syncSelectAll(); go('B3', 'b2-cancel'); }
+    else go('B1', 'b2-cancel');
+  }
+  // 되돌리기: 처리한 것을 모두 원래대로 돌리고, 목록에서 다시 고를 수 있게 해요
   function undoB2(){
     Logger.log('b3_cancel', { step: current, selected: b2Result });
-    b2Result = null;
+    b2Result = null; b2Detail = null;
+    setDefaultChecks();
     go('B2', 'b3-cancel');
+  }
+  // D6: 남겨 둔 송금·입금 메일도 결과 카드에서 바로 함께 처리
+  function processHold(){
+    b2Items().filter(cb => cb.dataset.hold).forEach(cb => cb.classList.add('checked')); syncSelectAll();
+    b2Result = currentSelection(); b2Detail = b2ItemState();
+    Logger.log('b3_hold_process', { step: current, selected: b2Result });
+    renderB3B4();
   }
 
   const SRC = {
@@ -847,8 +976,8 @@
   }
   const b2ItemState = () => b2Items().map(b => b.classList.contains('checked'));
 
-  const ICON_DEL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
-  const ICON_BLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  var ICON_DEL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/></svg>';
+  var ICON_BLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c5 0 9 4.5 10 7a12.6 12.6 0 0 1-2.6 3.7"/><path d="M6.6 6.6C4.3 8 2.7 10.1 2 12c1 2.5 5 7 10 7 1.7 0 3.2-.5 4.6-1.2"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
   // B2 화면의 앱 아이콘을 복사해요(그라디언트 id는 화면마다 겹치지 않게 바꿔요).
   function srcIcon(k, sfx){
     const src = $(`.screen[data-step="B2"] [data-src="${k}"]`)?.closest('.check-item-head')?.querySelector('.icon-chip');
@@ -857,23 +986,28 @@
   }
   function renderB3B4(){
     const sel = b2Result || currentSelection();
-    const lines = sfx => Object.keys(SRC).filter(k => sel[k]).map(k => {
-      const s = SRC[k];
-      const chip = `<span class="st-chip ${s.del ? 'del' : 'block'}">${s.del ? ICON_DEL : ICON_BLOCK}${s.del ? '삭제됨' : '답변에 안 씀'}</span>`;
-      const part = sel[k] < s.count;
-      const head = `<div class="b3-head"><span class="b3-name">${s.name} <span class="b3-count">${part ? `${s.count}건 중 ${sel[k]}건` : `${s.count}건`}</span></span>${chip}</div>`;
-      const desc = s.del
-        ? `<div class="b3-desc">${s.name}에서 지웠어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
-        : `<div class="b3-desc">원본은 ${s.name}에 그대로 있어요</div>`;
-      const rest = part ? `<div class="b3-desc muted">고르지 않은 ${s.count - sel[k]}건은 계속 답변에 쓰일 수 있어요</div>` : '';
-      return `<div class="b3-line">${srcIcon(k, sfx)}<div class="b3-main">${head}${desc}${rest}</div></div>`;
+    // v31: 줄은 항목 단위 선택으로 계산해요(송금·입금 메일은 따로 한 줄).
+    const st = b2Detail || b2ItemState(), g = {};
+    b2Items().forEach((cb, i) => { const k = cb.dataset.hold ? 'hold' : cb.dataset.isrc; g[k] = g[k] || { on:0, all:0 }; g[k].all++; if(st[i]) g[k].on++; });
+    const total = Object.values(g).reduce((a, x) => a + x.on, 0);
+    const lines = sfx => ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && (g[k].on || k === 'hold')).map(k => {
+      const n = g[k], hold = k === 'hold', del = k === 'memory', name = hold ? '송금·입금 메일' : SRC[k].name, part = n.on < n.all;
+      const chip = hold && !n.on ? `<span class="st-chip keep">남겨 둠</span>`
+        : `<span class="st-chip ${del ? 'del' : 'block'}">${del ? ICON_DEL : ICON_BLOCK}${del ? '삭제됨' : '답변에만 안 씀'}</span>`;
+      const head = `<div class="b3-head"><span class="b3-name">${name} <span class="b3-count">${part && n.on ? `${n.all}건 중 ${n.on}건` : `${n.all}건`}</span></span>${chip}</div>`;
+      // D1: 무엇이 지워졌고 무엇이 원본에 남는지 한 줄로
+      const desc = hold && !n.on ? `<div class="b3-desc">돈이 오간 기록이라 처리하지 않았어요. 계속 답변에 쓰일 수 있어요</div><div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>`
+        : del ? `<div class="b3-desc">지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`
+        : `<div class="b3-desc">원본은 ${hold ? 'Gmail' : SRC[k].name}에 그대로 있어요. 답변에만 안 써요</div>`;
+      const rest = part && n.on ? `<div class="b3-desc muted">고르지 않은 ${n.all - n.on}건은 계속 답변에 쓰일 수 있어요</div>` : '';
+      return `<div class="b3-line${hold && !n.on ? ' kept' : ''}">${srcIcon(k === 'hold' ? 'gmail' : k, sfx)}<div class="b3-main">${head}${desc}${rest}</div></div>`;
     }).join('');
     $('#b3Lines').innerHTML = lines('b3'); $('#b5Lines').innerHTML = lines('b5');
-    const nDel = Object.keys(SRC).filter(k => sel[k] && SRC[k].del).length;
-    const nBlock = Object.keys(SRC).filter(k => sel[k] && !SRC[k].del).length;
+    const nDel = g.memory && g.memory.on ? 1 : 0;
     ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
     { const n = $('#b4Note'); if(n) n.hidden = !nDel; }
-    $('#b3Title').textContent = $('#b5Title').textContent = nDel && nBlock ? '요청을 처리했어요' : nDel ? '선택한 정보를 삭제했어요' : '선택한 정보를 답변에 쓰지 않게 했어요';
+    const all = Object.values(g).reduce((a, x) => a + x.all, 0);
+    $('#b3Title').textContent = $('#b5Title').textContent = I18n.t(total < all ? `정민 관련 정보 ${all}건 중 ${total}건을 처리했어요` : `정민 관련 정보 ${total}건을 처리했어요`);
 
     Object.keys(SRC).forEach(k => {
       const item = $(`.screen[data-step="B4"] [data-b4="${k}"]`);
@@ -895,8 +1029,7 @@
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
     $$('.chip-more[data-src]').forEach(b => b.dataset.shown = 0); renderA4More();
     applyRefs(); applyMemory();
-    b2Items().forEach(cb => cb.classList.add('checked'));
-    syncSelectAll();
+    setDefaultChecks();
     $$('.open').forEach(el => el.classList.remove('open'));
     hideSnackbar();
     renderB3B4();
@@ -923,7 +1056,8 @@
     if(hit){
       const tag = hit.dataset.tag || (hit.textContent || '').trim().slice(0, 24) || hit.id || hit.tagName.toLowerCase();
       Logger.log('click', { step: current, tag, x, y });
-      if(tag === '출처 확인' && M.a2Enter && !M.sourceFoundMs) M.sourceFoundMs = Math.max(0, Math.round(performance.now() - M.a2Enter));
+      // v31: 답변 배지 외에 다시 물어본 답변의 배지, 채팅 안내 버튼으로도 출처 확인을 열 수 있어요. 처음 연 경로를 같이 남겨요.
+      if(/^출처 확인/.test(tag) && M.a2Enter && !M.sourceFoundMs){ M.sourceFoundMs = Math.max(0, Math.round(performance.now() - M.a2Enter)); M.sourcePath = tag; }
     }else{
       const desc = (e.target.className && typeof e.target.className === 'string' ? '.' + e.target.className.split(' ')[0] : e.target.tagName.toLowerCase())
         + ((e.target.textContent || '').trim() ? ' "' + e.target.textContent.trim().slice(0, 18) + '"' : '');
@@ -941,9 +1075,9 @@
     return {
       step: current,
       response: {visible:responseVisible, paused:responsePaused},
-      ref: refState, mem: memState,
+      ref: refState, refVia, mem: memState, a3: { open: a3Open, detail: a3Detail, apps: a3AppsOpen },
       checks: b2ItemState(),
-      b2: b2Result,
+      b2: b2Result, b2d: b2Detail,
       b1: { draft: b1Input.value, sent: b1Text, asks: b1Asks },
       more: $$('.b2-more').map(el => !el.hidden),
       sv: svDraft,
@@ -951,7 +1085,7 @@
       c: window.TaskC ? TaskC.snapshot() : null,
       open: openables().map((el, i) => el.classList.contains('open') ? i : -1).filter(i => i >= 0),
       snack: bar.classList.contains('show') ? bar.querySelector('.snackbar-msg').textContent : '',
-      hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next } : null,
+      hold: hold ? { kind: hold.kind, phase: hold.phase, next: hold.next, qs: hold.qs, i: hold.i, overlay: hold.overlay } : null,
       scroll: scrollers().map(el => { const max = el.scrollHeight - el.clientHeight; return max > 0 ? +(el.scrollTop / max).toFixed(3) : 0; }),
     };
   }
@@ -960,15 +1094,17 @@
     if(!s) return;
     clearFx();
     refState = Object.assign({ memory:true, gmail:true, calendar:true, photos:true }, s.ref);
-    memState = Object.assign({ used:false, all:false, done:{}, a4:{} }, s.mem); memState.done = Object.assign({}, memState.done); memState.a4 = Object.assign({}, memState.a4);
-    b2Result = s.b2 || null;
+    refVia = Object.assign({}, s.refVia || {});
+    memState = Object.assign({ used:false, all:false, done:{}, a4:{}, via:{} }, s.mem); memState.done = Object.assign({}, memState.done); memState.a4 = Object.assign({}, memState.a4); memState.via = Object.assign({}, memState.via);
+    if(s.a3){ a3Open = Object.assign({}, s.a3.open); a3Detail = Object.assign({}, s.a3.detail); a3AppsOpen = !!s.a3.apps; }
+    b2Result = s.b2 || null; b2Detail = s.b2d || null;
     if(s.b1){ b1Input.value = s.b1.draft || ''; b1Text = s.b1.sent || ''; b1Asks = (s.b1.asks || []).slice(); syncB1(); renderB1Thread(); }
     if(s.more){ $$('.b2-more').forEach((el, i) => el.hidden = !s.more[i]); renderMoreToggles(); }
     svDraft = Object.assign({}, s.sv || {}); renderSurvey();
     chat = { a2: ((s.chat || {}).a2 || []).slice(), b3: ((s.chat || {}).b3 || []).slice() }; renderChat();
     if(s.c && window.TaskC) TaskC.apply(s.c);
     const checks = Array.isArray(s.checks) ? s.checks : null;
-    b2Items().forEach((cb, i) => cb.classList.toggle('checked', checks ? !!checks[i] : true));
+    b2Items().forEach((cb, i) => cb.classList.toggle('checked', checks ? !!checks[i] : !cb.dataset.hold));
     syncSelectAll(); applyRefs(); applyMemory(); renderB3B4();
     if(s.step && s.step !== current && STEPS[s.step]){
       current = s.step;
@@ -1017,6 +1153,7 @@
       mode: MODE,
       A_sourceBadgeFound: !!M.sourceFoundMs,
       A_sourceBadgeFoundSec: M.sourceFoundMs ? +(M.sourceFoundMs / 1000).toFixed(1) : null,
+      A_sourcePath: M.sourcePath || null,
       A_visitedA4: ev.some(e => e.type === 'step' && e.step === 'A4'),
       A_memoryDeleted: memState.all ? 'all' : memDeletedN() ? `used(${memDeletedN()})` : 'none',
       A_itemsProcessed: Object.keys(memState.done || {}),
@@ -1031,6 +1168,9 @@
       B_clarifiedTexts: b1Asks.slice(),
       B_moreOpened: ev.some(e => e.type === 'more' && e.open),
       B_processed: !!sel,
+      B_mode: B_MODE,
+      B_holdKept: sel ? b2Items().some((cb, i) => cb.dataset.hold && !(b2Detail || [])[i]) : null,
+      B_detailOpened: ev.some(e => e.type === 'step' && e.step === 'B2' && e.via === 'b3-detail'),
       B_selected: sel,
       B_verifyClicked: !!M.verifyMs,
       B_verifySec: M.verifyMs ? +(M.verifyMs / 1000).toFixed(1) : null,
@@ -1275,34 +1415,106 @@
     'post-survey': { badge:'설문을 마쳤어요', title:'진행자가 몇 가지 질문을 드릴 거예요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
     'wrap':        { badge:'거의 끝났어요', title:'마지막으로 진행자가 몇 가지 여쭤볼게요', desc:"다 답하신 뒤 '계속'을 눌러 주세요." },
   };
-  let hold = null;   // { kind, phase, next, why }
-  function holdThen(kind, phase, next, why){
-    if(MODE !== 'participant'){ go(next, why); return; }
-    hold = { kind, phase, next, why };
+  /* v31: 필수 질문을 참가자 화면에 순서대로 하나씩 띄워요(프로토콜 '진행' 시트의 필수 질문과 같은 순서).
+     참가자는 말로 답하고 '다음'을 눌러요. 진행자는 패널에서 지금 질문을 보고 필요하면 더 물어요.
+     q = 참가자 화면 문장, m = 진행자 패널에만 보이는 메모(정답 · 기록 칸). when = 조건이 맞을 때만 물어요. */
+  const ASK = {
+    intro:  [{ id:'I-02', q:'AI에게 사람이나 일정 같은 개인적인 이야기를 해 본 적 있으세요? 그때 어떠셨어요?' }],
+    'a-first': [{ id:'A-01', q:'방금 답변을 보고 어떤 생각이 드세요?', m:'첫 반응만 듣고 넘어가기 · A-17 메모' }],
+    'a-sheet': [{ id:'A-05', q:'이 화면을 보고, 어떻게 하실 생각이세요?', m:'조작 전 의도 · 이후 조작 중에는 묻지 않기 (A-05, A-06)' }],
+    'post-task-A': [{ id:'A-12', q:'지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' }],
+    'post-survey-A': [
+      { id:'A-08', q:'이 답변에 정민 이야기가 왜 나왔는지 설명해 주실 수 있나요?' },
+      { id:'A-09', when: () => Object.keys(refState).some(k => !refState[k]), q:'앱 연동 토글을 끄면 어떤 정보가 영향을 받을까요?', m:'정답: 앱 전체 · 토글을 안 껐으면 이 질문은 안 나오고 "토글 안 씀"' },
+      { id:'A-10', when: () => Object.keys(memState.done || {}).length + Object.keys(memState.a4 || {}).length > 0, q:"지운 것과 '답변에만 안 씀'으로 처리한 것은 각각 어떻게 될까요?", m:'정답: 지운 것은 사라짐 · 답변에 안 씀은 원본은 남고 답변에만 안 쓰임' },
+    ],
+    'pre-B': [{ id:'B-00', q:'정민 관련 정보를 앞으로 답변에 안 쓰이게 하고 싶다면, 평소라면 어떻게 하실 것 같으세요?', m:'채팅 요청을 스스로 떠올리는지' }],
+    'post-task-B': [{ id:'B-09', q:'지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요?' }],
+    'post-survey-B': [{ id:'B-08', q:'Gmail과 캘린더의 정민 정보는 지금 어떤 상태일까요?', m:'정답: 원본은 남고 답변에만 안 쓰임' }],
+    wrap: [
+      { id:'W-04', q: () => { const w = survey.W || {}; return w['W-01'] && w['W-03'] ? `방금 '${w['W-01']}', '${w['W-03']}'를 고르셨어요. 그렇게 고르신 이유는 무엇인가요?` : '방금 고르신 답을 그렇게 고르신 이유는 무엇인가요?'; } },
+      { id:'W-05', q:'오늘 가장 헷갈리거나 불편했던 순간은 언제였나요?' },
+      { id:'W-07', q:'하나만 바꿀 수 있다면 무엇을 바꾸고 싶으세요?' },
+    ],
+  };
+  function askList(kind, phase, next){
+    const key = kind === 'post-task' || kind === 'post-survey' ? `${kind}-${phase}` : kind;
+    let list = (ASK[key] || []).slice();
+    if(kind === 'post-survey' && next === firstStep('B')) list = list.concat(ASK['pre-B']);   // 과제 2를 시작하기 전에 B-00
+    return list.filter(it => !it.when || it.when()).map(it => ({ id: it.id, q: typeof it.q === 'function' ? it.q() : it.q, m: it.m || '' }));
+  }
+  let hold = null;   // { kind, phase, next, why, qs, i, overlay }
+  let holdAfter = null;   // 질문이 끝난 뒤 할 일(이 기기에서만)
+  let holdWaitTimer = null;
+  function holdThen(kind, phase, next, why, opts){
+    opts = opts || {};
+    if(MODE !== 'participant'){ if(next) go(next, why); else if(opts.after) opts.after(); return; }
+    const qs = askList(kind, phase, next);
+    if(!qs.length && !HOLD_TEXT[kind]){ if(next) go(next, why); else if(opts.after) opts.after(); return; }
+    hold = { kind, phase, next, why, qs, i: 0, overlay: !!opts.overlay };
+    holdAfter = opts.after || null;
     renderHold();
-    Logger.log('hold_show', { step: current, kind, phase, next });
+    Logger.log('hold_show', { step: current, kind, phase, next, questions: qs.map(x => x.id) });
+    if(qs.length) Logger.log('ask_show', { step: current, id: qs[0].id, n: 1, of: qs.length });
   }
   function holdContinue(){
-    if(!hold) return;
-    const h = hold; hold = null;
+    if(!hold || $('#holdBtn').disabled) return;
+    if(hold.qs.length && hold.i < hold.qs.length - 1){
+      Logger.log('ask_next', { step: current, id: hold.qs[hold.i].id });
+      hold.i++;
+      renderHold();
+      Logger.log('ask_show', { step: current, id: hold.qs[hold.i].id, n: hold.i + 1, of: hold.qs.length });
+      return;
+    }
+    const h = hold, after = holdAfter; hold = null; holdAfter = null;
+    if(h.qs.length) Logger.log('ask_next', { step: current, id: h.qs[h.i].id });
     Logger.log('hold_continue', { step: current, kind: h.kind, phase: h.phase });
     renderHold();
-    go(h.next, h.why);
+    $$('.chat-body').forEach(b => b.style.paddingBottom = '');
+    if(h.next) go(h.next, h.why); else { if(after) after(); renderPanel(); }
   }
   function renderHold(view){
     const h = view !== undefined ? view : hold;
     const box = $('#holdScreen'); if(!box) return;
     box.hidden = !h;
+    box.classList.toggle('overlay', !!(h && h.overlay));
     document.body.classList.toggle('holding', !!h);
     if(h){
-      const t = HOLD_TEXT[h.kind];
-      $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+      const qs = h.qs || [], q = qs[h.i || 0];
+      if(q){
+        const last = (h.i || 0) >= qs.length - 1;
+        $('#holdBadge').textContent = qs.length > 1 ? I18n.t(`질문 ${(h.i || 0) + 1} / ${qs.length}`) : '';
+        $('#holdBadge').hidden = qs.length <= 1;
+        $('#holdTitle').textContent = I18n.t(q.q);
+        $('#holdDesc').textContent = I18n.t('생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요.');
+        // P04처럼 대기 화면을 1~6초 만에 넘기지 않도록, 질문이 바뀌면 3초 뒤에 버튼이 눌려요. 그동안 남은 초를 보여 줘요.
+        const btn = $('#holdBtn'), key = `${h.kind}:${h.i || 0}`, label = I18n.t(last ? '계속' : '다음 질문');
+        if(view === undefined && btn.dataset.qk !== key){
+          btn.dataset.qk = key; btn.disabled = true; clearInterval(holdWaitTimer);
+          let left = 3;
+          const tick = () => { if(left <= 0){ clearInterval(holdWaitTimer); btn.disabled = false; btn.textContent = label; } else btn.textContent = I18n.t(`${left}초 뒤에 누를 수 있어요`); left--; };
+          tick(); holdWaitTimer = setInterval(tick, 1000);
+        }else if(!btn.disabled) btn.textContent = label;
+        if(h.overlay && view === undefined){
+          // 아래 카드가 답변 끝을 가리지 않게, 카드 높이만큼 여백을 두고 맨 아래로 내려요.
+          requestAnimationFrame(() => {
+            const card = $('#holdScreen .intro-body'), body = $('.screen.active .chat-body');
+            if(card && body && current === 'A2'){ body.style.paddingBottom = card.offsetHeight + 'px'; body.scrollTop = body.scrollHeight; }
+          });
+        }
+      }else{
+        const t = HOLD_TEXT[h.kind];
+        $('#holdBadge').textContent = I18n.t(t.badge); $('#holdTitle').textContent = I18n.t(t.title); $('#holdDesc').textContent = I18n.t(t.desc);
+        $('#holdBadge').hidden = false;
+        $('#holdBtn').textContent = I18n.t('계속'); $('#holdBtn').disabled = false; delete $('#holdBtn').dataset.qk;
+      }
     }
     renderGuide();
   }
-  // 진행자 패널: 참가자 화면이 멈춰 있을 때 지금 물을 질문
+  // 진행자 패널: 참가자 화면에 지금 떠 있는 질문(▶)과 남은 질문
   function holdQuestions(h){
     if(!h) return [];
+    if(h.qs && h.qs.length) return h.qs.map((x, i) => `${i === (h.i || 0) ? '▶ ' : i < (h.i || 0) ? '✓ ' : ''}${x.id} ${x.q}${x.m ? ` (${x.m})` : ''}`);
     if(h.kind === 'post-task') return (GUIDE['Q' + h.phase] || {}).first || [];
     if(h.kind === 'wrap') return (GUIDE.QW || {}).open || [];
     const g = GUIDE['Q' + h.phase] || {};
@@ -1339,7 +1551,7 @@
     B1: { say:["앞과 별개의 새 상황이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요."],
           watch:["어떤 문장으로 요청하는지 · 되물으면 어떻게 고쳐 말하는지 (자동)"] },
     B2: { help:["망설이면: 이 목록을 생각하셨던 범위와 비교하면 어떤가요? (B-02)"] },
-    B3: { watch:["스스로 입력창에 다시 물어보는지 (B-06 · 먼저 제안하지 않기)","이해 질문(B-08)은 과제 완료 뒤 설문 다음에"] },
+    B3: { watch:["스스로 입력창에 다시 물어보는지 (B-06 · 먼저 제안하지 않기)","남겨 둔 송금·입금 메일을 함께 처리하는지 · 자세히 고르기를 여는지 (자동)","이해 질문(B-08)은 과제 완료 뒤 설문 다음에"] },
     B4: { first:["(스스로 들어왔을 때만) 이 화면은 무엇을 보여 주는 것 같으세요?"],
           watch:["보관 안내(검토 사본 최대 3년)를 읽는지 · 묻지 않고 관찰 (B-18)"] },
     B5: { watch:["스스로 입력창에 다시 물어보는지 (B-06 · 먼저 제안하지 않기)"] },
@@ -1375,7 +1587,7 @@
     box.hidden = false;
     const sec = (cls, label, list) => list && list.length ? `<div class="gd-sec ${cls}"><div class="gd-label">${label}</div>${list.map(x => `<div class="gd-line">${esc(x)}</div>`).join('')}</div>` : '';
     const hq = holdQuestions(hold || remoteHold);
-    box.innerHTML = (hq.length ? sec('first', '참가자 화면이 멈춰 있어요 · 지금 하나씩 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
+    box.innerHTML = (hq.length ? sec('first', '참가자 화면에 뜬 질문 · 답을 듣고 필요하면 더 묻기', hq) : '') + sec('first', '먼저 물어보기', g.first) + sec('open', '주관식', g.pre) + sec('say', '말하기', g.say) + sec('watch', '지켜보기', g.watch) + sec('help', '막히면', g.help) + sec('after', '끝나면 하나씩 묻기', g.after) + sec('after', '설문 뒤에 하나씩 묻기', g.post) + sec('open', '주관식', g.open) + sec('probe', '과제 완료 뒤 탐색', g.probe) + sec('sec', '보안 종사자만', g.sec) + sec('say', '말하기', g.bye) + optSec(g);
     if(guideStep !== current){ guideStep = current; box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash'); }
   }
 
@@ -1579,7 +1791,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
-    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
