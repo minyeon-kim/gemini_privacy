@@ -635,7 +635,10 @@
     return rows ? `<div class="ch-log"><div class="ch-title">${esc(I18n.t('변경 내역'))}</div>${rows}</div>` : '';
   }
   // 효과 패널: 처리 전에는 '무엇이 어떻게 되는지', 처리 후에는 같은 자리에서 개수 칩 + 과거형(출처 확인 · 개인 인텔리전스 처리 합산)
-  let fxSig = '';
+  let fxSig = '', fxFlashAt = 0;
+  // 효과 표시(출처 시트 패널 · 과제 2 카드 공통): 한 줄에 하나씩 '아이콘 · 효과 · 건수 / 이유'. 건수 칩은 처리 전 외곽선 → 처리 후 연한 바탕
+  const fxCnt = (kind, n, done) => `<span class="fx-cnt ${kind}${done ? ' done' : ''}">${esc(n)}</span>`;
+  const fxStack = rows => `<div class="fxs">${rows.map(([kind, title, n, sub, done]) => `<div class="fxs-row ${kind}"><span class="fxs-ic">${kind === 'del' ? ICON_DEL : ICON_BLOCK}</span><div class="fxs-text"><div class="fxs-h"><b>${esc(I18n.t(title))}</b>${n ? fxCnt(kind, n, done) : ''}</div><div class="fxs-sub">${esc(I18n.t(sub))}</div></div></div>`).join('')}</div>`;
   const fxChip = (kind, n, done) => `<span class="fx-chip2 ${kind}${done ? ' done' : ''}">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}${n ? `<span>${esc(n)}</span>` : ''}</span>`;
   function effectPanel(){
     const via = memState.via || {}, a4n = Object.keys(memState.a4 || {}).length;
@@ -644,14 +647,15 @@
     const off = Object.keys(refState).filter(k => !refState[k] && REF_NAME[k] && !(k === 'memory' && memState.all));
     const fromPi = done.some(id => via[id] === 'pi') || a4n || memState.all || off.some(k => refVia[k] === 'pi');
     const any = memState.all || del || blk;
-    const sig = [memState.all ? 'all' : del, blk].join('/'), flash = !!any && fxSig !== sig; fxSig = sig;
-    const cell = (kind, todo, doneTxt, n, sub) => `<div class="fxp-cell ${kind}"><div class="fxp-h">${n ? fxChip(kind, n, true) : `<span class="fxp-ic">${kind === 'del' ? ICON_DEL : ICON_BLOCK}</span>`}<b>${esc(I18n.t(n ? doneTxt : todo))}</b></div><div class="fxp-sub">${esc(I18n.t(sub))}</div></div>`;
+    // 처리 직후 화면을 연달아 다시 그려도(applyMemory · applyRefs) 비춤이 남도록 바뀐 순간부터 0.3초 안의 그림에 flash를 붙여요
+    const sig = [memState.all ? 'all' : del, blk].join('/'); if(any && fxSig !== sig) fxFlashAt = Date.now(); fxSig = sig;
+    const flash = !!any && Date.now() - fxFlashAt < 300;
     const notes = off.map(k => I18n.t(`${REF_NAME[k]} 연동 끔`)).concat(fromPi ? [I18n.t('개인 인텔리전스에서 한 처리 포함')] : []);
-    return `<div class="fx-panel${any ? ' after' : ''}${flash ? ' flash' : ''}">`
-      + cell('del', '삭제돼요', '삭제됨', memState.all ? I18n.t('전체') : del ? I18n.t(`${del}건`) : '', '메모리는 다시 볼 수 없어요')
-      + '<span class="fxp-div"></span>'
-      + cell('block', '답변에만 안 써요', '답변에만 안 씀', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로')
-      + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
+    const delN = memState.all ? I18n.t('전체') : del ? I18n.t(`${del}건`) : '';
+    return `<div class="fx-panel${any ? ' after' : ''}${flash ? ' flash' : ''}">` + fxStack([
+      ['del', delN ? '삭제됨' : '삭제돼요', delN, '메모리는 다시 볼 수 없어요', true],
+      ['block', blk ? '답변에만 안 씀' : '답변에만 안 써요', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로', true],
+    ]) + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
   }
   // 고른 것의 효과: '2건 삭제 · 3건 답변에만 안 씀' (개수만 효과 색)
   function fxCounts(ids){
@@ -932,16 +936,15 @@
     const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
     return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
   }
-  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널처럼 두 칸, 남길 정보는 안내 한 줄(버튼 없음 · 바꾸려면 '다시 고르기'), 승인 전 외곽선 칩 → 처리 후 색 채운 칩
+  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널과 같은 효과 표시(한 줄에 하나씩), 남길 정보는 안내 한 줄(버튼 없음 · 바꾸려면 '다시 고르기'), 승인 전 외곽선 칩 → 처리 후 연한 바탕 칩
   function fxGroups(g, done){
     const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
     const leftN = left.reduce((s, k) => s + g[k].all - g[k].on, 0), holdOnly = left.length === 1 && left[0] === 'hold';
-    const cell = (kind, n, label, sub) => `<div class="fxc-cell ${kind}">${fxChip(kind, I18n.t(`${n}건`), done)}<b>${esc(I18n.t(label))}</b><span class="fxc-sub">${esc(I18n.t(sub))}</span></div>`;
-    const cells = [];
-    if(g.memory && g.memory.on) cells.push(cell('del', g.memory.on, done ? '삭제됨' : '삭제돼요', '메모리는 다시 볼 수 없어요'));
-    if(blkN) cells.push(cell('block', blkN, done ? '답변에만 안 씀' : '답변에만 안 써요', blockSub(g)));
-    let html = cells.length ? `<div class="fxc">${cells.join('<span class="fxc-div"></span>')}</div>` : '';
+    const rows = [];
+    if(g.memory && g.memory.on) rows.push(['del', done ? '삭제됨' : '삭제돼요', I18n.t(`${g.memory.on}건`), '메모리는 다시 볼 수 없어요', done]);
+    if(blkN) rows.push(['block', done ? '답변에만 안 씀' : '답변에만 안 써요', I18n.t(`${blkN}건`), blockSub(g), done]);
+    let html = rows.length ? fxStack(rows) : '';
     if(done && g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
     if(leftN){
       const txt = holdOnly ? (done ? `송금·입금 메일 ${leftN}건은 남겨 뒀어요` : `송금·입금 메일 ${leftN}건은 남겨 둬요 · 돈이 오간 기록`)

@@ -1849,3 +1849,36 @@ html[lang="en"] .sv-full{ display:block; }
 .fxc{ gap:8px !important; }
 .fxc-sub{ letter-spacing:-.3px !important; }
 .fxc-sub{ white-space:nowrap !important; }
+
+/* v33 효과 표시: 출처 시트 패널 · 과제 2 카드 공통 컴포넌트. 가로 두 칸(칸당 148px)에서 잘리던 것을 한 줄에 하나씩으로.
+   건수 칩은 처리 전 외곽선 → 처리 후 연한 바탕(꽉 찬 색은 '처리' 버튼에만). 비춤은 테두리 없이 배경만 한 톤 */
+.fx-panel{ display:block !important; padding:12px 16px !important; gap:0 !important; }
+.fx-panel.flash{ animation:fxFlash2 .6s ease both !important; }
+@keyframes fxFlash2{ 0%, 35%{ background:#e8e6e6; } 100%{ background:#f2f0f0; } }
+.fxs{ display:flex; flex-direction:column; gap:12px; }
+.fxs-row{ display:flex; align-items:flex-start; gap:8px; }
+.fxs-ic{ flex:0 0 16px; width:16px; height:20px; display:flex; align-items:center; justify-content:center; }
+.fxs-ic svg{ width:16px; height:16px; display:block; }
+.fxs-row.del .fxs-ic{ color:#b3261e; } .fxs-row.block .fxs-ic{ color:#0b57d0; }
+.fxs-text{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.fxs-h{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.fxs-h b{ font-size:14px; line-height:20px; font-weight:500; color:#1f1f1f; }
+.fxs-sub{ font-size:12px; line-height:16px; color:#444746; }
+.fx-cnt{ display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:999px; font-size:12px; line-height:16px; font-weight:500; white-space:nowrap; box-shadow:inset 0 0 0 1px currentColor; }
+.fx-cnt.del{ color:#b3261e; } .fx-cnt.block{ color:#0b57d0; }
+.fx-cnt.done{ box-shadow:none; } .fx-cnt.done.del{ background:#fce8e6; color:#b3261e; } .fx-cnt.done.block{ background:#d3e3fd; color:#0842a0; }
+/* 아이콘 있는 칩(출처 시트 처리한 주제 줄)도 연한 바탕 */
+.fx-chip2{ height:20px; padding:0 8px 0 6px !important; }
+.fx-chip2.done.del{ background:#fce8e6 !important; color:#b3261e !important; } .fx-chip2.done.block{ background:#d3e3fd !important; color:#0842a0 !important; }
+.fx-chip2.done.del svg{ color:#b3261e !important; } .fx-chip2.done.block svg{ color:#0842a0 !important; }
+.fx-chip2.done.keep{ background:#e9eaeb !important; color:#444746 !important; }
+/* v33 건수는 이름 바로 뒤 글자(칩 없음) · 출처 시트와 같은 색 */
+.screen[data-step="B2"] .ctext-name .item-count{ display:inline !important; margin-left:8px !important; padding:0 !important; border-radius:0 !important; box-shadow:none !important; background:none !important; font-size:13px !important; line-height:18px !important; font-weight:400 !important; color:#444746 !important; vertical-align:baseline !important; }
+#sheetOverlay .ct-count{ color:#444746 !important; }
+/* v33 B2 목록 줄: Figma와 같이 체크박스 18 · 12 · 앱 아이콘 18 · 12 · 이름 (하위 항목 체크박스가 아이콘과 같은 세로선) */
+.screen[data-step="B2"] .check-item-head .icon-chip{ width:18px !important; height:18px !important; flex:0 0 18px !important; min-width:18px !important; padding:0 !important; margin:0 !important; background:none !important; box-shadow:none !important; border:0 !important; }
+.screen[data-step="B2"] .check-item-head .icon-chip svg{ width:18px !important; height:18px !important; }
+.screen[data-step="B2"] .check-item-head > .checkbox{ margin:0 !important; }
+.screen[data-step="B2"] .check-item-expand{ padding-left:27px !important; } /* 하위 체크박스는 자체 여백 3px → 상자 기준 30 */
+/* B2 목록 위 안내 한 줄: 375 프레임에서 '써요'만 넘어가던 것 → 자간 살짝 줄이고, 넘칠 땐(영어 등) 두 줄을 고르게 */
+.b2-hint-detail{ letter-spacing:-.25px; text-wrap:balance; }
