@@ -783,6 +783,12 @@
   messages["모든 질문이 끝났어요. 오늘 본 이름·일정·메일은 모두 가상이에요."] = "All questions are done. The names, events and emails you saw today were all fictional.";
   messages["모든 질문이 끝났어요."] = "All questions are done.";
   messages["삭제돼요"] = messages["삭제돼요"] || "Will be deleted";
+  messages["사람이 품질 검토한 대화 사본은 계정과 분리돼 최대 3년 남을 수 있어요"] = "Chats reviewed by people for quality may stay up to 3 years, separated from your account";
+  messages["ⓘ 사람이 품질 검토한 대화 사본은 계정과 분리돼 최대 3년 남을 수 있어요 (Gemini 개인정보 보호 정책)"] = "ⓘ Chats reviewed by people for quality may stay up to 3 years, separated from your account (Gemini Privacy Policy)";
+  messages["앞으로 답변에 쓰지 않을 정보를 골라 주세요."] = "Choose the info you don't want used in future answers.";
+  messages["다시 볼 수 없어요"] = "Can't be seen again";
+  messages["원본은 각 앱에 그대로예요"] = "Originals stay in each app";
+  messages["돈이 오간 기록이라 남겨 뒀어요"] = "Kept because these are money records";
   function english(text) { return dates(englishText(text)); }
   // 한국어 화면의 서비스 이름(메모리·캘린더 등)을 예전 영어 표기로 되돌려 기존 번역 키를 그대로 씀.
   function legacy(text) {

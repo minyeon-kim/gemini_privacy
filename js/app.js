@@ -465,7 +465,7 @@
   // A3에서 바꾼 내용을 A2 답변 아래에 알려줘요 (출처 시트를 닫고 돌아왔을 때 변화가 보이도록).
   const LOG_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };   // 기록 파일 값은 이전 세션과 같게 유지
   const REF_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', photos:'Google 포토' };
-  const RETENTION = '지운 대화 중 품질 검토를 위해 사람이 이미 본 내용은 내 계정과 연결되지 않은 채 최대 3년 남을 수 있어요';
+  const RETENTION = '사람이 품질 검토한 대화 사본은 계정과 분리돼 최대 3년 남을 수 있어요';
   // 답변 아래에는 무엇이 바뀌었는지만 한 줄로 알려줘요.
   // 답변 아래: 바뀐 내용을 칩 하나로 보여 주고, 누르면 출처 화면에서 자세히 볼 수 있어요.
   const NT_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
@@ -643,7 +643,7 @@
       const right = done ? `<span class="st-chip ${FX[fxOf(id)].cls}">${FX[fxOf(id)].icon()}${esc(I18n.t(FX[fxOf(id)].done))}</span>`
         : off ? `<span class="st-chip block">${esc(I18n.t('앱 꺼짐'))}</span>` : '';
       const fxTag = done || off ? '' : `<span class="li-dot">·</span><span class="li-fx ${FX[fxOf(id)].cls}">${esc(I18n.t(FX[fxOf(id)].todo))}</span>`;
-      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span><span class="li-dot">·</span><span>${esc(I18n.t(it.meta))}</span>${fxTag}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
+      return `<div class="li-row${done || off ? ' done' : ' hot'}"${done || off ? '' : ` data-tag="A3 항목 줄 ${id}" onclick="App.a3Pick('${id}')"`}>${left}<div class="li-text"><div class="li-t1">${esc(I18n.t(it.text))}</div><div class="li-t2"><span class="li-app">${aIcon(it.src)}</span><span>${esc(REF_NAME[it.src])}</span>${fxTag}</div>${it.why ? `<div class="why">${esc(I18n.t(it.why))}</div>` : ''}${right ? `<div class="li-status">${right}</div>` : ''}</div></div>`;
     };
     const legend = Object.keys(A_ITEMS).some(id => !aHandled(id)) ? `<div class="fx-legend"><div class="fx-leg del">${ICON_DEL}<b>${esc(I18n.t('삭제'))}</b><span>${esc(I18n.t('지우면 다시 볼 수 없어요'))}</span></div><div class="fx-leg block">${ICON_BLOCK}<b>${esc(I18n.t('답변에만 안 씀'))}</b><span>${esc(I18n.t('원본은 그대로 두고 답변에만 안 써요'))}</span></div></div>` : '';
     body.innerHTML = changeLog() + legend + `<div class="ct-list">` + Object.keys(A_TOPICS).map(t => {
@@ -783,7 +783,10 @@
         const m = monthOf(it);
         if(m && m !== month){ month = m; const h = document.createElement('div'); h.className = 'a4-month'; h.textContent = m; btn.before(h); }
         const d = document.createElement('div'); d.className = 'data-chip gen' + (src === 'memory' ? ' mem-row' : '');
-        d.innerHTML = `<span>${esc(it.text)}${it.dt ? `<span class="dt">${esc(it.dt)}</span>` : ''}</span>`
+        // 긴 문장 대신 제목 + 회색 한 줄(날짜·출처)
+        const mm = it.text.match(/^(\d{4}\.\d{1,2}\.\d{1,2}) Gemini 채팅에서 "(.+)" 언급$/), cm = it.text.match(/^(\S+) 일정 "(.+)"$/);
+        const t1 = mm ? `"${mm[2]}"` : cm ? `"${cm[2]}"` : it.text, t2 = mm ? `Gemini 채팅, ${mm[1]}` : cm ? cm[1] : (it.dt || '');
+        d.innerHTML = `<span class="a4-t">${esc(t1)}${t2 ? `<span class="dt">${esc(t2)}</span>` : ''}</span>`
           + (src === 'memory' ? `<button type="button" class="mem-del hot" data-tag="A4 메모리 1건 삭제 ${it.id}" data-label="이 메모리 삭제" onclick="App.deleteMemoryItem('${it.id}', event)">${TRASH}</button>` : '');
         btn.before(d);
       });
@@ -1054,13 +1057,16 @@
     const st = b2Detail || b2ItemState(), g = groupState(st);
     const total = Object.values(g).reduce((a, x) => a + x.on, 0);
     // 리뷰 반영: 같은 설명을 출처마다 반복하지 않게 효과별로 한 줄씩(삭제 / 답변에만 안 씀 / 남겨 둠)
-    const fxIc = (cls, ic) => `<div class="icon-chip b3-ic fx-ic-${cls}">${ic}</div>`;
     const blk = ['gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
     const holdOnly = left.length === 1 && left[0] === 'hold';
-    const lines = () => (g.memory && g.memory.on ? `<div class="b3-line">${fxIc('del', ICON_DEL)}<div class="b3-main"><div class="b3-head"><span class="b3-name">메모리 <span class="b3-count">${g.memory.on}건</span></span><span class="st-chip del">${ICON_DEL}삭제됨</span></div><div class="b3-desc">지웠어요. 지금 되돌리지 않으면 다시 볼 수 없어요</div><div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div></div></div>` : '')
-      + (blk.length ? `<div class="b3-line">${fxIc('block', ICON_BLOCK)}<div class="b3-main"><div class="b3-head"><span class="b3-name">${blk.map(k => `${B_NAME[k]} <span class="b3-count">${g[k].on}건</span>`).join('<span class="b3-sep"> · </span>')}</span><span class="st-chip block">${ICON_BLOCK}답변에만 안 씀</span></div><div class="b3-desc">원본은 각 앱에 그대로 있어요. 답변에만 안 써요</div></div></div>` : '')
-      + (left.length ? `<div class="b3-line kept">${fxIc('keep', '<span class="keep-dot"></span>')}<div class="b3-main"><div class="b3-head"><span class="b3-name">${left.map(k => `${B_NAME[k]} <span class="b3-count">${g[k].all - g[k].on}건</span>`).join('<span class="b3-sep"> · </span>')}</span><span class="st-chip keep">남겨 둠</span></div><div class="b3-desc">${holdOnly ? '돈이 오간 기록이라 처리하지 않았어요. ' : ''}계속 답변에 쓰일 수 있어요</div>${holdOnly ? `<div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>` : ''}</div></div>` : '');
+    const names = (ks, on) => ks.map(k => `${B_NAME[k]} <span class="b3-count">${on ? g[k].on : g[k].all - g[k].on}건</span>`).join('<span class="b3-sep"> · </span>');
+    const line = (cls, nameHtml, chip, desc, extra) => `<div class="b3-line${cls ? ' ' + cls : ''}"><div class="b3-main"><div class="b3-head"><span class="b3-name">${nameHtml}</span>${chip}</div><div class="b3-desc">${desc}</div>${extra || ''}</div></div>`;
+    // 효과별 한 줄씩: 이름 + 상태 칩 / 설명 한 줄
+    const lines = () => (g.memory && g.memory.on ? line('', names(['memory'], true), `<span class="st-chip del">${ICON_DEL}삭제됨</span>`, '다시 볼 수 없어요', `<div class="b3-desc muted">${esc(I18n.t(RETENTION))}</div>`) : '')
+      + (blk.length ? line('', names(blk, true), `<span class="st-chip block">${ICON_BLOCK}답변에만 안 씀</span>`, '원본은 각 앱에 그대로예요') : '')
+      + (left.length ? line('kept', names(left, false), `<span class="st-chip keep">남겨 둠</span>`, holdOnly ? '돈이 오간 기록이라 남겨 뒀어요' : '계속 답변에 쓰일 수 있어요',
+          holdOnly ? `<div class="b3-act"><button type="button" class="text-btn hot" data-tag="B3 송금 메일 함께 처리" onclick="App.processHold()">이 메일도 답변에 안 쓰기</button></div>` : '') : '');
     $('#b3Lines').innerHTML = $('#b5Lines').innerHTML = lines();
     const nDel = g.memory && g.memory.on ? 1 : 0;
     ['#b3Note', '#b5Note'].forEach(id => { const n = $(id); if(n) n.hidden = true; });
