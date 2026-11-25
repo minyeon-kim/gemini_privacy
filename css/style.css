@@ -1445,3 +1445,16 @@ body.holding .taskbar{ display:none !important; }
   body.participant .taskbar .ask-done{ width:auto; padding:0 16px; }
   body.participant .taskbar .ask-text{ font-size:15px; }
 }
+
+/* 과제 2 자세히 고르기 · 펼친 항목: 머리 줄과 열을 맞춰 한 단계 들여쓰기
+   항목 체크박스 = 앱 아이콘 열, 항목 글자 = 이름 열 · 제목(진하게) → 날짜(회색) → 이유(파랑) */
+.screen[data-step="B2"] .check-item-head .ctext-sub{ white-space:nowrap; }
+.screen[data-step="B2"] .check-item-expand{ padding:0 14px 0 52px !important; }
+.screen[data-step="B2"] .check-item.open .check-item-expand{ padding-bottom:6px !important; border-top:1px solid #eeeded; }
+.screen[data-step="B2"] .b2-item{ gap:14px !important; padding:11px 0 !important; border-top:1px solid #f1f1f1; }
+.screen[data-step="B2"] .check-item-expand > .b2-item:first-child, .screen[data-step="B2"] .b2-more > .b2-item:first-child{ border-top:none; }
+.screen[data-step="B2"] .b2-more > .b2-item:first-child{ border-top:1px solid #f1f1f1; }
+.screen[data-step="B2"] .b2-item-text{ font-size:14.5px; line-height:1.4; color:#1f1f1f; }
+.screen[data-step="B2"] .b2-item-text .dt{ margin-top:3px; font-size:12.5px; color:#747775; }
+.screen[data-step="B2"] .b2-item-text .why{ margin-top:2px; font-size:12.5px; }
+.screen[data-step="B2"] .more-toggle{ display:flex; align-items:center; min-height:40px; margin-left:32px; font-size:13.5px; font-weight:500; color:#0b57d0; }

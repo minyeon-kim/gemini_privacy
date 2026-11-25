@@ -943,7 +943,7 @@
       if(sub) sub.textContent = n === its.length || !n ? `${its.length}건` : `${its.length}건 중 ${n}건 선택`;
     });
     const holdSub = $('#holdSub');
-    if(holdSub){ const on = items.some(b => b.dataset.hold && b.classList.contains('checked')); holdSub.className = 'ctext-sub ' + (on ? 'fx-block' : 'fx-keep'); holdSub.textContent = I18n.t(on ? '답변에만 안 써요 · 원본은 Gmail에 그대로' : '남겨 둬요 · 돈이 오간 기록'); }
+    if(holdSub){ const on = items.some(b => b.dataset.hold && b.classList.contains('checked')); holdSub.className = 'ctext-sub ' + (on ? 'fx-block' : 'fx-keep'); holdSub.textContent = I18n.t(on ? '답변에만 안 써요' : '남겨 둬요'); }
     const holdChip = $('.hold-group .check-group-head .st-chip');
     if(holdChip){
       const on = items.some(b => b.dataset.hold && b.classList.contains('checked'));
