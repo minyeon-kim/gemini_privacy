@@ -1945,7 +1945,7 @@
     if(!phase && doneKey){
       const n = doneKey === 'S' || doneKey === 'W' ? 2 : (doneKey === FIRST ? 1 : 2);
       $('#taskLabel').textContent = I18n.t(`과제 ${n} / 2`);
-      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1f1f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></span><span>${esc(I18n.t(doneKey === 'S' || doneKey === 'W' ? '두 과제를 모두 마쳤어요' : `과제 ${n}${n === 2 ? '를' : '을'} 마쳤어요`))}</span></div>`
+      $('#taskText').innerHTML = `<div class="tk-done"><span class="tk-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.8 2.8L16 9.6"/></svg></span><span>${esc(I18n.t(doneKey === 'S' || doneKey === 'W' ? '두 과제를 모두 마쳤어요' : `과제 ${n}${n === 2 ? '를' : '을'} 마쳤어요`))}</span></div>`
         + `<div class="tk-ctx">${esc(I18n.t(doneKey === 'S' || doneKey === 'W' ? '마지막 설문이에요. 휴대폰 화면에서 답해 주세요' : '휴대폰 화면의 짧은 설문에 답해 주세요'))}</div>`;
       if(!wasDone){ bar.classList.remove('pop'); void bar.offsetWidth; bar.classList.add('pop'); }
       return;

@@ -2038,3 +2038,23 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .survey-screen .sv-scale .sv-opt{ font-size:16px !important; font-weight:500 !important; }                       /* Heading/16 (Figma 척도 숫자) */
 .snackbar .snackbar-msg{ font-size:14px !important; line-height:20px !important; }                                /* Body/14 */
 .end-actions + p, .end-status, #endStatus{ font-size:13px !important; line-height:18px !important; color:#747775 !important; }   /* Meta/13 */
+
+/* ===== v33 색 점검: 팔레트(Figma 색 변수) 하나로 =====
+   ink-1 #1f1f1f · ink-2 #444746 · ink-3 #747775 · line #e3e3e3 · surface #f2f0f0 · primary #0b57d0 · primary-container #d3e3fd
+   on-primary-container #0842a0 · red #b3261e · green #146c2e · inverse-surface #303134 · inverse-primary #8ab4f8 */
+.snackbar, #snackbar, .interaction-toast, #interactionToast{ background:#303134 !important; }           /* inverse-surface (알림 · 토스트 같은 색) */
+.snackbar-undo, #snackUndo{ color:#8ab4f8 !important; }                                                  /* inverse-primary */
+.intro-badge, .ip-ic{ background:#d3e3fd !important; color:#0842a0 !important; }                        /* Figma 배지 = primary-container */
+.screen[data-step="B2"] .ctext-detail.b2-item, .screen[data-step="B2"] .b2-detail .check-item{ border-color:#e3e3e3 !important; }   /* line */
+.consent-item.consent-all, .intro-screen .sc-note, .intro-screen .sc-todo .sc-steps + .sc-note, .screen[data-step="A4"] .conn-wrap{ border-color:#e3e3e3 !important; }
+.sheet-close{ background:#f2f0f0 !important; }                                                          /* surface */
+#consentBox, .consent{ background:#f2f0f0 !important; }
+.screen[data-step="A4"] .mem-delete-trigger, .screen[data-step="A4"] .mem-delete-trigger svg, .screen[data-step="A4"] .mem-delete-trigger span{ color:#b3261e !important; stroke:currentColor; }   /* red 하나 */
+.taskbar .tk-check{ background:none !important; color:#146c2e !important; width:18px !important; height:18px !important; }   /* Figma check-circle · green */
+.taskbar .tk-check svg{ stroke:currentColor !important; }
+#sheetOverlay .li-app svg, #sheetOverlay .li-app svg *{ color:#444746; }
+#sheetOverlay .li-app .icon-chip{ color:#444746 !important; }
+.end-actions .ghost-btn{ border-color:#e3e3e3 !important; box-shadow:none !important; }                 /* Figma Outlined = line */
+.sheet-close{ color:#444746 !important; }                                                              /* ink-2 */
+.taskbar .tk-new{ background:#d3e3fd !important; color:#0842a0 !important; }                           /* 배지와 같은 primary-container */
+.taskbar.done .tk-new{ display:none !important; }   /* 과제를 마친 카드에는 '새 과제' 표시 안 함(Figma와 같게) */
