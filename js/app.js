@@ -578,9 +578,9 @@
     a_gm_tolo:    { topic:'jm', src:'gmail', label:'톨로 비스트로 예약', text:'[톨로 비스트로] 예약이 확정되었습니다', meta:'2025.3.15 19:00, 2명', why:'같은 날 캘린더 일정 "정민과 저녁"' },
     a_cal_dinner: { topic:'jm', src:'calendar', label:'정민과 저녁 일정', text:'정민과 저녁', meta:'2025.3.15' },
     a_cal_bday:   { topic:'jm', src:'calendar', label:'정민 생일 일정', text:'정민 생일', meta:'2024.11.2' },
-    a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'"정민과 트러플 리조또"', meta:'Gemini 채팅, 2025.3.14' },
-    a_mem_jazz:   { topic:'jm', src:'memory', label:'재즈바 메모리', text:'"정민이 좋아하던 재즈바"', meta:'Gemini 채팅, 2025.1.20' },
-    a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'"이탈리안 음식 좋아함"', meta:'Gemini 채팅, 2025.2.10' },
+    a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'"정민과 트러플 리조또"', meta:'Gemini 채팅 · 2025.3.14' },
+    a_mem_jazz:   { topic:'jm', src:'memory', label:'재즈바 메모리', text:'"정민이 좋아하던 재즈바"', meta:'Gemini 채팅 · 2025.1.20' },
+    a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'"이탈리안 음식 좋아함"', meta:'Gemini 채팅 · 2025.2.10' },
     a_gm_saved:   { topic:'taste', src:'gmail', label:'저장한 레스토랑 알림', text:'[캐치테이블] 저장한 송도 레스토랑 3곳 소식', meta:'2025.3.20' },
   };
   var a3Sel = {}, a3Open = {}, a3Detail = {}, a3AppsOpen = false;
@@ -830,7 +830,7 @@
         const d = document.createElement('div'); d.className = 'data-chip gen' + (src === 'memory' ? ' mem-row' : '');
         // 긴 문장 대신 제목 + 회색 한 줄(날짜·출처)
         const mm = it.text.match(/^(\d{4}\.\d{1,2}\.\d{1,2}) Gemini 채팅에서 "(.+)" 언급$/), cm = it.text.match(/^(\S+) 일정 "(.+)"$/);
-        const t1 = mm ? `"${mm[2]}"` : cm ? `"${cm[2]}"` : it.text, t2 = mm ? `Gemini 채팅, ${mm[1]}` : cm ? cm[1] : (it.dt || '');
+        const t1 = mm ? `"${mm[2]}"` : cm ? `"${cm[2]}"` : it.text, t2 = mm ? `Gemini 채팅 · ${mm[1]}` : cm ? cm[1] : (it.dt || '');
         d.innerHTML = `<span class="a4-t">${esc(t1)}${t2 ? `<span class="dt">${esc(t2)}</span>` : ''}</span>`
           + (src === 'memory' ? `<button type="button" class="mem-del hot" data-tag="A4 메모리 1건 삭제 ${it.id}" data-label="이 메모리 삭제" onclick="App.deleteMemoryItem('${it.id}', event)">${TRASH}</button>` : '');
         btn.before(d);

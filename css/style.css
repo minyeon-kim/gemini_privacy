@@ -2129,3 +2129,12 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .toggle.on .knob{ left:22px !important; width:27px !important; height:27px !important; margin-top:0 !important; }
 .toggle:active .knob, .toggle.on:active .knob{ width:31px !important; height:27px !important; margin-top:0 !important; }
 .toggle.on:active .knob{ left:18px !important; }
+/* ===== v33 글자 위계 · Figma와 맞춤 =====
+   상황 안내 화면: 라벨 '상황 / 할 일'은 과제 카드와 같은 진한 회색, 할 일 강조는 Medium(Bold 없음 · 제목보다 가볍게)
+   개인 인텔리전스: 제목 아래 설명 14 · 메모리/Gmail/캘린더 이름 16(출처 시트 주제 이름과 같게)
+   설문: 진행 표시 '1 / 4'는 보조 정보라 Regular */
+.intro-screen .sc-label{ color:#444746 !important; }
+.intro-screen .sc-steps b{ font-weight:500 !important; }
+.screen[data-step="A4"] .settings-head p{ font-size:14px !important; line-height:20px !important; }
+.screen[data-step="A4"] .conn-item .meta .name{ font-size:16px !important; line-height:24px !important; }
+.survey-screen .sv-count{ font-weight:400 !important; }   /* Meta/13 Regular (Figma) */

@@ -917,7 +917,7 @@
       .replace(/^정보 (\d+)건 처리됨$/, (_, n) => `${items(n)} handled`)
       .replace(/^정보 (\d+)건 처리$/, (_, n) => `${items(n)} handled`)
       .replace(/^앱 연동 (\d+)개 끔$/, (_, n) => `${n} app connection${n === '1' ? '' : 's'} off`)
-      .replace(/^Gemini 채팅, (.+)$/, 'Gemini chat, $1')
+      .replace(/^Gemini 채팅(?:,| ·) (.+)$/, 'Gemini chat · $1')
       .replace(/^(Memory|Gmail|Calendar) (\d+)건$/, '$1 · $2 items')
       .replace(/^(\d+)개 세션을 받았어요.*$/, '$1 sessions downloaded (use startedAt to tell repeated codes apart)')
       .replace(/^· (\d+)건$/, '· $1 items')
