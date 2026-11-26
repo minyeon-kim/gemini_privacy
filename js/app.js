@@ -1022,10 +1022,10 @@
     $('#b2ProcessBtn').textContent = b2ProcessLabel();
     $('#b2ProcessBtn').disabled = !any;
   }
-  // 과제 1 처리 줄과 같은 문구: 'N건 처리', 아무것도 안 골랐으면 '선택한 정보 처리'
+  // 과제 1 처리 줄과 같은 문구: 'N건 처리', 아무것도 안 골랐으면 '처리'(꺼진 회색 버튼)
   function b2ProcessLabel(){
     const n = b2Items().filter(b => b.classList.contains('checked')).length;
-    return I18n.t(n ? `${n}건 처리` : '선택한 정보 처리');
+    return I18n.t(n ? `${n}건 처리` : '처리');
   }
 
   function processB2(){
