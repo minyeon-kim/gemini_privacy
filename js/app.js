@@ -660,7 +660,7 @@
     return `<div class="fx-panel${any ? ' after' : ''}${flash ? ' flash' : ''}">` + fxStack([
       ['del', delN ? '삭제됨' : '삭제돼요', delN, '메모리는 다시 볼 수 없어요', true],
       ['block', blk ? '답변에만 안 씀' : '답변에만 안 써요', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로', true],
-    ]) + (memState.all || del || Object.keys(a3Sel).some(id => a3Sel[id] && A_ITEMS[id] && fxOf(id) === 'del') ? retFoot() : '') + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
+    ]) + retFoot()   /* 보관 안내는 '삭제돼요' 줄의 보충이라 늘 같이 (고를 때 패널 높이가 바뀌지 않게) */ + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
   }
   // 처리 줄 왼쪽: 고른 효과를 다른 화면과 같은 효과 알약(아이콘 + 건수)으로. 건수 합은 버튼('N건 처리')에만
   function fxSelChips(ids){
