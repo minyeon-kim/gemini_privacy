@@ -2142,3 +2142,18 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .end-mark{ background:#0b57d0 !important; }
 .taskbar .tk-check{ color:#0b57d0 !important; }
 .tk-check svg{ stroke:currentColor !important; }
+/* ===== v33 간격 · Figma와 맞춤 =====
+   개인 인텔리전스(Figma content 32:1320): 설명 → 첫 섹션 라벨 32 · 라벨 → 카드 12 · 카드 → 다음 라벨 32 · 라벨 → 설명 4 · 설명 → 카드 12
+   과제 2 요약 · 결과 카드(Figma AI card): 제목 → 효과 줄 12 · 효과 줄 → 각주 구분선 12 · 각주 → 버튼 12 (과제 1 시트 효과 패널도 구분선 위 12)
+   과제 카드: '상황' 라벨 → 글자 8 ('할 일'과 같게) */
+.screen[data-step="A4"] .settings-head{ padding-bottom:0 !important; }
+.screen[data-step="A4"] .settings-body{ padding-top:32px !important; gap:0 !important; }
+.screen[data-step="A4"] .settings-body > .pi-sec{ margin:0 0 12px !important; }
+.screen[data-step="A4"] .settings-body > .pi-sec:has(+ .pi-sec-desc){ margin-bottom:4px !important; }
+.screen[data-step="A4"] .settings-body > .pi-sec-desc{ margin:0 0 12px !important; }
+.screen[data-step="A4"] .settings-body > .s-card + .pi-sec{ margin-top:32px !important; }
+.screen[data-step="B2"] .b2-summary{ padding-top:0 !important; padding-bottom:0 !important; }
+.screen[data-step="B2"] .card-btn-row{ margin-top:0 !important; }
+.complete-card .b3-lines, .complete-card .btn-row-h{ margin-top:0 !important; }
+.fxs + .fxg-foot{ margin-top:12px !important; }
+#taskbar .tk-ctx-box{ gap:8px !important; }
