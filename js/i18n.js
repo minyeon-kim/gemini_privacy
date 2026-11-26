@@ -809,6 +809,9 @@
   messages["항목 직접 고르기"] = "Pick items myself";
   messages["목록 접기"] = "Hide list";
   messages["다시 고르기"] = "Pick again";
+  messages["직접 고르기"] = "Pick items";
+  messages["돈이 오간 송금·입금 메일"] = "Emails about money transfers";
+  messages["고르지 않은 정보는 계속 답변에 쓰일 수 있어요"] = "Unselected info may still be used in answers";
   messages["메모리는 삭제돼요. 다시 볼 수 없어요"] = "Memory is deleted and can't be seen again";
   messages["Gmail·캘린더는 답변에만 안 써요. 원본은 그대로예요"] = "Gmail and Calendar are only kept out of answers; originals stay";
   messages["개선 컨셉 테스트"] = 'Improvement concept test';

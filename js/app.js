@@ -35,9 +35,9 @@
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."},
-    B2:{phase:'b', script:"[요약 카드 · 승인 한 번] v31: 채팅 요청을 보내면 약 1.2초 뒤 요약 카드가 나와요. '삭제돼요 · 메모리 3'(빨강), '답변에만 안 써요 · Gmail 6 · 캘린더 9'(파랑), '남겨 둬요 · 송금·입금 메일 2'(회색) 세 줄과 'N건 처리' / '자세히 고르기' 버튼이에요. '자세히 고르기'를 누르면 같은 카드에서 출처별 목록이 펼쳐져요(주소에 ?b=direct면 바로 처리, ?b=list면 목록부터). 요약만 보고 바로 처리하는지, 목록을 여는지, 송금 메일을 함께 고르는지 관찰하세요.",
+    B2:{phase:'b', script:"[요약 카드 · 승인 한 번] v31: 채팅 요청을 보내면 약 1.2초 뒤 요약 카드가 나와요. '삭제돼요 · 메모리 3'(빨강), '답변에만 안 써요 · Gmail 6 · 캘린더 9'(파랑), '남겨 둬요 · 송금·입금 메일 2'(회색) 세 줄(합 20건)과 보관 안내, '직접 고르기' / 'N건 처리' 버튼이에요. '직접 고르기'를 누르면 같은 카드에서 출처별 목록이 펼쳐져요(주소에 ?b=direct면 바로 처리, ?b=list면 목록부터). 요약만 보고 바로 처리하는지, 목록을 여는지, 송금 메일을 함께 고르는지 관찰하세요.",
       indicators:[2], interact:"클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 묶음별 <b>체크박스</b>, 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리</b>(결과 카드로), <b>취소</b>(처리한 결과가 있으면 결과 카드로, 없으면 채팅으로)."},
-    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 효과별로 한 줄씩: 메모리 '삭제됨'(지금 되돌리지 않으면 다시 볼 수 없음), Gmail·캘린더 '답변에만 안 씀'(원본은 각 앱에), 고르지 않은 것 '남겨 둠'(송금 메일만 남았으면 '이 메일도 답변에 안 쓰기' 버튼). '자세히 고르기'는 목록을 펼친 요약 카드로, '되돌리기'는 모두 원래대로 돌리고 요약 카드로 가요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 이해 질문은 과제 뒤 화면에 자동으로 떠요(B-09, B-08). 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 함께 처리(송금 메일), 자세히 고르기, 되돌리기, 입력창"},
+    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 효과별로 한 줄씩: 메모리 '삭제됨'(지금 되돌리지 않으면 다시 볼 수 없음), Gmail·캘린더 '답변에만 안 씀'(원본은 각 앱에), 고르지 않은 것 '남겨 둠'(요약 카드와 같은 세 줄). '다시 고르기'는 목록을 펼친 요약 카드로(송금 메일까지 처리하려면 여기서), '되돌리기'는 모두 원래대로 돌리고 요약 카드로 가요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 이해 질문은 과제 뒤 화면에 자동으로 떠요(B-09, B-08). 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 다시 고르기, 되돌리기, 입력창"},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면은 무엇을 보여 주는 것 같으세요?' 보관 안내를 읽는지는 묻지 말고 관찰만 하세요(B-18). 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
     B5:{phase:'b', script:"[과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 사용성 설문(SUS)까지 끝난 뒤 마지막 질문 화면에서 해요.",
@@ -638,7 +638,7 @@
   let fxSig = '', fxFlashAt = 0;
   // 효과 표시(출처 시트 패널 · 과제 2 카드 공통): 한 줄에 하나씩 '아이콘 · 효과 · 건수 / 이유'. 건수 칩은 처리 전 외곽선 → 처리 후 연한 바탕
   const fxCnt = (kind, n, done) => `<span class="fx-cnt ${kind}${done ? ' done' : ''}">${esc(n)}</span>`;
-  const fxStack = rows => `<div class="fxs">${rows.map(([kind, title, n, sub, done]) => `<div class="fxs-row ${kind}"><span class="fxs-ic">${kind === 'del' ? ICON_DEL : ICON_BLOCK}</span><div class="fxs-text"><div class="fxs-h"><b>${esc(I18n.t(title))}</b>${n ? fxCnt(kind, n, done) : ''}</div><div class="fxs-sub">${esc(I18n.t(sub))}</div></div></div>`).join('')}</div>`;
+  const fxStack = rows => `<div class="fxs">${rows.map(([kind, title, n, sub, done]) => `<div class="fxs-row ${kind}"><span class="fxs-ic">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}</span><div class="fxs-text"><div class="fxs-h"><b>${esc(I18n.t(title))}</b>${n ? fxCnt(kind, n, done) : ''}</div><div class="fxs-sub">${esc(I18n.t(sub))}</div></div></div>`).join('')}</div>`;
   const fxChip = (kind, n, done) => `<span class="fx-chip2 ${kind}${done ? ' done' : ''}">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}${n ? `<span>${esc(n)}</span>` : ''}</span>`;
   function effectPanel(){
     const via = memState.via || {}, a4n = Object.keys(memState.a4 || {}).length;
@@ -918,7 +918,7 @@
   function renderB2View(){
     const card = $('.screen[data-step="B2"] .ai-card'); if(!card) return;
     card.classList.toggle('detail', b2View === 'detail');
-    const btn = $('#b2DetailBtn'); if(btn) btn.textContent = I18n.t(b2View === 'detail' ? '목록 접기' : '항목 직접 고르기');
+    const btn = $('#b2DetailBtn'); if(btn) btn.textContent = I18n.t(b2View === 'detail' ? '목록 접기' : '직접 고르기');
   }
   function toggleB2Detail(){ b2View = b2View === 'detail' ? 'summary' : 'detail'; renderB2View(); Logger.log('b2_view', { step: current, view: b2View }); }
   // 지금 체크 상태를 효과별로 묶어요: memory(삭제) / gmail·calendar·hold(답변에만 안 씀)
@@ -936,7 +936,7 @@
     const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
     return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
   }
-  // 과제 2 카드: 처리할(한) 두 가지는 출처 시트 효과 패널과 같은 효과 표시(한 줄에 하나씩), 남길 정보는 안내 한 줄(버튼 없음 · 바꾸려면 '다시 고르기'), 승인 전 외곽선 칩 → 처리 후 연한 바탕 칩
+  // 과제 2 카드(B2 요약 · B3 결과 같은 틀): 삭제 / 답변에만 안 씀 / 남겨 둠 세 줄(합 = 제목 건수) + 보관 안내. 처리 전후는 제목 · 줄 글자 · 버튼만 바뀜
   function fxGroups(g, done){
     const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
@@ -944,13 +944,10 @@
     const rows = [];
     if(g.memory && g.memory.on) rows.push(['del', done ? '삭제됨' : '삭제돼요', I18n.t(`${g.memory.on}건`), '메모리는 다시 볼 수 없어요', done]);
     if(blkN) rows.push(['block', done ? '답변에만 안 씀' : '답변에만 안 써요', I18n.t(`${blkN}건`), blockSub(g), done]);
+    if(leftN) rows.push(['keep', done ? '남겨 둠' : '남겨 둬요', I18n.t(`${leftN}건`), holdOnly ? '돈이 오간 송금·입금 메일' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done]);
     let html = rows.length ? fxStack(rows) : '';
-    if(done && g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
-    if(leftN){
-      const txt = holdOnly ? (done ? `송금·입금 메일 ${leftN}건은 남겨 뒀어요` : `송금·입금 메일 ${leftN}건은 남겨 둬요 · 돈이 오간 기록`)
-        : (done ? `고르지 않은 ${leftN}건은 남겨 뒀어요 · 계속 답변에 쓰일 수 있어요` : `고르지 않은 ${leftN}건은 남겨 둬요 · 계속 답변에 쓰일 수 있어요`);
-      html += `<div class="fxk"><span class="fxk-t">${esc(I18n.t(txt))}</span></div>`;
-    }
+    // 보관 안내는 처리 전(요약)에도 같은 자리에: 지우기 전에 알아야 할 정보
+    if(g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
     return html;
   }
   function renderB2Summary(){
