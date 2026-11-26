@@ -704,8 +704,10 @@
       </div>`;
     }).join('') + `</div>`;
     const selIds = Object.keys(a3Sel).filter(id => a3Sel[id] && !aHandled(id)), n = selIds.length;
+    // 앱 연동 설정 줄은 A4 개인 인텔리전스 줄과 같은 모양(이름 + 상태 한 줄 · 끄면 '연동 끔'). 뜻도 같아요: 앱 전체 설정(toggleRef)
+    const appSub = { gmail:'메일 130건', calendar:'일정 36건', memory: ($('#a4MemCount')?.textContent || '11건') };
     const apps = ['gmail', 'calendar', 'memory'].map(k => `<div class="ct-app${refState[k] ? '' : ' ref-off'}">${aIcon(k)}
-        <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}</div></div>
+        <div class="ct-text"><div class="ct-t1">${REF_NAME[k]}<span class="ref-off-badge">${esc(I18n.t('연동 끔'))}</span></div><div class="ct-t2">${esc(I18n.t(appSub[k]))}</div></div>
         <div class="toggle${refState[k] ? ' on' : ''} hot" data-ref="${k}" data-tag="${REF_NAME[k]} 전체 차단" role="switch" aria-checked="${refState[k]}" onclick="App.toggleRef('${k}')"><div class="knob"></div></div>
       </div>`).join('');
     // 처리 버튼 옆에 '고른 것이 어떻게 되는지'를 미리 보여 줘요(D1).
