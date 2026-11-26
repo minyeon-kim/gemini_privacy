@@ -2017,3 +2017,24 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .intro-screen .sc-note svg{ margin:0 !important; }
 .intro-screen .sc-note svg{ flex:0 0 auto !important; width:16px !important; padding:0 4px !important; }
 .intro-screen .sc-note svg{ padding:0 2px 0 4px !important; } /* 아이콘 칸 + 12 = 단계 글자와 같은 세로선(36) */
+
+/* ===== v33 글자 위계 점검: Figma 텍스트 스타일 12종(+ Body/15 Medium)에 맞춤 =====
+   Display/28 · Title/22 · Title/20 · Heading/16 · Body/16 · Body/15(·Medium) · Label/14 · Body/14 · Meta/13(·Medium) · Caption/12(·Regular) */
+:root{ --ds-body-lh:22px; }                                   /* Body/15 = 15/22 */
+#holdScreen h1, #holdTitle{ font-size:22px !important; line-height:30px !important; font-weight:500 !important; }   /* Title/22 */
+#holdScreen .hold-desc{ font-size:15px !important; line-height:22px !important; color:#444746 !important; }           /* Body/15 */
+#sheetOverlay .sheet-topbar h2, #sheetOverlay .sheet-head h2{ line-height:28px !important; }                          /* Title/20 */
+.screen[data-step="B2"] .hold-group .check-group-title{ font-size:12px !important; line-height:16px !important; font-weight:500 !important; }   /* Caption/12 */
+.end-lead{ font-size:15px !important; line-height:22px !important; }
+.survey-screen .sv-ends{ font-size:13px !important; line-height:18px !important; color:#444746 !important; }      /* Meta/13 */
+.survey-screen .sv-count{ font-size:13px !important; line-height:18px !important; font-weight:500 !important; color:#747775 !important; }   /* Meta/13 Medium */
+.survey-screen .sv-title{ line-height:20px !important; }
+.taskbar .tk-foot{ font-size:12px !important; line-height:16px !important; }                                       /* Caption/12 Regular */
+.intro-screen .sc-steps b{ font-weight:700 !important; }                                                           /* Figma Bold */
+.consent-all span, .consent-item.consent-all{ font-size:14px !important; line-height:20px !important; font-weight:500 !important; }   /* Label/14 */
+.consent-list li{ font-size:13px !important; line-height:18px !important; }                                       /* Meta/13 */
+.intro-screen .sc-context p{ font-size:15px !important; line-height:22px !important; }                            /* 상황 15 = 할 일 15, 상황이 할 일보다 크지 않게 */
+.taskbar.asking .ask-text{ font-weight:500 !important; }                                                           /* Heading/16 */
+.survey-screen .sv-scale .sv-opt{ font-size:16px !important; font-weight:500 !important; }                       /* Heading/16 (Figma 척도 숫자) */
+.snackbar .snackbar-msg{ font-size:14px !important; line-height:20px !important; }                                /* Body/14 */
+.end-actions + p, .end-status, #endStatus{ font-size:13px !important; line-height:18px !important; color:#747775 !important; }   /* Meta/13 */
