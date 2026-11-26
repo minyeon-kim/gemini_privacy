@@ -2164,3 +2164,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #sheetOverlay .fx-panel{ background:#f9fafe !important; box-shadow:none !important; }   /* surface-low · 테두리 없음 */
 #sheetOverlay .fx-panel.flash{ animation:fxFlash3 .6s ease both !important; }
 @keyframes fxFlash3{ 0%, 35%{ background:#e9eef6; } 100%{ background:#f9fafe; } }
+/* ===== 효과 줄 설명 13 (Meta/13): 제목 14 → 설명 13 → 보관 각주 12, 세 단계 위계 (Figma Effect cells) ===== */
+.fxs-sub{ font-size:13px !important; line-height:18px !important; }
