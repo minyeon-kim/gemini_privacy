@@ -2082,3 +2082,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .fxs + .fxg-foot{ margin-top:16px !important; padding-top:12px; border-top:1px solid #e3e3e3; }
 .a3-pi-link .text-link{ gap:4px; }
 .a3-pi-link .tl-arrow{ flex:0 0 14px; }
+/* 정보 위계: 시트 안내 문장은 제목을 돕는 보조 정보 — 목록 항목(본문)과 같은 진한 색이면 경쟁해서 ink-2로 */
+#sheetOverlay .sheet-desc{ color:#444746 !important; }
