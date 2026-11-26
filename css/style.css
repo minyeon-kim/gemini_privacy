@@ -2058,3 +2058,13 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .sheet-close{ color:#444746 !important; }                                                              /* ink-2 */
 .taskbar .tk-new{ background:#d3e3fd !important; color:#0842a0 !important; }                           /* 배지와 같은 primary-container */
 .taskbar.done .tk-new{ display:none !important; }   /* 과제를 마친 카드에는 '새 과제' 표시 안 함(Figma와 같게) */
+/* 출처 시트(A3) · 과제 C 시트의 '앱 연동 설정' 줄 = A4 개인 인텔리전스 줄과 같은 모양
+   40 원형 아이콘 칩(연한 파랑) · 이름 + 상태 한 줄 · 줄 사이 구분선 · 끄면 이름 옆 '연동 끔' 배지와 흐린 아이콘. 뜻도 같은 앱 전체 설정 */
+#sheetOverlay .ct-app, #cSheet .ct-app{ gap:12px !important; padding:12px 0 !important; border-top:1px solid #e3e3e3; }
+#sheetOverlay .ct-apps-body .ct-app:first-of-type, #cSheet .ct-apps-body .ct-app:first-of-type{ border-top:none; }
+#sheetOverlay .ct-app .icon-chip, #cSheet .ct-app .icon-chip{ width:40px !important; height:40px !important; flex:0 0 40px !important; border-radius:50% !important; background:#dcf1ff !important; display:flex !important; align-items:center; justify-content:center; padding:0 !important; box-shadow:none !important; }
+#sheetOverlay .ct-app .icon-chip svg, #cSheet .ct-app .icon-chip svg{ width:20px !important; height:20px !important; }
+#sheetOverlay .ct-app .ct-t1, #cSheet .ct-app .ct-t1{ font-size:var(--ds-body) !important; line-height:var(--ds-body-lh) !important; display:flex; align-items:center; gap:8px; }
+#sheetOverlay .ct-app .ct-t2, #cSheet .ct-app .ct-t2{ font-size:13px !important; line-height:18px !important; color:#747775 !important; margin-top:2px !important; }
+.ct-app.ref-off .ref-off-badge{ display:inline; }
+.ct-app.ref-off .icon-chip{ opacity:.45; filter:grayscale(1); }
