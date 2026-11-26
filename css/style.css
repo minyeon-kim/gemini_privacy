@@ -2084,3 +2084,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .a3-pi-link .tl-arrow{ flex:0 0 14px; }
 /* 정보 위계: 시트 안내 문장은 제목을 돕는 보조 정보 — 목록 항목(본문)과 같은 진한 색이면 경쟁해서 ink-2로 */
 #sheetOverlay .sheet-desc{ color:#444746 !important; }
+/* 앱 아이콘 원(출처 시트 앱 연동 줄 · A4 개인 인텔리전스 줄)은 회색 카드 위 흰 원으로 통일 */
+#sheetOverlay .ct-app .icon-chip, #cSheet .ct-app .icon-chip, .screen[data-step="A4"] .conn-item .icon-chip{ background:#fff !important; }
