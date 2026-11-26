@@ -863,6 +863,15 @@
   messages["이 답변엔 쓰이지 않았어요"] = 'Not used in this answer';
   messages["정민 관련 정보 20건을 찾았어요"] = 'Found 20 items related to Jeongmin';
   messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요"] = 'Memory is deleted; Gmail and Calendar are only kept out of answers';
+  // v34: 요청 문구에 따라 메모리 효과(삭제 / 답변에만 안 씀)를 정하고, 직접 고르기에서 바꿀 수 있어요
+  messages["모두 원본은 그대로 두고 답변에만 안 써요"] = 'Everything stays as is — just kept out of answers';
+  messages["메모리도 답변에만 안 쓰기"] = 'Keep memories too, just out of answers';
+  messages["메모리는 삭제하기"] = 'Delete memories instead';
+  messages["메모리·Gmail·캘린더는 원본 그대로"] = 'Memory, Gmail & Calendar originals stay';
+  messages["메모리·Gmail은 원본 그대로"] = 'Memory & Gmail originals stay';
+  messages["메모리·캘린더는 원본 그대로"] = 'Memory & Calendar originals stay';
+  messages["메모리는 원본 그대로"] = 'Memory originals stay';
+  messages["지금은 이렇게 처리돼 있어요."] = "Here's where things stand now.";
   messages["지금 정민과 관련된 정보는 어떻게 됐을 것 같나요?"] = 'What do you think has happened to the information about Jeongmin?';
   messages["생각나는 대로 말로 답해 주세요. 다 말하면 아래 버튼을 눌러 주세요"] = 'Answer out loud in your own words, then tap the button below';
   messages["저녁 약속 상황"] = 'Dinner plans';
@@ -894,6 +903,10 @@
       .replace(/^정민 관련 정보 (\d+)건을 처리했어요$/, (_, n) => `Handled ${items(n)} about Jeongmin`)
       .replace(/^Memory (\d+)건 삭제됨$/, (_, n) => `${items(n)} deleted from Memory`)
       .replace(/^Memory (\d+)건 삭제$/, (_, n) => `Delete ${items(n)} from Memory`)
+      .replace(/^(?:메모리|Memory) (\d+)건은 삭제했어요$/, (_, n) => `${items(n)} deleted from Memory`)
+      .replace(/^(?:메모리|Memory) (\d+)건은 지우지 않고 답변에만 안 써요$/, (_, n) => `${items(n)} in Memory kept, just out of answers`)
+      .replace(/^Gmail·(?:캘린더|Calendar) (\d+)건은 원본은 그대로 두고 답변에만 안 써요$/, (_, n) => `${items(n)} in Gmail & Calendar: originals stay, kept out of answers`)
+      .replace(/^고르지 않은 (\d+)건은 그대로 남아 있어요$/, (_, n) => `The ${items(n)} you didn't pick are unchanged`)
       .replace(/^(\d+)건 답변에만? 안 씀$/, (_, n) => `${items(n)} kept out of answers`)
       .replace(/^정민 관련 정보 (\d+)건 중 (\d+)건을 처리했어요$/, (_, a, n) => `Handled ${n} of ${a} items about Jeongmin`)
       .replace(/^(\d+)초 뒤에 누를 수 있어요$/, 'Available in $1s')

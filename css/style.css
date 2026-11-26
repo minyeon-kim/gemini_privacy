@@ -2223,3 +2223,6 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .screen[data-step="A4"] .conn-detail .data-chip + .data-chip, .screen[data-step="A4"] .conn-detail .data-chip + .a4-month{ background:linear-gradient(#e3e3e3, #e3e3e3) no-repeat 52px 0 / calc(100% - 52px) 1px !important; }
 .screen[data-step="A4"] .conn-detail .data-chip + .a4-month{ padding-top:12px !important; }
 .screen[data-step="A4"] .conn-detail .data-chip.mem-row{ min-height:44px !important; display:flex !important; align-items:center !important; }
+
+/* v34 · 과제 2 직접 고르기: 설명 줄 아래 메모리 효과 바꾸기 링크 (Figma Meta/13 Medium · primary · 줄 간격 4, 누르는 영역은 위아래 4씩 더) */
+.screen[data-step="B2"] .b2-hint-detail .mem-switch{ display:block; margin:0 0 -4px; padding:4px 0; border:0; background:none; font:inherit; font-size:13px; line-height:18px; font-weight:500; color:#0b57d0; letter-spacing:-.25px; text-align:left; cursor:pointer; }

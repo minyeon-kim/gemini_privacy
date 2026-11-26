@@ -35,9 +35,9 @@
     SB:{phase:'b', script:"(참가자 모드 전용) 상황 2 안내 카드입니다. 참가자가 직접 읽고 시작하게 두세요.", indicators:[], interact:"클릭 가능 — <b>시작하기</b>."},
     B1:{phase:'b', script:"[과제 전 질문] 과제를 주기 전에 먼저: '정민 관련 정보를 앞으로 답변에 안 쓰이게 정리하고 싶다면, 평소라면 어떻게 하실 것 같으세요?' — 채팅으로 요청하는 방법을 스스로 떠올리는지 기록하세요. [목표 제시] (A를 먼저 했다면 '여기부터는 앞과 별개의 새 상황이에요.') 'Gemini가 정민이라는 사람과 관련된 정보를 기억하고 있어요. 정민은 지금은 연락하지 않는 사람이에요. 이번엔 채팅으로 Gemini에게 직접 요청해서, 앞으로 정민 관련 정보가 답변에 쓰이지 않게 해 보세요.' 입력창은 비어 있어요. 참가자가 직접 문장을 입력하게 하세요(화면 공유로 진행할 땐 참가자가 말한 문장을 진행자가 그대로 입력). 요청에 '정민'이나 '그 사람' 같은 대상이 없으면 Gemini가 '어떤 정보를 정리할까요?'라고 되묻고, 대상을 말하면 정리 목록이 나와요. 입력한 문장과 되묻기 횟수는 자동 기록됩니다.",
       indicators:[1], interact:"클릭 가능 — <b>입력창</b>(자유 입력), <b>전송 버튼</b>(글자를 입력해야 활성화, 엔터 키로도 전송)."},
-    B2:{phase:'b', script:"[요약 카드 · 승인 한 번] v31: 채팅 요청을 보내면 약 1.2초 뒤 요약 카드가 나와요. '삭제돼요 · 메모리 3'(빨강), '답변에만 안 써요 · Gmail 6 · 캘린더 9'(파랑), '남겨 둬요 · 송금·입금 메일 2'(회색) 세 줄(합 20건)과 보관 안내, '직접 고르기' / 'N건 처리' 버튼이에요. '직접 고르기'를 누르면 같은 카드에서 출처별 목록이 펼쳐져요(주소에 ?b=direct면 바로 처리, ?b=list면 목록부터). 요약만 보고 바로 처리하는지, 목록을 여는지, 송금 메일을 함께 고르는지 관찰하세요.",
+    B2:{phase:'b', script:"[요약 카드 · 승인 한 번] v31: 채팅 요청을 보내면 약 1.2초 뒤 요약 카드가 나와요. '삭제돼요 · 메모리 3'(빨강), '답변에만 안 써요 · Gmail 6 · 캘린더 9'(파랑), '남겨 둬요 · 송금·입금 메일 2'(회색) 세 줄(합 20건)과 보관 안내, '직접 고르기' / 'N건 처리' 버튼이에요. '직접 고르기'를 누르면 같은 카드에서 출처별 목록이 펼쳐져요(주소에 ?b=direct면 바로 처리, ?b=list면 목록부터). 요약만 보고 바로 처리하는지, 목록을 여는지, 송금 메일을 함께 고르는지 관찰하세요. v34: 요청에 '지워 · 삭제'가 없으면('쓰지 마' · '언급하지 마' 등) 메모리도 지우지 않고 '답변에만 안 써요 18 · 남겨 둬요 2' 두 줄로 나오고 보관 안내도 없어요. 직접 고르기 설명 줄 아래 글자 링크로 메모리 효과(삭제 ↔ 답변에만 안 씀)를 바꿀 수 있어요(자동 기록).",
       indicators:[2], interact:"클릭 가능 — <b>전체 선택</b>, 항목 이름(펼치기), 묶음별 <b>체크박스</b>, 펼친 뒤 <b>'+N건 더보기'</b>, <b>N건 처리</b>(결과 카드로), <b>취소</b>(처리한 결과가 있으면 결과 카드로, 없으면 채팅으로)."},
-    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 효과별로 한 줄씩: 메모리 '삭제됨'(지금 되돌리지 않으면 다시 볼 수 없음), Gmail·캘린더 '답변에만 안 씀'(원본은 각 앱에), 고르지 않은 것 '남겨 둠'(요약 카드와 같은 세 줄). '다시 고르기'는 목록을 펼친 요약 카드로(송금 메일까지 처리하려면 여기서), '되돌리기'는 모두 원래대로 돌리고 요약 카드로 가요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 이해 질문은 과제 뒤 화면에 자동으로 떠요(B-09, B-08). 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 다시 고르기, 되돌리기, 입력창"},
+    B3:{phase:'b', script:"[관찰만] 처리 결과 카드예요. 효과별로 한 줄씩: 메모리 '삭제됨'(지금 되돌리지 않으면 다시 볼 수 없음), Gmail·캘린더 '답변에만 안 씀'(원본은 각 앱에), 고르지 않은 것 '남겨 둠'(요약 카드와 같은 세 줄). '다시 고르기'는 목록을 펼친 요약 카드로(송금 메일까지 처리하려면 여기서), '되돌리기'는 처리한 것을 원래대로 돌리고, 직전에 고른 그대로 처리했던 화면(요약 카드 또는 목록)으로 돌아가요(v34). '삭제된 거야?'처럼 물으면 지금 상태를 효과별로 답해요. 참가자가 입력창에 다시 물어서 확인하는지가 관찰값이에요(B-06, 자동 기록). 이해 질문은 과제 뒤 화면에 자동으로 떠요(B-09, B-08). 결과 줄 아래 보관 안내를 읽었는지(B-18)는 관찰로 기록해요.", indicators:[3,4], interact:"클릭 가능: 다시 고르기, 되돌리기, 입력창"},
     B4:{phase:'b', script:"참가자가 스스로 들어온 경우의 확인 화면입니다. '이 화면은 무엇을 보여 주는 것 같으세요?' 보관 안내를 읽는지는 묻지 말고 관찰만 하세요(B-18). 신뢰에 관한 질문은 여기서 하지 말고 마무리 단계로 미루세요.",
       indicators:[3,4,5], interact:"클릭 가능 — <b>'채팅으로 돌아가기'</b>(B5로 이동), ← 로 B3 복귀."},
     B5:{phase:'b', script:"[과제 종료] 참가자가 끝났다고 하면(참가자 모드는 '과제 완료') 사후 설문(쉬움·완료 인식·확신도·정보량)을 진행하세요. 마무리 질문은 사용성 설문(SUS)까지 끝난 뒤 마지막 질문 화면에서 해요.",
@@ -86,14 +86,15 @@
   let stepEnteredAt = 0;
   let devMode = false;
   let sheetBefore = null;
-  let refState, refVia = {}, memState, b2Result, b2Detail = null, b2View = 'summary', lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
+  let refState, refVia = {}, memState, b2Result, b2Detail = null, b2View = 'summary', b2ProcView = 'summary', memEffect = 'delete', memEffectDefault = 'delete', lastUndo, undoTimer, b1Text, b1Asks = [], svDraft = {}, survey = {}, svIdx = {};
   const M = {}; // 지표 계산용 타임스탬프
 
   function resetState(){
     refState = { memory:true, gmail:true, calendar:true, photos:true };
     refVia = {};   // v31 D7: 앱 연동을 어디서 껐는지(출처 확인 sheet / 개인 인텔리전스 pi)
     memState = { used:false, all:false, done:{}, a4:{}, via:{} };
-    b2Result = null; b2Detail = null;
+    b2Result = null; b2Detail = null; b2ProcView = 'summary';
+    memEffect = memEffectDefault = 'delete';   // 요청 문구로 정해요(sendB1)
     lastUndo = null;
     b1Text = '';
     b1Asks = [];
@@ -531,9 +532,21 @@
     if(src.gmail) li.push('Gmail의 톨로 비스트로 예약 메일');
     return li.length ? `<p>정민 님 이야기는 아래 정보를 참고해서 나왔어요.</p><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul>` : '<p>지금은 정민 님 관련 정보를 답변에 쓰지 않아요.</p>';
   }
+  // P05: 처리 뒤 '근데 답변에 쓰이지 말라고 했는데 삭제된 거야?' → 지금 상태를 효과별로 답해요
+  const B_STATUS_Q = /[?？]|거야|건가|건지|냐|나요|맞아|맞지|\bdid\b|\bwas\b|\bis it\b/i;
+  const B_STATUS_W = /삭제|지워|지웠|지운|없어졌|사라|\bdelet|\beras|\bremov/i;
+  function statusAnswer(){
+    const g = groupState(b2Detail || b2ItemState()), on = k => (g[k] ? g[k].on : 0), li = [];
+    if(on('memory')) li.push(memEffect === 'delete' ? `메모리 ${on('memory')}건은 삭제했어요` : `메모리 ${on('memory')}건은 지우지 않고 답변에만 안 써요`);
+    const apps = on('gmail') + on('calendar') + on('hold');
+    if(apps) li.push(`Gmail·캘린더 ${apps}건은 원본은 그대로 두고 답변에만 안 써요`);
+    const left = Object.values(g).reduce((a, x) => a + x.all - x.on, 0);
+    if(left) li.push(`고르지 않은 ${left}건은 그대로 남아 있어요`);
+    return `<p>${esc(I18n.t('지금은 이렇게 처리돼 있어요.'))}</p><ul>${li.map(x => `<li>${esc(I18n.t(x))}</li>`).join('')}</ul>`;
+  }
   function chatReply(key, text){
     const task = key === 'a2' ? 'a' : 'b', src = task === 'a' ? aSources() : bSources();
-    const target = B1_TARGET.test(text), del = B1_INTENT.test(text);
+    const target = B1_TARGET.test(text), del = hasIntent(text);
     if(task === 'a'){
       const jmLeft = aTopicIds('jm').some(id => !aHandled(id));
       const link = jmLeft ? SRC_BTN('출처 확인 · 채팅 안내', '출처 확인') : '';
@@ -543,6 +556,7 @@
       if(RESTO_Q.test(text)) return { kind:'same', badge:true, html: restoAnswer(src) };
       return { kind:'other', badge:false, html:'<p>네, 좋아요. 조금 더 자세히 알려 주시면 도와드릴게요.</p>' };
     }
+    if(b2Result && B_STATUS_W.test(text) && B_STATUS_Q.test(text)) return { kind:'status', html: statusAnswer() };
     if(del) return { kind:'delete', html: Object.values(src).some(Boolean) ? jmAnswer(src, task) : '<p>정민 님 관련 정보는 이미 정리했어요. 지금은 답변에 쓰지 않아요.</p>' };
     if(target) return { kind:'person', html: jmAnswer(src, task) };
     if(RESTO_Q.test(text)) return { kind:'same', html: restoAnswer(src) };
@@ -894,6 +908,12 @@
   // 요청에 정리할 대상(사람·지칭어)이 있어야 정리 목록을 보여줘요. 없으면 되물어요.
   const B1_TARGET = /정민|jeongmin|jungmin|그\s?사람|이\s?사람|그\s?분|이\s?분|걔|그\s?친구|이\s?친구|\bthat person\b|\bthis person\b|\bhim\b|\bher\b|\bthem\b/i;
   const B1_INTENT = /쓰이지\s?않|쓰이지\s?마|안\s?쓰이|사용하지\s?않|사용하지\s?마|쓰지\s?말|나오지\s?않|나오지\s?마|안\s?나오|참조하지|언급하지|지워|지우|삭제|잊어|잊게|빼|없애|안\s?쓰|쓰지\s?마|쓰지\s?않|기억하지|기억\s?말|정리|숨겨|차단|하지\s?마|꺼내지|말하지|언급\s?(?:금지|말|안)|얘기\s?(?:하지|말|안|그만)|그만|forget|delete|remove|erase|stop\s+using|don'?t\s+use|don'?t\s+(?:mention|bring\s+up)|stop\s+mentioning/i;
+  // P05: '답변으로 활용하지않도록해' · '쓰지이지않도록해'(오타)처럼 동사 + 부정이 붙어 있으면 요청으로 봐요(띄어쓰기 · 글자 몇 개 섞여도).
+  const B1_INTENT2 = /(?:쓰|사용|활용|이용|반영|참고|참조|언급|기억|학습|나오|보이|꺼내|알려|떠올리|얘기|말하)[^\s]{0,4}\s?(?:않|말|마(?![가-힣]))|(?:쓰|사용|활용|이용|반영|참고|참조|언급|기억|학습)[^\s]{0,2}\s?안\s?(?:하|했|해|써|쓰|썼)|안\s?썼으면|않았으면|않도록|않게\s?해|말아\s?줘|금지|\bexclude\b|leave\s+(?:\w+\s+)?out|never\s+(?:use|mention)|don'?t\s+(?:ever\s+)?(?:use|mention|bring|reference|show)|avoid\s+(?:using|mentioning)/i;
+  const hasIntent = t => B1_INTENT.test(t) || B1_INTENT2.test(t);
+  // 요청에 '지워 · 삭제'가 있으면 메모리는 삭제, 없으면('쓰지 마' · '언급하지 마') 메모리도 답변에만 안 씀(P05: '쓰지 마'라고 했는데 삭제돼 혼란)
+  const DEL_WORD = /지워|지우|지웠|삭제|없애|잊어|잊게|\berase\b|\bdelete\b|\bremove\b|\bforget\b|\bwipe\b/i;
+  const memDefaultFor = t => DEL_WORD.test(t) ? 'delete' : 'block';
   const B1_REPLY = {
     noTarget: '어떤 정보를 정리할까요? 사람 이름이나 주제를 알려 주세요.',
     noIntent: '정민 님과 관련해서 무엇을 도와드릴까요?',
@@ -906,7 +926,7 @@
     const body = box.closest('.chat-body'); if(body) body.scrollTop = body.scrollHeight;
   }
   function b1Kind(t){
-    const tg = B1_TARGET.test(t), it = B1_INTENT.test(t);
+    const tg = B1_TARGET.test(t), it = hasIntent(t);
     return tg && it ? 'ok' : it ? 'noTarget' : tg ? 'noIntent' : 'other';
   }
   function sendB1(){
@@ -920,14 +940,15 @@
       return;
     }
     b1Text = text;
-    Logger.log('b1_request', { step: current, text, clarifiedBefore: b1Asks.length, mode: B_MODE });
+    memEffect = memEffectDefault = memDefaultFor(text); renderB2Hint();
+    Logger.log('b1_request', { step: current, text, clarifiedBefore: b1Asks.length, mode: B_MODE, memEffect });
     syncB1();
     b1Input.blur();
     if(B_MODE !== 'direct'){ setDefaultChecks(); b2View = B_MODE === 'list' ? 'detail' : 'summary'; renderB2View(); go('B2', 'b1-send'); return; }
     // 바로 처리: 확인이 필요한 정보(송금·입금)만 빼고 처리한 뒤 결과를 보여 줘요. 고치려면 결과 카드의 '자세히 고르기'.
     setDefaultChecks();
     b2Result = currentSelection(); b2Detail = b2ItemState();
-    Logger.log('b2_process', { step: current, selected: b2Result, items: b2Detail, how: 'direct' });
+    Logger.log('b2_process', { step: current, selected: b2Result, items: b2Detail, how: 'direct', memEffect });
     renderB3B4();
     go('B3', 'b1-direct');
   }
@@ -950,22 +971,37 @@
     return `<div class="fxr ${kind}"><div class="fxr-text"><div class="fxr-h">${fxChip(kind, I18n.t(`${n}건`), done)}<b>${esc(I18n.t(label))}</b></div><div class="fxr-sub">${esc(I18n.t(sub))}</div></div>${action || ''}</div>`;
   }
   function blockSub(g){
-    const names = [...new Set(['gmail', 'hold', 'calendar'].filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : 'Gmail'))];
-    return names.join('·') + (names[names.length - 1] === '캘린더' ? '는' : '은') + ' 원본 그대로';
+    const keys = (memEffect === 'block' ? ['memory'] : []).concat(['gmail', 'hold', 'calendar']);
+    const names = [...new Set(keys.filter(k => g[k] && g[k].on).map(k => k === 'calendar' ? '캘린더' : k === 'memory' ? '메모리' : 'Gmail'))];
+    return names.join('·') + (names[names.length - 1] === 'Gmail' ? '은' : '는') + ' 원본 그대로';
   }
   // 과제 2 카드(B2 요약 · B3 결과 같은 틀): 삭제 / 답변에만 안 씀 / 남겨 둠 세 줄(합 = 제목 건수) + 보관 안내. 처리 전후는 제목 · 줄 글자 · 버튼만 바뀜
   function fxGroups(g, done){
-    const blkN = ['gmail', 'calendar', 'hold'].reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
+    const memDel = memEffect === 'delete';
+    const blkN = (memDel ? [] : ['memory']).concat(['gmail', 'calendar', 'hold']).reduce((s, k) => s + (g[k] ? g[k].on : 0), 0);
     const left = ['memory', 'gmail', 'calendar', 'hold'].filter(k => g[k] && g[k].on < g[k].all);
     const leftN = left.reduce((s, k) => s + g[k].all - g[k].on, 0), holdOnly = left.length === 1 && left[0] === 'hold';
     const rows = [];
-    if(g.memory && g.memory.on) rows.push(['del', done ? '삭제됨' : '삭제돼요', I18n.t(`${g.memory.on}건`), '메모리는 다시 볼 수 없어요', done]);
+    if(memDel && g.memory && g.memory.on) rows.push(['del', done ? '삭제됨' : '삭제돼요', I18n.t(`${g.memory.on}건`), '메모리는 다시 볼 수 없어요', done]);
     if(blkN) rows.push(['block', done ? '답변에만 안 씀' : '답변에만 안 써요', I18n.t(`${blkN}건`), blockSub(g), done]);
     if(leftN) rows.push(['keep', done ? '남겨 둠' : '남겨 둬요', I18n.t(`${leftN}건`), holdOnly ? '돈이 오간 송금·입금 메일' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done]);
     let html = rows.length ? fxStack(rows) : '';
     // 보관 안내는 처리 전(요약)에도 같은 자리에: 지우기 전에 알아야 할 정보
-    if(g.memory && g.memory.on) html += retFoot();
+    if(memDel && g.memory && g.memory.on) html += retFoot();
     return html;
+  }
+  // 직접 고르기 설명 줄: 지금 메모리 효과 + 반대로 바꾸는 글자 링크(줄을 바꿔 한 덩어리로)
+  function renderB2Hint(){
+    const p = $('.screen[data-step="B2"] .b2-hint-detail'); if(!p) return;
+    const del = memEffect === 'delete';
+    p.innerHTML = `${esc(I18n.t(del ? '메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요' : '모두 원본은 그대로 두고 답변에만 안 써요'))}`
+      + `<button type="button" class="mem-switch hot" data-tag="${del ? '메모리 효과 → 답변에만 안 씀' : '메모리 효과 → 삭제'}" onclick="App.switchMemEffect()">${esc(I18n.t(del ? '메모리도 답변에만 안 쓰기' : '메모리는 삭제하기'))}</button>`;
+  }
+  function switchMemEffect(){
+    if($('#b2ProcessBtn').classList.contains('busy')) return;
+    memEffect = memEffect === 'delete' ? 'block' : 'delete';
+    renderB2Hint(); syncSelectAll();
+    Logger.log('b2_mem_effect', { step: current, effect: memEffect, from: memEffectDefault });
   }
   function renderB2Summary(){
     const box = $('#b2Summary'); if(!box) return;
@@ -1048,7 +1084,8 @@
     btn.setAttribute('aria-busy', 'true');
     $('.screen[data-step="B2"] .ai-card').classList.add('processing');
     b2Items().forEach(box => box.setAttribute('aria-disabled', 'true'));
-    Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState(), how: b2Result ? 'detail' : 'list' });
+    b2ProcView = b2View;
+    Logger.log('b2_process', { step: current, selected: sel, items: b2ItemState(), how: b2Result ? 'detail' : 'list', memEffect });
     processTimer = setTimeout(() => {
       btn.classList.remove('busy'); btn.textContent = b2ProcessLabel();
       $('.screen[data-step="B2"] .ai-card').classList.remove('processing');
@@ -1066,9 +1103,11 @@
   }
   // 되돌리기: 처리한 것을 모두 원래대로 돌리고, 목록에서 다시 고를 수 있게 해요
   function undoB2(){
-    Logger.log('b3_cancel', { step: current, selected: b2Result });
+    const prev = b2Detail;
+    Logger.log('b3_cancel', { step: current, selected: b2Result, keep: !!prev });
     b2Result = null; b2Detail = null;
-    setDefaultChecks(); b2View = 'summary'; renderB2View();
+    if(prev){ b2Items().forEach((cb, i) => cb.classList.toggle('checked', !!prev[i])); syncSelectAll(); } else setDefaultChecks();
+    b2View = b2ProcView || 'summary'; renderB2View(); renderB2Hint();
     go('B2', 'b3-cancel');
   }
   function openB2Detail(){ b2View = 'detail'; renderB2View(); go('B2', 'b3-detail'); }
@@ -1081,7 +1120,7 @@
   }
 
   const SRC = {
-    memory:  { name:'메모리',   count:3,  del:true },
+    memory:  { name:'메모리',   count:3,  get del(){ return memEffect === 'delete'; } },
     gmail:   { name:'Gmail',    count:8,  del:false },
     calendar:{ name:'캘린더', count:9,  del:false },
   };
@@ -1148,7 +1187,7 @@
     $$('.b2-more').forEach(el => el.hidden = true); renderMoreToggles();
     $$('.chip-more[data-src]').forEach(b => b.dataset.shown = 0); renderA4More();
     applyRefs(); fxSig = ''; applyMemory();
-    setDefaultChecks();
+    setDefaultChecks(); renderB2Hint();
     $$('.open').forEach(el => el.classList.remove('open'));
     hideSnackbar();
     renderB3B4();
@@ -1298,6 +1337,9 @@
       B_verifyClicked: !!M.verifyMs,
       B_verifySec: M.verifyMs ? +(M.verifyMs / 1000).toFixed(1) : null,
       B_cancelCount: count('b3_cancel'),
+      B_memEffect: memEffect,
+      B_memEffectDefault: memEffectDefault,
+      B_memSwitchCount: count('b2_mem_effect'),
       B_returnedToChat: ev.some(e => e.type === 'step' && e.step === 'B5'),
       taskDone: { A: !!M.doneA, B: !!M.doneB },
       misclicksByStep: miss,
@@ -1900,7 +1942,7 @@
     box.innerHTML = html;
   }
 
-  const EV_NAME = { step:'화면', click:'클릭', misclick:'오클릭', toggle:'토글', check:'체크', check_item:'항목 체크', check_all:'전체 선택',
+  const EV_NAME = { b2_mem_effect:'메모리 효과', step:'화면', click:'클릭', misclick:'오클릭', toggle:'토글', check:'체크', check_item:'항목 체크', check_all:'전체 선택',
     b2_process:'처리', delete:'삭제', expand:'펼치기', undo:'되돌리기', more:'더보기', reask:'다시 물어봄', survey:'설문', survey_pick:'설문 응답',
     consent:'동의', session_start:'세션 시작', session_end:'세션 종료', task_done:'과제 완료', task_peek:'과제 보기', task_goal_shown:'목표 표시',
     sheet_close:'시트 닫기', response_complete:'답변 완료', response_cancel:'답변 중지', response_action:'답변 버튼', response_rating:'답변 평가',
@@ -1919,6 +1961,8 @@
                  : e.type === 'check' ? `${REF_NAME[e.src] || e.src} ${e.checked ? '✓' : '✗'}`
                  : e.type === 'b2_process' ? Object.keys(e.selected || {}).filter(k => e.selected[k]).map(k => REF_NAME[k] || k).join('+')
                  : e.type === 'delete' ? `메모리 (${e.scope === 'all' ? '전체' : e.scope})`
+                 : e.type === 'b2_mem_effect' ? (e.effect === 'delete' ? '메모리 → 삭제' : '메모리 → 답변에만 안 씀')
+                 : e.type === 'b1_request' ? `${e.text} (메모리 ${e.memEffect === 'delete' ? '삭제' : '답변에만 안 씀'})`
                  : e.type === 'expand' ? `${e.tag} ${e.open ? '열림' : '닫힘'}`
                  : '';
       return `<div class="${e.type === 'misclick' ? 'miss' : ''}">${sec}${en ? 's' : '초'} ${esc(en ? e.type : (EV_NAME[e.type] || e.type))} ${esc(what)}</div>`;
@@ -2004,7 +2048,7 @@
   window.App = { ask,
     go, advance, start, newSession, resetScenario, taskDone, finishPhase,
     closeSheet, toggleResponse, stopLoading, expand, toggleRef, deleteMemory, deleteMemoryItem, undoDelete, holdContinue,
-    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, askDone, askNudge, sendB1, toggleMore,
+    toggleCheckItem, toggleB2Item, a3Pick, a3Process, a3Expand, a3Detail: a3DetailToggle, a3Apps, a3PickTopic, toggleSelectAll, processB2, undoB2, cancelB2, processHold, toggleB2Detail, openB2Detail, switchMemEffect, askDone, askNudge, sendB1, toggleMore,
     pickSurvey, submitSurvey, surveyStep, a4More, toggleTaskPeek, closeTaskCard, syncConsent, rowFrom, downloadResults, downloadResultLocal, updateLink, copyLink,
     toggleDev, summary, notice,
     refreshLanguage(){
