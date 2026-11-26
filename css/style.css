@@ -2138,3 +2138,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .screen[data-step="A4"] .settings-head p{ font-size:14px !important; line-height:20px !important; }
 .screen[data-step="A4"] .conn-item .meta .name{ font-size:16px !important; line-height:24px !important; }
 .survey-screen .sv-count{ font-weight:400 !important; }   /* Meta/13 Regular (Figma) */
+/* ===== 완료 표시는 파란색(primary)으로 통일: 종료 화면 원 · 과제 카드 '과제 N을 마쳤어요' 체크 (Figma Icon/check-circle · done mark) ===== */
+.end-mark{ background:#0b57d0 !important; }
+.taskbar .tk-check{ color:#0b57d0 !important; }
+.tk-check svg{ stroke:currentColor !important; }
