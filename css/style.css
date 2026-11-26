@@ -2080,3 +2080,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .fxs-row.keep .fxs-ic{ background:#e9eaeb; color:#444746; }
 .fxs-ic svg{ width:16px !important; height:16px !important; }
 .fxs + .fxg-foot{ margin-top:16px !important; padding-top:12px; border-top:1px solid #e3e3e3; }
+.a3-pi-link .text-link{ gap:4px; }
+.a3-pi-link .tl-arrow{ flex:0 0 14px; }
