@@ -2,7 +2,7 @@
     --blue:#0b57d0;
     --blue-dark:#0842a0;
     --bg-page:#f6f7f9;
-    --bg-card:#f3f2f2;
+    --bg-card:#f0f4f9;
     --text-1:#1f1f1f;
     --text-2:#5f6368;
     --text-3:#80868b;
@@ -764,7 +764,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .phone:has(.screen.active .chat-input-bar):not(:has(.sheet-overlay.active)) .snackbar{ bottom:104px; }
 
 /* ===== 실제 Gemini 화면에 맞추기 ===== */
-:root{ --g-surface:#f3f2f2; --g-bubble:#efeded; --g-chip-blue:#d8e8fb; }
+:root{ --g-surface:#f0f4f9; --g-bubble:#e9eef6; --g-chip-blue:#d8e8fb; }
 /* 사용자 말풍선: 네 모서리 모두 둥근 연회색 */
 .msg-user{ background:var(--g-bubble) !important; color:#1f1f1f; }
 /* 대화 중 오른쪽 상단 알약 버튼 */
@@ -807,7 +807,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .intro-lead{ font-size:17px !important; line-height:1.6 !important; }
 /* 동의 */
 .consent-title{ font-size:13.5px !important; font-weight:600 !important; color:#444746 !important; }
-.consent{ gap:12px !important; background:#f3f2f2; border-radius:20px; padding:16px; }
+.consent{ gap:12px !important; background:#f0f4f9; border-radius:20px; padding:16px; }
 .consent-item{ gap:12px !important; align-items:flex-start; }
 .consent-item span{ font-size:15px !important; line-height:1.5 !important; color:#1f1f1f; }
 .consent-item input{ width:20px !important; height:20px !important; margin-top:1px !important; }
@@ -834,9 +834,9 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .taskbar-btn{ font-size:14px !important; padding:10px 14px !important; }
 .tk-foot{ font-size:12px !important; }
 /* Personal Intelligence: 상자 안 상자 대신 구분선 목록 */
-.s-card .conn-wrap{ background:transparent !important; border-radius:0 !important; padding:2px 0 !important; margin-top:0 !important; border-top:1px solid #e3e1e1 !important; }
+.s-card .conn-wrap{ background:transparent !important; border-radius:0 !important; padding:2px 0 !important; margin-top:0 !important; border-top:1px solid #e3e3e3 !important; }
 .s-card .conn-wrap:first-child{ border-top:none !important; }
-.s-card .data-chip{ background:transparent !important; border-radius:0 !important; padding:9px 2px 9px 46px !important; font-size:13px !important; color:#444746 !important; border-top:1px solid #eae8e8; }
+.s-card .data-chip{ background:transparent !important; border-radius:0 !important; padding:9px 2px 9px 46px !important; font-size:13px !important; color:#444746 !important; border-top:1px solid #e3e3e3; }
 .s-card .conn-detail .data-chip:first-child{ border-top:none; }
 .chip-more{ font-size:12.5px !important; color:#0b57d0 !important; padding:8px 0 4px !important; cursor:pointer; text-align:left !important; padding-left:46px !important; }
 .s-card .conn-wrap.open .conn-detail, .conn-wrap.open .conn-detail{ max-height:none !important; }
@@ -869,7 +869,7 @@ body.participant .taskbar.show{ flex-direction:column; align-items:stretch; gap:
 .source-item{ padding:12px 16px !important; gap:0 !important; }
 .source-item > .row, .source-item .row{ gap:12px !important; }
 .source-item .source-expand{ display:flex; flex-direction:column; gap:0; }
-.source-item .data-chip{ background:transparent !important; border-radius:0 !important; padding:10px 0 10px 44px !important; border-top:1px solid #e6e4e4; font-size:13px !important; }
+.source-item .data-chip{ background:transparent !important; border-radius:0 !important; padding:10px 0 10px 44px !important; border-top:1px solid #e3e3e3; font-size:13px !important; }
 .source-item.open .source-expand{ margin-top:6px !important; }
 /* 처리 목록(B2) */
 .check-item{ border-radius:18px !important; }
@@ -971,7 +971,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .intro-screen .intro-points{ gap:14px !important; }
 /* 동의 */
 .consent-list{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; font-size:14px; line-height:1.55; color:#444746; }
-.consent-all{ border-top:1px solid #e3e1e1; padding-top:12px; margin-top:2px; }
+.consent-all{ border-top:1px solid #e3e3e3; padding-top:12px; margin-top:2px; }
 .consent-all span{ font-weight:600 !important; }
 /* 마지막 화면 */
 .end-lead{ margin:0; text-align:center; font-size:16px; color:#1f1f1f; }
@@ -1013,7 +1013,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .c-item-src{ font-size:12px; color:#5e5e5e; margin-bottom:1px; }
 .c-item-text{ font-size:13.5px; color:#1f1f1f; line-height:1.45; }
 .tp-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 14px; }
-.tp-row{ display:flex; align-items:center; gap:12px; background:var(--g-surface, #f3f2f2); border-radius:20px; padding:14px 16px; cursor:pointer; }
+.tp-row{ display:flex; align-items:center; gap:12px; background:var(--g-surface, #f0f4f9); border-radius:20px; padding:14px 16px; cursor:pointer; }
 .tp-row .checkbox{ background:#fff; color:transparent; border:1.5px solid #747775; }
 .tp-row.checked .checkbox{ background:#0b57d0; border-color:#0b57d0; color:#fff; }
 .tp-main{ flex:1; min-width:0; }
@@ -1043,7 +1043,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .msg-ai.regen .msg-icons{ margin-top:6px; }
 /* C 통합 시트: 주제 → 항목 */
 .ct-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 12px; }
-.ct-group{ background:var(--g-surface, #f3f2f2); border-radius:20px; overflow:hidden; }
+.ct-group{ background:var(--g-surface, #f0f4f9); border-radius:20px; overflow:hidden; }
 .ct-head{ display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; }
 .ct-head .chevron{ margin-left:auto; }
 .ct-group.open .ct-head .chevron{ transform:rotate(180deg); }
@@ -1121,13 +1121,13 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .msg-ai.reask .nt-undo{ display:block; text-align:left; align-self:flex-start; }
 /* ===== v22b: 변경 칩 · 시트 카드 · B 항목 선택 ===== */
 .nt-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.nt-chip{ display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:13px; color:#1f1f1f; background:var(--g-surface, #f3f2f2); border:none; border-radius:16px; padding:8px 12px 8px 12px; cursor:pointer; text-align:left; }
+.nt-chip{ display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:13px; color:#1f1f1f; background:var(--g-surface, #f0f4f9); border:none; border-radius:16px; padding:8px 12px 8px 12px; cursor:pointer; text-align:left; }
 .nt-chip svg{ color:#444746; flex:0 0 auto; }
 .nt-chev{ color:#747775; font-size:16px; line-height:1; margin-left:2px; }
 .a2-notice .nt-sub{ margin-top:6px; padding-left:4px; }
 /* C 시트: 기존 출처 시트처럼 회색 카드로 묶고, 카드 안은 구분선만 */
 #cSheet .ct-list{ gap:10px !important; margin:6px 0 8px !important; }
-#cSheet .ct-group{ background:var(--g-surface, #f3f2f2) !important; border-radius:24px !important; border-bottom:none !important; padding:2px 16px; }
+#cSheet .ct-group{ background:var(--g-surface, #f0f4f9) !important; border-radius:24px !important; border-bottom:none !important; padding:2px 16px; }
 #cSheet .ct-head{ padding:12px 0 !important; }
 #cSheet .ct-items{ display:none; margin:0 !important; border-top:1px solid #e3e3e3; }
 #cSheet .ct-group.open .ct-items{ display:block; }
@@ -1138,7 +1138,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 #cSheet .ct-foot{ padding:0 4px; }
 #cSheetProcess{ height:40px; padding:0 22px; border-radius:20px; font:inherit; font-size:14px; font-weight:500; border:none; background:#0b57d0; color:#fff; cursor:pointer; }
 #cSheetProcess:disabled{ background:#e3e3e3; color:#8e918f; opacity:1; cursor:default; }
-#cSheet .ct-apps{ border-top:none; background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; margin-bottom:8px; }
+#cSheet .ct-apps{ border-top:none; background:var(--g-surface, #f0f4f9); border-radius:24px; padding:2px 16px; margin-bottom:8px; }
 #cSheet .ct-apps-head{ padding:14px 0; font-size:14px; color:#1f1f1f; }
 #cSheet .ct-apps-body{ border-top:1px solid #e3e3e3; padding:2px 0 6px; }
 /* B 목록: 항목마다 체크 */
@@ -1202,7 +1202,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 /* 과제 1 출처 시트 (v29: v25·v28 규칙을 하나로) */
 #sheetOverlay .sheet{ padding:10px 16px 0; gap:12px; }
 #sheetOverlay .ct-list{ display:flex; flex-direction:column; gap:10px; margin:4px 0 0; }
-#sheetOverlay .ct-group{ background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; }
+#sheetOverlay .ct-group{ background:var(--g-surface, #f0f4f9); border-radius:24px; padding:2px 16px; }
 #sheetOverlay .ct-head{ padding:12px 0; gap:12px; align-items:center; }
 #sheetOverlay .ct-head .checkbox{ background:#fff; border:1.5px solid #747775; }
 #sheetOverlay .checkbox.checked, #sheetOverlay .checkbox.mixed{ background:#0b57d0; border-color:#0b57d0; }
@@ -1216,7 +1216,7 @@ body.participant .taskbar.show{ background:#fff !important; color:#1f1f1f !impor
 .li-dot{ color:#9aa0a6; }
 .li-status{ margin-top:6px; }
 /* 앱 연동 설정 */
-#sheetOverlay .ct-apps{ border-top:none; background:var(--g-surface, #f3f2f2); border-radius:24px; padding:2px 16px; margin:0; }
+#sheetOverlay .ct-apps{ border-top:none; background:var(--g-surface, #f0f4f9); border-radius:24px; padding:2px 16px; margin:0; }
 #sheetOverlay .ct-apps-head{ padding:14px 0; font-size:15px; color:#1f1f1f; }
 #sheetOverlay .ct-apps-body{ border-top:1px solid #e3e3e3; padding:2px 0 6px; }
 #sheetOverlay .ct-app{ gap:12px; padding:12px 0; }
@@ -1345,7 +1345,7 @@ body.holding .taskbar{ display:none !important; }
 .ct-foot-done{ justify-content:center !important; min-height:40px; font-size:14px; color:#444746; }
 #a3Bar{ padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
 /* 변경 내역: 시트의 다른 카드와 같은 모양 */
-.ch-log{ background:var(--g-surface, #f3f2f2); border:0; border-radius:24px; padding:12px 16px; }
+.ch-log{ background:var(--g-surface, #f0f4f9); border:0; border-radius:24px; padding:12px 16px; }
 /* "남겨 둠"은 처리 안 된 상태라 초록(완료)이 아닌 중립색 · 확인 묶음은 실선 */
 .b3-line.kept .st-chip.keep, .hold-group .st-chip.keep{ background:#e9eef6; color:#444746; }
 .hold-group .check-item{ border:1px solid #c4c7c5 !important; }
@@ -1449,9 +1449,9 @@ body.holding .taskbar{ display:none !important; }
 .screen[data-step="B2"] .check-item-head .ctext-sub{ white-space:nowrap; }
 .screen[data-step="B2"] .check-item-expand{ padding:0 14px 0 52px !important; }
 .screen[data-step="B2"] .check-item.open .check-item-expand{ padding-bottom:6px !important; border-top:1px solid #eeeded; }
-.screen[data-step="B2"] .b2-item{ gap:14px !important; padding:11px 0 !important; border-top:1px solid #f1f1f1; }
+.screen[data-step="B2"] .b2-item{ gap:14px !important; padding:11px 0 !important; border-top:1px solid #e3e3e3; }
 .screen[data-step="B2"] .check-item-expand > .b2-item:first-child, .screen[data-step="B2"] .b2-more > .b2-item:first-child{ border-top:none; }
-.screen[data-step="B2"] .b2-more > .b2-item:first-child{ border-top:1px solid #f1f1f1; }
+.screen[data-step="B2"] .b2-more > .b2-item:first-child{ border-top:1px solid #e3e3e3; }
 .screen[data-step="B2"] .b2-item-text{ font-size:14.5px; line-height:1.4; color:#1f1f1f; }
 .screen[data-step="B2"] .b2-item-text .dt{ margin-top:3px; font-size:12.5px; color:#747775; }
 .screen[data-step="B2"] .b2-item-text .why{ margin-top:2px; font-size:12.5px; }
@@ -1587,8 +1587,8 @@ body.holding .taskbar{ display:none !important; }
 
 /* ===== 실제 Gemini iOS 화면에 맞춤 (Figma '참고 (Gemini AS-IS 화면)' IMG_6247 · 6252에서 잰 값) =====
    토글: 트랙 62×28 캡슐(꺼짐 #bcbabc · 켜짐 #0b57d0) + 흰색 캡슐 손잡이 35×23 · 테두리 없음
-   카드: 배경 #f2f0f0 · 모서리 24 · 화면 배경 #fdfcfc · 카드 제목은 보통 굵기(400) */
-:root{ --g-surface:#f2f0f0; }
+   카드: 배경 #f0f4f9 · 모서리 24 · 화면 배경 #ffffff · 카드 제목은 보통 굵기(400) */
+:root{ --g-surface:#f0f4f9; }
 .toggle{ width:62px !important; height:28px !important; flex:0 0 62px !important; border-radius:14px !important; border:0 !important; background:#bcbabc !important; }
 .toggle .knob{ top:50% !important; left:3px !important; width:35px !important; height:23px !important; margin-top:-11.5px !important; border-radius:12px !important; background:#fff !important; box-shadow:0 1px 2px rgba(0,0,0,.12) !important; }
 .toggle.on{ background:#0b57d0 !important; border:0 !important; }
@@ -1596,7 +1596,7 @@ body.holding .taskbar{ display:none !important; }
 .toggle:active .knob, .toggle.on:active .knob{ width:39px !important; height:23px !important; margin-top:-11.5px !important; }
 .toggle.on:active .knob{ left:20px !important; }
 #sheetOverlay .ct-group, #sheetOverlay .ct-apps, .ch-log, .screen[data-step="A4"] .s-card{ border-radius:24px !important; background:var(--g-surface) !important; }
-.screen[data-step="A4"]{ background:#fdfcfc !important; }
+.screen[data-step="A4"]{ background:#ffffff !important; }
 #sheetOverlay .ct-name, .screen[data-step="A4"] .conn-item .meta .name, .screen[data-step="A4"] .s-card .title, .screen[data-step="B2"] .ctext-name{ font-weight:400 !important; }
 
 /* 실제 Gemini: 뒤로 가기는 꺾쇠(<), 카드는 화면 가장자리에서 20 */
@@ -1711,9 +1711,9 @@ body.holding .taskbar{ display:none !important; }
 }
 
 /* A3 · 효과 패널(범례 + 변경 내역을 한 자리로): 바탕은 늘 같은 회색, 처리 후에는 아이콘이 개수 칩으로 바뀜 */
-.fx-panel{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:16px; background:#f2f0f0; margin:0 0 16px; }
+.fx-panel{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:16px; background:#f0f4f9; margin:0 0 16px; }
 .fx-panel.flash{ animation:fxFlash .9s ease both; }
-@keyframes fxFlash{ 0%, 40%{ background:#eef3fd; box-shadow:inset 0 0 0 1px #c9d9f8; } 100%{ background:#f2f0f0; box-shadow:inset 0 0 0 1px rgba(201,217,248,0); } }
+@keyframes fxFlash{ 0%, 40%{ background:#eef3fd; box-shadow:inset 0 0 0 1px #c9d9f8; } 100%{ background:#f0f4f9; box-shadow:inset 0 0 0 1px rgba(201,217,248,0); } }
 .fxp-div{ align-self:stretch; width:1px; background:#e3e3e3; flex:0 0 1px; }
 .fxp-cell{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
 .fxp-h{ display:flex; align-items:center; gap:6px; font-size:14px; line-height:20px; }
@@ -1823,7 +1823,7 @@ html[lang="en"] .sv-full{ display:block; }
 /* 펼친 항목의 체크박스는 묶음 머리의 앱 아이콘 열에 맞춤(한 단계 들여쓰기) */
 .screen[data-step="B2"] .check-item-expand{ padding:0 0 4px 36px !important; }
 /* B3 결과 카드도 B2 요약 카드와 같은 회색 답변 카드 */
-.screen[data-step="B3"] .complete-card, .screen[data-step="B5"] .complete-card{ background:#f2f0f0 !important; border:0 !important; box-shadow:none !important; border-radius:24px !important; padding:16px !important; }
+.screen[data-step="B3"] .complete-card, .screen[data-step="B5"] .complete-card{ background:#f0f4f9 !important; border:0 !important; box-shadow:none !important; border-radius:24px !important; padding:16px !important; }
 .screen[data-step="B2"] .check-item-expand{ padding-left:33px !important; }
 .screen[data-step="B2"] .check-item-expand .ctext-detail{ padding:6px 0 !important; }
 /* 과제 2 카드 더 가볍게: 두 칸(출처 시트 효과 패널과 같은 구조) + 남길 정보 한 줄 + 버튼 오른쪽에 모음(높이 40) */
@@ -1867,7 +1867,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
    건수 칩은 처리 전 외곽선 → 처리 후 연한 바탕(꽉 찬 색은 '처리' 버튼에만). 비춤은 테두리 없이 배경만 한 톤 */
 .fx-panel{ display:block !important; padding:12px 16px !important; gap:0 !important; }
 .fx-panel.flash{ animation:fxFlash2 .6s ease both !important; }
-@keyframes fxFlash2{ 0%, 35%{ background:#e8e6e6; } 100%{ background:#f2f0f0; } }
+@keyframes fxFlash2{ 0%, 35%{ background:#e9eef6; } 100%{ background:#f0f4f9; } }
 .fxs{ display:flex; flex-direction:column; gap:12px; }
 .fxs-row{ display:flex; align-items:flex-start; gap:8px; }
 .fxs-ic{ flex:0 0 16px; width:16px; height:20px; display:flex; align-items:center; justify-content:center; }
@@ -1912,7 +1912,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
   .taskbar.asking .tk-one{ white-space:normal !important; overflow:visible !important; text-overflow:clip !important; }
 }
 .intro-screen .sc-todo{ background:var(--g-surface) !important; border:0 !important; }
-.intro-screen .sc-todo .sc-steps + .sc-note{ border-top-color:#e3e1e1 !important; }
+.intro-screen .sc-todo .sc-steps + .sc-note{ border-top-color:#e3e3e3 !important; }
 .intro-screen .sc-steps li{ font-size:15px !important; line-height:22px !important; }
 .fxs-ic .keep-dot{ flex:0 0 12px !important; width:12px !important; height:12px !important; margin:0 !important; border:0 !important; box-sizing:border-box !important; }
 .intro-screen .sc-steps li::before{ flex-basis:22px !important; width:22px; height:22px !important; }
@@ -1966,7 +1966,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .screen[data-step="B2"] .card-foot .b2-toggle-link{ min-height:40px !important; }
 /* 채팅 칩: Figma Chip 컴포넌트와 같게 — '출처 확인'은 Action(연한 파랑), '정보 N건 처리'는 Source(회색) */
 .src-badge{ background:#d3e3fd !important; color:#0842a0 !important; }
-.nt-chip{ background:#f2f0f0 !important; color:#444746 !important; }
+.nt-chip{ background:#f0f4f9 !important; color:#444746 !important; }
 /* 작은 라벨은 Figma와 같은 12 · Medium */
 .taskbar .tk-sec, #taskLabel, .taskbar .tk-new, .intro-badge, .intro-screen .sc-label{ font-weight:500 !important; }
 /* 목록 정렬 규칙(Material 3): 줄 수가 정해진 1~2줄 머리 줄은 체크박스 · 화살표를 줄 가운데에,
@@ -2040,15 +2040,15 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .end-actions + p, .end-status, #endStatus{ font-size:13px !important; line-height:18px !important; color:#747775 !important; }   /* Meta/13 */
 
 /* ===== v33 색 점검: 팔레트(Figma 색 변수) 하나로 =====
-   ink-1 #1f1f1f · ink-2 #444746 · ink-3 #747775 · line #e3e3e3 · surface #f2f0f0 · primary #0b57d0 · primary-container #d3e3fd
+   ink-1 #1f1f1f · ink-2 #444746 · ink-3 #747775 · line #e3e3e3 · surface #f0f4f9 · primary #0b57d0 · primary-container #d3e3fd
    on-primary-container #0842a0 · red #b3261e · green #146c2e · inverse-surface #303134 · inverse-primary #8ab4f8 */
 .snackbar, #snackbar, .interaction-toast, #interactionToast{ background:#303134 !important; }           /* inverse-surface (알림 · 토스트 같은 색) */
 .snackbar-undo, #snackUndo{ color:#8ab4f8 !important; }                                                  /* inverse-primary */
 .intro-badge, .ip-ic{ background:#d3e3fd !important; color:#0842a0 !important; }                        /* Figma 배지 = primary-container */
 .screen[data-step="B2"] .ctext-detail.b2-item, .screen[data-step="B2"] .b2-detail .check-item{ border-color:#e3e3e3 !important; }   /* line */
 .consent-item.consent-all, .intro-screen .sc-note, .intro-screen .sc-todo .sc-steps + .sc-note, .screen[data-step="A4"] .conn-wrap{ border-color:#e3e3e3 !important; }
-.sheet-close{ background:#f2f0f0 !important; }                                                          /* surface */
-#consentBox, .consent{ background:#f2f0f0 !important; }
+.sheet-close{ background:#f0f4f9 !important; }                                                          /* surface */
+#consentBox, .consent{ background:#f0f4f9 !important; }
 .screen[data-step="A4"] .mem-delete-trigger, .screen[data-step="A4"] .mem-delete-trigger svg, .screen[data-step="A4"] .mem-delete-trigger span{ color:#b3261e !important; stroke:currentColor; }   /* red 하나 */
 .taskbar .tk-check{ background:none !important; color:#146c2e !important; width:18px !important; height:18px !important; }   /* Figma check-circle · green */
 .taskbar .tk-check svg{ stroke:currentColor !important; }
@@ -2117,3 +2117,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
   .taskbar.asking .ask-help{ display:none !important; }
   .taskbar.asking .taskbar-text{ display:none !important; }
 }
+
+/* v33 실제 Gemini(iOS) 색: 바탕 · 카드는 차가운 회청색(surface #f0f4f9 · surface-high #e9eef6 · bg #fff · 말풍선 #e9eef6),
+   앱 아이콘은 원 없이(출처 시트 앱 연동 줄 · 개인 인텔리전스 줄) */
+#sheetOverlay .ct-app .icon-chip, #cSheet .ct-app .icon-chip, .screen[data-step="A4"] .conn-item .icon-chip{ background:transparent !important; }
