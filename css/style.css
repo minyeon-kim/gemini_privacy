@@ -2177,3 +2177,17 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 @keyframes fxFlash4{ 0%, 35%{ background:#e9eef6; } 100%{ background:rgba(233,238,246,0); } }
 #sheetOverlay .sheet-close{ background:#ffffff !important; }
 #a3Bar #a3Process:disabled{ background:#dde0e5 !important; }   /* 회청색 바탕 위 꺼진 버튼 */
+/* ===== 시트 머리말: 실제 Gemini 시트처럼 제목 + 설명을 한 덩어리로 (Mobbin '결과 안내' 시트에서 잰 값)
+   제목 → 설명 4 · 설명 → 내용 24 · 내용은 제목과 같은 왼쪽 선 · 효과 줄 → 첫 묶음 24
+   효과 패널은 상자가 없으니 안쪽 여백을 음수 바깥 여백으로 상쇄(처리 직후 비춤 영역만 남김) */
+#sheetOverlay .sheet-head, #cSheet .sheet-head{ padding-bottom:0 !important; }
+#sheetOverlay .sheet-desc, #cSheet .sheet-desc{ margin-top:-10px !important; margin-bottom:8px !important; }
+#sheetOverlay .fx-panel{ padding:8px 12px !important; margin:-8px -12px 16px !important; }
+/* ===== 머리말 덩어리 통일 (출처 시트와 같은 원칙): 배지 → 제목 8 · 제목 → 설명 8 · 머리말 → 내용 24 =====
+   시작 · 진행자 질문 · 상황 1/2 · 종료 화면 (이전: 배지→제목 22/14/0/0, 제목→설명 16/0/18로 제각각) */
+.screen[data-step="START"] .intro-body > h1{ margin-top:-6px !important; margin-bottom:8px !important; }
+#holdScreen #holdTitle{ margin-top:-4px !important; margin-bottom:-4px !important; }
+.screen[data-step="SA"] .intro-body > h1, .screen[data-step="SB"] .intro-body > h1{ margin-top:8px !important; }
+.screen[data-step="SB"] .order-note{ margin-top:8px !important; }
+.screen[data-step="END"] .end-title{ margin-bottom:-6px !important; }
+.screen[data-step="END"] .end-title{ margin-top:2px !important; }   /* 완료 표시 → 제목 16 (Figma content gap 16) */

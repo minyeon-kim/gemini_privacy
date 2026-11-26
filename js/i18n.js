@@ -40,7 +40,7 @@
   "기록 복사하기": "Copy session log",
   "요즘 새로 생긴 이탈리안 레스토랑 추천해줘": "Recommend a recently opened Italian restaurant",
   "한": "English",
-  "분위기 좋은 이탈리안 레스토랑을 찾고 계신다면 송도 센트럴파크 인근에 위치한 신상 맛집을 추천해 드립니다.": "If you are looking for an Italian restaurant with a lovely atmosphere, I recommend this new spot near Songdo Central Park.",
+  "분위기 좋은 이탈리안 레스토랑을 찾고 계신다면 센트럴파크 인근에 위치한 신상 맛집을 추천해 드립니다.": "If you are looking for an Italian restaurant with a lovely atmosphere, I recommend this new spot near Central Park.",
   "톨로 비스트로": "Tolo Bistro",
   "🍝 이탈리아 음식점": "🍝 Italian restaurant",
   "는 화이트와 우드톤의 깔끔한 인테리어와 통창으로 탁 트인 센트럴파크 뷰를 즐길 수 있는 감성적인 이탈리안 레스토랑입니다.": " is an Italian restaurant with a clean white and wood interior and panoramic Central Park views through floor-to-ceiling windows.",
@@ -567,7 +567,7 @@
     "\"정민과 트러플 리조또\"": "\"Truffle risotto with Jeongmin\"",
     "\"정민이 좋아하던 재즈바\"": "\"The jazz bar Jeongmin liked\"",
     "\"이탈리안 음식 좋아함\"": "\"Likes Italian food\"",
-    "[캐치테이블] 저장한 송도 레스토랑 3곳 소식": "[CatchTable] News from 3 saved Songdo restaurants",
+    "[캐치테이블] 저장한 레스토랑 3곳 소식": "[CatchTable] News from 3 saved restaurants",
     "끄면 Gmail 전체를 답변에 쓰지 않아요. 메일은 그대로예요.": "When off, nothing from Gmail is used in answers. Your emails stay.",
     "끄면 Calendar 전체를 답변에 쓰지 않아요. 일정은 그대로예요.": "When off, nothing from Calendar is used in answers. Your events stay.",
     "끄면 메모리 전체를 답변에 쓰지 않아요.": "When off, no memories are used in answers.",
@@ -703,8 +703,8 @@
   messages["함께 처리"] = "Handle these too";
   messages["자세히 고르기"] = "Choose in detail";
   messages["Gmail에 정민 님과 주고받은 송금·입금 메일 2건이 남아 있어요."] = "2 payment emails with Jeongmin remain in Gmail.";
-  messages["평소 이탈리안을 좋아하신다고 하셔서 골라 봤어요. 송도 센트럴파크 인근의"] = "You said you like Italian food, so I picked this. Near Songdo Central Park, I recommend";
-  messages["송도 센트럴파크 인근의"] = "Near Songdo Central Park, I recommend";
+  messages["평소 이탈리안을 좋아하신다고 하셔서 골라 봤어요. 센트럴파크 인근의"] = "You said you like Italian food, so I picked this. Near Central Park, I recommend";
+  messages["센트럴파크 인근의"] = "Near Central Park, I recommend";
   messages["를 추천해 드려요. 통창으로 공원 뷰를 즐길 수 있고, '바질 새우 피자'와 '트러플 뇨끼'가 인기 메뉴예요."] = ". It has big windows with a park view, and its popular dishes are basil shrimp pizza and truffle gnocchi.";
   messages["지난봄에 다녀오신 톨로 비스트로도 다시 가 보셔도 좋겠어요."] = "You could also go back to Tolo Bistro, where you went last spring.";
   messages["정민 님에 대해 지금 참고할 수 있는 정보예요."] = "Here's what I can refer to about Jeongmin right now.";
@@ -770,6 +770,7 @@
   messages["진행자 질문 · 힌트"] = "Moderator question · hint";
   messages["답했어요"] = "Done answering";
   messages["말로 답했어요"] = "I answered aloud";
+  messages["대답했어요"] = "I answered";
   messages["이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?"] = "Is there a way to find out why this answer came out this way?";
   messages["이 화면은 무엇을 보여 주는 것 같으세요?"] = "What do you think this screen is showing?";
   messages["여기 나온 정리 범위는 생각하셨던 것과 비교하면 어떤가요?"] = "How does the scope shown here compare to what you had in mind?";

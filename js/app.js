@@ -506,7 +506,7 @@
       ? '<p>작년 봄에 <b>정민</b> 씨와 가셨을 때 트러플 리조또를 좋아하셨었죠. 이번에도 비슷한 메뉴 어떠세요?</p>'
       : src.gmail ? '<p>지난봄에 다녀오신 톨로 비스트로도 다시 가 보셔도 좋겠어요.</p>' : '';
     const taste = src.taste === false ? '' : '평소 이탈리안을 좋아하신다고 하셔서 골라 봤어요. ';
-    return `<p>${taste}송도 센트럴파크 인근의 <b>톨로 비스트로</b>를 추천해 드려요. 통창으로 공원 뷰를 즐길 수 있고, '바질 새우 피자'와 '트러플 뇨끼'가 인기 메뉴예요.</p>${tail}`;
+    return `<p>${taste}센트럴파크 인근의 <b>톨로 비스트로</b>를 추천해 드려요. 통창으로 공원 뷰를 즐길 수 있고, '바질 새우 피자'와 '트러플 뇨끼'가 인기 메뉴예요.</p>${tail}`;
   }
   function jmAnswer(src, task){
     const li = [];
@@ -581,7 +581,7 @@
     a_mem_truffle:{ topic:'jm', src:'memory', label:'트러플 리조또 메모리', text:'"정민과 트러플 리조또"', meta:'Gemini 채팅 · 2025.3.14' },
     a_mem_jazz:   { topic:'jm', src:'memory', label:'재즈바 메모리', text:'"정민이 좋아하던 재즈바"', meta:'Gemini 채팅 · 2025.1.20' },
     a_mem_italian:{ topic:'taste', src:'memory', label:'이탈리안 선호 메모리', text:'"이탈리안 음식 좋아함"', meta:'Gemini 채팅 · 2025.2.10' },
-    a_gm_saved:   { topic:'taste', src:'gmail', label:'저장한 레스토랑 알림', text:'[캐치테이블] 저장한 송도 레스토랑 3곳 소식', meta:'2025.3.20' },
+    a_gm_saved:   { topic:'taste', src:'gmail', label:'저장한 레스토랑 알림', text:'[캐치테이블] 저장한 레스토랑 3곳 소식', meta:'2025.3.20' },
   };
   var a3Sel = {}, a3Open = {}, a3Detail = {}, a3AppsOpen = false;
   const aDone = id => !!(memState && memState.done && memState.done[id]);
@@ -1609,7 +1609,7 @@
     if(kind === 'post-survey' && next === firstStep('B')) list = list.concat(ASK['pre-B']);   // 과제 2를 시작하기 전에 B-00
     return list.filter(it => !it.when || it.when()).map(it => ({ id: it.id, q: typeof it.q === 'function' ? it.q() : it.q, m: it.m || '' }));
   }
-  /* 과제 도중 질문 배너: 화면을 막지 않고 위쪽에 떠요. 참가자는 말로 답하고 '말로 답했어요'(2초 뒤 눌림) */
+  /* 과제 도중 질문 배너: 화면을 막지 않고 위쪽에 떠요. 참가자는 말로 답하고 '대답했어요'(2초 뒤 눌림) */
   let askCur = null, askAfter = null, askTimers = [];
   function askBanner(id, q, opts){
     opts = opts || {};
@@ -1631,7 +1631,7 @@
     const a = view !== undefined ? view : askCur, box = $('#askBanner'); if(!box) return;
     box.hidden = !a;
     const block = $('#askBlock'); if(block) block.hidden = !(a && a.gate);
-    // 질문이 떠 있는 동안 과제 카드 전체가 질문 카드가 돼요: 질문 + '말로 답했어요' 버튼 하나(안내 · 할 일은 숨김, 답하면 바로 원래 카드)
+    // 질문이 떠 있는 동안 과제 카드 전체가 질문 카드가 돼요: 질문 + '대답했어요' 버튼 하나(안내 · 할 일은 숨김, 답하면 바로 원래 카드)
     const tb = $('#taskbar'); if(tb) tb.classList.toggle('asking', !!a);
     const mark = $('#taskAskMark'); if(mark && a) mark.textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문');
     if(a){ $('#askBadge').textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문'); $('#askText').textContent = I18n.t(a.q); }
