@@ -2058,3 +2058,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .sheet-close{ color:#444746 !important; }                                                              /* ink-2 */
 .taskbar .tk-new{ background:#d3e3fd !important; color:#0842a0 !important; }                           /* 배지와 같은 primary-container */
 .taskbar.done .tk-new{ display:none !important; }   /* 과제를 마친 카드에는 '새 과제' 표시 안 함(Figma와 같게) */
+/* 아이콘 선 굵기: 우리 아이콘은 모두 크기 × 0.075(24 기준 1.8) — 시트 닫기도 같게 */
+.sheet-close svg, .sheet-close svg *{ stroke-width:1.8 !important; }
