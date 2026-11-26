@@ -810,6 +810,7 @@
   messages["목록 접기"] = "Hide list";
   messages["다시 고르기"] = "Pick again";
   messages["직접 고르기"] = "Pick items";
+  messages["골라 주세요"] = "Pick items to process";
   messages["개인 인텔리전스에서 전체 관리"] = "Manage all in Personal Intelligence";
   messages["처리"] = "Process";
   messages["돈이 오간 송금·입금 메일"] = "Emails about money transfers";

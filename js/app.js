@@ -659,7 +659,7 @@
       ['block', blk ? '답변에만 안 씀' : '답변에만 안 써요', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로', true],
     ]) + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
   }
-  // 처리 줄의 고른 효과: 다른 화면과 같은 효과 알약(아이콘 + 건수)을 '선택 N건' 옆 한 줄에
+  // 처리 줄 왼쪽: 고른 효과를 다른 화면과 같은 효과 알약(아이콘 + 건수)으로. 건수 합은 버튼('N건 처리')에만
   function fxSelChips(ids){
     const d = ids.filter(id => fxOf(id) === 'del').length, b = ids.length - d;
     return (d ? fxChip('del', I18n.t(`${d}건`), true) : '') + (b ? fxChip('block', I18n.t(`${b}건`), true) : '');
@@ -719,7 +719,7 @@
     const bar = $('#a3Bar');
     if(bar) bar.hidden = !a3Notice && allDone;
     if(bar) bar.innerHTML = a3Notice ? `<div class="ct-foot ct-foot-notice"><div class="ct-sel-wrap"><span class="ct-notice-msg">${esc(a3Notice)}</span></div><span class="ct-act"><button type="button" class="text-btn ct-undo hot" data-tag="A3 되돌리기" onclick="App.undoDelete()">${esc(I18n.t('되돌리기'))}</button></span></div>`
-      : allDone ? '' : `<div class="ct-foot"><div class="ct-sel-wrap"><span class="ct-sel">${esc(I18n.t(`선택 ${n}건`))}</span>${n ? fxSelChips(selIds) : ''}</div>
+      : allDone ? '' : `<div class="ct-foot"><div class="ct-sel-wrap">${n ? fxSelChips(selIds) : `<span class="ct-sel ct-hint">${esc(I18n.t('골라 주세요'))}</span>`}</div>
       <span class="ct-act"><button class="pill-btn hot" id="a3Process" data-tag="A3 선택 처리" onclick="App.a3Process()" ${n ? '' : 'disabled'}>${esc(I18n.t(n ? `${n}건 처리` : '처리'))}</button></span></div>`;
     foot.innerHTML = `      <div class="ct-apps${a3AppsOpen ? ' open' : ''}">
         <div class="ct-apps-head hot" data-tag="A3 앱 연동 설정 펼치기" onclick="App.a3Apps()"><span>${esc(I18n.t('앱 연동 설정'))}</span><span class="chevron"></span></div>

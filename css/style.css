@@ -2086,3 +2086,8 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #sheetOverlay .sheet-desc{ color:#444746 !important; }
 /* 앱 아이콘 원(출처 시트 앱 연동 줄 · A4 개인 인텔리전스 줄)은 회색 카드 위 흰 원으로 통일 */
 #sheetOverlay .ct-app .icon-chip, #cSheet .ct-app .icon-chip, .screen[data-step="A4"] .conn-item .icon-chip{ background:#fff !important; }
+
+/* 정보 위계: 처리 줄은 건수를 버튼에만(왼쪽은 효과 알약 / 고르기 전엔 연한 안내) — B2 '18건 처리'와 같게 */
+#a3Bar .ct-hint{ font-size:13px !important; line-height:18px !important; font-weight:400 !important; color:#747775 !important; }
+/* 시작 화면 동의 내용(녹화 · 기록 · 중단)은 위 맥락 안내보다 작지 않게 Body/14 · ink-1 */
+.consent-list li{ font-size:14px !important; line-height:20px !important; color:#1f1f1f !important; }
