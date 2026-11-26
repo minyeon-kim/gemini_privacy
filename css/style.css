@@ -1917,3 +1917,15 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .fxs-ic .keep-dot{ flex:0 0 12px !important; width:12px !important; height:12px !important; margin:0 !important; border:0 !important; box-sizing:border-box !important; }
 .intro-screen .sc-steps li::before{ flex-basis:22px !important; width:22px; height:22px !important; }
 @media (min-width: 521px){ body.participant .taskbar .tk-main, body.participant .taskbar .tk-steps li{ letter-spacing:-.2px; text-wrap:pretty; } }
+
+/* v33 출처 시트 처리 줄: 왼쪽은 늘 한 줄('선택 N건' + 효과 알약 / 처리 알림), 오른쪽은 96×40 같은 자리에서 버튼만 바뀜 */
+#a3Bar .ct-foot{ min-height:40px; gap:12px; }
+#a3Bar .ct-sel-wrap{ flex:1; min-width:0; flex-direction:row !important; align-items:center; gap:8px; flex-wrap:nowrap; }
+#a3Bar .ct-sel, #a3Bar .ct-notice-msg{ font-size:14px !important; line-height:20px !important; font-weight:500 !important; color:#1f1f1f !important; white-space:nowrap; }
+#a3Bar .ct-act{ flex:0 0 96px; width:96px; height:40px; display:flex; align-items:center; justify-content:center; }
+#a3Bar #a3Process{ width:100%; height:40px !important; min-height:40px !important; padding:0 12px !important; white-space:nowrap; }
+#a3Bar #a3Process:disabled{ background:#e9eaeb !important; color:#747775 !important; box-shadow:none !important; }
+#a3Bar .ct-undo{ height:40px !important; min-height:40px !important; margin:0 !important; padding:0 12px !important; display:inline-flex; align-items:center; }
+#a3Bar .ct-act{ flex:0 0 auto !important; width:auto !important; min-width:96px; }
+#a3Bar #a3Process{ width:auto !important; min-width:96px; }
+#a3Bar #a3Process:disabled{ opacity:1 !important; }

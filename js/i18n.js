@@ -810,6 +810,7 @@
   messages["목록 접기"] = "Hide list";
   messages["다시 고르기"] = "Pick again";
   messages["직접 고르기"] = "Pick items";
+  messages["처리"] = "Process";
   messages["돈이 오간 송금·입금 메일"] = "Emails about money transfers";
   messages["고르지 않은 정보는 계속 답변에 쓰일 수 있어요"] = "Unselected info may still be used in answers";
   messages["메모리는 삭제돼요. 다시 볼 수 없어요"] = "Memory is deleted and can't be seen again";
