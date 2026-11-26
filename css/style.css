@@ -2195,3 +2195,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #sheetOverlay .ct-head{ min-height:56px !important; box-sizing:border-box !important; padding-top:0 !important; padding-bottom:0 !important; }
 #sheetOverlay .ct-apps{ padding-top:0 !important; padding-bottom:0 !important; }
 #sheetOverlay .ct-apps-head{ min-height:56px !important; box-sizing:border-box !important; padding-top:0 !important; padding-bottom:0 !important; display:flex !important; align-items:center !important; }
+
+/* ===== 개인 인텔리전스 펼친 목록: 글자는 '메모리' 이름 줄(52)에, '전체 삭제' 아이콘은 메모리 아이콘 줄에 (Gemini 목록처럼 아이콘 줄 · 글자 줄 각각 한 줄) ===== */
+.screen[data-step="A4"] .s-card .conn-detail .a4-month, .screen[data-step="A4"] .s-card .data-chip, .screen[data-step="A4"] .chip-more{ padding-left:52px !important; }
+.screen[data-step="A4"] .s-card .mem-delete-trigger{ padding-left:12px !important; gap:24px !important; }
