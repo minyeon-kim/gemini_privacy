@@ -1969,3 +1969,7 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .nt-chip{ background:#f2f0f0 !important; color:#444746 !important; }
 /* 작은 라벨은 Figma와 같은 12 · Medium */
 .taskbar .tk-sec, #taskLabel, .taskbar .tk-new, .intro-badge, .intro-screen .sc-label{ font-weight:500 !important; }
+/* 목록 정렬 규칙(Material 3): 줄 수가 정해진 1~2줄 머리 줄은 체크박스 · 화살표를 줄 가운데에,
+   글이 늘어날 수 있는 항목 줄(3줄 이상 가능)은 첫 줄 가운데에 */
+#sheetOverlay .ct-head{ align-items:center !important; }
+#sheetOverlay .ct-head > .checkbox, #sheetOverlay .ct-head > .cb-done, #sheetOverlay .ct-head > .chevron{ margin-top:0 !important; margin-bottom:0 !important; align-self:center !important; }
