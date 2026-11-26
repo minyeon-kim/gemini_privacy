@@ -1929,3 +1929,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #a3Bar .ct-act{ flex:0 0 auto !important; width:auto !important; min-width:96px; }
 #a3Bar #a3Process{ width:auto !important; min-width:96px; }
 #a3Bar #a3Process:disabled{ opacity:1 !important; }
+/* 꺼진 주 버튼은 어디서나 회색(출처 시트 처리 줄과 같게) */
+#b2ProcessBtn:disabled{ background:#e9eaeb !important; color:#747775 !important; opacity:1 !important; box-shadow:none !important; cursor:default; }
