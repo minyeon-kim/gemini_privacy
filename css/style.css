@@ -1973,3 +1973,47 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
    글이 늘어날 수 있는 항목 줄(3줄 이상 가능)은 첫 줄 가운데에 */
 #sheetOverlay .ct-head{ align-items:center !important; }
 #sheetOverlay .ct-head > .checkbox, #sheetOverlay .ct-head > .cb-done, #sheetOverlay .ct-head > .chevron{ margin-top:0 !important; margin-bottom:0 !important; align-self:center !important; }
+
+/* ===== v33 간격 · 정렬 점검: Figma와 같은 값, 4 단위 ===== */
+/* 과제 2 카드 · 효과 표시 · 칩 */
+.screen[data-step="B2"] .ai-card, .screen[data-step="B2"] .ai-card.detail{ padding-left:16px !important; padding-right:16px !important; gap:12px !important; }
+.fxs-h{ gap:8px !important; }
+.fxg-foot{ gap:8px !important; }
+.src-badge, .nt-chip{ padding-left:8px !important; gap:8px !important; }
+.nt-row{ gap:8px !important; }
+.screen[data-step="B2"] .hold-group .check-group-head, .screen[data-step="B2"] .hold-group .check-group-title{ margin-left:0 !important; padding-left:0 !important; }
+/* 출처 시트 목록: 체크박스 0 · 제목 30 · 하위 체크박스 30(제목과 같은 세로선) · 앱 줄 아이콘 20 · 이름 32 */
+#sheetOverlay .ct-head > .checkbox, #sheetOverlay .ct-head > .cb-done, #sheetOverlay .li-row > .checkbox, #sheetOverlay .li-row > .cb-done{ margin-left:0 !important; margin-right:0 !important; }
+#sheetOverlay .ct-head{ gap:12px !important; }
+#sheetOverlay .ct-items{ padding-left:30px !important; }
+#sheetOverlay .li-row{ gap:12px !important; }
+#sheetOverlay .ct-app .icon-chip{ width:20px !important; height:20px !important; flex:0 0 20px !important; padding:0 !important; background:none !important; border-radius:0 !important; box-shadow:none !important; }
+#sheetOverlay .ct-app{ gap:12px !important; }
+/* A4 개인 인텔리전스 줄: Figma처럼 40 원형 아이콘 칩(연한 파랑) + 아이콘 20, 칩 · 글자 간격 12 */
+.screen[data-step="A4"] .conn-item .icon-chip{ width:40px !important; height:40px !important; flex:0 0 40px !important; border-radius:50% !important; background:#dcf1ff !important; display:flex !important; align-items:center; justify-content:center; padding:0 !important; }
+.screen[data-step="A4"] .conn-item{ gap:12px !important; }
+/* 상황 카드: 안쪽 24 · 아래 32, '소리 내어 말해 주세요'도 단계 글자와 같은 세로선(아이콘 칸 24 + 12) */
+.intro-screen .intro-body{ padding:24px 24px 32px !important; }
+.intro-screen .sc-note{ display:flex !important; align-items:center; gap:12px !important; }
+.intro-screen .sc-note svg{ flex:0 0 24px; width:16px; height:16px; padding:0 4px; box-sizing:content-box; }
+.intro-badge{ padding:4px 12px !important; }
+.primary-btn{ padding:12px !important; line-height:20px !important; }
+/* 과제 카드 단계: 번호 20 + 8(Figma) */
+@media (min-width: 521px){
+  body.participant .taskbar .tk-steps li{ gap:8px !important; }
+  body.participant .taskbar .tk-steps li::before{ flex:0 0 20px !important; width:20px !important; height:20px !important; margin-top:1px !important; font-size:12px !important; }
+  .taskbar .tk-new{ padding:2px 8px !important; }
+  .taskbar .tk-done{ gap:8px !important; }
+}
+/* 설문: 안쪽 12 · 20 · 32, 진행 막대 → 질문 32 → 척도 32 → 양끝 글자 8 → 버튼 32 */
+.survey-screen .survey-body{ padding:12px 20px 32px !important; gap:0 !important; }
+.survey-screen .sv-top{ gap:8px !important; margin:0 !important; }
+.survey-screen .sv-seg{ margin-top:8px !important; }
+.survey-screen .sv-item.cur{ padding-top:32px !important; gap:0 !important; }
+.survey-screen .sv-item.cur .sv-scale, .survey-screen .sv-item.cur .sv-choices{ margin-top:32px !important; }
+.survey-screen .sv-ends{ margin-top:8px !important; gap:8px !important; }
+.survey-screen .sv-nav{ margin-top:32px !important; padding-top:0 !important; gap:8px !important; }
+#snackbar.snackbar, .snackbar{ padding-right:16px !important; }
+.intro-screen .sc-note svg{ margin:0 !important; }
+.intro-screen .sc-note svg{ flex:0 0 auto !important; width:16px !important; padding:0 4px !important; }
+.intro-screen .sc-note svg{ padding:0 2px 0 4px !important; } /* 아이콘 칸 + 12 = 단계 글자와 같은 세로선(36) */
