@@ -2091,3 +2091,14 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #a3Bar .ct-hint{ font-size:13px !important; line-height:18px !important; font-weight:400 !important; color:#747775 !important; }
 /* 시작 화면 동의 내용(녹화 · 기록 · 중단)은 위 맥락 안내보다 작지 않게 Body/14 · ink-1 */
 .consent-list li{ font-size:14px !important; line-height:20px !important; color:#1f1f1f !important; }
+/* 체크박스 → 글자 16(Material 목록 · iOS 선택 원과 같은 수준), 하위 들여쓰기 34(하위 체크박스가 제목 · 아이콘과 같은 세로선) */
+#sheetOverlay .ct-head{ gap:16px !important; }
+#sheetOverlay .li-row{ gap:16px !important; }
+#sheetOverlay .ct-items{ padding-left:34px !important; }
+.screen[data-step="B2"] .check-item-head{ gap:12px !important; }
+.screen[data-step="B2"] .check-item-head > .checkbox{ margin-right:4px !important; }   /* 체크박스 → 아이콘 16, 아이콘 → 이름 12 */
+.screen[data-step="B2"] .check-item-expand{ padding-left:31px !important; }            /* 하위 체크박스(자체 여백 3) 상자 기준 34 */
+.screen[data-step="B2"] .ctext-detail.b2-item{ gap:16px !important; }
+.consent-item{ gap:16px !important; }
+#sheetOverlay .ct-items .li-row, #sheetOverlay .ct-group .li-row{ gap:16px !important; }
+.screen[data-step="B2"] .check-item-expand .ctext-detail.b2-item{ gap:13px !important; }   /* 하위 체크박스 자체 여백 3 + 13 = 16 */
