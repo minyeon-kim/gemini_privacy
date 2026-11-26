@@ -443,6 +443,8 @@
     if(!wrap) return;
     wrap.classList.toggle('open');
     el.setAttribute('aria-expanded', String(wrap.classList.contains('open')));
+    // 개인 인텔리전스 머리줄: 'N건 보기 ⌄' ↔ 'N건 접기 ⌃'
+    const pl = wrap.querySelector('.pi-link'); if(pl && pl.firstChild && pl.firstChild.nodeType === 3) pl.firstChild.textContent = I18n.t(wrap.classList.contains('open') ? '접기' : '보기');
     window.Interactions?.sync();
     Logger.log('expand', { step: current, tag: el.dataset.tag || '', open: wrap.classList.contains('open') });
   }
@@ -833,7 +835,7 @@
         const d = document.createElement('div'); d.className = 'data-chip gen' + (src === 'memory' ? ' mem-row' : '');
         // 긴 문장 대신 제목 + 회색 한 줄(날짜·출처)
         const mm = it.text.match(/^(\d{4}\.\d{1,2}\.\d{1,2}) Gemini 채팅에서 "(.+)" 언급$/), cm = it.text.match(/^(\S+) 일정 "(.+)"$/);
-        const t1 = mm ? `"${mm[2]}"` : cm ? `"${cm[2]}"` : it.text, t2 = mm ? `Gemini 채팅 · ${mm[1]}` : cm ? cm[1] : (it.dt || '');
+        const t1 = mm ? `"${mm[2]}"` : cm ? `"${cm[2]}"` : it.text, t2 = mm ? '' : cm ? cm[1] : (it.dt || '');   // 메모리는 문장 한 줄(출처는 모두 Gemini 채팅 · 날짜는 월 묶음과 겹쳐서 뺌)
         d.innerHTML = `<span class="a4-t">${esc(t1)}${t2 ? `<span class="dt">${esc(t2)}</span>` : ''}</span>`
           + (src === 'memory' ? `<button type="button" class="mem-del hot" data-tag="A4 메모리 1건 삭제 ${it.id}" data-label="이 메모리 삭제" onclick="App.deleteMemoryItem('${it.id}', event)">${TRASH}</button>` : '');
         btn.before(d);

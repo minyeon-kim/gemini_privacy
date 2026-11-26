@@ -2208,3 +2208,11 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .screen[data-step="END"] > .confetti{ z-index:0 !important; }
 .screen[data-step="END"] > *:not(.confetti){ position:relative; z-index:1; }
 #taskText .tk-done + .tk-ctx{ margin-top:-8px !important; }
+
+/* ===== 개인 인텔리전스 머리줄: 'N건 보기 ⌄'를 한 덩어리 링크로(점 구분 없음) · 메모리 항목은 문장 한 줄 =====
+   과제 2 '남겨 둔 정보': 왜 고르지 않았는지 한 줄을 라벨 아래에 */
+.screen[data-step="A4"] .pi-sub .used-dot{ color:#0b57d0 !important; font-weight:500 !important; }
+.screen[data-step="A4"] .conn-wrap.deleted .pi-sub .used-dot, .screen[data-step="A4"] .pi-sub .used-dot:only-child{ color:#747775 !important; font-weight:400 !important; }
+.screen[data-step="A4"] .pi-link::before{ content:'' !important; margin:0 0 0 1px !important; }
+.screen[data-step="A4"] .pi-link{ margin-left:0 !important; }
+.screen[data-step="B2"] .b2-detail .hold-group .check-group-line.hold-why{ display:block !important; margin:2px 0 4px !important; font-size:12px !important; line-height:16px !important; color:#747775 !important; }

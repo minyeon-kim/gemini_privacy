@@ -691,6 +691,9 @@
   messages["출처별로 묶었어요. 펼치면 항목을 하나씩 고를 수 있어요."] = "Grouped by source. Expand to pick items one by one.";
   messages["원본은 Gmail·캘린더에 그대로 두고 답변에만 안 써요"] = "Originals stay in Gmail and Calendar; only left out of answers";
   messages["확인이 필요한 정보"] = "Needs your check";
+  messages["남겨 둔 정보"] = "Kept aside";
+  messages["돈이 오간 메일은 나중에 필요할 수 있어 고르지 않았어요"] = "Emails about money may be needed later, so they weren't selected";
+  messages["접기"] = messages["접기"] || "Hide";
   messages["남겨 둬요"] = "Kept";
   messages["돈이 오간 기록이라 따로 묶었어요. 함께 처리하려면 골라 주세요"] = "These are money records, so they're grouped separately. Select them to handle them too";
   messages["송금·입금 메일"] = "Payment emails";
