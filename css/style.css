@@ -2166,3 +2166,14 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 @keyframes fxFlash3{ 0%, 35%{ background:#e9eef6; } 100%{ background:#f9fafe; } }
 /* ===== 효과 줄 설명 13 (Meta/13): 제목 14 → 설명 13 → 보관 각주 12, 세 단계 위계 (Figma Effect cells) ===== */
 .fxs-sub{ font-size:13px !important; line-height:18px !important; }
+/* ===== 출처 시트: 실제 Gemini iOS 시트처럼 (Mobbin Tools · 계정 메뉴 시트에서 잰 값) =====
+   시트 바탕 회청색 #F0F4F9 · 고르는 묶음은 흰 카드 · 효과 패널은 상자 없이 바탕 위에 · 닫기 버튼 흰색
+   뒤 배경은 그라데이션 없이 검정 12% 한 겹 (실제 Gemini: 흰 채팅이 #E0E0E0) */
+.sheet-overlay{ background:rgba(0,0,0,.12) !important; }
+#sheetOverlay .sheet, #sheetOverlay .sheet-head, #sheetOverlay #a3Bar{ background:#f0f4f9 !important; }
+#sheetOverlay .ct-group, #sheetOverlay .ct-apps{ background:#ffffff !important; }
+#sheetOverlay .fx-panel{ background:transparent !important; box-shadow:none !important; }
+#sheetOverlay .fx-panel.flash{ animation:fxFlash4 .6s ease both !important; }
+@keyframes fxFlash4{ 0%, 35%{ background:#e9eef6; } 100%{ background:rgba(233,238,246,0); } }
+#sheetOverlay .sheet-close{ background:#ffffff !important; }
+#a3Bar #a3Process:disabled{ background:#dde0e5 !important; }   /* 회청색 바탕 위 꺼진 버튼 */
