@@ -1931,3 +1931,41 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 #a3Bar #a3Process:disabled{ opacity:1 !important; }
 /* 꺼진 주 버튼은 어디서나 회색(출처 시트 처리 줄과 같게) */
 #b2ProcessBtn:disabled{ background:#e9eaeb !important; color:#747775 !important; opacity:1 !important; box-shadow:none !important; cursor:default; }
+
+/* ===== v33 전체 점검: 버튼 · 글자 · 아이콘을 Figma 체계에 맞춤 =====
+   버튼: Large 44(폭 전체) / Medium 40(카드 · 처리 줄) / 글자 버튼 40(좌우 12) / 링크(13 Medium, 36) */
+@media (min-width: 521px){
+  body.participant .taskbar #taskDoneBtn, body.participant .taskbar .ask-done{ height:44px !important; min-height:44px !important; padding:0 16px !important; border-radius:999px !important; font-size:14px !important; font-weight:500 !important; }
+}
+.screen[data-step="B2"] .card-foot .b2-toggle-link{ height:40px !important; padding:0 12px !important; display:inline-flex !important; align-items:center; }
+.a3-pi-link .text-link{ height:40px; padding:0 12px !important; display:inline-flex !important; align-items:center; }
+.screen[data-step="A4"] .chip-more, .screen[data-step="B2"] .more-toggle{ min-height:36px !important; height:36px; font-size:13px !important; line-height:18px !important; font-weight:500 !important; color:#0b57d0 !important; display:flex !important; align-items:center; padding-top:0 !important; padding-bottom:0 !important; }
+.screen[data-step="A4"] .mem-delete-trigger{ font-size:14px !important; font-weight:500 !important; line-height:20px !important; }
+.screen[data-step="A4"] .mem-delete-trigger svg{ width:16px !important; height:16px !important; }
+#snackUndo, .snackbar-undo{ font-size:14px !important; font-weight:500 !important; min-height:36px; padding:0 8px !important; display:inline-flex; align-items:center; }
+/* 채팅 칩: '출처 확인' · '정보 N건 처리'를 같은 알약으로 */
+.src-badge, .nt-chip{ min-height:32px !important; padding:6px 12px 6px 10px !important; border-radius:999px !important; background:#e9eef6 !important; color:#1f1f1f !important; font-size:13px !important; line-height:20px !important; font-weight:500 !important; gap:6px !important; }
+.src-badge svg, .nt-chip svg{ width:16px !important; height:16px !important; }
+/* 끝 화면 보조 버튼 글자 크기 */
+.end-actions .ghost-btn, #endScreen .ghost-btn, .ghost-btn[onclick*="download"], .ghost-btn[onclick*="copy"]{ font-size:14px !important; }
+/* 글자: 라벨 12 · 600, 제목 굵기, 팔레트 밖 회색 정리 */
+#taskLabel, .taskbar .tk-new{ font-size:12px !important; line-height:16px !important; font-weight:600 !important; }
+.intro-badge{ font-size:12px !important; line-height:16px !important; font-weight:600 !important; }
+.taskbar .tk-done{ font-size:16px !important; line-height:24px !important; font-weight:500 !important; }
+.taskbar .tk-done + .tk-ctx{ font-size:13px !important; line-height:18px !important; color:#747775 !important; }
+.taskbar .tk-check svg{ width:18px !important; height:18px !important; }
+.hold-group .check-group-title, .screen[data-step="B2"] .hold-group .check-group-title{ color:#747775 !important; }
+.intro-points li{ font-size:15px !important; line-height:22px !important; }
+.consent-list li{ font-size:14px !important; line-height:20px !important; }
+/* 아이콘: 14 · 16 · 18 · 20 · 24만 */
+.msg-icons svg.msg-more{ width:20px !important; height:20px !important; }
+.li-app .icon-chip svg{ width:14px !important; height:14px !important; }
+.ct-app .icon-chip svg, .conn-item .icon-chip svg{ width:20px !important; height:20px !important; }
+.fxg-foot svg{ width:14px !important; height:14px !important; }
+.chat-input .round-btn.voice svg{ width:16px !important; height:16px !important; }
+.screen[data-step="B2"] .card-foot .b2-toggle-link{ min-height:40px !important; }
+/* 채팅 칩: Figma Chip 컴포넌트와 같게 — '출처 확인'은 Action(연한 파랑), '정보 N건 처리'는 Source(회색) */
+.src-badge{ background:#d3e3fd !important; color:#0842a0 !important; }
+.nt-chip{ background:#f2f0f0 !important; color:#444746 !important; }
+/* 작은 라벨은 Figma와 같은 12 · Medium */
+.taskbar .tk-sec, #taskLabel, .taskbar .tk-new, .intro-badge, .intro-screen .sc-label{ font-weight:500 !important; }
