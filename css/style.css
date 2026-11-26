@@ -2199,3 +2199,12 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 /* ===== 개인 인텔리전스 펼친 목록: 글자는 '메모리' 이름 줄(52)에, '전체 삭제' 아이콘은 메모리 아이콘 줄에 (Gemini 목록처럼 아이콘 줄 · 글자 줄 각각 한 줄) ===== */
 .screen[data-step="A4"] .s-card .conn-detail .a4-month, .screen[data-step="A4"] .s-card .data-chip, .screen[data-step="A4"] .chip-more{ padding-left:52px !important; }
 .screen[data-step="A4"] .s-card .mem-delete-trigger{ padding-left:12px !important; gap:24px !important; }
+
+/* ===== v33 일관성 점검 반영 =====
+   1) 회청색 바탕(과제 2 카드) 위 꺼진 버튼도 #DDE0E5 (흰 바탕 위는 #E9EAEB 그대로)
+   2) 종료 화면 색종이는 글자 뒤로
+   3) 과제 완료 카드: 제목 → 설명 4 (제목 + 설명 한 덩어리) */
+#b2ProcessBtn:disabled{ background:#dde0e5 !important; }
+.screen[data-step="END"] > .confetti{ z-index:0 !important; }
+.screen[data-step="END"] > *:not(.confetti){ position:relative; z-index:1; }
+#taskText .tk-done + .tk-ctx{ margin-top:-8px !important; }

@@ -402,7 +402,9 @@
     if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const cv = document.createElement('canvas');
     cv.className = 'confetti'; cv.width = phone.clientWidth * 2; cv.height = phone.clientHeight * 2;
-    phone.appendChild(cv);
+    // 색종이는 종료 화면 글자 뒤로(제목 · 감사 문장을 가리지 않게)
+    const endScr = document.querySelector('.screen[data-step="END"]');
+    (endScr || phone).insertBefore(cv, (endScr || phone).firstChild);
     const g = cv.getContext('2d'), W = cv.width, H = cv.height;
     const colors = ['#4285f4', '#ea4335', '#fbbc04', '#34a853', '#a142f4', '#24c1e0'];
     const ps = Array.from({ length: 90 }, () => ({
