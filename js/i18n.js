@@ -769,6 +769,7 @@
   messages["오늘 써 본 기능들이 실제 Gemini에 있다면, Gemini가 내 정보를 답변에 쓰는 것이 지금보다 어떻게 느껴질 것 같나요?"] = "If today's features were in the real Gemini, how would Gemini using your info in answers feel compared to now?";
   messages["진행자 질문 · 힌트"] = "Moderator question · hint";
   messages["답했어요"] = "Done answering";
+  messages["말로 답했어요"] = "I answered aloud";
   messages["이 답변이 왜 이렇게 나왔는지 알아볼 방법이 있을까요?"] = "Is there a way to find out why this answer came out this way?";
   messages["이 화면은 무엇을 보여 주는 것 같으세요?"] = "What do you think this screen is showing?";
   messages["여기 나온 정리 범위는 생각하셨던 것과 비교하면 어떤가요?"] = "How does the scope shown here compare to what you had in mind?";

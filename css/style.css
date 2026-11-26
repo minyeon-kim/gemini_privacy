@@ -2111,3 +2111,9 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .screen[data-step="B2"] .check-group-head{ gap:8px !important; }
 #a3Bar{ padding-top:12px !important; }
 #a3Bar > div, #a3Bar .ct-foot{ padding-top:0 !important; }
+
+/* 진행자 질문 카드: 질문 + '말로 답했어요' 버튼 둘만(안내 문장 · 접힌 할 일 · 구분선 숨김) — 답하면 바로 원래 과제 카드 */
+@media (min-width: 521px){
+  .taskbar.asking .ask-help{ display:none !important; }
+  .taskbar.asking .taskbar-text{ display:none !important; }
+}

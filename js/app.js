@@ -1606,7 +1606,7 @@
     if(kind === 'post-survey' && next === firstStep('B')) list = list.concat(ASK['pre-B']);   // 과제 2를 시작하기 전에 B-00
     return list.filter(it => !it.when || it.when()).map(it => ({ id: it.id, q: typeof it.q === 'function' ? it.q() : it.q, m: it.m || '' }));
   }
-  /* 과제 도중 질문 배너: 화면을 막지 않고 위쪽에 떠요. 참가자는 말로 답하고 '답했어요'(2초 뒤 눌림) */
+  /* 과제 도중 질문 배너: 화면을 막지 않고 위쪽에 떠요. 참가자는 말로 답하고 '말로 답했어요'(2초 뒤 눌림) */
   let askCur = null, askAfter = null, askTimers = [];
   function askBanner(id, q, opts){
     opts = opts || {};
@@ -1628,7 +1628,7 @@
     const a = view !== undefined ? view : askCur, box = $('#askBanner'); if(!box) return;
     box.hidden = !a;
     const block = $('#askBlock'); if(block) block.hidden = !(a && a.gate);
-    // 질문이 떠 있는 동안 과제 카드 전체가 질문 카드가 돼요(버튼은 '답했어요' 하나, 할 일은 한 줄로 접힘)
+    // 질문이 떠 있는 동안 과제 카드 전체가 질문 카드가 돼요: 질문 + '말로 답했어요' 버튼 하나(안내 · 할 일은 숨김, 답하면 바로 원래 카드)
     const tb = $('#taskbar'); if(tb) tb.classList.toggle('asking', !!a);
     const mark = $('#taskAskMark'); if(mark && a) mark.textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문');
     if(a){ $('#askBadge').textContent = I18n.t(a.hint ? '진행자 질문 · 힌트' : '진행자 질문'); $('#askText').textContent = I18n.t(a.q); }
