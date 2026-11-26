@@ -2157,3 +2157,5 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .complete-card .b3-lines, .complete-card .btn-row-h{ margin-top:0 !important; }
 .fxs + .fxg-foot{ margin-top:12px !important; }
 #taskbar .tk-ctx-box{ gap:8px !important; }
+/* ===== 장소 카드 사진: Figma와 같은 이미지 · 크기(92×90, 모서리 12). 이미지는 Figma AI로 만든 가상 사진 ===== */
+.r-photo{ height:90px !important; border-radius:12px !important; background:#e9eef6 url(../assets/tolo-bistro.jpg) center/cover no-repeat !important; }
