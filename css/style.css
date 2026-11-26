@@ -2121,3 +2121,11 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 /* v33 실제 Gemini(iOS) 색: 바탕 · 카드는 차가운 회청색(surface #f0f4f9 · surface-high #e9eef6 · bg #fff · 말풍선 #e9eef6),
    앱 아이콘은 원 없이(출처 시트 앱 연동 줄 · 개인 인텔리전스 줄) */
 #sheetOverlay .ct-app .icon-chip, #cSheet .ct-app .icon-chip, .screen[data-step="A4"] .conn-item .icon-chip{ background:transparent !important; }
+/* ===== 토글: 실제 Gemini iOS 컴포넌트에 맞춤 (Figma Toggle 2:191) =====
+   트랙 51×31 캡슐 · 꺼짐 #dde0e5 · 켜짐 #0b57d0 · 흰색 동그라미 손잡이 27 (안쪽 여백 2) + 그림자 */
+.toggle{ width:51px !important; height:31px !important; flex:0 0 51px !important; border-radius:999px !important; border:0 !important; background:#dde0e5 !important; }
+.toggle .knob{ top:2px !important; left:2px !important; width:27px !important; height:27px !important; margin-top:0 !important; border-radius:999px !important; background:#fff !important; box-shadow:0 2px 4px rgba(0,0,0,.15), 0 0 1px rgba(0,0,0,.06) !important; }
+.toggle.on{ background:#0b57d0 !important; border:0 !important; }
+.toggle.on .knob{ left:22px !important; width:27px !important; height:27px !important; margin-top:0 !important; }
+.toggle:active .knob, .toggle.on:active .knob{ width:31px !important; height:27px !important; margin-top:0 !important; }
+.toggle.on:active .knob{ left:18px !important; }
