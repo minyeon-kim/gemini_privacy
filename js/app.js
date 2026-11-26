@@ -695,12 +695,13 @@
       const st = picked && picked === open.length ? 'checked' : picked ? 'mixed' : '';
       const left = !open.length ? '<span class="cb-done" aria-hidden="true"></span>'
         : `<div class="checkbox ${st} hot" role="checkbox" aria-checked="${st === 'checked'}" data-tag="A3 주제 ${t}" onclick="event.stopPropagation(); App.a3PickTopic('${t}')">${st === 'mixed' ? '' : CHECK_TXT}</div>`;
+      // 묶음 머리줄은 '이름 + 건수' 한 줄(앱 연동 설정 · Gemini 시트 줄과 같게). 어느 앱 정보인지는 펼치면 묶음 라벨로 보여요
       // v31 D2: 주제를 펼치면 '무엇이 어떻게 되는지'를 칩 한 줄로만 보여 줘요. 긴 설명은 시트 맨 위에 한 번만.
       const chip = (kind, ids) => ids.length ? `<span class="fx-chip ${FX[kind].cls}">${FX[kind].icon()}<b>${esc(I18n.t(kind === 'del' ? '삭제' : '답변에만 안 씀'))}</b> ${esc(I18n.t(srcCounts(ids)))}</span>` : '';
       const fx = chip('del', open.filter(id => fxOf(id) === 'del')) + chip('block', open.filter(id => fxOf(id) === 'block'));
       return `<div class="ct-group${a3Open[t] ? ' open' : ''}${a3Detail[t] ? ' detail' : ''}">
         <div class="ct-head hot" data-tag="A3 주제 펼치기 ${t}" onclick="App.a3Expand('${t}')">${left}
-          <div class="ct-text"><div class="ct-name"><span>${esc(I18n.t(A_TOPICS[t]))}</span>${open.length ? `<span class="ct-count">${esc(I18n.t(`${open.length}건`))}</span>` : ''}${dN ? fxChip('del', I18n.t(`${dN}건`), true) : ''}${bN ? fxChip('block', I18n.t(`${bN}건`), true) : ''}</div><div class="ct-t2">${esc(I18n.t(srcCounts(ids)))}</div></div>
+          <div class="ct-text"><div class="ct-name"><span>${esc(I18n.t(A_TOPICS[t]))}</span>${open.length ? `<span class="ct-count">${esc(I18n.t(`${open.length}건`))}</span>` : ''}${dN ? fxChip('del', I18n.t(`${dN}건`), true) : ''}${bN ? fxChip('block', I18n.t(`${bN}건`), true) : ''}</div></div>
           <span class="chevron"></span>
         </div>
         <div class="ct-items">
