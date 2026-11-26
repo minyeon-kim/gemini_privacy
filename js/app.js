@@ -637,8 +637,10 @@
   // 효과 패널: 처리 전에는 '무엇이 어떻게 되는지', 처리 후에는 같은 자리에서 개수 칩 + 과거형(출처 확인 · 개인 인텔리전스 처리 합산)
   let fxSig = '', fxFlashAt = 0;
   // 효과 표시(출처 시트 패널 · 과제 2 카드 공통): 한 줄에 하나씩 '아이콘 · 효과 · 건수 / 이유'. 건수 칩은 처리 전 외곽선 → 처리 후 연한 바탕
+  // 남겨 둠: 점선 원(그냥 원은 글자 O처럼 읽혀서) · 다른 아이콘과 같은 선 굵기
+  const ICON_KEEP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3.2 2.7" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/></svg>';
   const fxCnt = (kind, n, done) => `<span class="fx-cnt ${kind}${done ? ' done' : ''}">${esc(n)}</span>`;
-  const fxStack = rows => `<div class="fxs">${rows.map(([kind, title, n, sub, done]) => `<div class="fxs-row ${kind}"><span class="fxs-ic">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}</span><div class="fxs-text"><div class="fxs-h"><b>${esc(I18n.t(title))}</b>${n ? fxCnt(kind, n, done) : ''}</div><div class="fxs-sub">${esc(I18n.t(sub))}</div></div></div>`).join('')}</div>`;
+  const fxStack = rows => `<div class="fxs">${rows.map(([kind, title, n, sub, done]) => `<div class="fxs-row ${kind}"><span class="fxs-ic">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : ICON_KEEP}</span><div class="fxs-text"><div class="fxs-h"><b>${esc(I18n.t(title))}</b>${n ? fxCnt(kind, n, done) : ''}</div><div class="fxs-sub">${esc(I18n.t(sub))}</div></div></div>`).join('')}</div>`;
   const fxChip = (kind, n, done) => `<span class="fx-chip2 ${kind}${done ? ' done' : ''}">${kind === 'del' ? ICON_DEL : kind === 'block' ? ICON_BLOCK : '<span class="keep-dot"></span>'}${n ? `<span>${esc(n)}</span>` : ''}</span>`;
   function effectPanel(){
     const via = memState.via || {}, a4n = Object.keys(memState.a4 || {}).length;

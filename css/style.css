@@ -2070,3 +2070,13 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .ct-app.ref-off .icon-chip{ opacity:.45; filter:grayscale(1); }
 /* 아이콘 선 굵기: 우리 아이콘은 모두 크기 × 0.075(24 기준 1.8) — 시트 닫기도 같게 */
 .sheet-close svg, .sheet-close svg *{ stroke-width:1.8 !important; }
+
+/* v33 효과 줄 구분감: 연한 색 원(32) 안 아이콘이 줄마다 기준점 · 줄 사이 16 · 각주 위 구분선 (A4 아이콘 칩과 같은 방식) */
+.fxs{ gap:16px !important; }
+.fxs-row{ align-items:center !important; gap:12px !important; }
+.fxs-ic{ flex:0 0 32px !important; width:32px !important; height:32px !important; border-radius:50% !important; display:flex !important; align-items:center; justify-content:center; }
+.fxs-row.del .fxs-ic{ background:#fce8e6; color:#b3261e; }
+.fxs-row.block .fxs-ic{ background:#d3e3fd; color:#0b57d0; }
+.fxs-row.keep .fxs-ic{ background:#e9eaeb; color:#444746; }
+.fxs-ic svg{ width:16px !important; height:16px !important; }
+.fxs + .fxg-foot{ margin-top:16px !important; padding-top:12px; border-top:1px solid #e3e3e3; }
