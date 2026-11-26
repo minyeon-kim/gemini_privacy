@@ -796,6 +796,11 @@
   messages["메모리는 삭제되고, Gmail·캘린더는 답변에만 안 써요."] = "Memory is deleted; Gmail and Calendar are only kept out of answers.";
   messages["돈이 오간 기록이라 따로 뒀어요"] = "Kept aside because these are money records";
   messages["검토용 사본은 최대 3년 남을 수 있어요"] = "Copies kept for review may stay up to 3 years";
+
+  // v33 보관 안내 문구 통일 (Gemini 개인정보 보호 허브 표현)
+  messages["사람이 검토한 채팅은 지워도 최대 3년 보관돼요"] = "Chats reviewed by people are kept for up to 3 years, even after you delete them";
+  messages["ⓘ 사람이 검토한 채팅은 지워도 최대 3년 보관돼요 (Gemini 개인정보 보호 허브)"] = "ⓘ Chats reviewed by people are kept for up to 3 years, even after you delete them (Gemini Apps Privacy Hub)";
+  messages["보관 안내(사람이 검토한 채팅 최대 3년)를 읽는지 · 묻지 않고 관찰 (B-18)"] = "Whether they read the retention note (chats reviewed by people kept up to 3 years) · observe, don't ask (B-18)";
   messages["상황"] = "Situation";
   messages["할 일"] = "To do";
   messages["퇴근 후 소파에 앉아, 이번 주 저녁 약속 장소를 찾으려고 Gemini를 열었어요."] = "After work, you're on the sofa and open Gemini to find a place for dinner this week.";

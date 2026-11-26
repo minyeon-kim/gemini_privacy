@@ -466,7 +466,10 @@
   // A3에서 바꾼 내용을 A2 답변 아래에 알려줘요 (출처 시트를 닫고 돌아왔을 때 변화가 보이도록).
   const LOG_NAME = { memory:'Memory', gmail:'Gmail', calendar:'Calendar', photos:'Photos' };   // 기록 파일 값은 이전 세션과 같게 유지
   const REF_NAME = { memory:'메모리', gmail:'Gmail', calendar:'캘린더', photos:'Google 포토' };
-  const RETENTION = '사람이 품질 검토한 대화 사본은 계정과 분리돼 최대 3년 남을 수 있어요';
+  const RETENTION = '사람이 검토한 채팅은 지워도 최대 3년 보관돼요';   // Gemini 개인정보 보호 허브 문장 순서(검토자 → 채팅 → 지워도 → 최대 3년)
+  // 보관 안내 각주: 과제 1 시트 · 과제 2 요약/결과 카드에 같은 모양으로 (메모리를 고르거나 지웠을 때)
+  const RET_ICON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>';
+  const retFoot = () => `<div class="fxg-foot">${RET_ICON}${esc(I18n.t(RETENTION))}</div>`;
   // 답변 아래에는 무엇이 바뀌었는지만 한 줄로 알려줘요.
   // 답변 아래: 바뀐 내용을 칩 하나로 보여 주고, 누르면 출처 화면에서 자세히 볼 수 있어요.
   const NT_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>';
@@ -657,7 +660,7 @@
     return `<div class="fx-panel${any ? ' after' : ''}${flash ? ' flash' : ''}">` + fxStack([
       ['del', delN ? '삭제됨' : '삭제돼요', delN, '메모리는 다시 볼 수 없어요', true],
       ['block', blk ? '답변에만 안 씀' : '답변에만 안 써요', blk ? I18n.t(`${blk}건`) : '', 'Gmail·캘린더는 원본 그대로', true],
-    ]) + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
+    ]) + (memState.all || del || Object.keys(a3Sel).some(id => a3Sel[id] && A_ITEMS[id] && fxOf(id) === 'del') ? retFoot() : '') + '</div>' + (notes.length ? `<div class="fxp-note">${notes.map(esc).join(' · ')}</div>` : '');
   }
   // 처리 줄 왼쪽: 고른 효과를 다른 화면과 같은 효과 알약(아이콘 + 건수)으로. 건수 합은 버튼('N건 처리')에만
   function fxSelChips(ids){
@@ -956,7 +959,7 @@
     if(leftN) rows.push(['keep', done ? '남겨 둠' : '남겨 둬요', I18n.t(`${leftN}건`), holdOnly ? '돈이 오간 송금·입금 메일' : '고르지 않은 정보는 계속 답변에 쓰일 수 있어요', done]);
     let html = rows.length ? fxStack(rows) : '';
     // 보관 안내는 처리 전(요약)에도 같은 자리에: 지우기 전에 알아야 할 정보
-    if(g.memory && g.memory.on) html += `<div class="fxg-foot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r="1" fill="currentColor" stroke="none"/></svg>${esc(I18n.t('검토용 사본은 최대 3년 남을 수 있어요'))}</div>`;
+    if(g.memory && g.memory.on) html += retFoot();
     return html;
   }
   function renderB2Summary(){
@@ -1753,7 +1756,7 @@
     B2: { help:["망설이면: 이 목록을 생각하셨던 범위와 비교하면 어떤가요? (B-02)"] },
     B3: { watch:["스스로 입력창에 다시 물어보는지 (B-06 · 먼저 제안하지 않기)","남겨 둔 송금·입금 메일을 함께 처리하는지 · 자세히 고르기를 여는지 (자동)","이해 질문(B-08)은 과제 완료 뒤 설문 다음에"] },
     B4: { first:["(스스로 들어왔을 때만) 이 화면은 무엇을 보여 주는 것 같으세요?"],
-          watch:["보관 안내(검토 사본 최대 3년)를 읽는지 · 묻지 않고 관찰 (B-18)"] },
+          watch:["보관 안내(사람이 검토한 채팅 최대 3년)를 읽는지 · 묻지 않고 관찰 (B-18)"] },
     B5: { watch:["스스로 입력창에 다시 물어보는지 (B-06 · 먼저 제안하지 않기)"] },
     QB: { first:["(설문 전) 지금 정민 관련 정보 중 사라진 것과 남아 있는 것은 무엇일까요? (B-09)"],
           say:["화면 설문 5문항"],
