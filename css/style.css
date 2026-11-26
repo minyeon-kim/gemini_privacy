@@ -2102,3 +2102,12 @@ body.participant .taskbar .taskbar-text{ gap:12px !important; }
 .consent-item{ gap:16px !important; }
 #sheetOverlay .ct-items .li-row, #sheetOverlay .ct-group .li-row{ gap:16px !important; }
 .screen[data-step="B2"] .check-item-expand .ctext-detail.b2-item{ gap:13px !important; }   /* 하위 체크박스 자체 여백 3 + 13 = 16 */
+/* 점검 잔여: 글자 화살표(⌄) → 아이콘 14 · 4 단위 간격 */
+.screen[data-step="A4"] .pi-chev{ width:14px; height:14px; vertical-align:-2px; margin-left:2px; }
+.screen[data-step="A4"] .pi-link{ display:inline-flex !important; align-items:center; gap:2px; }
+@media (min-width: 521px){ body.participant .taskbar .tk-steps{ gap:8px !important; } }      /* Figma 할 일 상자 간격 8 */
+#a3Bar > div, #a3Bar .ct-foot{ padding-top:12px !important; }                                  /* Figma 처리 줄 위 12 */
+.screen[data-step="B2"] .card-head-row{ gap:12px !important; }
+.screen[data-step="B2"] .check-group-head{ gap:8px !important; }
+#a3Bar{ padding-top:12px !important; }
+#a3Bar > div, #a3Bar .ct-foot{ padding-top:0 !important; }
